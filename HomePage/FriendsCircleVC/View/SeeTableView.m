@@ -120,7 +120,7 @@
     
     // 昵称
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - 100, kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15, 100, 30)];
-    nickName.text = [USER_D objectForKey:@"nickname"];
+    nickName.text = [USER_D objectForKey:@"userNickName"];
     nickName.textColor = [UIColor whiteColor];
     nickName.font = [UIFont systemFontOfSize:17];
     [headView addSubview:nickName];

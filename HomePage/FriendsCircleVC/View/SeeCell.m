@@ -252,7 +252,7 @@
 }
 
 
-#pragma mark - 点赞、评论按钮响应
+#pragma mark - 点赞按钮响应
 - (void)proAction:(UIButton *)button {
 
     _isLike = !_isLike;
@@ -305,6 +305,7 @@
 
 }
 
+#pragma mark - 评论按钮响应
 - (void)commentAction:(UIButton *)button {
     
     
@@ -347,7 +348,7 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
                                                                                  animated:YES
                                                                                completion:nil];
 
-//    [self removeFromSuperview];
+
 
 }
 
