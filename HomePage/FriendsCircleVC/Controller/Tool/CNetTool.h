@@ -43,7 +43,10 @@
                           success:(void (^)(id response))success
                           failure:(void (^)(NSError *err))failure;
 
-
+// 评论功能
++ (void)postCommentWithParameters:(id)parameters
+                          success:(void (^)(id response))success
+                          failure:(void (^)(NSError *err))failure;
 
 
 

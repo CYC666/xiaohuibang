@@ -10,6 +10,7 @@
 #import "SeeCell.h"
 #import "SeeLayout.h"
 #import "PraiseModel.h"
+#import "AveluateModel.h"
 #import <UIImageView+WebCache.h>
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -19,9 +20,10 @@
 #define kProListHeight 25       // 点赞列表的高度
 
 #define SeeCellID @"SeeCellID"
-#define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
+#define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 点赞刷新表视图通知
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
 #define ScrollTableView @"ScrollTableView"  // 接收调节表视图偏移的通知
+#define CommentReloadTableView @"CommentReloadTableView" // 评论后刷新表视图通知
 
 @implementation SeeTableView
 
@@ -53,6 +55,11 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(scrollTableView:)
                                                      name:ScrollTableView
+                                                   object:nil];
+        // 评论后刷新表视图通知
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(commentReloadTableView:)
+                                                     name:CommentReloadTableView
                                                    object:nil];
         
         
@@ -223,7 +230,7 @@
         }
     }
     
-    // for循环重新设置model，就会重新计算frame，最后再刷新表视图
+    // for循环重新设置model，就会重新计算frame，最后再刷新表视图(重要)
     NSMutableArray *newArray = [NSMutableArray array];
     for (SeeLayout *tempLayout in self.seeLayoutList) {
         SeeLayout *newLayout = [[SeeLayout alloc] init];
@@ -260,7 +267,7 @@
     float oldY = rect.origin.y + rect.size.height;
     float oldOffsetY = self.contentOffset.y;
     
-    // 设置表视图的偏移
+    // 设置表视图的偏移(本来算的感觉可以，飞得加上53，我也不知道为啥)
     [UIView animateWithDuration:.35
                      animations:^{
                          self.contentOffset = CGPointMake(0, oldOffsetY - (y - oldY)+53);
@@ -268,7 +275,39 @@
 
 }
 
+// 收到评论通知，重装model，刷新表视图
+- (void)commentReloadTableView:(NSNotification *)notification {
+    
+    // 获取通知中的内容
+    NSInteger row = [notification.object[@"indexpathRow"] integerValue];
+    NSString *comment = notification.object[@"about_content"];
+    
+    SeeLayout *seeLayout = self.seeLayoutList[row];
+    
+    if (seeLayout.seeModel.aveluate.count == 0) {   // 如果没有评论，创建
+        seeLayout.seeModel.aveluate = [NSMutableArray array];
+    }
+    AveluateModel *aveluate = [[AveluateModel alloc] init];
+    aveluate.about_content = comment;
+    aveluate.user_id = [USER_D objectForKey:@"user_id"];
+    aveluate.nickname = [USER_D objectForKey:@"nickname"];
+    aveluate.eva_id = @"0";
+    [seeLayout.seeModel.aveluate addObject:aveluate];
+    
+    // for循环重新设置model，就会重新计算frame，最后再刷新表视图(重要)
+    NSMutableArray *newArray = [NSMutableArray array];
+    for (SeeLayout *tempLayout in self.seeLayoutList) {
+        SeeLayout *newLayout = [[SeeLayout alloc] init];
+        newLayout.seeModel = tempLayout.seeModel;
+        [newArray addObject:newLayout];
+    }
+    
+    self.seeLayoutList = newArray;
+    
+    // 刷新表视图
+    [self reloadData];
 
+}
 
 
 

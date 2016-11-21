@@ -50,10 +50,16 @@
 
 
 
-#pragma mark - 表情按钮
+#pragma mark - 表情按钮，切换键盘
 - (IBAction)emoj:(UIButton *)sender {
     
+    _isEmoj = !_isEmoj;
     
+    if (_isEmoj == YES) {
+        [sender setImage:[UIImage imageNamed:@"icon_keyboard"] forState:UIControlStateNormal];
+    } else {
+        [sender setImage:[UIImage imageNamed:@"icon_emojNew"] forState:UIControlStateNormal];
+    }
     
 }
 

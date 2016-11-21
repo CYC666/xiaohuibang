@@ -63,7 +63,6 @@
     [self reloadData];
     
     
-    NSLog(@"%@", [USER_D objectForKey:@"user_id"]);
 
 
     

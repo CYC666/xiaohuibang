@@ -12,10 +12,12 @@
 #import <UIImageView+WebCache.h>
 #import "CNetTool.h"
 #import "InputView.h"
+#import "NSString+Extension.h"
 
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
 #define ScrollTableView @"ScrollTableView"  // 发送调节表视图偏移的通知
+#define CommentReloadTableView @"CommentReloadTableView" // 评论后刷新表视图通知
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kHeight 53  // 输入视图默认高度
@@ -399,19 +401,35 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
         // 设置表视图的偏移(提供输入框的Y起点和单元格indexpath即可)
         [[NSNotificationCenter defaultCenter] postNotificationName:ScrollTableView
                                                             object:@{@"y" : [NSString stringWithFormat:@"%f", frame.origin.y],
-                                                                     @"indexpathRow":[NSString stringWithFormat:@"%ld", _indexpathRow]}];
+                                                           @"indexpathRow":[NSString stringWithFormat:@"%ld", _indexpathRow]}];
     }
     
 }
 
+#pragma mark - 点击return发送评论
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
 
     // 当点下发送按钮
     if ([text isEqualToString:@"\n"]) {
         
         // 发送评论
+        NSDictionary *param = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                @"about_id":_seeLayout.seeModel.about_id,
+                                @"about_content":textView.text};
+        [CNetTool postCommentWithParameters:param
+                                    success:^(id response) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"评论成功"];
+                                    } failure:^(NSError *err) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"请求失败"];
+                                    }];
         
+        // 发送通知，让表视图刷新
+        [[NSNotificationCenter defaultCenter] postNotificationName:CommentReloadTableView object:@{@"about_content":textView.text,
+                                                               @"indexpathRow":[NSString stringWithFormat:@"%ld", _indexpathRow]}];
         
+        // 收起键盘
         [textView resignFirstResponder];
         return NO;
         
