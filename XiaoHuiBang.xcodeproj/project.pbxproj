@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04095F461DE285A8009AD2EC /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04095F451DE285A8009AD2EC /* InputView.m */; };
+		04095F481DE285CF009AD2EC /* InputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04095F471DE285CF009AD2EC /* InputView.xib */; };
+		04095F4F1DE28755009AD2EC /* icon_emojNew.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F491DE28755009AD2EC /* icon_emojNew.png */; };
+		04095F501DE28755009AD2EC /* icon_emojNew@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4A1DE28755009AD2EC /* icon_emojNew@2x.png */; };
+		04095F511DE28755009AD2EC /* icon_emojNew@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4B1DE28755009AD2EC /* icon_emojNew@3x.png */; };
+		04095F521DE28755009AD2EC /* icon_keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4C1DE28755009AD2EC /* icon_keyboard.png */; };
+		04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */; };
+		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
 		DB7F902B3A8335807EDD4AA1 /* libPods-XiaoHuiBang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */; };
 		F306DE831DD096360034BA65 /* UsersToTheirOwnGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F306DE811DD096360034BA65 /* UsersToTheirOwnGroupViewController.m */; };
 		F306DE841DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F306DE821DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib */; };
@@ -362,6 +370,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04095F441DE285A8009AD2EC /* InputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
+		04095F451DE285A8009AD2EC /* InputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
+		04095F471DE285CF009AD2EC /* InputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputView.xib; sourceTree = "<group>"; };
+		04095F491DE28755009AD2EC /* icon_emojNew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_emojNew.png; sourceTree = "<group>"; };
+		04095F4A1DE28755009AD2EC /* icon_emojNew@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_emojNew@2x.png"; sourceTree = "<group>"; };
+		04095F4B1DE28755009AD2EC /* icon_emojNew@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_emojNew@3x.png"; sourceTree = "<group>"; };
+		04095F4C1DE28755009AD2EC /* icon_keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_keyboard.png; sourceTree = "<group>"; };
+		04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@2x.png"; sourceTree = "<group>"; };
+		04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@3x.png"; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
 		8F5B587656139CFD557E4D67 /* Pods-XiaoHuiBang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.release.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.release.xcconfig"; sourceTree = "<group>"; };
@@ -1678,6 +1695,9 @@
 				F3F478B21DDFE3C500E21E97 /* UIScrollView+PullDownRefresh.m */,
 				F3F478B31DDFE3C500E21E97 /* UIScrollView+PullUpRefresh.h */,
 				F3F478B41DDFE3C500E21E97 /* UIScrollView+PullUpRefresh.m */,
+				04095F441DE285A8009AD2EC /* InputView.h */,
+				04095F451DE285A8009AD2EC /* InputView.m */,
+				04095F471DE285CF009AD2EC /* InputView.xib */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1701,6 +1721,12 @@
 		F3F478B81DDFE3C500E21E97 /* MyDocuments */ = {
 			isa = PBXGroup;
 			children = (
+				04095F491DE28755009AD2EC /* icon_emojNew.png */,
+				04095F4A1DE28755009AD2EC /* icon_emojNew@2x.png */,
+				04095F4B1DE28755009AD2EC /* icon_emojNew@3x.png */,
+				04095F4C1DE28755009AD2EC /* icon_keyboard.png */,
+				04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */,
+				04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */,
 				F3F478B91DDFE3C500E21E97 /* loading.gif */,
 				F3F478BA1DDFE3C500E21E97 /* loading@2x.gif */,
 				F3F478BB1DDFE3C500E21E97 /* loading@3x.gif */,
@@ -1856,10 +1882,12 @@
 				F30947411DD33E9C00638827 /* icon_@@3x.png in Resources */,
 				F39FD6F11DDDB43300D3724C /* icon_position_sharer.png in Resources */,
 				F3F478D01DDFE3C500E21E97 /* FromSystemController.xib in Resources */,
+				04095F521DE28755009AD2EC /* icon_keyboard.png in Resources */,
 				F34823CC1DD2C0B000D2834E /* icon_profile_unselected@2x.png in Resources */,
 				F34823B21DD2BF5500D2834E /* icon_moments_selected_selected@3x.png in Resources */,
 				F3EBC4911D9A471D00E93C02 /* icon_password_show@2x.png in Resources */,
 				F334F4AE1DCC631B002CFBBC /* MyQRCodeViewController.xib in Resources */,
+				04095F481DE285CF009AD2EC /* InputView.xib in Resources */,
 				F309477D1DD33ED800638827 /* point@3x.png in Resources */,
 				F309477C1DD33ED800638827 /* point@2x.png in Resources */,
 				F30947531DD33EC200638827 /* icon_flash_close@3x.png in Resources */,
@@ -1896,12 +1924,14 @@
 				F32E4D181D98D49B0034BBB8 /* Assets.xcassets in Resources */,
 				F34823CF1DD2C0B000D2834E /* icon_xiaohui_selected-@3x.png in Resources */,
 				F30804261DA5FCFE00859781 /* logo@2x.png in Resources */,
+				04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */,
 				F3F631F51D9A7B3100388996 /* 头像@3x.png in Resources */,
 				F39FD7071DDDB5D300D3724C /* location_arrow.png in Resources */,
 				F334F4A91DCC5FB5002CFBBC /* pic_delete@3x.png in Resources */,
 				F3EBC4A71D9A6B7700E93C02 /* ceshi.png in Resources */,
 				F39FD6F31DDDB43300D3724C /* icon_position_sharer@3x.png in Resources */,
 				F3E3E9521D9B68BB00E69300 /* RegistAgreementViewController.xib in Resources */,
+				04095F4F1DE28755009AD2EC /* icon_emojNew.png in Resources */,
 				F33F899F1D9E534800FB0F70 /* photo_profile@2x.png in Resources */,
 				F34823C11DD2BF5500D2834E /* icon_xiaoxin_unselected_@1x.png in Resources */,
 				F3D906DE1DC74F1000E742D2 /* delete_members@2x.png in Resources */,
@@ -1924,6 +1954,7 @@
 				F3E3E9621D9B6D0600E69300 /* ForgetSendCodeViewController.xib in Resources */,
 				F3EC358C1DBA100A00F350CA /* icon_profile@2x.png in Resources */,
 				F35DB80E1DA6310400AF5A31 /* app icon@3x.png in Resources */,
+				04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */,
 				F30947651DD33ECF00638827 /* icon_position@3x.png in Resources */,
 				F30947641DD33ECF00638827 /* icon_position@2x.png in Resources */,
 				F33F899B1D9E510100FB0F70 /* icon_woman@2x.png in Resources */,
@@ -1935,6 +1966,7 @@
 				F30947621DD33ECF00638827 /* icon_open@2x.png in Resources */,
 				F334F4A61DCC5FB5002CFBBC /* pic_add@2x.png in Resources */,
 				F3A0E0201DB757A000E9F12C /* CellGraySelected@2x.png in Resources */,
+				04095F501DE28755009AD2EC /* icon_emojNew@2x.png in Resources */,
 				F334F4B81DCC775A002CFBBC /* icon_bangyouquan_selected@3x.png in Resources */,
 				F3D906DC1DC74B1200E742D2 /* add_members@2x.png in Resources */,
 				F33F89981D9E4EA600FB0F70 /* icon_setting@3x.png in Resources */,
@@ -1945,6 +1977,7 @@
 				F3E3E9541D9B68BB00E69300 /* RegistViewController.xib in Resources */,
 				F30947401DD33E9C00638827 /* icon_@@2x.png in Resources */,
 				F334F4B91DCC775A002CFBBC /* icon_bangyouquan_unselected@2x.png in Resources */,
+				04095F511DE28755009AD2EC /* icon_emojNew@3x.png in Resources */,
 				F39FD6EB1DDDB43300D3724C /* icon_on-off.png in Resources */,
 				F38626A21DDC08ED001F8B0B /* up.png in Resources */,
 				F3A0E0211DB757A000E9F12C /* CellNotSelected@2x.png in Resources */,
@@ -2145,6 +2178,7 @@
 				F313E6CC1DB62544005111E0 /* MultiSelectItem.m in Sources */,
 				F35C03581DC3593B003D9613 /* RCDGroupSettingsTableViewCell.m in Sources */,
 				F3E3E9321D9B5A3500E69300 /* MyTool.m in Sources */,
+				04095F461DE285A8009AD2EC /* InputView.m in Sources */,
 				F3B763141DC0AFD7009619DA /* pinyin.c in Sources */,
 				F34FE69A1DBB7D210054C5AD /* RCDChatListCell.m in Sources */,
 				F35DD7041DC35F66001A8F99 /* RCDCreateGroupViewController.m in Sources */,

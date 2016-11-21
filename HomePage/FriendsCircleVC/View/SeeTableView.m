@@ -21,8 +21,11 @@
 #define SeeCellID @"SeeCellID"
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
+#define ScrollTableView @"ScrollTableView"  // 接收调节表视图偏移的通知
 
 @implementation SeeTableView
+
+
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
 
@@ -46,6 +49,12 @@
                                                  selector:@selector(deleteRowNotification:)
                                                      name:DeleteRow
                                                    object:nil];
+        // 表视图调节滑动
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(scrollTableView:)
+                                                     name:ScrollTableView
+                                                   object:nil];
+        
         
     }
     return self;
@@ -235,7 +244,29 @@
     [self reloadData];
 
 }
+- (void)scrollTableView:(NSNotification *)notification {
+    
+    float y = [notification.object[@"y"] floatValue];
+    NSInteger indexpathRow = [notification.object[@"indexpathRow"] integerValue];
+    
+    // 根据单元格的indexpath可以得出cell的frame
+    // 再根据输入框的y，计算出表视图应该的内容偏移
+    
+    // 这里的y是相对于内容的起点，并不是相对于屏幕
+    CGRect frame = [self cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexpathRow inSection:0]].frame;
+    // 获取相对屏幕的frame
+    CGRect rect = [self convertRect:frame toView:self.superview];
 
+    float oldY = rect.origin.y + rect.size.height;
+    float oldOffsetY = self.contentOffset.y;
+    
+    // 设置表视图的偏移
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         self.contentOffset = CGPointMake(0, oldOffsetY - (y - oldY)+53);
+                     }];
+
+}
 
 
 

@@ -11,10 +11,19 @@
 #import "AveluateModel.h"
 #import <UIImageView+WebCache.h>
 #import "CNetTool.h"
+#import "InputView.h"
 
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
+#define ScrollTableView @"ScrollTableView"  // 发送调节表视图偏移的通知
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
+#define kHeight 53  // 输入视图默认高度
 #define kProListHeight 25       // 点赞列表的高度
+
+@interface SeeCell () <UITextViewDelegate>
+
+@end
 
 @implementation SeeCell
 
@@ -305,8 +314,24 @@
 
 }
 
-#pragma mark - 评论按钮响应
+#pragma mark - 评论按钮响应,弹出键盘和输入框
 - (void)commentAction:(UIButton *)button {
+    
+    InputView *inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
+    inputView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, kHeight);
+    [inputView.input becomeFirstResponder];
+    inputView.input.delegate = self;
+    inputView.input.returnKeyType = UIReturnKeySend;
+    inputView.input.layer.cornerRadius = 5;
+    inputView.input.layer.borderColor = [UIColor colorWithRed:229/255.0
+                                               green:229/255.0
+                                                blue:229/255.0 alpha:1].CGColor;
+    inputView.input.layer.borderWidth = 0.5;
+    inputView.input.clipsToBounds = YES;
+    inputView.cellRow = _indexpathRow;
+
+    [[UIApplication sharedApplication].keyWindow addSubview:inputView];
+    
     
     
     
@@ -349,6 +374,49 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
                                                                                completion:nil];
 
 
+
+}
+
+#pragma mark - 监听输入消息，改变输入框高度
+- (void)textViewDidChange:(UITextView *)textView {
+
+    // 注意配置文本的宽度，以及字体大小
+    CGRect textRect = [textView.text boundingRectWithSize:CGSizeMake(kScreenWidth - 62, 99999)
+                                                  options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
+                                               attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]}
+                                                  context:nil];
+    // 获取原始高度
+    CGRect frame = textView.superview.frame;
+    float height = frame.size.height;
+    frame.size.height = textRect.size.height + 10*2;
+    frame.origin.y -= (frame.size.height - height);
+    if (frame.size.height > textView.superview.frame.size.height && textView.superview.frame.size.height < 100) {   // 最高为100
+        // 设置输入框的frame
+        [UIView animateWithDuration:.35
+                         animations:^{
+            textView.superview.frame = frame;
+        }];
+        // 设置表视图的偏移(提供输入框的Y起点和单元格indexpath即可)
+        [[NSNotificationCenter defaultCenter] postNotificationName:ScrollTableView
+                                                            object:@{@"y" : [NSString stringWithFormat:@"%f", frame.origin.y],
+                                                                     @"indexpathRow":[NSString stringWithFormat:@"%ld", _indexpathRow]}];
+    }
+    
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+
+    // 当点下发送按钮
+    if ([text isEqualToString:@"\n"]) {
+        
+        // 发送评论
+        
+        
+        [textView resignFirstResponder];
+        return NO;
+        
+    }
+    return YES;
 
 }
 
