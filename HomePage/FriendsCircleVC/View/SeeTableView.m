@@ -24,6 +24,9 @@
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
 #define ScrollTableView @"ScrollTableView"  // 接收调节表视图偏移的通知
 #define CommentReloadTableView @"CommentReloadTableView" // 评论后刷新表视图通知
+#define HideCellInputView @"HideCellInputView"  // 隐藏单元格输入框的通知
+#define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
+
 
 @implementation SeeTableView
 
@@ -61,6 +64,12 @@
                                                  selector:@selector(commentReloadTableView:)
                                                      name:CommentReloadTableView
                                                    object:nil];
+        // 接收允许滑动表视图隐藏输入框的通知
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(postHideInputViewNotification)
+                                                     name:AllowTableViewPostHideInputViewNotification
+                                                   object:nil];
+
         
         
     }
@@ -145,7 +154,7 @@
 
 }
 
-#pragma mark - 滑动表视图隐藏标签栏
+#pragma mark - 滑动表视图隐藏标签栏，或者隐藏输入框
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
     UITabBarController *tabbarController = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
@@ -167,6 +176,29 @@
     }
     _lastOffset = scrollView.contentOffset.y;
     
+    // 不能在这里发送通知，会持续发送很多
+    // [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
+    
+    
+}
+
+#pragma mark - 开始拖动的时候，隐藏输入框
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
+    if (_allowPostHideInoutView == YES) {
+        // 发送通知，让输入框隐藏
+        [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
+        // 关闭允许
+        _allowPostHideInoutView = NO;
+    }
+    
+
+}
+
+- (void)postHideInputViewNotification {
+
+    _allowPostHideInoutView = YES;
+
 }
 
 

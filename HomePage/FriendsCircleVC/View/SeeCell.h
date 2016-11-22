@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SeeLayout.h"
+#import "InputView.h"
 
 
 @interface SeeCell : UITableViewCell
@@ -31,7 +32,7 @@
 
 @property (assign, nonatomic) BOOL isLike;                              // 是否点赞
 
-
+@property (strong, nonatomic) InputView *inputView;                     // 评论输入框
 
 
 

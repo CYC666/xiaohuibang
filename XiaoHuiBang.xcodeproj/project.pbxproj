@@ -1821,7 +1821,7 @@
 					F32E4D071D98D49B0034BBB8 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = V298BW98S4;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -2419,7 +2419,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = XiaoHuiBang/XiaoHuiBang.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yixu Liu (E5A76GB5BJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = V298BW98S4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2428,8 +2428,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaohuibang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "80bd3690-e164-479b-8c9e-c76568208a01";
+				PROVISIONING_PROFILE_SPECIFIER = ShenZhen_Bofe_Asset_Hoc;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2441,7 +2441,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = XiaoHuiBang/XiaoHuiBang.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yixu Liu (E5A76GB5BJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = V298BW98S4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = XiaoHuiBang/Info.plist;
@@ -2449,8 +2449,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaohuibang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "80bd3690-e164-479b-8c9e-c76568208a01";
+				PROVISIONING_PROFILE_SPECIFIER = ShenZhen_Bofe_Asset_Hoc;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

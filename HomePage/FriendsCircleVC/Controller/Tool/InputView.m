@@ -11,6 +11,7 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kHeight 53  // 输入框默认高度
 #define ScrollTableView @"ScrollTableView"  // 接收调节表视图偏移的通知
+#define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
 
 @interface InputView () 
@@ -40,6 +41,8 @@
                                                   blue:216/255.0 alpha:1].CGColor;
         self.layer.borderWidth = 0.5;       
         
+        // 发送通知，允许表视图滑动的时候发送通知让输入框隐藏
+        [[NSNotificationCenter defaultCenter] postNotificationName:AllowTableViewPostHideInputViewNotification object:nil];
         
     }
     return self;
@@ -77,7 +80,7 @@
     // 设置表视图的偏移(提供输入框的Y起点即可)
     [[NSNotificationCenter defaultCenter] postNotificationName:ScrollTableView
                                                         object:@{@"y":[NSString stringWithFormat:@"%f", kScreenHeight - (keyBoardHeight + kHeight)],
-                                                                 @"indexpathRow":[NSString stringWithFormat:@"%ld", _cellRow]}];
+                                                                 @"indexpathRow":[NSString stringWithFormat:@"%ld", (long)_cellRow]}];
 }
 
 #pragma mark - 隐藏键盘
@@ -93,7 +96,7 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AllowTableViewPostHideInputViewNotification object:nil];
 }
 
 

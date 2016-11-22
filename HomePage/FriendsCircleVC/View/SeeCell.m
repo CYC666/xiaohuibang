@@ -18,6 +18,7 @@
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
 #define ScrollTableView @"ScrollTableView"  // 发送调节表视图偏移的通知
 #define CommentReloadTableView @"CommentReloadTableView" // 评论后刷新表视图通知
+#define HideCellInputView @"HideCellInputView"  // 接收隐藏单元格输入框的通知
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kHeight 53  // 输入视图默认高度
@@ -34,6 +35,10 @@
     
     self.headImageView.layer.cornerRadius = 22;
     self.headImageView.layer.masksToBounds = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideCellInputView:)
+                                                 name:HideCellInputView
+                                               object:nil];
     
 }
 
@@ -237,7 +242,7 @@
         }
     }
     if (_seeLayout.seeModel.praise.count > 3) {
-        [mString appendFormat:@"等%ld人", _seeLayout.seeModel.praise.count];
+        [mString appendFormat:@"等%ld人", (unsigned long)_seeLayout.seeModel.praise.count];
     }
     self.proListLabel.text = mString;
     
@@ -282,7 +287,7 @@
                                     [SVProgressHUD showSuccessWithStatus:@"已经点赞"];
                                     // 刷新表视图 -- -- -- SeetableView
                                     [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
-                                                                                        object:[NSString stringWithFormat:@"%ld", _indexpathRow]];
+                                                                                        object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
                                 
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
@@ -303,7 +308,7 @@
                                     [SVProgressHUD showSuccessWithStatus:@"已取消点赞"];
                                     // 刷新表视图 -- -- -- SeetableView
                                     [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
-                                                                                        object:[NSString stringWithFormat:@"%ld", _indexpathRow]];
+                                                                                        object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
                                     
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
@@ -319,22 +324,21 @@
 #pragma mark - 评论按钮响应,弹出键盘和输入框
 - (void)commentAction:(UIButton *)button {
     
-    InputView *inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
-    inputView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, kHeight);
-    [inputView.input becomeFirstResponder];
-    inputView.input.delegate = self;
-    inputView.input.returnKeyType = UIReturnKeySend;
-    inputView.input.layer.cornerRadius = 5;
-    inputView.input.layer.borderColor = [UIColor colorWithRed:229/255.0
+    // 创建输入框
+    _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
+    _inputView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, kHeight);
+    [_inputView.input becomeFirstResponder];
+    _inputView.input.delegate = self;
+    _inputView.input.returnKeyType = UIReturnKeySend;
+    _inputView.input.layer.cornerRadius = 5;
+    _inputView.input.layer.borderColor = [UIColor colorWithRed:229/255.0
                                                green:229/255.0
                                                 blue:229/255.0 alpha:1].CGColor;
-    inputView.input.layer.borderWidth = 0.5;
-    inputView.input.clipsToBounds = YES;
-    inputView.cellRow = _indexpathRow;
+    _inputView.input.layer.borderWidth = 0.5;
+    _inputView.input.clipsToBounds = YES;
+    _inputView.cellRow = _indexpathRow;
 
-    [[UIApplication sharedApplication].keyWindow addSubview:inputView];
-    
-    
+    [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
     
     
 }
@@ -352,7 +356,7 @@
                                                        handler:^(UIAlertAction * _Nonnull action) {
 // 网络请求删除动态，并且删除单元格  -- -- -- SeetableView
 [[NSNotificationCenter defaultCenter] postNotificationName:DeleteRow
-                                                    object:[NSString stringWithFormat:@"%ld", _indexpathRow]];
+                                                    object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
 NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 [CNetTool deleteAboutWithParameters:param
                             success:^(id response) {
@@ -401,7 +405,7 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
         // 设置表视图的偏移(提供输入框的Y起点和单元格indexpath即可)
         [[NSNotificationCenter defaultCenter] postNotificationName:ScrollTableView
                                                             object:@{@"y" : [NSString stringWithFormat:@"%f", frame.origin.y],
-                                                           @"indexpathRow":[NSString stringWithFormat:@"%ld", _indexpathRow]}];
+                                                           @"indexpathRow":[NSString stringWithFormat:@"%ld", (long)_indexpathRow]}];
     }
     
 }
@@ -420,14 +424,15 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
                                     success:^(id response) {
                                         [SVProgressHUD dismiss];
                                         [SVProgressHUD showSuccessWithStatus:@"评论成功"];
+                                        // 发送通知，让表视图刷新
+                                        [[NSNotificationCenter defaultCenter] postNotificationName:CommentReloadTableView object:@{@"about_content":textView.text,
+                                                                                                                                   @"indexpathRow":[NSString stringWithFormat:@"%ld", (long)_indexpathRow]}];
+
                                     } failure:^(NSError *err) {
                                         [SVProgressHUD dismiss];
                                         [SVProgressHUD showSuccessWithStatus:@"请求失败"];
                                     }];
         
-        // 发送通知，让表视图刷新
-        [[NSNotificationCenter defaultCenter] postNotificationName:CommentReloadTableView object:@{@"about_content":textView.text,
-                                                               @"indexpathRow":[NSString stringWithFormat:@"%ld", _indexpathRow]}];
         
         // 收起键盘
         [textView resignFirstResponder];
@@ -438,13 +443,21 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 
 }
 
+#pragma mark - 隐藏输入框的通知响应
+- (void)hideCellInputView:(NSNotification *)notification {
 
+    if ([_inputView.input isEditable]) {
+        [_inputView.input endEditing:YES];
+    }
+    
+    
+}
 
 #pragma mark - 移除通知
 - (void)dealloc {
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HideCellInputView object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:reloadTableViewDataNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:DeleteRow object:[NSString stringWithFormat:@"%ld", _indexpathRow]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:DeleteRow object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
 
 }
 

@@ -98,7 +98,11 @@
         self.proListLabelFrame = CGRectMake(kContentX + 8.5 + 20, self.cellHeight + 8.5, kScreenWidth - kContentX - 12.5 - 20, 13);
         self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 12.5, kProListHeight);
         self.cellHeight += (kProListHeight + kSpace);
+    } else {
+        self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 12.5, 0);
+        self.cellHeight += 8.5;
     }
+    
     
     // 评论列表
     if (_seeModel.aveluate.count != 0) {
