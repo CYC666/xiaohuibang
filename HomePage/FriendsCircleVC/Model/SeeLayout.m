@@ -138,9 +138,6 @@
     } else {
         self.commentListFrameArr = nil;
     }
-    
-    
-    
 
 }
 

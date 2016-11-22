@@ -15,6 +15,13 @@
 		04095F521DE28755009AD2EC /* icon_keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4C1DE28755009AD2EC /* icon_keyboard.png */; };
 		04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */; };
 		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
+		04AA38EC1DE3E24100CADF74 /* PersonAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EB1DE3E24100CADF74 /* PersonAboutController.m */; };
+		04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */; };
+		04AA38F21DE3F41C00CADF74 /* PersonSeeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38F11DE3F41C00CADF74 /* PersonSeeModel.m */; };
+		04AA38F51DE3F51400CADF74 /* PersonSeeLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38F41DE3F51400CADF74 /* PersonSeeLayout.m */; };
+		04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */; };
+		04AA38FD1DE3F8EF00CADF74 /* PersonSeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */; };
+		04AA38FF1DE4248000CADF74 /* backgroundPicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */; };
 		DB7F902B3A8335807EDD4AA1 /* libPods-XiaoHuiBang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */; };
 		F306DE831DD096360034BA65 /* UsersToTheirOwnGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F306DE811DD096360034BA65 /* UsersToTheirOwnGroupViewController.m */; };
 		F306DE841DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F306DE821DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib */; };
@@ -381,6 +388,18 @@
 		04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@3x.png"; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
+		04AA38EA1DE3E24100CADF74 /* PersonAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonAboutController.h; sourceTree = "<group>"; };
+		04AA38EB1DE3E24100CADF74 /* PersonAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonAboutController.m; sourceTree = "<group>"; };
+		04AA38ED1DE3EFBB00CADF74 /* PersonSeeTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonSeeTableView.h; sourceTree = "<group>"; };
+		04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonSeeTableView.m; sourceTree = "<group>"; };
+		04AA38F01DE3F41C00CADF74 /* PersonSeeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonSeeModel.h; sourceTree = "<group>"; };
+		04AA38F11DE3F41C00CADF74 /* PersonSeeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonSeeModel.m; sourceTree = "<group>"; };
+		04AA38F31DE3F51400CADF74 /* PersonSeeLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonSeeLayout.h; sourceTree = "<group>"; };
+		04AA38F41DE3F51400CADF74 /* PersonSeeLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonSeeLayout.m; sourceTree = "<group>"; };
+		04AA38F91DE3F8EF00CADF74 /* PersonSeeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonSeeCell.h; sourceTree = "<group>"; };
+		04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonSeeCell.m; sourceTree = "<group>"; };
+		04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonSeeCell.xib; sourceTree = "<group>"; };
+		04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundPicture.jpg; sourceTree = "<group>"; };
 		8F5B587656139CFD557E4D67 /* Pods-XiaoHuiBang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.release.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.release.xcconfig"; sourceTree = "<group>"; };
 		A01A17214919735FFEBF2768 /* Pods-XiaoHuiBang.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.debug.xcconfig"; sourceTree = "<group>"; };
 		D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XiaoHuiBang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -902,6 +921,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04AA38E91DE3E21B00CADF74 /* PersonAbout */ = {
+			isa = PBXGroup;
+			children = (
+				04AA38EA1DE3E24100CADF74 /* PersonAboutController.h */,
+				04AA38EB1DE3E24100CADF74 /* PersonAboutController.m */,
+			);
+			path = PersonAbout;
+			sourceTree = "<group>";
+		};
 		636C67FCAA54B97F2A97C8C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1648,6 +1676,7 @@
 				F3F4789F1DDFE3C500E21E97 /* FromCamera */,
 				F3F478A31DDFE3C500E21E97 /* FromSystem */,
 				F3F478A71DDFE3C500E21E97 /* SendMoment */,
+				04AA38E91DE3E21B00CADF74 /* PersonAbout */,
 				F3F478AD1DDFE3C500E21E97 /* Tool */,
 			);
 			path = Controller;
@@ -1705,15 +1734,19 @@
 		F3F478B51DDFE3C500E21E97 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F3F478B81DDFE3C500E21E97 /* MyDocuments */,
 				F3F478B61DDFE3C500E21E97 /* AveluateModel.h */,
 				F3F478B71DDFE3C500E21E97 /* AveluateModel.m */,
-				F3F478B81DDFE3C500E21E97 /* MyDocuments */,
 				F3F478C01DDFE3C500E21E97 /* PraiseModel.h */,
 				F3F478C11DDFE3C500E21E97 /* PraiseModel.m */,
 				F3F478C21DDFE3C500E21E97 /* SeeLayout.h */,
 				F3F478C31DDFE3C500E21E97 /* SeeLayout.m */,
 				F3F478C41DDFE3C500E21E97 /* SeeModel.h */,
 				F3F478C51DDFE3C500E21E97 /* SeeModel.m */,
+				04AA38F01DE3F41C00CADF74 /* PersonSeeModel.h */,
+				04AA38F11DE3F41C00CADF74 /* PersonSeeModel.m */,
+				04AA38F31DE3F51400CADF74 /* PersonSeeLayout.h */,
+				04AA38F41DE3F51400CADF74 /* PersonSeeLayout.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1721,6 +1754,7 @@
 		F3F478B81DDFE3C500E21E97 /* MyDocuments */ = {
 			isa = PBXGroup;
 			children = (
+				04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */,
 				04095F491DE28755009AD2EC /* icon_emojNew.png */,
 				04095F4A1DE28755009AD2EC /* icon_emojNew@2x.png */,
 				04095F4B1DE28755009AD2EC /* icon_emojNew@3x.png */,
@@ -1746,6 +1780,11 @@
 				F3F478C91DDFE3C500E21E97 /* SeeCell.xib */,
 				F3F478CA1DDFE3C500E21E97 /* SeeTableView.h */,
 				F3F478CB1DDFE3C500E21E97 /* SeeTableView.m */,
+				04AA38F91DE3F8EF00CADF74 /* PersonSeeCell.h */,
+				04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */,
+				04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */,
+				04AA38ED1DE3EFBB00CADF74 /* PersonSeeTableView.h */,
+				04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1985,6 +2024,7 @@
 				F39FD7011DDDB51A00D3724C /* big_arrow.png in Resources */,
 				F39494851DB08F7300BE3E51 /* 未标题-1.png in Resources */,
 				F3F478DE1DDFE3C500E21E97 /* sound.mp3 in Resources */,
+				04AA38FF1DE4248000CADF74 /* backgroundPicture.jpg in Resources */,
 				F38626A11DDC08ED001F8B0B /* stop-1.png in Resources */,
 				F30E927A1DAE1CDA00EDF97B /* MessageListTableViewCell.xib in Resources */,
 				F39FD7671DDDBA9F00D3724C /* icon_pro_blue@3x.png in Resources */,
@@ -2030,6 +2070,7 @@
 				F313E6CB1DB62544005111E0 /* MultiSelectedPanel.xib in Resources */,
 				F30947901DD3464100638827 /* momentBanner@3x.png in Resources */,
 				F39494AA1DB0E27900BE3E51 /* icon_group-chat-qun@2x.png in Resources */,
+				04AA38FD1DE3F8EF00CADF74 /* PersonSeeCell.xib in Resources */,
 				F30947781DD33ED800638827 /* icon_switchcamera@3x.png in Resources */,
 				F3E3E9581D9B68BB00E69300 /* SetHeadNameViewController.xib in Resources */,
 				F34823D01DD2C0B000D2834E /* icon_xiaoxin_unselected_@2x.png in Resources */,
@@ -2145,6 +2186,7 @@
 				F30E92791DAE1CDA00EDF97B /* MessageListTableViewCell.m in Sources */,
 				F33F89BE1D9E726B00FB0F70 /* UserNameViewController.m in Sources */,
 				F35DD7011DC35E98001A8F99 /* RCDContactSelectedTableViewCell.m in Sources */,
+				04AA38EC1DE3E24100CADF74 /* PersonAboutController.m in Sources */,
 				F313E6C71DB62544005111E0 /* MultiSelectSearchResultTableViewCell.m in Sources */,
 				F3E3E9511D9B68BB00E69300 /* RegistAgreementViewController.m in Sources */,
 				F3A0E0261DB75A2200E9F12C /* MLLetterIndexNavigationItem.m in Sources */,
@@ -2160,6 +2202,7 @@
 				F3EBC45C1D9A03DC00E93C02 /* NSString+Extension.m in Sources */,
 				F3E3E94F1D9B68BB00E69300 /* PasswordViewController.m in Sources */,
 				F348D6171DBF4A150034D0C2 /* RCDPrivateSettingsCell.m in Sources */,
+				04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */,
 				F30804231DA5F78E00859781 /* SetMessageToInformViewController.m in Sources */,
 				F33F89B51D9E6C2600FB0F70 /* UserInfomationTableViewCell.m in Sources */,
 				F3F478D51DDFE3C500E21E97 /* UIScrollView+PullDownRefresh.m in Sources */,
@@ -2181,6 +2224,7 @@
 				04095F461DE285A8009AD2EC /* InputView.m in Sources */,
 				F3B763141DC0AFD7009619DA /* pinyin.c in Sources */,
 				F34FE69A1DBB7D210054C5AD /* RCDChatListCell.m in Sources */,
+				04AA38F51DE3F51400CADF74 /* PersonSeeLayout.m in Sources */,
 				F35DD7041DC35F66001A8F99 /* RCDCreateGroupViewController.m in Sources */,
 				F35C03541DC3593B003D9613 /* RCDEditGroupNameViewController.m in Sources */,
 				F33F89B01D9E5A5B00FB0F70 /* AboutXHBViewController.m in Sources */,
@@ -2211,6 +2255,7 @@
 				F3EC35851DBA0B4000F350CA /* MyChatConversationViewController.m in Sources */,
 				F33F89AA1D9E59FD00FB0F70 /* NotificationSettingViewController.m in Sources */,
 				F3703B9D1DBDECAB000508B1 /* DefaultPortraitView.m in Sources */,
+				04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */,
 				F3E3E93C1D9B68A100E69300 /* LoginTwoViewController.m in Sources */,
 				F36DEC4F1DBB53F700AEFE62 /* RCDHttpTool.m in Sources */,
 				F3E3E95C1D9B6A1500E69300 /* ForgetViewController.m in Sources */,
@@ -2237,6 +2282,7 @@
 				F3E3E9611D9B6D0600E69300 /* ForgetSendCodeViewController.m in Sources */,
 				F3E3E9571D9B68BB00E69300 /* SetHeadNameViewController.m in Sources */,
 				F3F478E11DDFE3C500E21E97 /* SeeModel.m in Sources */,
+				04AA38F21DE3F41C00CADF74 /* PersonSeeModel.m in Sources */,
 				F3F478E21DDFE3C500E21E97 /* SeeCell.m in Sources */,
 				F306DE831DD096360034BA65 /* UsersToTheirOwnGroupViewController.m in Sources */,
 				F32E4D0D1D98D49B0034BBB8 /* main.m in Sources */,

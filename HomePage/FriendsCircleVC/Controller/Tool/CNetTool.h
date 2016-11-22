@@ -48,7 +48,10 @@
                           success:(void (^)(id response))success
                           failure:(void (^)(NSError *err))failure;
 
-
+// 获取个人动态
++ (void)loadPersonAboutWithParameters:(id)parameters
+                        success:(void (^)(id response))success
+                        failure:(void (^)(NSError *err))failure;
 
 
 

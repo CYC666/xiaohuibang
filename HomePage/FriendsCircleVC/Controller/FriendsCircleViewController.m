@@ -352,6 +352,7 @@
     }
     
     NSArray *dataArr = data[@"data"];
+    NSLog(@"%@", dataArr);
     NSMutableArray *seeTempArr = [NSMutableArray array];
     for (NSDictionary *dic in dataArr) {
         SeeModel *seeModel = [[SeeModel alloc] init];

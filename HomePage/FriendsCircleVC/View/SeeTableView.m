@@ -12,6 +12,7 @@
 #import "PraiseModel.h"
 #import "AveluateModel.h"
 #import <UIImageView+WebCache.h>
+#import "PersonAboutController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -43,7 +44,7 @@
         // [self registerNib:[UINib nibWithNibName:@"SeeCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:SeeCellID];
         
         // 不开启减速
-        // self.decelerationRate = UIScrollViewDecelerationRateFast;
+        self.decelerationRate = UIScrollViewDecelerationRateFast;
         // 添加点赞通知接收，刷新表视图
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(reloadDataNotification:)
@@ -128,7 +129,9 @@
     
     // 背景图片
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.37)];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[USER_D objectForKey:@"head_img"]]];
+    imageView.image = [UIImage imageNamed:@"backgroundPicture.jpg"];
+//    [imageView sd_setImageWithURL:[NSURL URLWithString:[USER_D objectForKey:@"head_img"]]];
+    
     
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.layer.masksToBounds = YES;
@@ -142,15 +145,32 @@
     headImageView.layer.borderWidth = 2.0;
     headImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     [headView addSubview:headImageView];
+    // 给头像添加一个点击手势，跳转到个人动态界面
+    headImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyAbout)];
+    [headImageView addGestureRecognizer:tap];
+    
+    
+    
     
     // 昵称
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - 100, kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15, 100, 30)];
-    nickName.text = [USER_D objectForKey:@"userNickName"];
+    nickName.text = [USER_D objectForKey:@"nickname"];
     nickName.textColor = [UIColor whiteColor];
     nickName.font = [UIFont systemFontOfSize:17];
     [headView addSubview:nickName];
     
     return headView;
+
+}
+#pragma mark - 点击我的头像，跳转到我的动态界面
+- (void)jumpToMyAbout {
+
+    UINavigationController *controller = (UINavigationController *)[self viewController];
+    PersonAboutController *myAboutController = [[PersonAboutController alloc] initWithUserID:[USER_D objectForKey:@"user_id"]
+                                                                                   headImage:[USER_D objectForKey:@"head_img"]];
+    myAboutController.hidesBottomBarWhenPushed = YES;
+    [controller pushViewController:myAboutController animated:YES];
 
 }
 
@@ -341,7 +361,16 @@
 
 }
 
-
+#pragma mark - 获取某视图所在的导航控制器
+- (UIViewController*)viewController {
+    for (UIView *next = [self superview]; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UINavigationController class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
 
 
 

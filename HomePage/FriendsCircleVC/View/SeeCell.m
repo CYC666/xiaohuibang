@@ -13,6 +13,7 @@
 #import "CNetTool.h"
 #import "InputView.h"
 #import "NSString+Extension.h"
+#import "PersonAboutController.h"
 
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
@@ -178,6 +179,9 @@
     // 说说的头像
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.head_img]
                       placeholderImage:[UIImage imageNamed:@"pic_loading"]];
+    // 给头像添加点击手势
+    UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToPersonAboutController)];
+    [_headImageView addGestureRecognizer:headTap];
     
     // 设置昵称
     _nickNameLabel.text = _seeLayout.seeModel.nickname;
@@ -453,6 +457,19 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     
 }
 
+#pragma mark - 点击头像，跳转到个人动态界面
+- (void)jumpToPersonAboutController {
+
+    UINavigationController *nav = (UINavigationController *)[self viewController];
+    PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:_seeLayout.seeModel.user_id
+                                         headImage:_seeLayout.seeModel.head_img];
+    controller.hidesBottomBarWhenPushed = YES;
+    [nav pushViewController:controller animated:YES];
+    
+    
+
+}
+
 #pragma mark - 移除通知
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HideCellInputView object:nil];
@@ -461,7 +478,16 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 
 }
 
-
+#pragma mark - 获取某视图所在的导航控制器
+- (UIViewController*)viewController {
+    for (UIView *next = [self superview]; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UINavigationController class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
 
 
 
