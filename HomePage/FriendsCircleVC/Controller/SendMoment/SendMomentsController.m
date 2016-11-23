@@ -49,6 +49,16 @@
     
 }
 
+- (instancetype)initWithImage:(UIImage *)image {
+
+    self = [super init];
+    if (self != nil) {
+        _photo = image;
+    }
+    return self;
+
+}
+
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];

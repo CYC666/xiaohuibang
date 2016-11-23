@@ -194,9 +194,10 @@
     self.contentLabel.text = _seeLayout.seeModel.content;
     self.contentLabel.frame = _seeLayout.seeFrame;
     
-    // 设置动态图片的frame
+    // 设置动态图片的frame,加载缩略图
     if (_seeLayout.seeModel.about_img != nil) {
-        [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]
+       
+        [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img]
                                placeholderImage:[UIImage imageNamed:@"pic_loading"]];
         self.aboutImageView.frame = _seeLayout.imgFrame;
     }
@@ -513,15 +514,20 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     scrollView.alwaysBounceHorizontal = YES;
     scrollView.alwaysBounceVertical = YES;
     // 设置最大最小缩放倍数
-    scrollView.minimumZoomScale = 1;
-    scrollView.maximumZoomScale = 2.5;
+    // scrollView.minimumZoomScale = 1;
+    // scrollView.maximumZoomScale = 2.5;
     // 添加单击手势，隐藏查看原图
     UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideBiggerImageView:)];
     [scrollView addGestureRecognizer:newTap];
     // 添加图片
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, (kScreenHeight - kScreenWidth)/2.0, kScreenWidth, kScreenWidth)];
+    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]];
+    // 设置imageview的内容模式，必须在设置图片之前设置，不然会出错
     imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]
+                 placeholderImage:[UIImage imageNamed:@"pic_loading"]];
+    
     [scrollView addSubview:imageView];
     
     [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];

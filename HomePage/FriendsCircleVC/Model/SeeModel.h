@@ -20,6 +20,7 @@
 @property (copy, nonatomic) NSString *head_img;         // 用户头像URL
 @property (copy, nonatomic) NSString *content;          // 动态内容
 @property (copy, nonatomic) NSString *about_img;        // 动态的图片URL
+@property (copy, nonatomic) NSString *thumb_img;        // 动态图片的缩略图
 @property (copy, nonatomic) NSString *create_time;      // 动态创建的时间
 @property (strong, nonatomic) NSMutableArray *praise;          // 点赞
 @property (strong, nonatomic) NSMutableArray *aveluate;        // 评论
@@ -37,6 +38,7 @@
          "head_img": "http://115.28.6.7/Public/head/581d7b02d43f4.jpg",
          "content": "Gg",
          "about_img": "http://115.28.6.7/Public/about/58291610be22c.jpg",
+         "thumb_img": "http://115.28.6.7/Public/about/58353a4426c84_thumb.jpg",
          "create_time": "1479087632",
          "praise": [
          {

@@ -362,6 +362,7 @@
         seeModel.head_img = dic[@"head_img"];
         seeModel.content = dic[@"content"];
         seeModel.about_img = dic[@"about_img"];
+        seeModel.thumb_img = dic[@"thumb_img"];
         seeModel.create_time = dic[@"create_time"];
         
         NSMutableArray *praiseTempArr = [NSMutableArray array];
