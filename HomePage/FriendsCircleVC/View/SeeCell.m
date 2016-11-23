@@ -462,7 +462,8 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 
     UINavigationController *nav = (UINavigationController *)[self viewController];
     PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:_seeLayout.seeModel.user_id
-                                         headImage:_seeLayout.seeModel.head_img];
+                                         headImage:_seeLayout.seeModel.head_img
+                                         nickname:_seeLayout.seeModel.nickname];
     controller.hidesBottomBarWhenPushed = YES;
     [nav pushViewController:controller animated:YES];
     

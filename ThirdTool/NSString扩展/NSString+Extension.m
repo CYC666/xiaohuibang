@@ -334,9 +334,13 @@
 + (BOOL)stringContainsEmoji:(NSString *)string {
     __block BOOL returnValue = NO;
     
+    // 遍历这个字符串
     [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
                                options:NSStringEnumerationByComposedCharacterSequences
                             usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+                                
+                                // substring    截取的字符串
+                                // substringRange   字符串的位置
                                 const unichar hs = [substring characterAtIndex:0];
                                 if (0xd800 <= hs && hs <= 0xdbff) {
                                     if (substring.length > 1) {
@@ -346,11 +350,13 @@
                                             returnValue = YES;
                                         }
                                     }
+                                    
                                 } else if (substring.length > 1) {
                                     const unichar ls = [substring characterAtIndex:1];
                                     if (ls == 0x20e3) {
                                         returnValue = YES;
                                     }
+                                    
                                 } else {
                                     if (0x2100 <= hs && hs <= 0x27ff) {
                                         returnValue = YES;
@@ -364,6 +370,7 @@
                                         returnValue = YES;
                                     }
                                 }
+                                
                             }];
     
     return returnValue;

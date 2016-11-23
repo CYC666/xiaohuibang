@@ -9,6 +9,8 @@
 #import "PersonSeeTableView.h"
 #import "PersonSeeCell.h"
 #import <UIImageView+WebCache.h>
+#import "PersonSeeLayout.h"
+#import "PersonSeeModel.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -40,6 +42,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     PersonSeeCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"PersonSeeCell" owner:nil options:nil] lastObject];
+    PersonSeeLayout *layout = _seeLayoutList[indexPath.row];
+    PersonSeeModel *model = layout.personSeeModel;
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.text = model.content;
     return cell;
 
 }
@@ -82,7 +88,7 @@
     
     // 昵称
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - 100, kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15, 100, 30)];
-    nickName.text = [USER_D objectForKey:@"nickname"];
+    nickName.text = _nickname;
     nickName.textColor = [UIColor whiteColor];
     nickName.font = [UIFont systemFontOfSize:17];
     [headView addSubview:nickName];

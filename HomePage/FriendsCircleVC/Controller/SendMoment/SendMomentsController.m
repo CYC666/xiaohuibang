@@ -368,18 +368,23 @@
         _textView.text = @"";
     }
     
-#warning 表情输入板的删除按钮，没有相应的协议方法，智能根据输入的是否未空，来判断当前输入的是否未删除按钮
+    // 表情输入板的删除按钮，没有相应的协议方法，只能根据输入的是否未空，来判断当前输入的是否未删除按钮
     // 删除按钮不做任何操作,因为有些表情是2bit，有的是1bit
     if (string != nil) {
+        // 将表情转换成字符串
+        // NSString *str = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         _textView.text = [_textView.text stringByAppendingString:string];
     }
     
+    // 表情 》》》字符串
+    // NSString *stri = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    // 字符串 》》》表情
+    // NSString *str = [stri stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
 }
 
 - (void)didSendButtonEvent:(RCEmojiBoardView *)emojiView sendButton:(UIButton *)sendButton {
     
-    NSLog(@"%@", emojiView);
     // 当点击发送按钮时，将表情面板隐藏
     [UIView animateWithDuration:.35
                      animations:^{

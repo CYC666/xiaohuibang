@@ -32,13 +32,14 @@
 @implementation PersonAboutController
 
 // 1、先走这个方法
-- (instancetype)initWithUserID:(NSString *)user_id headImage:(NSString *)headImageUrl {
+- (instancetype)initWithUserID:(NSString *)user_id headImage:(NSString *)headImageUrl nickname:(NSString *)nickname {
 
     self = [super init];
     if (self != nil) {
         self.view.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
         self.user_id = user_id;
         self.headImageUrl = headImageUrl;
+        self.nickname = nickname;
         // 加载数据
         [self loadData];
     }
@@ -94,9 +95,6 @@
                                              [self dataProcess:data];
                                         }
                                         
-                                        
-                                        [SVProgressHUD dismiss];
-                                        [SVProgressHUD showSuccessWithStatus:@"加载成功"];
                                     } failure:^(NSError *err) {
                                         [SVProgressHUD dismiss];
                                         [SVProgressHUD showSuccessWithStatus:@"加载失败"];
@@ -127,6 +125,7 @@
     self.seeModelList = seeTempArr;
     self.seeTableView.seeLayoutList = seeTempArr;
     self.seeTableView.headImageUrl = _headImageUrl;
+    self.seeTableView.nickname = _nickname;
     
 }
 
