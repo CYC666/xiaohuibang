@@ -25,7 +25,7 @@
 #define kHeight 53  // 输入视图默认高度
 #define kProListHeight 25       // 点赞列表的高度
 
-@interface SeeCell () <UITextViewDelegate>
+@interface SeeCell () <UITextViewDelegate, UIScrollViewDelegate>
 
 @end
 
@@ -508,26 +508,25 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
     scrollView.backgroundColor = [UIColor blackColor];
+    scrollView.delegate = self;
     // 先设置为透明，然后再用动画显示出来
     scrollView.alpha = 0;
     // 允许内容尺寸小于bounds时滑动
     scrollView.alwaysBounceHorizontal = YES;
     scrollView.alwaysBounceVertical = YES;
     // 设置最大最小缩放倍数
-    // scrollView.minimumZoomScale = 1;
-    // scrollView.maximumZoomScale = 2.5;
+    scrollView.minimumZoomScale = 1;
+    scrollView.maximumZoomScale = 2.5;
     // 添加单击手势，隐藏查看原图
     UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideBiggerImageView:)];
     [scrollView addGestureRecognizer:newTap];
     // 添加图片
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, (kScreenHeight - kScreenWidth)/2.0, kScreenWidth, kScreenWidth)];
-    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    imageView.tag = 123;
     // 设置imageview的内容模式，必须在设置图片之前设置，不然会出错
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]
                  placeholderImage:[UIImage imageNamed:@"pic_loading"]];
-    
     [scrollView addSubview:imageView];
     
     [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
@@ -551,7 +550,11 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 
 }
 // 滑动视图的代理方法，缩放时让图片也缩放
+- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 
+    return [scrollView viewWithTag:123];
+
+}
 
 
 
