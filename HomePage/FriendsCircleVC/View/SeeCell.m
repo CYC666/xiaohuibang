@@ -66,6 +66,10 @@
         _aboutImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         _aboutImageView.contentMode = UIViewContentModeScaleAspectFit;
         _aboutImageView.clipsToBounds = YES;
+        _aboutImageView.userInteractionEnabled = YES;
+        // 添加点击手势
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBiggerImageView:)];
+        [_aboutImageView addGestureRecognizer:tap];
         [self.contentView addSubview:_aboutImageView];
     }
     return _aboutImageView;
@@ -490,7 +494,51 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     return nil;
 }
 
+#pragma mark - 点击动态图片查看大图
+- (void)showBiggerImageView:(UITapGestureRecognizer *)tap {
 
+    // 创建滑动视图
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
+    scrollView.backgroundColor = [UIColor blackColor];
+    // 先设置为透明，然后再用动画显示出来
+    scrollView.alpha = 0;
+    // 允许内容尺寸小于bounds时滑动
+    scrollView.alwaysBounceHorizontal = YES;
+    scrollView.alwaysBounceVertical = YES;
+    // 设置最大最小缩放倍数
+    scrollView.minimumZoomScale = 1;
+    scrollView.maximumZoomScale = 2.5;
+    // 添加单击手势，隐藏查看原图
+    UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideBiggerImageView:)];
+    [scrollView addGestureRecognizer:newTap];
+    // 添加图片
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [scrollView addSubview:imageView];
+    
+    [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         scrollView.alpha = 1;
+                     }];
+    
+
+}
+// 隐藏查看原图
+- (void)hideBiggerImageView:(UITapGestureRecognizer *)tap {
+
+    [UIView animateWithDuration:.35
+                     animations:^{
+                        tap.view.alpha = 0;
+                     } completion:^(BOOL finished) {
+                        [tap.view removeFromSuperview];
+                     }];
+    
+
+}
+// 滑动视图的代理方法，缩放时让图片也缩放
 
 
 
