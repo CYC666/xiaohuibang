@@ -28,10 +28,13 @@
     UITextView *_textView;  // 输入框
     RCEmojiBoardView *_emojiInputView;  // 表情输入框
     NSData *_photoData;     // 等待上传的图片数据
-    UIImage *_photo;        // 等待上传的图片
+    
+    
     
     
 }
+
+
 
 @end
 
@@ -53,7 +56,9 @@
 
     self = [super init];
     if (self != nil) {
-        _photo = image;
+        self.willPushPhoto = image;
+        self.willPushImageView.image = image;
+        
     }
     return self;
 
@@ -66,6 +71,34 @@
     _scrollView.delegate = self;
 
 }
+
+
+
+#pragma mark - 懒加载
+- (UIImageView *)willPushImageView {
+
+    if (_willPushImageView == nil) {
+        // 控制位置
+        _willPushImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, kScreenHeight - 300, 80, 80)];
+        [self.view addSubview:_willPushImageView];
+        
+    }
+    return _willPushImageView;
+
+}
+
+- (UIImage *)willPushPhoto {
+
+    if (_willPushPhoto == nil) {
+        _willPushPhoto = [[UIImage alloc] init];
+    }
+    return _willPushPhoto;
+
+}
+
+
+
+
 
 #pragma mark - 设置导航栏
 - (void)_setNavigationBar {
@@ -143,10 +176,10 @@
     // 发表动态
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : _textView.text,
-                             @"file" : _photo == nil ? @"" : _photo};
+                             @"file" : _willPushPhoto == nil ? @"" : _willPushPhoto};
     
     
-    if (_photo != nil) {
+    if (_willPushPhoto != nil) {
         [CNetTool postAboutWithParameters:params
                                      data:_photoData
                                   success:^(id response) {
@@ -323,7 +356,7 @@
         NSLog(@"%@", _emojiInputView);
         
     } else {
-#warning 如果不从父视图移除的话，会内存泄露，不断创建_emojiInputView
+        // 如果不从父视图移除的话，会内存泄露，不断创建_emojiInputView
         [UIView animateWithDuration:.35
                          animations:^{
                              _emojiInputView.alpha = 0;
@@ -355,7 +388,9 @@
         // 返回照片
         _photoData = UIImageJPEGRepresentation(image, 0.75);
         
-        _photo = image;
+        
+        self.willPushPhoto = image;
+        self.willPushImageView.image = image;
         
     }
     //关闭,返回

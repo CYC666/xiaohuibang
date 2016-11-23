@@ -23,6 +23,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
+#define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
 
 
 
@@ -62,7 +63,11 @@
     // 加载动态数据
     [self reloadData];
     
-    
+    // 监听打开发送动态界面的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveOpenSendCommentControllerNotification:)
+                                                 name:openSendCommentControllerNotification
+                                               object:nil];
 
 
     
@@ -333,14 +338,28 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     
     //判断资源的来源 相册||摄像头
-    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary || picker.sourceType == UIImagePickerControllerSourceTypeSavedPhotosAlbum) {
+    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary ||
+        picker.sourceType == UIImagePickerControllerSourceTypeSavedPhotosAlbum) {
         //取出照片
-        // UIImage *image = info[UIImagePickerControllerOriginalImage];
-        // 返回照片
-        
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        //关闭,返回
+        [picker dismissViewControllerAnimated:YES completion:^{
+            // 发送通知，跳转到发动态界面,将选好的图片发送过去
+            [[NSNotificationCenter defaultCenter] postNotificationName:openSendCommentControllerNotification
+                                                                object:image];
+        }];
     }
-    //关闭,返回
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+#pragma mark - 接受到打开发送动态界面的通知
+- (void)receiveOpenSendCommentControllerNotification:(NSNotification *)notification {
+    
+    SendMomentsController *sendController = [[SendMomentsController alloc] initWithImage:notification.object];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:sendController];
+    nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+    [self presentViewController:nav animated:YES completion:nil];
+
 }
 
 #pragma mark - 处理动态数据
@@ -439,7 +458,11 @@
 }
 
 
+- (void)dealloc {
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:openSendCommentControllerNotification object:nil];
+
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
