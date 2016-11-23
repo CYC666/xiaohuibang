@@ -421,9 +421,16 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 #pragma mark - 点击return发送评论
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
 
+    
     // 当点下发送按钮
     if ([text isEqualToString:@"\n"]) {
         
+        // 当评论为空的时候，不允许发送
+        if ([textView.text isEmpty]) {
+            [SVProgressHUD dismiss];
+            [SVProgressHUD showSuccessWithStatus:@"评论不能为空"];
+            return NO;
+        }
         // 发送评论
         NSDictionary *param = @{@"user_id":[USER_D objectForKey:@"user_id"],
                                 @"about_id":_seeLayout.seeModel.about_id,
@@ -444,7 +451,6 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
         
         // 收起键盘
         [textView resignFirstResponder];
-        return NO;
         
     }
     return YES;
