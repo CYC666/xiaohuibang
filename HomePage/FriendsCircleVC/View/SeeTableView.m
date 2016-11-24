@@ -203,7 +203,7 @@
     
 }
 
-#pragma mark - 开始拖动的时候，隐藏输入框
+#pragma mark - 开始拖动的时候，隐藏输入框 或者点击了表视图，发送通知隐藏输入框
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 
     if (_allowPostHideInoutView == YES) {
@@ -213,12 +213,24 @@
         _allowPostHideInoutView = NO;
     }
     
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+
+    if (_allowPostHideInoutView == YES) {
+        // 发送通知，让输入框隐藏
+        [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
+        // 关闭允许
+        _allowPostHideInoutView = NO;
+    }
 
 }
 
 - (void)postHideInputViewNotification {
-
+    
+    // 允许发送通知收起键盘
     _allowPostHideInoutView = YES;
+    
+    
 
 }
 

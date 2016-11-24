@@ -87,17 +87,6 @@
 
 }
 
-- (UIImage *)willPushPhoto {
-
-    if (_willPushPhoto == nil) {
-        _willPushPhoto = [[UIImage alloc] init];
-    }
-    return _willPushPhoto;
-
-}
-
-
-
 
 
 #pragma mark - 设置导航栏
@@ -174,6 +163,7 @@
     }
 
     // 发表动态
+    _photoData = UIImageJPEGRepresentation(_willPushPhoto, 0.75);
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : _textView.text,
                              @"file" : _willPushPhoto == nil ? @"" : _willPushPhoto};
@@ -385,9 +375,6 @@
     if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary || picker.sourceType == UIImagePickerControllerSourceTypeSavedPhotosAlbum) {
         // 取出照片
         UIImage *image = info[UIImagePickerControllerOriginalImage];
-        // 返回照片
-        _photoData = UIImageJPEGRepresentation(image, 0.75);
-        
         
         self.willPushPhoto = image;
         self.willPushImageView.image = image;
