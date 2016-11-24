@@ -2465,7 +2465,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = XiaoHuiBang/XiaoHuiBang.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yixu Liu (E5A76GB5BJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V298BW98S4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2474,8 +2474,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaohuibang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "80bd3690-e164-479b-8c9e-c76568208a01";
-				PROVISIONING_PROFILE_SPECIFIER = ShenZhen_Bofe_Asset_Hoc;
+				PROVISIONING_PROFILE = "30b0a1ed-17a4-4cd5-8486-fd1e4c355e3a";
+				PROVISIONING_PROFILE_SPECIFIER = YixiuLiu_Development;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2487,7 +2487,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = XiaoHuiBang/XiaoHuiBang.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yixu Liu (E5A76GB5BJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V298BW98S4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = XiaoHuiBang/Info.plist;
@@ -2495,8 +2495,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaohuibang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "80bd3690-e164-479b-8c9e-c76568208a01";
-				PROVISIONING_PROFILE_SPECIFIER = ShenZhen_Bofe_Asset_Hoc;
+				PROVISIONING_PROFILE = "30b0a1ed-17a4-4cd5-8486-fd1e4c355e3a";
+				PROVISIONING_PROFILE_SPECIFIER = YixiuLiu_Development;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

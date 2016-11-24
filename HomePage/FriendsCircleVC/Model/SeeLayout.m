@@ -21,10 +21,15 @@
 #define kDeleteButtonWidth 30   // 删除按钮长度
 #define kTimeLabelWidth 60      // 时间文本的长度
 #define kTimeLabelHeight 12     // 时间文本的高度
-#define kCommentWidth 15.5      // 评论按钮长度
-#define kCommentHeight 14.5     // 评论按钮高度
-#define kProWidth 16            // 点赞按钮的宽度
-#define kProHeight 14.5         // 点赞按钮的高度
+//#define kCommentWidth 15.5      // 评论按钮长度
+//#define kCommentHeight 14.5     // 评论按钮高度
+//#define kProWidth 16            // 点赞按钮的宽度
+//#define kProHeight 14.5         // 点赞按钮的高度
+#define kCommentWidth 30      // 评论按钮长度
+#define kCommentHeight 30     // 评论按钮高度
+#define kProWidth 30            // 点赞按钮的宽度
+#define kProHeight 30         // 点赞按钮的高度
+
 #define kProListHeight 25       // 点赞列表的高度
 #define kCommentX 77          // 评论的起点X
 
@@ -87,7 +92,7 @@
     self.commentFrame = CGRectMake(kScreenWidth - kCommentWidth - 13, self.cellHeight - 5, kCommentWidth, kCommentHeight);
     
     // 点赞按钮
-    self.proFrame = CGRectMake(kScreenWidth - kCommentWidth - 13 - kProWidth - 15, self.cellHeight - 5, kProWidth, kProHeight);
+    self.proFrame = CGRectMake(kScreenWidth - kCommentWidth - 13 - kProWidth, self.cellHeight - 5, kProWidth, kProHeight);
 
     // 这行的内容尺寸求好了，更新单元格高度
     self.cellHeight += (12 + kSpace);

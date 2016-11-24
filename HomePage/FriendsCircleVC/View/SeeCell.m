@@ -111,7 +111,6 @@
 
     if (_proButton == nil) {
         _proButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_proButton setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
         [_proButton addTarget:self action:@selector(proAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_proButton];
     }
