@@ -511,7 +511,7 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 }
 
 #pragma mark - 获取某视图所在的导航控制器
-- (UIViewController*)viewController {
+- (UIViewController *)viewController {
     for (UIView *next = [self superview]; next; next = next.superview) {
         UIResponder* nextResponder = [next nextResponder];
         if ([nextResponder isKindOfClass:[UINavigationController class]]) {
@@ -538,15 +538,22 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     scrollView.minimumZoomScale = 1;
     scrollView.maximumZoomScale = 2.5;
     // 添加单击手势，隐藏查看原图
-    UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideBiggerImageView:)];
+    UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                             action:@selector(hideBiggerImageView:)];
     [scrollView addGestureRecognizer:newTap];
     // 添加图片
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     imageView.tag = 123;
     // 设置imageview的内容模式，必须在设置图片之前设置，不然会出错
     imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.userInteractionEnabled = YES;
     [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]
                  placeholderImage:[UIImage imageNamed:@"pic_loading"]];
+    // 添加长按手势，保存到本地
+    UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                          action:@selector(longPressAction:)];
+    longPre.minimumPressDuration = 3;
+    [imageView addGestureRecognizer:longPre];
     [scrollView addSubview:imageView];
     
     [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
@@ -569,6 +576,24 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     
 
 }
+// 长按手势响应
+- (void)longPressAction:(UILongPressGestureRecognizer *)longPre {
+    
+    // 长按手势会调用两次（开始、结束）
+    if (longPre.state == UIGestureRecognizerStateBegan) {
+        UIImageWriteToSavedPhotosAlbum([(UIImageView *)(longPre.view) image], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    } else {
+        // 直接将图片保存到本地
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"已经将图片保存到本地"];
+    }
+    
+    
+}
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    
+}
+
 // 滑动视图的代理方法，缩放时让图片也缩放
 - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 
