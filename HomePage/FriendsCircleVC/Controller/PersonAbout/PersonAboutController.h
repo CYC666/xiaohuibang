@@ -17,8 +17,6 @@
 
 
 // 传入对象的id，即可查看他的动态
-- (instancetype)initWithUserID:(NSString *)user_id
-                     headImage:(NSString *)headImageUrl
-                      nickname:(NSString *)nickname;
+- (instancetype)initWithUserID:(NSString *)user_id;
 
 @end

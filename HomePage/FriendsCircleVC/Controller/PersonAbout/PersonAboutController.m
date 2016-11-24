@@ -16,6 +16,7 @@
 #import <SVProgressHUD.h>
 #import "PersonSeeLayout.h"
 #import "PersonSeeModel.h"
+#import "AFHttpTool.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -32,16 +33,24 @@
 @implementation PersonAboutController
 
 // 1、先走这个方法
-- (instancetype)initWithUserID:(NSString *)user_id headImage:(NSString *)headImageUrl nickname:(NSString *)nickname {
+- (instancetype)initWithUserID:(NSString *)user_id{
 
     self = [super init];
     if (self != nil) {
         self.view.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
-        self.user_id = user_id;
-        self.headImageUrl = headImageUrl;
-        self.nickname = nickname;
-        // 加载数据
-        [self loadData];
+        
+        // 根据id网络请求个人信息
+        [AFHttpTool getUserInfo:user_id
+                        success:^(id response) {
+                            if ([response[@"msg"] isEqual:@1]) {
+                                // 加载数据
+                                [self loadData:response[@"data"]];
+                            }
+                        } failure:^(NSError *err) {
+                            [SVProgressHUD dismiss];
+                            [SVProgressHUD showSuccessWithStatus:@"请求失败"];
+                        }];
+        
     }
     return self;
 
@@ -80,8 +89,13 @@
 }
 
 #pragma mark - 加载数据
-- (void)loadData {
+- (void)loadData:(NSDictionary *)data {
 
+    // 解析用户信息
+    self.user_id = data[@"id"];
+    self.nickname = data[@"nickname"];
+    self.headImageUrl = data[@"head_img"];
+    
     // 获取动态
     NSDictionary *params = @{@"user_id" : _user_id,
                              @"page" : @"1"

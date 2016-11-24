@@ -15,6 +15,7 @@
 		04095F521DE28755009AD2EC /* icon_keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4C1DE28755009AD2EC /* icon_keyboard.png */; };
 		04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */; };
 		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
+		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		04AA38EC1DE3E24100CADF74 /* PersonAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EB1DE3E24100CADF74 /* PersonAboutController.m */; };
 		04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */; };
 		04AA38F21DE3F41C00CADF74 /* PersonSeeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38F11DE3F41C00CADF74 /* PersonSeeModel.m */; };
@@ -386,6 +387,8 @@
 		04095F4C1DE28755009AD2EC /* icon_keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_keyboard.png; sourceTree = "<group>"; };
 		04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@2x.png"; sourceTree = "<group>"; };
 		04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@3x.png"; sourceTree = "<group>"; };
+		044818111DE6BAED003B1F6C /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
+		044818121DE6BAED003B1F6C /* CButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CButton.m; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
 		04AA38EA1DE3E24100CADF74 /* PersonAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonAboutController.h; sourceTree = "<group>"; };
@@ -1727,6 +1730,8 @@
 				04095F441DE285A8009AD2EC /* InputView.h */,
 				04095F451DE285A8009AD2EC /* InputView.m */,
 				04095F471DE285CF009AD2EC /* InputView.xib */,
+				044818111DE6BAED003B1F6C /* CButton.h */,
+				044818121DE6BAED003B1F6C /* CButton.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2296,6 +2301,7 @@
 				F3275CB41DA8996300D0D699 /* UIColor+RCColor.m in Sources */,
 				F3E3E93E1D9B68A100E69300 /* LoginViewController.m in Sources */,
 				F3F478CC1DDFE3C500E21E97 /* FriendsCircleViewController.m in Sources */,
+				044818131DE6BAED003B1F6C /* CButton.m in Sources */,
 				F3703B9A1DBDE92B000508B1 /* RCDUtilities.m in Sources */,
 				F3D906DA1DC7411C00E742D2 /* SortForTime.m in Sources */,
 				F32AC9971DBF02AE00807061 /* AFriendRequestListViewController.m in Sources */,

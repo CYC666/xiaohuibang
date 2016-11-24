@@ -167,9 +167,7 @@
 - (void)jumpToMyAbout {
 
     UINavigationController *controller = (UINavigationController *)[self viewController];
-    PersonAboutController *myAboutController = [[PersonAboutController alloc] initWithUserID:[USER_D objectForKey:@"user_id"]
-                                                                                   headImage:[USER_D objectForKey:@"head_img"]
-                                                                                    nickname:[USER_D objectForKey:@"nickname"]];
+    PersonAboutController *myAboutController = [[PersonAboutController alloc] initWithUserID:[USER_D objectForKey:@"user_id"]];
     myAboutController.hidesBottomBarWhenPushed = YES;
     [controller pushViewController:myAboutController animated:YES];
 

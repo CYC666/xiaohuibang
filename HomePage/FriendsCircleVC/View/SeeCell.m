@@ -14,6 +14,7 @@
 #import "InputView.h"
 #import "NSString+Extension.h"
 #import "PersonAboutController.h"
+#import "CButton.h"
 
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
@@ -26,6 +27,8 @@
 #define kProListHeight 25       // 点赞列表的高度
 
 @interface SeeCell () <UITextViewDelegate, UIScrollViewDelegate>
+
+
 
 @end
 
@@ -272,12 +275,25 @@
         
         [self.contentView addSubview:comment];
         
+        // 添加点击昵称的按钮
+        frame.size.height = 20;
+        frame.size.width = 70;
+        CButton *nickButton = [CButton buttonWithType:UIButtonTypeCustom];
+        nickButton.frame = frame;
+        nickButton.user_id = aveluate.user_id;
+        [nickButton setBackgroundColor:[UIColor clearColor]];
+        [nickButton addTarget:self
+                       action:@selector(jumpToPersonAboutControllerWithData:)
+             forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:nickButton];
+        
     }
 }
 
 
 #pragma mark - 点赞按钮响应
 - (void)proAction:(UIButton *)button {
+
 
     _isLike = !_isLike;
     if (_isLike == YES) {
@@ -467,19 +483,24 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     
 }
 
-#pragma mark - 点击头像，跳转到个人动态界面
+#pragma mark - 点击头像、昵称，跳转到个人动态界面
 - (void)jumpToPersonAboutController {
 
     UINavigationController *nav = (UINavigationController *)[self viewController];
-    PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:_seeLayout.seeModel.user_id
-                                         headImage:_seeLayout.seeModel.head_img
-                                         nickname:_seeLayout.seeModel.nickname];
+    PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:_seeLayout.seeModel.user_id];
     controller.hidesBottomBarWhenPushed = YES;
     [nav pushViewController:controller animated:YES];
     
-    
-
 }
+- (void)jumpToPersonAboutControllerWithData:(CButton *)button {
+    
+    UINavigationController *nav = (UINavigationController *)[self viewController];
+    PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:button.user_id];
+    controller.hidesBottomBarWhenPushed = YES;
+    [nav pushViewController:controller animated:YES];
+}
+
+
 
 #pragma mark - 移除通知
 - (void)dealloc {
