@@ -69,7 +69,7 @@
     headView.backgroundColor = [UIColor whiteColor];
     
     // 背景图片
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.37)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -40, kScreenWidth, kScreenHeight*.37 + 40)];
     [imageView sd_setImageWithURL:[NSURL URLWithString:_headImageUrl]];
     
     imageView.contentMode = UIViewContentModeScaleAspectFill;

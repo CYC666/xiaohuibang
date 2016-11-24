@@ -277,7 +277,7 @@
         
         // 添加点击昵称的按钮
         frame.size.height = 20;
-        frame.size.width = 70;
+        frame.size.width = aveluate.nickname.length * 10;
         CButton *nickButton = [CButton buttonWithType:UIButtonTypeCustom];
         nickButton.frame = frame;
         nickButton.user_id = aveluate.user_id;

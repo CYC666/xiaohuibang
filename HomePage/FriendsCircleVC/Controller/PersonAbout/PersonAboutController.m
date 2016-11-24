@@ -17,6 +17,7 @@
 #import "PersonSeeLayout.h"
 #import "PersonSeeModel.h"
 #import "AFHttpTool.h"
+#import "CRefresh.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -27,6 +28,8 @@
 
 @property (strong, nonatomic) PersonSeeTableView *seeTableView;  // 个人动态表视图
 @property (strong, nonatomic) NSMutableArray *seeModelList;      // 储存动态的数组
+@property (assign, nonatomic) NSInteger dataTag;                 // 标志上拉加载下拉刷新
+@property (assign, nonatomic) NSInteger dataPage;                // 记录加载页数
 
 @end
 
@@ -38,6 +41,8 @@
     self = [super init];
     if (self != nil) {
         self.view.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
+        
+        _dataPage = 1;
         
         // 根据id网络请求个人信息
         [AFHttpTool getUserInfo:user_id
@@ -88,7 +93,7 @@
     
 }
 
-#pragma mark - 加载数据
+#pragma mark - 加载个人信息，然后在加载动态数据
 - (void)loadData:(NSDictionary *)data {
 
     // 解析用户信息
@@ -116,9 +121,62 @@
     
     
 }
+#pragma mark - 下拉刷新
+- (void)reloadData {
+    
+    _dataPage = 1;
+    _dataTag = 0;
+    // 获取动态
+    NSDictionary *params = @{@"user_id" : _user_id,
+                             @"page" : [NSString stringWithFormat:@"%ld", _dataPage]
+                             };
+    [CNetTool loadPersonAboutWithParameters:params
+                                    success:^(id response) {
+                                        
+                                        if ([response[@"msg"] isEqual:@1]) {
+                                            // 处理数据
+                                            NSArray *data = (NSArray *)response[@"data"];
+                                            [self dataProcess:data];
+                                        }
+                                        
+                                    } failure:^(NSError *err) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                    }];
+    
+}
+#pragma mark - 上拉加载
+- (void)downloadData {
+    
+    _dataPage += 1;
+    _dataTag = 1;
+    // 获取动态
+    NSDictionary *params = @{@"user_id" : _user_id,
+                             @"page" : [NSString stringWithFormat:@"%ld", _dataPage]
+                             };
+    [CNetTool loadPersonAboutWithParameters:params
+                                    success:^(id response) {
+                                        
+                                        if ([response[@"msg"] isEqual:@1]) {
+                                            // 处理数据
+                                            NSArray *data = (NSArray *)response[@"data"];
+                                            [self dataProcess:data];
+                                        }
+                                        
+                                    } failure:^(NSError *err) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                    }];
+    
+    
+}
 
 #pragma mark - 处理数据
 - (void)dataProcess:(NSArray *)array {
+    
+    if (_dataTag == 0) {
+        [self.seeModelList removeAllObjects];
+    }
 
     NSMutableArray *seeTempArr = [NSMutableArray array];
     for (NSDictionary *dic in array) {
@@ -136,10 +194,38 @@
     }
     
     // 保存一下
-    self.seeModelList = seeTempArr;
-    self.seeTableView.seeLayoutList = seeTempArr;
+    [self.seeModelList addObjectsFromArray:seeTempArr];
+    self.seeTableView.seeLayoutList = self.seeModelList;
     self.seeTableView.headImageUrl = _headImageUrl;
     self.seeTableView.nickname = _nickname;
+    [self.seeTableView reloadData];
+    
+    // 结束下拉刷新、上拉加载
+    if (_dataTag == 0) {
+        [self.seeTableView.pullToRefreshView stopAnimating];
+    } else {
+        [self.seeTableView.infiniteScrollingView stopAnimating];
+    }
+    
+    // 创建一个若引用的self在block中调用方法，防止循环引用
+    __weak PersonAboutController *weakSelf = self;
+    [self.seeTableView addPullDownRefreshBlock:^{
+        @synchronized (weakSelf) {
+            // 下拉刷新
+            [weakSelf reloadData];
+        }
+        
+    }];
+    
+    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
+        @synchronized (weakSelf) {
+            // 上拉加载
+            [weakSelf downloadData];
+        }
+    }];
+    
+    
+    
     
 }
 
