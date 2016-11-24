@@ -16,6 +16,8 @@
 		04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */; };
 		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
+		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
+		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
 		04AA38EC1DE3E24100CADF74 /* PersonAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EB1DE3E24100CADF74 /* PersonAboutController.m */; };
 		04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */; };
 		04AA38F21DE3F41C00CADF74 /* PersonSeeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38F11DE3F41C00CADF74 /* PersonSeeModel.m */; };
@@ -389,6 +391,9 @@
 		04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@3x.png"; sourceTree = "<group>"; };
 		044818111DE6BAED003B1F6C /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
 		044818121DE6BAED003B1F6C /* CButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CButton.m; sourceTree = "<group>"; };
+		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
+		044818151DE6E929003B1F6C /* CYCOWN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYCOWN.m; sourceTree = "<group>"; };
+		044818161DE6E929003B1F6C /* CYCOWN.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYCOWN.xib; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
 		04AA38EA1DE3E24100CADF74 /* PersonAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonAboutController.h; sourceTree = "<group>"; };
@@ -1732,6 +1737,9 @@
 				04095F471DE285CF009AD2EC /* InputView.xib */,
 				044818111DE6BAED003B1F6C /* CButton.h */,
 				044818121DE6BAED003B1F6C /* CButton.m */,
+				044818141DE6E929003B1F6C /* CYCOWN.h */,
+				044818151DE6E929003B1F6C /* CYCOWN.m */,
+				044818161DE6E929003B1F6C /* CYCOWN.xib */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1963,6 +1971,7 @@
 				F3E91FA21DA5E9860066D6D6 /* pic_bg@2x.png in Resources */,
 				F39FD7601DDDBA9F00D3724C /* pic_loading@2x.png in Resources */,
 				F309475F1DD33ECF00638827 /* icon_focus@2x.png in Resources */,
+				044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */,
 				F3A0E01F1DB757A000E9F12C /* CellBlueSelected@2x.png in Resources */,
 				F30947611DD33ECF00638827 /* icon_groupdetails@2x.png in Resources */,
 				F32E4D181D98D49B0034BBB8 /* Assets.xcassets in Resources */,
@@ -2299,6 +2308,7 @@
 				F3130F721DD9A37900B12726 /* HeadCollectionView.m in Sources */,
 				F3130F761DD9A37900B12726 /* RCLocationView.m in Sources */,
 				F3275CB41DA8996300D0D699 /* UIColor+RCColor.m in Sources */,
+				044818171DE6E929003B1F6C /* CYCOWN.m in Sources */,
 				F3E3E93E1D9B68A100E69300 /* LoginViewController.m in Sources */,
 				F3F478CC1DDFE3C500E21E97 /* FriendsCircleViewController.m in Sources */,
 				044818131DE6BAED003B1F6C /* CButton.m in Sources */,

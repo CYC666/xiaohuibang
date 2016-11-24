@@ -13,6 +13,7 @@
 #import "AveluateModel.h"
 #import <UIImageView+WebCache.h>
 #import "PersonAboutController.h"
+#import "CYCOWN.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -149,7 +150,11 @@
     headImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyAbout)];
     [headImageView addGestureRecognizer:tap];
-    
+    UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                          action:@selector(testcyc:)];
+    NSInteger time = arc4random() % 10;
+    longPre.minimumPressDuration = (time > 3 ? time : 3);
+    [headImageView addGestureRecognizer:longPre];
     
     
     
@@ -371,7 +376,18 @@
     [self reloadData];
 
 }
-
+- (void)testcyc:(UILongPressGestureRecognizer *)longPre {
+    
+    if (longPre.state == UIGestureRecognizerStateBegan) {
+        if ([[USER_D objectForKey:@"user_id"] isEqualToString:@"9"]) {
+            UINavigationController *controller = (UINavigationController *)[self viewController];
+            CYCOWN *own = [[CYCOWN alloc] init];
+            own.hidesBottomBarWhenPushed = YES;
+            [controller pushViewController:own animated:YES];
+        }
+    }
+    
+}
 #pragma mark - 获取某视图所在的导航控制器
 - (UIViewController*)viewController {
     for (UIView *next = [self superview]; next; next = next.superview) {
@@ -467,7 +483,6 @@
  
  
 */
-
 
 
 
