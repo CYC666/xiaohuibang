@@ -80,6 +80,7 @@
     if (_willPushImageView == nil) {
         // 控制位置
         _willPushImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, kScreenHeight - 300, 80, 80)];
+        _willPushImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.view addSubview:_willPushImageView];
         
     }

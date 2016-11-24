@@ -16,6 +16,9 @@
 #import "FromCameraController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "SendMomentsController.h"
+
+#define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
 
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
@@ -269,10 +272,11 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 // 播放快门声音
 - (void)soundPlay {
 
-    NSString *sysPath = [[NSBundle mainBundle] pathForResource:@"sound.mp3" ofType:nil];
-    NSURL *sysUrl=[NSURL fileURLWithPath:sysPath];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)sysUrl, &soundID);
-    AudioServicesPlaySystemSound(soundID);
+    // 不播放快门声音
+//    NSString *sysPath = [[NSBundle mainBundle] pathForResource:@"sound.mp3" ofType:nil];
+//    NSURL *sysUrl=[NSURL fileURLWithPath:sysPath];
+//    AudioServicesCreateSystemSoundID((__bridge CFURLRef)sysUrl, &soundID);
+//    AudioServicesPlaySystemSound(soundID);
 }
 
 
@@ -339,6 +343,14 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
             // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             //            ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc]init];
             //            [assetsLibrary writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
+            
+            // dismiss当前控制器，并发送通知跳转到发送动态界面
+            [self dismissViewControllerAnimated:YES
+                                     completion:^{
+                                         // 发送通知，跳转到发动态界面,将选好的图片发送过去
+                         [[NSNotificationCenter defaultCenter] postNotificationName:openSendCommentControllerNotification
+                                                                             object:image];
+                                     }];
         }
         
     }];
