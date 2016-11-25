@@ -186,7 +186,7 @@
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.head_img]
                       placeholderImage:[UIImage imageNamed:@"pic_loading"]];
     // 给头像添加点击手势
-    UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToPersonAboutController)];
+    UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToPersonAboutController:)];
     [_headImageView addGestureRecognizer:headTap];
     
     // 设置昵称
@@ -484,12 +484,23 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 }
 
 #pragma mark - 点击头像、昵称，跳转到个人动态界面
-- (void)jumpToPersonAboutController {
-
-    UINavigationController *nav = (UINavigationController *)[self viewController];
-    PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:_seeLayout.seeModel.user_id];
-    controller.hidesBottomBarWhenPushed = YES;
-    [nav pushViewController:controller animated:YES];
+- (void)jumpToPersonAboutController:(UITapGestureRecognizer *)tap {
+    
+    // 添加动画
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         tap.view.transform = CGAffineTransformMakeRotation(M_PI_4);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:.35
+                                          animations:^{
+                                              tap.view.transform = CGAffineTransformIdentity;
+                                          } completion:^(BOOL finished) {
+                                              UINavigationController *nav = (UINavigationController *)[self viewController];
+                                              PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:_seeLayout.seeModel.user_id];
+                                              controller.hidesBottomBarWhenPushed = YES;
+                                              [nav pushViewController:controller animated:YES];
+                                          }];
+                     }];
     
 }
 - (void)jumpToPersonAboutControllerWithData:(CButton *)button {

@@ -473,7 +473,7 @@
 // 切换到本页面的时候，自动刷新
 - (void)viewDidAppear:(BOOL)animated {
 
-    [_seeTableView triggerPullToRefresh];
+    // [_seeTableView triggerPullToRefresh];
 
 }
 
