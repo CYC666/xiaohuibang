@@ -72,6 +72,24 @@
     
     
     
+    // 创建一个若引用的self在block中调用方法，防止循环引用
+//    __weak PersonAboutController *weakSelf = self;
+//    [self.seeTableView addPullDownRefreshBlock:^{
+//        @synchronized (weakSelf) {
+//            // 下拉刷新
+//            [weakSelf reloadData];
+//        }
+//        
+//    }];
+//    
+//    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
+//        @synchronized (weakSelf) {
+//            // 上拉加载
+//            [weakSelf downloadData];
+//        }
+//    }];
+
+    
 }
 
 #pragma mark - 懒加载
@@ -112,6 +130,11 @@
                                              // 处理数据
                                              NSArray *data = (NSArray *)response[@"data"];
                                              [self dataProcess:data];
+                                        } else {
+                                            // 没有动态
+                                            [SVProgressHUD dismiss];
+                                            [SVProgressHUD showSuccessWithStatus:@"没有动态"];
+                                            //[self.seeTableView.pullToRefreshView stopAnimating];
                                         }
                                         
                                     } failure:^(NSError *err) {
@@ -137,6 +160,11 @@
                                             // 处理数据
                                             NSArray *data = (NSArray *)response[@"data"];
                                             [self dataProcess:data];
+                                        } else {
+                                            // 没有动态
+                                            [SVProgressHUD dismiss];
+                                            [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
+                                            [self.seeTableView.pullToRefreshView stopAnimating];
                                         }
                                         
                                     } failure:^(NSError *err) {
@@ -154,6 +182,7 @@
     NSDictionary *params = @{@"user_id" : _user_id,
                              @"page" : [NSString stringWithFormat:@"%ld", _dataPage]
                              };
+    
     [CNetTool loadPersonAboutWithParameters:params
                                     success:^(id response) {
                                         
@@ -161,6 +190,11 @@
                                             // 处理数据
                                             NSArray *data = (NSArray *)response[@"data"];
                                             [self dataProcess:data];
+                                        } else {
+                                            // 没有动态
+                                            [SVProgressHUD dismiss];
+                                            [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
+                                            [self.seeTableView.infiniteScrollingView stopAnimating];
                                         }
                                         
                                     } failure:^(NSError *err) {
@@ -193,44 +227,28 @@
         [seeTempArr addObject:layout];
     }
     
-    // 保存一下
-    [self.seeModelList addObjectsFromArray:seeTempArr];
-    self.seeTableView.seeLayoutList = self.seeModelList;
-    self.seeTableView.headImageUrl = _headImageUrl;
-    self.seeTableView.nickname = _nickname;
-    [self.seeTableView reloadData];
-    
-    // 结束下拉刷新、上拉加载
     if (_dataTag == 0) {
+        self.seeModelList = seeTempArr;
         [self.seeTableView.pullToRefreshView stopAnimating];
+        self.seeTableView.seeLayoutList = self.seeModelList;
+        self.seeTableView.headImageUrl = _headImageUrl;
+        self.seeTableView.nickname = _nickname;
+        [self.seeTableView reloadData];
     } else {
+        [self.seeModelList addObjectsFromArray:seeTempArr];
         [self.seeTableView.infiniteScrollingView stopAnimating];
+        self.seeTableView.seeLayoutList = self.seeModelList;
+        self.seeTableView.headImageUrl = _headImageUrl;
+        self.seeTableView.nickname = _nickname;
+        [self.seeTableView reloadData];
     }
     
-    // 创建一个若引用的self在block中调用方法，防止循环引用
-    __weak PersonAboutController *weakSelf = self;
-    [self.seeTableView addPullDownRefreshBlock:^{
-        @synchronized (weakSelf) {
-            // 下拉刷新
-            [weakSelf reloadData];
-        }
-        
-    }];
     
-    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
-        @synchronized (weakSelf) {
-            // 上拉加载
-            [weakSelf downloadData];
-        }
-    }];
     
     
     
     
 }
-
-
-
 
 
 

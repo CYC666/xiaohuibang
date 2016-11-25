@@ -12,7 +12,10 @@
 #import "AFHttpTool.h"
 #import "RCDataBaseManager.h"
 
-#define RONGCLOUD_IM_APPKEY @"8w7jv4qb77oay"
+// 开发
+// #define RONGCLOUD_IM_APPKEY @"8w7jv4qb77oay"
+// 生产
+#define RONGCLOUD_IM_APPKEY @"82hegw5uhhrkx"
 
 @interface AppDelegate ()
 
@@ -57,19 +60,21 @@
     NSString *usrId = [USER_D objectForKey:@"user_id"];
     NSString *nickname =  [USER_D objectForKey:@"nickname"];
     NSString *headImg =  [USER_D objectForKey:@"head_img"];
-    
+
     NSString *token = [USER_D objectForKey:@"key_token"];
     
-    NSString *userPortraitUri = [USER_D objectForKey:@"userPortraitUri"];
-    NSString *userNickName = [USER_D objectForKey:@"userNickName"];
+//    NSString *userPortraitUri = [USER_D objectForKey:@"userPortraitUri"];
+//    NSString *userNickName = [USER_D objectForKey:@"userNickName"];
     
     NSLog(@"%@~~~~~~%@",nickname,headImg);
     
     if (usrId != nil) {
         RCUserInfo *_currentUserInfo = [[RCUserInfo alloc] initWithUserId:usrId
-                                                                     name:userPortraitUri
-                                                                 portrait:userNickName];
+                                                                     name:nickname
+                                                                 portrait:headImg];
         [RCIM sharedRCIM].currentUserInfo = _currentUserInfo;
+        
+        
         
         //登录融云服务器
         [[RCIM sharedRCIM] connectWithToken:token
@@ -79,11 +84,12 @@
                                             [RCDHTTPTOOL
                                              getUserInfoByUserID:userId
                                              completion:^(RCUserInfo *user) {
-                                                 [USER_D setObject:user.portraitUri
-                                                            forKey:@"userPortraitUri"];
-                                                 [USER_D setObject:user.name
-                                                            forKey:@"userNickName"];
-                                                 [USER_D synchronize];
+//                                                 [USER_D setObject:user.portraitUri
+//                                                            forKey:@"head_img"];
+//                                                 NSLog(@"%@", user.portraitUri);
+//                                                 [USER_D setObject:user.name
+//                                                            forKey:@"nickname"];
+//                                                 [USER_D synchronize];
                                                  [RCIMClient sharedRCIMClient].currentUserInfo =
                                                  user;
                                              }];

@@ -505,9 +505,6 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 #pragma mark - 移除通知
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HideCellInputView object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:reloadTableViewDataNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:DeleteRow object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
-
 }
 
 #pragma mark - 获取某视图所在的导航控制器
@@ -552,7 +549,7 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     // 添加长按手势，保存到本地
     UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(longPressAction:)];
-    longPre.minimumPressDuration = 3;
+    longPre.minimumPressDuration = 1.5;
     [imageView addGestureRecognizer:longPre];
     [scrollView addSubview:imageView];
     
@@ -560,6 +557,13 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     [UIView animateWithDuration:.35
                      animations:^{
                          scrollView.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         // 提示怎么保存图片
+                         static dispatch_once_t onceToken;
+                         dispatch_once(&onceToken, ^{
+                             [SVProgressHUD dismiss];
+                             [SVProgressHUD showSuccessWithStatus:@"长按自动将图片保存到本地"];
+                         });
                      }];
     
 
@@ -582,11 +586,10 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     // 长按手势会调用两次（开始、结束）
     if (longPre.state == UIGestureRecognizerStateBegan) {
         UIImageWriteToSavedPhotosAlbum([(UIImageView *)(longPre.view) image], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-    } else {
         // 直接将图片保存到本地
         [SVProgressHUD dismiss];
         [SVProgressHUD showSuccessWithStatus:@"已经将图片保存到本地"];
-    }
+    } 
     
     
 }

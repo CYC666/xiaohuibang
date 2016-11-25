@@ -83,7 +83,7 @@
             [[RCDataBaseManager shareInstance] insertUserToDB:userInfo];
             [[RCIM sharedRCIM] refreshUserInfoCache:userInfo
                                          withUserId:userInfo.userId];
-            [USER_D setObject:_userNameStr forKey:@"userNickName"];
+            [USER_D setObject:_userNameStr forKey:@"nickname"];
             [USER_D synchronize];
             
             [_userInfomationTableView reloadData];
@@ -246,12 +246,12 @@
             if ([code isEqualToNumber:@1]){
                 _userHeadImg = [[responseObject objectForKey:@"data"] objectForKey:@"head_img"];
                 
-                [USER_D setObject:_userHeadImg forKey:@"userPortraitUri"];
+                [USER_D setObject:_userHeadImg forKey:@"head_img"];
                 [USER_D synchronize];
                 RCUserInfo *user = [RCUserInfo new];
                 user.userId = [RCIM sharedRCIM].currentUserInfo.userId;
                 user.portraitUri = _userHeadImg;
-                user.name = [USER_D stringForKey:@"userNickName"];
+                user.name = [USER_D stringForKey:@"nickname"];
                 
                 [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:user.userId];
                 

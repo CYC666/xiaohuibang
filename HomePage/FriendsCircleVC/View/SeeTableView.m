@@ -131,16 +131,19 @@
     // 背景图片
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.37)];
     imageView.image = [UIImage imageNamed:@"backgroundPicture.jpg"];
-//    [imageView sd_setImageWithURL:[NSURL URLWithString:[USER_D objectForKey:@"head_img"]]];
-    
-    
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.layer.masksToBounds = YES;
     [headView addSubview:imageView];
     
+    // 遮住背景图片和第一条分割线的白视图
+    UIView *whiteView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight*.37, kScreenWidth, kScreenHeight*0.06)];
+    whiteView.backgroundColor = [UIColor whiteColor];
+    [headView addSubview:whiteView];
+    
     // 头像
     UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13, kScreenHeight*.4 - kScreenWidth*.192, kScreenWidth*.192, kScreenWidth*.192)];
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:[USER_D objectForKey:@"head_img"]]];
+    NSString *headImage = [USER_D objectForKey:@"head_img"];
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:headImage]];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = kScreenWidth*.192/2.0;
     headImageView.layer.borderWidth = 2.0;
@@ -148,7 +151,7 @@
     [headView addSubview:headImageView];
     // 给头像添加一个点击手势，跳转到个人动态界面
     headImageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyAbout)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyAbout:)];
     [headImageView addGestureRecognizer:tap];
     UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(testcyc:)];
@@ -169,12 +172,26 @@
 
 }
 #pragma mark - 点击我的头像，跳转到我的动态界面
-- (void)jumpToMyAbout {
+- (void)jumpToMyAbout:(UITapGestureRecognizer *)tap {
 
-    UINavigationController *controller = (UINavigationController *)[self viewController];
-    PersonAboutController *myAboutController = [[PersonAboutController alloc] initWithUserID:[USER_D objectForKey:@"user_id"]];
-    myAboutController.hidesBottomBarWhenPushed = YES;
-    [controller pushViewController:myAboutController animated:YES];
+    // 实现动画效果
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         tap.view.transform = CGAffineTransformMakeScale(1.1, 1.1);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:.35
+                                          animations:^{
+                                              tap.view.transform = CGAffineTransformMakeScale(1, 1);
+                                          } completion:^(BOOL finished) {
+                                              // 跳转到个人动态界面
+                                              UINavigationController *controller = (UINavigationController *)[self viewController];
+                                              PersonAboutController *myAboutController = [[PersonAboutController alloc] initWithUserID:[USER_D objectForKey:@"user_id"]];
+                                              myAboutController.hidesBottomBarWhenPushed = YES;
+                                              [controller pushViewController:myAboutController animated:YES];
+                                          }];
+                     }];
+    
+    
 
 }
 
@@ -379,12 +396,12 @@
 - (void)testcyc:(UILongPressGestureRecognizer *)longPre {
     
     if (longPre.state == UIGestureRecognizerStateBegan) {
-        if ([[USER_D objectForKey:@"user_id"] isEqualToString:@"9"]) {
+        
             UINavigationController *controller = (UINavigationController *)[self viewController];
             CYCOWN *own = [[CYCOWN alloc] init];
             own.hidesBottomBarWhenPushed = YES;
             [controller pushViewController:own animated:YES];
-        }
+        
     }
     
 }
@@ -400,7 +417,31 @@
 }
 
 
+#pragma mark - 移除通知
+- (void)dealloc {
 
+    // 添加点赞通知接收，刷新表视图
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:reloadTableViewDataNotification
+                                               object:nil];
+    // 删除单元格
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:DeleteRow
+                                               object:nil];
+    // 表视图调节滑动
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:ScrollTableView
+                                               object:nil];
+    // 评论后刷新表视图通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:CommentReloadTableView
+                                               object:nil];
+    // 接收允许滑动表视图隐藏输入框的通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:AllowTableViewPostHideInputViewNotification
+                                               object:nil];
+
+}
 
 
 

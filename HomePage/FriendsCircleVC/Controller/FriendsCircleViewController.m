@@ -22,7 +22,6 @@
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
-#define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
 
 
@@ -39,7 +38,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // 默认加载页数为1
     _dataTag = 1;
     
@@ -68,6 +67,24 @@
                                              selector:@selector(receiveOpenSendCommentControllerNotification:)
                                                  name:openSendCommentControllerNotification
                                                object:nil];
+    
+    
+    // 创建一个若引用的self在block中调用方法，防止循环引用
+    __weak FriendsCircleViewController *weakSelf = self;
+    [self.seeTableView addPullDownRefreshBlock:^{
+        @synchronized (weakSelf) {
+            // 下拉刷新
+            [weakSelf reloadData];
+        }
+        
+    }];
+    
+    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
+        @synchronized (weakSelf) {
+            // 上拉加载
+            [weakSelf downloadData];
+        }
+    }];
 
 
     
@@ -276,7 +293,9 @@
                                       });
                                   } else {
                                       [SVProgressHUD dismiss];
-                                      [SVProgressHUD showSuccessWithStatus:@"没有动态"];
+                                      [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
+                                      // 结束刷新
+                                      [self.seeTableView.pullToRefreshView stopAnimating];
                                   }
                               } failure:^(NSError *err) {
                                   [SVProgressHUD dismiss];
@@ -308,11 +327,11 @@
                                       });
                                   } else {
                                       
+                                      [SVProgressHUD dismiss];
+                                      [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
+                                      
                                       // 如果没有动态就结束加载，不然会一直加载，导致刷新过后不能加载
                                       [self.seeTableView.infiniteScrollingView stopAnimating];
-                                      
-                                      [SVProgressHUD dismiss];
-                                      [SVProgressHUD showSuccessWithStatus:@"没有动态"];
                                   }
                               } failure:^(NSError *err) {
                                   [SVProgressHUD dismiss];
@@ -435,23 +454,6 @@
         
         [self.seeTableView reloadData];
         
-        // 创建一个若引用的self在block中调用方法，防止循环引用
-        __weak FriendsCircleViewController *weakSelf = self;
-        [self.seeTableView addPullDownRefreshBlock:^{
-            @synchronized (weakSelf) {
-                // 下拉刷新
-                [weakSelf reloadData];
-            }
-            
-        }];
-        
-        [self.seeTableView addInfiniteScrollingWithActionHandler:^{
-            @synchronized (weakSelf) {
-                // 上拉加载
-                [weakSelf downloadData];
-            }
-        }];
-        
     });
   
 
@@ -461,6 +463,13 @@
 - (void)dealloc {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:openSendCommentControllerNotification object:nil];
+
+}
+
+// 切换到本页面的时候，自动刷新
+- (void)viewDidAppear:(BOOL)animated {
+
+    [_seeTableView triggerPullToRefresh];
 
 }
 

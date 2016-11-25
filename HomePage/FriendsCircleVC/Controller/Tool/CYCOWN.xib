@@ -21,6 +21,15 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kfc-hM-ckl">
+                    <rect key="frame" x="0.0" y="199" width="375" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="KKl-Cm-OKd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="97S-fR-wSa">
                     <rect key="frame" x="158" y="80" width="60" height="30"/>
                     <color key="backgroundColor" red="0.64346688625796533" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
@@ -45,22 +54,13 @@
                         <action selector="seek:" destination="-1" eventType="touchUpInside" id="Ndu-VO-nTE"/>
                     </connections>
                 </button>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kfc-hM-ckl">
-                    <rect key="frame" x="0.0" y="314" width="375" height="353"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="353" id="Vu3-Vi-CFm"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
             </subviews>
             <color key="backgroundColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="kfc-hM-ckl" secondAttribute="trailing" id="8b4-x3-VFF"/>
+                <constraint firstAttribute="trailing" secondItem="kfc-hM-ckl" secondAttribute="trailing" id="1oo-dI-5OD"/>
+                <constraint firstItem="kfc-hM-ckl" firstAttribute="top" secondItem="WqH-cw-t0c" secondAttribute="bottom" constant="35" id="3zC-2e-Pwy"/>
+                <constraint firstItem="kfc-hM-ckl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CaN-cZ-iib"/>
                 <constraint firstItem="WqH-cw-t0c" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="DCR-DA-Jn1"/>
-                <constraint firstItem="kfc-hM-ckl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Scn-hH-o0u"/>
-                <constraint firstAttribute="bottom" secondItem="kfc-hM-ckl" secondAttribute="bottom" id="YzU-8U-l4O"/>
                 <constraint firstItem="97S-fR-wSa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="dSt-lo-ryk"/>
                 <constraint firstItem="97S-fR-wSa" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="maT-Os-jDY"/>
                 <constraint firstItem="WqH-cw-t0c" firstAttribute="top" secondItem="97S-fR-wSa" secondAttribute="bottom" constant="24" id="wbt-yE-BOo"/>
