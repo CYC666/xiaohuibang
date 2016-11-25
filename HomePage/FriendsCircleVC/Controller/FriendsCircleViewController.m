@@ -464,6 +464,10 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:openSendCommentControllerNotification object:nil];
 
+    // 必须将上拉加载下拉刷新移除
+    self.seeTableView.showsPullToRefresh = NO;
+    self.seeTableView.showsInfiniteScrolling = NO;
+    
 }
 
 // 切换到本页面的时候，自动刷新

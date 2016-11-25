@@ -73,21 +73,21 @@
     
     
     // 创建一个若引用的self在block中调用方法，防止循环引用
-//    __weak PersonAboutController *weakSelf = self;
-//    [self.seeTableView addPullDownRefreshBlock:^{
-//        @synchronized (weakSelf) {
-//            // 下拉刷新
-//            [weakSelf reloadData];
-//        }
-//        
-//    }];
-//    
-//    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
-//        @synchronized (weakSelf) {
-//            // 上拉加载
-//            [weakSelf downloadData];
-//        }
-//    }];
+    __weak PersonAboutController *weakSelf = self;
+    [self.seeTableView addPullDownRefreshBlock:^{
+        @synchronized (weakSelf) {
+            // 下拉刷新
+            [weakSelf reloadData];
+        }
+        
+    }];
+    
+    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
+        @synchronized (weakSelf) {
+            // 上拉加载
+            [weakSelf downloadData];
+        }
+    }];
 
     
 }
@@ -134,7 +134,7 @@
                                             // 没有动态
                                             [SVProgressHUD dismiss];
                                             [SVProgressHUD showSuccessWithStatus:@"没有动态"];
-                                            //[self.seeTableView.pullToRefreshView stopAnimating];
+                                            [self.seeTableView.pullToRefreshView stopAnimating];
                                         }
                                         
                                     } failure:^(NSError *err) {
@@ -272,7 +272,12 @@
 
 
 
+- (void)dealloc {
 
+    self.seeTableView.showsPullToRefresh = NO;
+    self.seeTableView.showsInfiniteScrolling = NO;
+
+}
 
 
 
