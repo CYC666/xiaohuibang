@@ -79,9 +79,19 @@
 
     if (_willPushImageView == nil) {
         // 控制位置
-        _willPushImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, kScreenHeight - 300, 80, 80)];
+        _willPushImageView = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth - 240)/2.0, kScreenHeight-240, 240, 240)];
         _willPushImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _willPushImageView.userInteractionEnabled = YES;
         [self.view addSubview:_willPushImageView];
+        
+        // 给图片添加点击手势，点击图片后将图片删除
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteImage:)];
+        tap.numberOfTapsRequired = 2;
+        [_willPushImageView addGestureRecognizer:tap];
+        
+        // 提示双指点击可删除
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"双击图片可删除"];
         
     }
     return _willPushImageView;
@@ -305,6 +315,15 @@
     }
 
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"此功能还没开放呢"];
+    }
+    
+}
+
 
 #pragma mark - 输入框下面按钮的点击响应
 - (void)moreOptionButtonAction:(UIButton *)button {
@@ -317,9 +336,11 @@
         // 打开系统相册
         [self openSystemPicture];
     } else if (num == 2) {
-        [self presentViewController:[[FromCameraController alloc] init]
-                           animated:YES
-                         completion:nil];
+//        [self presentViewController:[[FromCameraController alloc] init]
+//                           animated:YES
+//                         completion:nil];
+        // 打开摄像头
+        [self openSystemCamare];
     } else if (num == 3) {
         [self openLocation];
     }
@@ -369,6 +390,16 @@
     
 }
 
+#pragma mark - 打开摄像头
+- (void)openSystemCamare {
+
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePickerController.delegate = self;
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+
+}
+
 #pragma mark - imagePicker代理方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
 
@@ -380,7 +411,12 @@
         self.willPushPhoto = image;
         self.willPushImageView.image = image;
         
+    } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        self.willPushPhoto = image;
+        self.willPushImageView.image = image;
     }
+    
     //关闭,返回
     [picker dismissViewControllerAnimated:YES completion:^{
         [SVProgressHUD dismiss];
@@ -436,7 +472,12 @@
     [self.navigationController pushViewController:locationCtrl animated:YES];
 
 }
+#pragma mark - 删除即将上传的照片
+- (void)deleteImage:(UITapGestureRecognizer *)tap {
 
+    _willPushImageView.image = nil;
+
+}
 
 
 

@@ -14,6 +14,7 @@
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
+#define kHeadImageSize kScreenWidth*.192    // 头像大小
 
 @interface PersonSeeTableView () {
 
@@ -89,18 +90,22 @@
     [headView addSubview:whiteView];
     
     // 头像
-    UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13, kScreenHeight*.4 - kScreenWidth*.192, kScreenWidth*.192, kScreenWidth*.192)];
+    UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth - kHeadImageSize)/2.0,
+                                                                               (kScreenHeight*.4 - kHeadImageSize)/2.0, kHeadImageSize, kHeadImageSize)];
     [headImageView sd_setImageWithURL:[NSURL URLWithString:_headImageUrl]];
     headImageView.layer.masksToBounds = YES;
-    headImageView.layer.cornerRadius = kScreenWidth*.192/2.0;
+    headImageView.layer.cornerRadius = kHeadImageSize/2.0;
     headImageView.layer.borderWidth = 2.0;
     headImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     [headView addSubview:headImageView];
     // 给头像添加一个手势，跳转到个人信息界面
     
     // 昵称
-    UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - 100, kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15, 100, 30)];
+    UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0,
+                                                                  (kScreenHeight*.4 - kHeadImageSize)/2.0 + kHeadImageSize,
+                                                                  100, 30)];
     nickName.text = _nickname;
+    nickName.textAlignment = NSTextAlignmentCenter;
     nickName.textColor = [UIColor whiteColor];
     nickName.font = [UIFont systemFontOfSize:17];
     [headView addSubview:nickName];

@@ -44,7 +44,7 @@
     
     self.navigationController.navigationBar.translucent = NO;
     
-    self.view.backgroundColor = [UIColor colorWithRed:66/255.0 green:66/255.0 blue:66/255.0 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
     title.text = @"邦友圈";
     title.textAlignment = NSTextAlignmentCenter;
@@ -95,6 +95,7 @@
 
     if (_seeTableView == nil) {
         _seeTableView = [[SeeTableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
+        _seeTableView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:_seeTableView];
     }
     return _seeTableView;

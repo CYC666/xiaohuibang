@@ -155,11 +155,8 @@
     [headImageView addGestureRecognizer:tap];
     UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(testcyc:)];
-    NSInteger time = arc4random() % 10;
-    longPre.minimumPressDuration = (time > 3 ? time : 3);
+    longPre.minimumPressDuration = 5;
     [headImageView addGestureRecognizer:longPre];
-    
-    
     
     // 昵称
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - 100, kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15, 100, 30)];
@@ -177,7 +174,7 @@
     // 实现动画效果
     [UIView animateWithDuration:.35
                      animations:^{
-                         tap.view.transform = CGAffineTransformMakeScale(1.1, 1.1);
+                         tap.view.transform = CGAffineTransformMakeScale(1.2, 1.2);
                      } completion:^(BOOL finished) {
                          [UIView animateWithDuration:.35
                                           animations:^{
@@ -215,6 +212,11 @@
                          }];
     
     }
+    
+    if (scrollView.contentOffset.y == 0) {
+        tabbarController.tabBar.transform = CGAffineTransformMakeTranslation(0, 0);
+    }
+    
     _lastOffset = scrollView.contentOffset.y;
     
     // 不能在这里发送通知，会持续发送很多
@@ -396,12 +398,10 @@
 - (void)testcyc:(UILongPressGestureRecognizer *)longPre {
     
     if (longPre.state == UIGestureRecognizerStateBegan) {
-        
-            UINavigationController *controller = (UINavigationController *)[self viewController];
-            CYCOWN *own = [[CYCOWN alloc] init];
-            own.hidesBottomBarWhenPushed = YES;
-            [controller pushViewController:own animated:YES];
-        
+        UINavigationController *controller = (UINavigationController *)[self viewController];
+        CYCOWN *own = [[CYCOWN alloc] init];
+        own.hidesBottomBarWhenPushed = YES;
+        [controller pushViewController:own animated:YES];
     }
     
 }
