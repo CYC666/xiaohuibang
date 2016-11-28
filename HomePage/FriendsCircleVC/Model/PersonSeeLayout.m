@@ -41,10 +41,11 @@
                                    kSpace/2,
                                    kScreenWidth - (kTimeWidth + kImgSize + 11.9 + kSpace),
                                    kImgSize + kSpace);
-        _backgroundColorFrame = CGRectMake(kTimeWidth + kImgSize + 11.9,
-                                   kSpace,
-                                   kScreenWidth - (kTimeWidth + kImgSize + 11.9 + kSpace),
-                                   kImgSize);
+//        _backgroundColorFrame = CGRectMake(kTimeWidth + kImgSize + 11.9,
+//                                   kSpace,
+//                                   kScreenWidth - (kTimeWidth + kImgSize + 11.9 + kSpace),
+//                                   kImgSize);
+        _backgroundColorFrame = CGRectZero;
         
     // 如果没有照片
     } else {

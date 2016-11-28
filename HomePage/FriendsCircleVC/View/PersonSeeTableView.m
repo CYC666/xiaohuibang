@@ -11,6 +11,7 @@
 #import <UIImageView+WebCache.h>
 #import "PersonSeeLayout.h"
 #import "PersonSeeModel.h"
+#import "RCDPersonDetailViewController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -98,8 +99,11 @@
     headImageView.layer.cornerRadius = kHeadImageSize/2.0;
     headImageView.layer.borderWidth = 2.0;
     headImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    headImageView.userInteractionEnabled = YES;
     [headView addSubview:headImageView];
     // 给头像添加一个手势，跳转到个人信息界面
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToPersonDetail:)];
+    [headImageView addGestureRecognizer:tap];
     
     // 昵称
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0,
@@ -142,9 +146,57 @@
 
 }
 
+#pragma mark - 点击头像跳转
+- (void)jumpToPersonDetail:(UITapGestureRecognizer *)tap {
 
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         tap.view.transform = CGAffineTransformMakeTranslation(0, -20);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:.35
+                                          animations:^{
+                                              tap.view.transform = CGAffineTransformMakeTranslation(0, 0);
+                                          } completion:^(BOOL finished) {
+                                              [UIView animateWithDuration:.35
+                                                               animations:^{
+                                                                   tap.view.transform = CGAffineTransformMakeTranslation(0, -20);
+                                                               } completion:^(BOOL finished) {
+                                                                   [UIView animateWithDuration:.35
+                                                                                    animations:^{
+                                                                                        tap.view.transform = CGAffineTransformMakeTranslation(0, 0);
+                                                                                    } completion:^(BOOL finished) {
+                                                                                        
+                                                                                        
+        // 跳转到个人信息界面
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        RCDPersonDetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"RCDPersonDetailViewController"];
+        detailViewController.userId = _user_id;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UINavigationController *nav = (UINavigationController *)[self viewController];
+            [nav pushViewController:detailViewController animated:YES];
+        });
 
+                                                                                        
+                                                                                        
+                                                                                    }];
+                                                               }];
+                                          }];
+                     }];
+    
+    
 
+}
+
+#pragma mark - 获取某视图所在的导航控制器
+- (UIViewController *)viewController {
+    for (UIView *next = [self superview]; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UINavigationController class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
 
 
 

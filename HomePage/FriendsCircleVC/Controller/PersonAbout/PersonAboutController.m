@@ -70,10 +70,12 @@
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
     
-    [self.navigationItem.backBarButtonItem setTitle:@"邦友圈"];
-    
-    
-    
+    // 导航栏右边的按钮
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_search"]
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(searchButtonAction:)];
+    [self.navigationItem setRightBarButtonItem:rightItem];
     
     // 创建一个若引用的self在block中调用方法，防止循环引用
     __weak PersonAboutController *weakSelf = self;
@@ -237,6 +239,7 @@
         self.seeModelList = seeTempArr;
         [self.seeTableView.pullToRefreshView stopAnimating];
         self.seeTableView.seeLayoutList = self.seeModelList;
+        self.seeTableView.user_id = _user_id;
         self.seeTableView.headImageUrl = _headImageUrl;
         self.seeTableView.nickname = _nickname;
         [self.seeTableView reloadData];
@@ -244,6 +247,7 @@
         [self.seeModelList addObjectsFromArray:seeTempArr];
         [self.seeTableView.infiniteScrollingView stopAnimating];
         self.seeTableView.seeLayoutList = self.seeModelList;
+        self.seeTableView.user_id = _user_id;
         self.seeTableView.headImageUrl = _headImageUrl;
         self.seeTableView.nickname = _nickname;
         [self.seeTableView reloadData];
@@ -258,7 +262,11 @@
 
 
 #pragma mark - 导航栏按钮响应
+- (void)searchButtonAction:(UIBarButtonItem *)item {
 
+
+
+}
 
 
 
