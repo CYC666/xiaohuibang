@@ -14,7 +14,7 @@
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
-#define kHeadImageSize kScreenWidth*.192    // 头像大小
+#define kHeadImageSize kScreenWidth*0.23    // 头像大小
 
 @interface PersonSeeTableView () {
 
@@ -33,6 +33,7 @@
     if (self != nil) {
         self.delegate = self;
         self.dataSource = self;
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return self;
 
@@ -51,16 +52,16 @@
 
     PersonSeeCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"PersonSeeCell" owner:nil options:nil] lastObject];
     PersonSeeLayout *layout = _seeLayoutList[indexPath.row];
-    PersonSeeModel *model = layout.personSeeModel;
-    cell.textLabel.numberOfLines = 0;
-    cell.textLabel.text = model.content;
+    cell.personSeeModelLayout = layout;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return 100;
+    PersonSeeLayout *layout = _seeLayoutList[indexPath.row];
+    return layout.cellHeight;
 
 }
 

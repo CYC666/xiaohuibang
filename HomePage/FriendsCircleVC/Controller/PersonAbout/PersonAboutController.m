@@ -70,6 +70,9 @@
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
     
+    [self.navigationItem.backBarButtonItem setTitle:@"邦友圈"];
+    
+    
     
     
     // 创建一个若引用的self在block中调用方法，防止循环引用
@@ -98,6 +101,7 @@
 
     if (_seeTableView == nil) {
         _seeTableView = [[PersonSeeTableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
+        _seeTableView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:_seeTableView];
     }
     return _seeTableView;
@@ -221,6 +225,7 @@
         model.content = dic[@"content"];
         model.about_img = dic[@"about_img"];
         model.create_time = dic[@"create_time"];
+        model.thumb_img = dic[@"thumb_img"];
         
         PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
         layout.personSeeModel = model;
@@ -252,7 +257,7 @@
 }
 
 
-
+#pragma mark - 导航栏按钮响应
 
 
 

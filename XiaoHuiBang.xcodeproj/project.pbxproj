@@ -191,7 +191,6 @@
 		F348D6161DBF4A150034D0C2 /* RCDPrivateSettingsUserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F348D6111DBF4A150034D0C2 /* RCDPrivateSettingsUserInfoCell.m */; };
 		F348D6171DBF4A150034D0C2 /* RCDPrivateSettingsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F348D6131DBF4A150034D0C2 /* RCDPrivateSettingsCell.m */; };
 		F348D6181DBF4A150034D0C2 /* RCDPrivateSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F348D6151DBF4A150034D0C2 /* RCDPrivateSettingsTableViewController.m */; };
-		F34BC84C1DCB13D000C1BEFA /* icon_app.png in Resources */ = {isa = PBXBuildFile; fileRef = F34BC84B1DCB13D000C1BEFA /* icon_app.png */; };
 		F34FE6951DBB5CF00054C5AD /* UITabBar+badge.m in Sources */ = {isa = PBXBuildFile; fileRef = F34FE6931DBB5CF00054C5AD /* UITabBar+badge.m */; };
 		F34FE69A1DBB7D210054C5AD /* RCDChatListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F34FE6981DBB7D210054C5AD /* RCDChatListCell.m */; };
 		F34FE69D1DBB7DF90054C5AD /* RCDUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F34FE69C1DBB7DF90054C5AD /* RCDUserInfo.m */; };
@@ -626,7 +625,6 @@
 		F348D6131DBF4A150034D0C2 /* RCDPrivateSettingsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDPrivateSettingsCell.m; sourceTree = "<group>"; };
 		F348D6141DBF4A150034D0C2 /* RCDPrivateSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDPrivateSettingsTableViewController.h; sourceTree = "<group>"; };
 		F348D6151DBF4A150034D0C2 /* RCDPrivateSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDPrivateSettingsTableViewController.m; sourceTree = "<group>"; };
-		F34BC84B1DCB13D000C1BEFA /* icon_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_app.png; sourceTree = "<group>"; };
 		F34FE6931DBB5CF00054C5AD /* UITabBar+badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+badge.m"; sourceTree = "<group>"; };
 		F34FE6941DBB5CF00054C5AD /* UITabBar+badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+badge.h"; sourceTree = "<group>"; };
 		F34FE6981DBB7D210054C5AD /* RCDChatListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDChatListCell.m; sourceTree = "<group>"; };
@@ -1396,7 +1394,6 @@
 				F334F4971DCC5CF5002CFBBC /* 图层-2@3x.png */,
 				F3ACCB401DC9C32B002355AC /* saoyisao@3x.png */,
 				F3ACCB411DC9C32B002355AC /* saoyisao@2x.png */,
-				F34BC84B1DCB13D000C1BEFA /* icon_app.png */,
 				F334F4A21DCC5FB5002CFBBC /* pic_add@2x.png */,
 				F334F4A31DCC5FB5002CFBBC /* pic_add@3x.png */,
 				F334F4A41DCC5FB5002CFBBC /* pic_delete@2x.png */,
@@ -2058,7 +2055,6 @@
 				F30947881DD3409500638827 /* alpha50@2x.png in Resources */,
 				F3F478CE1DDFE3C500E21E97 /* FromCameraController.xib in Resources */,
 				F306DE841DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib in Resources */,
-				F34BC84C1DCB13D000C1BEFA /* icon_app.png in Resources */,
 				F39FD7621DDDBA9F00D3724C /* pic_loading@3x.png in Resources */,
 				F39FD7611DDDBA9F00D3724C /* icon_comment@2x.png in Resources */,
 				F30947451DD33EAE00638827 /* icon_album@2x.png in Resources */,

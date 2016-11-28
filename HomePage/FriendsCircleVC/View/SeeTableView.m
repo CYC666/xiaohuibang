@@ -153,10 +153,13 @@
     headImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyAbout:)];
     [headImageView addGestureRecognizer:tap];
-    UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                          action:@selector(testcyc:)];
-    longPre.minimumPressDuration = 5;
-    [headImageView addGestureRecognizer:longPre];
+    if ([[USER_D objectForKey:@"user_id"] isEqualToString:@"曹老师"]) {
+        UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                              action:@selector(testcyc:)];
+        [headImageView addGestureRecognizer:longPre];
+
+    }
+    
     
     // 昵称
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - 100, kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15, 100, 30)];
