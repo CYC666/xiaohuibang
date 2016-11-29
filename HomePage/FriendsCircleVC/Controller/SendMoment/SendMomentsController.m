@@ -90,8 +90,12 @@
         [_willPushImageView addGestureRecognizer:tap];
         
         // 提示双指点击可删除
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"双击图片可删除"];
+        NSString *result = [USER_D objectForKey:@"双击图片可删除"];
+        if (result == nil) {
+            [SVProgressHUD dismiss];
+            [SVProgressHUD showSuccessWithStatus:@"双击图片可删除"];
+            [USER_D setObject:@"已经提示过" forKey:@"双击图片可删除"];
+        }
         
     }
     return _willPushImageView;

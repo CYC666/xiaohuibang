@@ -12,6 +12,7 @@
 #import "PersonSeeLayout.h"
 #import "PersonSeeModel.h"
 #import "RCDPersonDetailViewController.h"
+#import "AboutWithImageController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -105,6 +106,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToPersonDetail:)];
     [headImageView addGestureRecognizer:tap];
     
+    /*
     // 昵称
     UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0,
                                                                   (kScreenHeight*.4 - kHeadImageSize)/2.0 + kHeadImageSize,
@@ -114,10 +116,32 @@
     nickName.textColor = [UIColor whiteColor];
     nickName.font = [UIFont systemFontOfSize:17];
     [headView addSubview:nickName];
+    */
     
     return headView;
 
 }
+// 点击单元格跳转
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    PersonSeeLayout *modelLayout = _seeLayoutList[indexPath.row];
+    
+    // 如果没有图片
+    if ([modelLayout.personSeeModel.about_img isEqualToString:@"0"]) {
+    
+        
+        
+    // 有图片
+    } else {
+    
+        AboutWithImageController *controller = [[AboutWithImageController alloc] initWithPersonModel:modelLayout.personSeeModel];
+        UINavigationController *selfNav = (UINavigationController *)[self viewController];
+        [selfNav pushViewController:controller animated:YES];
+    
+    }
+
+}
+
 // 头视图下拉放大的效果
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 

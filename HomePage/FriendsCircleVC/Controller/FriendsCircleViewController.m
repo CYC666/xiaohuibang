@@ -23,7 +23,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
-
+#define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"  // 修改导航栏不透明的通知
 
 
 @interface FriendsCircleViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -43,6 +43,12 @@
     _dataTag = 1;
     
     self.navigationController.navigationBar.translucent = NO;
+    // 监听修改导航栏透明的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notigicationOfSelfTranslucent:)
+                                                 name:NotigicationOfSelfTranslucent
+                                               object:nil];
+    
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] init];
     backItem.title = @"邦友圈";
     self.navigationItem.backBarButtonItem = backItem;
@@ -385,6 +391,13 @@
 
 }
 
+#pragma mark - 接收修改导航栏不透明的通知
+- (void)notigicationOfSelfTranslucent:(NSNotification *)notification {
+
+    self.navigationController.navigationBar.translucent = NO;
+
+}
+
 #pragma mark - 处理动态数据
 - (void)loadData:(id)data {
     
@@ -467,7 +480,7 @@
 - (void)dealloc {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:openSendCommentControllerNotification object:nil];
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NotigicationOfSelfTranslucent object:nil];
     // 必须将上拉加载下拉刷新移除
     self.seeTableView.showsPullToRefresh = NO;
     self.seeTableView.showsInfiniteScrolling = NO;

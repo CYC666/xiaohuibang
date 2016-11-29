@@ -570,11 +570,13 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
                          scrollView.alpha = 1;
                      } completion:^(BOOL finished) {
                          // 提示怎么保存图片
-                         static dispatch_once_t onceToken;
-                         dispatch_once(&onceToken, ^{
+                         NSString *result = [USER_D objectForKey:@"长按自动将图片保存到本地"];
+                         if (result == nil) {
                              [SVProgressHUD dismiss];
                              [SVProgressHUD showSuccessWithStatus:@"长按自动将图片保存到本地"];
-                         });
+                             [USER_D setObject:@"已经提示过" forKey:@"长按自动将图片保存到本地"];
+                         }
+
                      }];
     
 

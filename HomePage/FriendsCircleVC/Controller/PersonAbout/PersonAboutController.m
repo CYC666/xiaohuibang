@@ -64,12 +64,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-    title.text = @"动态";
-    title.textAlignment = NSTextAlignmentCenter;
-    title.textColor = [UIColor whiteColor];
-    self.navigationItem.titleView = title;
-    
     // 导航栏右边的按钮
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_search"]
                                                                   style:UIBarButtonItemStylePlain
@@ -125,6 +119,14 @@
     self.user_id = data[@"id"];
     self.nickname = data[@"nickname"];
     self.headImageUrl = data[@"head_img"];
+    
+    // 设置导航栏标题（在viewDidLoad中设置的话，会超前使用_nickname，导致没有显示内容）
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, 2, 100, 40)];
+    title.text = _nickname;
+    title.font = [UIFont systemFontOfSize:17];
+    title.textAlignment = NSTextAlignmentCenter;
+    title.textColor = [UIColor whiteColor];
+    self.navigationItem.titleView = title;
     
     // 获取动态
     NSDictionary *params = @{@"user_id" : _user_id,
