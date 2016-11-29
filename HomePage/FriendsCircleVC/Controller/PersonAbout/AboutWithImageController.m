@@ -12,6 +12,11 @@
 
 #import "AboutWithImageController.h"
 #import <UIImageView+WebCache.h>
+#import "CNetTool.h"
+#import <SVProgressHUD.h>
+#import "PraiseModel.h"
+#import "AveluateModel.h"
+
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -33,14 +38,57 @@
 
 @implementation AboutWithImageController
 
-- (instancetype)initWithPersonModel:(PersonSeeModel *)model {
+
+- (instancetype)initWithUserID:(NSString *)userID
+                       aboutID:(NSString *)aboutID {
 
     self = [super init];
     if (self != nil) {
-        self.personModel = model;
+        // 请求单条动态
+        NSDictionary *params = @{@"user_id":userID,
+                                 @"about_id":aboutID};
+        [CNetTool loadOneAboutWithParameters:params
+                                     success:^(id response) {
+                                         if ([response[@"msg"] isEqual:@1]) {
+                                             NSDictionary *dic = response[@"data"];
+                                             self.seeModel.about_id = dic[@"id"];
+                                             self.seeModel.user_id = dic[@"user_id"];
+                                             self.seeModel.nickname = dic[@"nickname"];
+                                             self.seeModel.head_img = dic[@"head_img"];
+                                             self.seeModel.content = dic[@"content"];
+                                             self.seeModel.about_img = dic[@"about_img"];
+                                             self.seeModel.thumb_img = dic[@"thumb_img"];
+                                             self.seeModel.create_time = dic[@"create_time"];
+                                             NSMutableArray *praiseTempArr = [NSMutableArray array];
+                                             for (NSDictionary *praiseDic in dic[@"praise"]) {
+                                                 PraiseModel *praiseModel = [[PraiseModel alloc] init];
+                                                 praiseModel.nickname = praiseDic[@"nickname"];
+                                                 praiseModel.user_id = praiseDic[@"user_id"];
+                                                 [praiseTempArr addObject:praiseModel];
+                                             }
+                                             self.seeModel.praise = praiseTempArr;
+                                             NSMutableArray *aveluateTempArr = [NSMutableArray array];
+                                             for (NSDictionary *aveluateDic in dic[@"aveluate"]) {
+                                                 AveluateModel *aveluateModel = [[AveluateModel alloc] init];
+                                                 aveluateModel.nickname = aveluateDic[@"nickname"];
+                                                 aveluateModel.user_id = aveluateDic[@"user_id"];
+                                                 aveluateModel.about_content = aveluateDic[@"about_content"];
+                                                 aveluateModel.eva_id = aveluateDic[@"eva_id"];
+                                                 [aveluateTempArr addObject:aveluateModel];
+                                             }
+                                             self.seeModel.aveluate = aveluateTempArr;
+                                             
+                                             // 接受到数据菜创建子视图
+                                             [self _creatSubview];
+                                             
+                                         } 
+                                     } failure:^(NSError *err) {
+                                         [SVProgressHUD dismiss];
+                                         [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                     }];
     }
     return self;
-    
+
 }
 #pragma mark - 懒加载
 - (UIImageView *)aboutImageView {
@@ -67,30 +115,22 @@
 
 }
 
+- (SeeModel *)seeModel {
+
+    if (_seeModel == nil) {
+        _seeModel = [[SeeModel alloc] init];
+    }
+    return _seeModel;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = _personModel.about_id;
+    // self.title = _personModel.about_id;
     self.view.backgroundColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     
-    
-    // 时间戳转换时间
-    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[_personModel.create_time integerValue]];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateStyle:NSDateFormatterMediumStyle];
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
-    [formatter setDateFormat:@"YYYY年MM月dd日 HH:mm:ss"];
-    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
-    
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-    title.text = confromTimespStr;
-    title.textAlignment = NSTextAlignmentCenter;
-    title.textColor = [UIColor whiteColor];
-    self.navigationItem.titleView = title;
-    
-    [self _creatSubview];
     
     // 监听键盘弹出的通知
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -106,8 +146,22 @@
 
 #pragma mark - 创建子视图
 - (void)_creatSubview {
+    
+    // 时间戳转换时间
+    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[_seeModel.create_time integerValue]];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY年MM月dd日 HH:mm:ss"];
+    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    title.text = confromTimespStr;
+    title.textAlignment = NSTextAlignmentCenter;
+    title.textColor = [UIColor whiteColor];
+    self.navigationItem.titleView = title;
 
-    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_personModel.about_img]];
+    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
 
     // 创建底部的按钮栏
     _tabView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 49, kScreenWidth, 49)];

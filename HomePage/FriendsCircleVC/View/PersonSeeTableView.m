@@ -134,7 +134,8 @@
     // 有图片
     } else {
     
-        AboutWithImageController *controller = [[AboutWithImageController alloc] initWithPersonModel:modelLayout.personSeeModel];
+        AboutWithImageController *controller = [[AboutWithImageController alloc] initWithUserID:modelLayout.personSeeModel.user_id
+                                                                                        aboutID:modelLayout.personSeeModel.about_id];
         UINavigationController *selfNav = (UINavigationController *)[self viewController];
         [selfNav pushViewController:controller animated:YES];
     

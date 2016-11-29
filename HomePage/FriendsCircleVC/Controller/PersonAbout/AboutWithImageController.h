@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "PersonSeeModel.h"
-
+#import "SeeModel.h"
 @interface AboutWithImageController : UIViewController
 
-@property (strong, nonatomic) PersonSeeModel *personModel;
-@property (strong, nonatomic) UIImageView *aboutImageView;  
+@property (strong, nonatomic) SeeModel *seeModel;
+@property (strong, nonatomic) UIImageView *aboutImageView;
 
-- (instancetype)initWithPersonModel:(PersonSeeModel *)model;
-
+- (instancetype)initWithUserID:(NSString *)userID
+                       aboutID:(NSString *)aboutID;
 
 @end

@@ -54,7 +54,10 @@
                         failure:(void (^)(NSError *err))failure;
 
 
-
+// 获取单条动态
++ (void)loadOneAboutWithParameters:(id)parameters
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure;
 
 
 
