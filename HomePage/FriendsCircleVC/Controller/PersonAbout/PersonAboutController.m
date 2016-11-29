@@ -24,12 +24,20 @@
 
 
 
-@interface PersonAboutController ()
+@interface PersonAboutController () <UITextFieldDelegate> {
+
+    UITextField *_input;     // 搜索框
+    UIImageView *_searchImage;// 搜索框里面的搜索图标
+    UILabel *_label;            // 搜索框里的显示文字
+    UIButton *_virtualButton;    // 搜索框出现后创建的背景按钮，点击以取消搜索
+
+}
 
 @property (strong, nonatomic) PersonSeeTableView *seeTableView;  // 个人动态表视图
 @property (strong, nonatomic) NSMutableArray *seeModelList;      // 储存动态的数组
 @property (assign, nonatomic) NSInteger dataTag;                 // 标志上拉加载下拉刷新
 @property (assign, nonatomic) NSInteger dataPage;                // 记录加载页数
+@property (strong, nonatomic) UIView *searchBar;                 // 搜索条
 
 @end
 
@@ -110,6 +118,62 @@
     }
     return _seeModelList;
     
+}
+- (UIView *)searchBar {
+
+    if (_searchBar == nil) {
+        
+        // 创建背景的点击按钮，点击隐藏搜索框
+        _virtualButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _virtualButton.frame = CGRectZero;
+        _virtualButton.backgroundColor = [UIColor colorWithRed:73/255.0 green:73/255.0 blue:73/255.0 alpha:1];
+        _virtualButton.alpha = 0;
+        [_virtualButton addTarget:self action:@selector(searchCancelAction:) forControlEvents:UIControlEventTouchUpInside];
+        [[UIApplication sharedApplication].keyWindow addSubview:_virtualButton];
+        
+        
+        _searchBar = [[UIView alloc] initWithFrame:CGRectMake(0, -64, kScreenWidth, 64)];
+        _searchBar.backgroundColor = [UIColor colorWithRed:217/255.0 green:222/255.0 blue:226/255.0 alpha:1];
+        [[UIApplication sharedApplication].keyWindow addSubview:_searchBar];
+        
+        UIView *virtualView = [[UIView alloc] initWithFrame:CGRectMake(7.5, 27.5, kScreenWidth - 7.5 - 55.5, 29)];
+        virtualView.backgroundColor = [UIColor whiteColor];
+        virtualView.layer.cornerRadius = 5;
+        virtualView.layer.borderWidth = .5;
+        virtualView.layer.borderColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1].CGColor;
+        [_searchBar addSubview:virtualView];
+        
+        // 搜索输入框
+        _input = [[UITextField alloc] initWithFrame:CGRectMake(15, 27.5, kScreenWidth - 55.5, 29)];
+        _input.borderStyle = UITextBorderStyleNone;
+        _input.delegate = self;
+        [_searchBar addSubview:_input];
+        
+        // 取消按钮
+        UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        cancelButton.frame = CGRectMake(kScreenWidth - 55.5, 27.5, 55.5, 29);
+        [cancelButton setTitleColor:[UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1]
+                           forState:UIControlStateNormal];
+        [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        [cancelButton addTarget:self action:@selector(searchCancelAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_searchBar addSubview:cancelButton];
+        
+        // 放大镜搜索图片
+        _searchImage = [[UIImageView alloc] initWithFrame:CGRectMake(23.5, 34, 17, 15.5)];
+        _searchImage.image = [UIImage imageNamed:@"icon_search_image"];
+        _searchImage.tag = 152;
+        [_searchBar addSubview:_searchImage];
+        // "搜索动态"
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(49, 35, 80, 14)];
+        _label.text = @"搜索动态";
+        _label.tag = 157;
+        _label.font = [UIFont systemFontOfSize:14];
+        _label.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        [_searchBar addSubview:_label];
+        
+    }
+    return _searchBar;
+
 }
 
 #pragma mark - 加载个人信息，然后在加载动态数据
@@ -266,15 +330,46 @@
 #pragma mark - 导航栏按钮响应
 - (void)searchButtonAction:(UIBarButtonItem *)item {
 
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         self.searchBar.transform = CGAffineTransformMakeTranslation(0, 64);
+                     } completion:^(BOOL finished) {
+                         _virtualButton.frame = [UIScreen mainScreen].bounds;
+                         [UIView animateWithDuration:.35 animations:^{
+                             _virtualButton.alpha = .3;
+                         }];
+                     }];
 
+}
+
+- (void)searchCancelAction:(UIButton *)button {
+
+    // 移除
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         _virtualButton.alpha = 0;
+                         _searchBar.transform = CGAffineTransformMakeTranslation(0, -64);
+                     } completion:^(BOOL finished) {
+                         [_virtualButton removeFromSuperview];
+                         _virtualButton = nil;
+                         [_searchBar removeFromSuperview];
+                         _searchBar = nil;
+                     }];
 
 }
 
 
+#pragma mark - 搜索框的代理方法
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
 
+    // 隐藏搜索框里面的提示
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         _searchImage.alpha = 0;
+                         _label.alpha = 0;
+                     }];
 
-
-
+}
 
 
 
