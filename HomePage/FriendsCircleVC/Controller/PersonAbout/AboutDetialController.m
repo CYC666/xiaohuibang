@@ -54,6 +54,7 @@
                                                  PraiseModel *praiseModel = [[PraiseModel alloc] init];
                                                  praiseModel.nickname = praiseDic[@"nickname"];
                                                  praiseModel.user_id = praiseDic[@"user_id"];
+                                                 praiseModel.thumb = praiseDic[@"thumb"];
                                                  [praiseTempArr addObject:praiseModel];
                                              }
                                              seeModel.praise = praiseTempArr;
@@ -63,6 +64,7 @@
                                                  aveluateModel.nickname = aveluateDic[@"nickname"];
                                                  aveluateModel.user_id = aveluateDic[@"user_id"];
                                                  aveluateModel.about_content = aveluateDic[@"about_content"];
+                                                 aveluateModel.thumb = aveluateDic[@"thumb"];
                                                  aveluateModel.eva_id = aveluateDic[@"eva_id"];
                                                  [aveluateTempArr addObject:aveluateModel];
                                              }
@@ -170,6 +172,27 @@
     [commentButton setImage:[UIImage imageNamed:@"icon_comment_gray"] forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:commentButton];
+    
+    //  点赞列表
+    if (_detialLayout.seeModel.praise.count > 0) {
+        UIImageView *proDetialImage = [[UIImageView alloc] initWithFrame:_detialLayout.proDetialImageFrame];
+        proDetialImage.image = [UIImage imageNamed:@"icon_pro_blue"];
+        [scrollView addSubview:proDetialImage];
+        
+        // 点赞人数列表
+        for (int i = 0; i < _detialLayout.seeModel.praise.count; i++) {
+            NSValue *value = _detialLayout.proImageFrameArray[i];
+            CGRect rect = [value CGRectValue];
+            UIImageView *proImage = [[UIImageView alloc] initWithFrame:rect];
+            proImage.clipsToBounds = YES;
+            proImage.layer.cornerRadius = 14.4;
+            PraiseModel *praiseModel = _detialLayout.seeModel.praise[i];
+            [proDetialImage sd_setImageWithURL:[NSURL URLWithString:praiseModel.thumb]];
+            [scrollView addSubview:proImage];
+        }
+        
+    }
+    
     
 }
 

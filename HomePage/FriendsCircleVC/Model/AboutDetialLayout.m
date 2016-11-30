@@ -27,9 +27,12 @@
 #define kProRight 46        // 点赞按钮右边距离
 #define kProWidth 30        // 点赞按钮宽度
 #define kProHeight 14       // 点赞按钮高度
-#define kCommentRight 12      // 评论按钮右边距离
-#define kCommengWidth 30  // 评论按钮宽度
+#define kCommentRight 12    // 评论按钮右边距离
+#define kCommengWidth 30    // 评论按钮宽度
 #define kCommentHeight 14.5 // 评论按钮高度
+#define kProDetialImageWidth 14.5   // 点赞列表图标的宽度
+#define kProDetialImageHeight 12    // 点赞列表图标的高度
+#define kProDetialImageSize 29      // 点赞列表头像的大小
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -111,6 +114,22 @@
     
     // 评论按钮
     self.commentButtonFrame = CGRectMake(kScreenWidth - kCommentRight - kCommengWidth, self.viewHeight + 11, kCommengWidth, kCommentHeight);
+    self.viewHeight += 39;
+    
+    if (_seeModel.praise.count > 0) {
+        // 点赞详情的图标
+        self.proDetialImageFrame = CGRectMake(kNicknameX, self.viewHeight + 14.5, kProDetialImageWidth, kProDetialImageHeight);
+        // 点赞人数列表的frame
+        for (int i = 0; i < _seeModel.praise.count; i++) {
+            CGRect rect = CGRectMake(kNicknameX + 38.5 + (kProDetialImageSize + 7.7)*(i % 7),
+                                     self.viewHeight + 6.5 + (kProDetialImageSize + 7.7)*(i / 7),
+                                     kProDetialImageSize,
+                                     kProDetialImageSize);
+            NSValue *value = [NSValue valueWithCGRect:rect];
+            [self.proImageFrameArray addObject:value];
+        }
+        self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/7 + 1);
+    }
     
     
     

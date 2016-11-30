@@ -25,8 +25,8 @@
 @property (assign, nonatomic) CGRect proButtonFrame;            // 点赞按钮
 @property (assign, nonatomic) CGRect commentButtonFrame;        // 评论按钮
 @property (assign, nonatomic) CGRect proDetialImageFrame;       // 点赞详情图标
-@property (assign, nonatomic) NSMutableArray *proImageFrameArray;   // 点赞详情头像frame数组
+@property (strong, nonatomic) NSMutableArray *proImageFrameArray;   // 点赞详情头像frame数组
 @property (assign, nonatomic) CGRect commentDetialImageFrame;   // 评论详情图标
-@property (assign, nonatomic) NSMutableArray *commentFrameArray;    // 评论详情文本frame数组
+@property (strong, nonatomic) NSMutableArray *commentFrameArray;    // 评论详情文本frame数组
 
 @end

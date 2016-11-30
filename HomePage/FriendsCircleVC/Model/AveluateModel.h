@@ -17,6 +17,7 @@
 @property (copy, nonatomic) NSString *nickname;         // 用户昵称
 @property (copy, nonatomic) NSString *user_id;          // 用户ID
 @property (copy, nonatomic) NSString *about_content;    // 评论的内容
+@property (copy, nonatomic) NSString *thumb;            // 头像
 @property (copy, nonatomic) NSString *eva_id;           // 父评论的ID，如果没有，则为0
 
 

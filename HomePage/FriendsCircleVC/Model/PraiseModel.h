@@ -15,6 +15,7 @@
 
 @property (copy, nonatomic) NSString *nickname;     // 用户昵称
 @property (copy, nonatomic) NSString *user_id;      // 用户ID
+@property (copy, nonatomic) NSString *thumb;        // 头像
 
 @end
 
