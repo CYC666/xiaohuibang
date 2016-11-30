@@ -35,6 +35,7 @@
 @property (assign, nonatomic) BOOL isHideNav;   // 是否隐藏导航栏
 @property (assign, nonatomic) BOOL isShowKeyBoard;  // 是否已经展示了键盘
 @property (assign, nonatomic) NSInteger proCount;       // 点赞人数
+@property (assign, nonatomic) NSInteger commentCount;       // 评论人数
 
 @end
 
@@ -203,7 +204,8 @@
     
     // 评论人数
     _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 12.5 - 15, 19, 15, 11.5)];
-    _commentLabel.text = [NSString stringWithFormat:@"%ld", _seeModel.aveluate.count];
+    _commentCount = _seeModel.aveluate.count;
+    _commentLabel.text = [NSString stringWithFormat:@"%ld", _commentCount];
     _commentLabel.font = [UIFont systemFontOfSize:16];
     _commentLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
     _commentLabel.textAlignment = NSTextAlignmentRight;
@@ -290,14 +292,30 @@
 #pragma mark - textfield的代理方法，点击return发送评论
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
+    NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                             @"about_id":_seeModel.about_id,
+                             @"about_content":textField.text};
     // 发送评论
-    textField.text = nil;
-    [textField endEditing:YES];
+    [CNetTool postCommentWithParameters:params
+                                success:^(id response) {
+                                    if ([response[@"msg"] isEqual:@1]) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"评论成功"];
+                                        _commentLabel.text = [NSString stringWithFormat:@"%ld", ++_commentCount];
+                                        textField.text = nil;
+                                        [textField endEditing:YES];
+                                    }
+                                } failure:^(NSError *err) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"评论失败"];
+                                }];
+    
+    
     return YES;
 
 }
 
-#pragma mark - 点赞跟评论
+#pragma mark - 点赞
 - (void)proAction:(UIButton *)button {
 
     
@@ -323,7 +341,6 @@
                                 [SVProgressHUD showSuccessWithStatus:@"请求失败"];
                             }];
     
-
 }
 
 
