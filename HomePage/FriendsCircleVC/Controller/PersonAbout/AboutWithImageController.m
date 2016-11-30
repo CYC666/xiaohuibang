@@ -11,11 +11,11 @@
 
 
 #import "AboutWithImageController.h"
-#import <UIImageView+WebCache.h>
 #import "CNetTool.h"
-#import <SVProgressHUD.h>
 #import "PraiseModel.h"
 #import "AveluateModel.h"
+#import <SVProgressHUD.h>
+#import <UIImageView+WebCache.h>
 
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -123,7 +123,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // self.title = _personModel.about_id;
     self.view.backgroundColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     
@@ -182,7 +181,7 @@
     [_tabView addSubview:proButton];
     
     // 点赞人数
-    _proLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 88.5 - 15, 19, 15, 11.5)];
+    _proLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 83.5 - 15, 19, 20, 11.5)];
     _proCount = _seeModel.praise.count;
     _proLabel.text = [NSString stringWithFormat:@"%ld", _proCount];
     _proLabel.font = [UIFont systemFontOfSize:16];
@@ -203,7 +202,7 @@
     [_tabView addSubview:commentButton];
     
     // 评论人数
-    _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 12.5 - 15, 19, 15, 11.5)];
+    _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 15, 19, 20, 11.5)];
     _commentCount = _seeModel.aveluate.count;
     _commentLabel.text = [NSString stringWithFormat:@"%ld", _commentCount];
     _commentLabel.font = [UIFont systemFontOfSize:16];

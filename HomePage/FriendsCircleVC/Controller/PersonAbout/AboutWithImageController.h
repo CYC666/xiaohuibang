@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PersonSeeModel.h"
 #import "SeeModel.h"
 @interface AboutWithImageController : UIViewController
 

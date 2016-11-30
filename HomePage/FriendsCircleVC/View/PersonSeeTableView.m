@@ -6,6 +6,8 @@
 //  Copyright © 2016年 消汇邦. All rights reserved.
 //
 
+// 显示个人动态的表视图
+
 #import "PersonSeeTableView.h"
 #import "PersonSeeCell.h"
 #import <UIImageView+WebCache.h>
@@ -13,6 +15,7 @@
 #import "PersonSeeModel.h"
 #import "RCDPersonDetailViewController.h"
 #import "AboutWithImageController.h"
+#import "AboutDetialController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -129,7 +132,10 @@
     // 如果没有图片
     if ([modelLayout.personSeeModel.about_img isEqualToString:@"0"]) {
     
-        
+        AboutDetialController *controller = [[AboutDetialController alloc] initWithUserID:modelLayout.personSeeModel.user_id
+                                                                                        aboutID:modelLayout.personSeeModel.about_id];
+        UINavigationController *selfNav = (UINavigationController *)[self viewController];
+        [selfNav pushViewController:controller animated:YES];
         
     // 有图片
     } else {

@@ -35,6 +35,8 @@
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
+		0490A3EE1DEE7989006C4644 /* AboutDetialController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3ED1DEE7989006C4644 /* AboutDetialController.m */; };
+		0490A3F11DEE7CC9006C4644 /* AboutDetialLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3F01DEE7CC9006C4644 /* AboutDetialLayout.m */; };
 		04AA38EC1DE3E24100CADF74 /* PersonAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EB1DE3E24100CADF74 /* PersonAboutController.m */; };
 		04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */; };
 		04AA38F21DE3F41C00CADF74 /* PersonSeeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38F11DE3F41C00CADF74 /* PersonSeeModel.m */; };
@@ -428,6 +430,10 @@
 		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
 		044818151DE6E929003B1F6C /* CYCOWN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYCOWN.m; sourceTree = "<group>"; };
 		044818161DE6E929003B1F6C /* CYCOWN.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYCOWN.xib; sourceTree = "<group>"; };
+		0490A3EC1DEE7989006C4644 /* AboutDetialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialController.h; sourceTree = "<group>"; };
+		0490A3ED1DEE7989006C4644 /* AboutDetialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutDetialController.m; sourceTree = "<group>"; };
+		0490A3EF1DEE7CC9006C4644 /* AboutDetialLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialLayout.h; sourceTree = "<group>"; };
+		0490A3F01DEE7CC9006C4644 /* AboutDetialLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutDetialLayout.m; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
 		04AA38EA1DE3E24100CADF74 /* PersonAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonAboutController.h; sourceTree = "<group>"; };
@@ -969,6 +975,8 @@
 				04AA38EB1DE3E24100CADF74 /* PersonAboutController.m */,
 				04028F8E1DED205F0000CE45 /* AboutWithImageController.h */,
 				04028F8F1DED205F0000CE45 /* AboutWithImageController.m */,
+				0490A3EC1DEE7989006C4644 /* AboutDetialController.h */,
+				0490A3ED1DEE7989006C4644 /* AboutDetialController.m */,
 			);
 			path = PersonAbout;
 			sourceTree = "<group>";
@@ -1795,6 +1803,8 @@
 				04AA38F11DE3F41C00CADF74 /* PersonSeeModel.m */,
 				04AA38F31DE3F51400CADF74 /* PersonSeeLayout.h */,
 				04AA38F41DE3F51400CADF74 /* PersonSeeLayout.m */,
+				0490A3EF1DEE7CC9006C4644 /* AboutDetialLayout.h */,
+				0490A3F01DEE7CC9006C4644 /* AboutDetialLayout.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2296,6 +2306,7 @@
 				F31B2A971DA4E6EA00330636 /* ChangePswViewController.m in Sources */,
 				F394949E1DB0C99100BE3E51 /* UIView+SDAutoLayout.m in Sources */,
 				F3F478DF1DDFE3C500E21E97 /* PraiseModel.m in Sources */,
+				0490A3F11DEE7CC9006C4644 /* AboutDetialLayout.m in Sources */,
 				F35DD6FB1DC35CF8001A8F99 /* RCDGroupSettingsTableViewController.m in Sources */,
 				F313E6CC1DB62544005111E0 /* MultiSelectItem.m in Sources */,
 				F35C03581DC3593B003D9613 /* RCDGroupSettingsTableViewCell.m in Sources */,
@@ -2333,6 +2344,7 @@
 				F33F89A71D9E59B900FB0F70 /* AccountSettingViewController.m in Sources */,
 				F3EC35851DBA0B4000F350CA /* MyChatConversationViewController.m in Sources */,
 				F33F89AA1D9E59FD00FB0F70 /* NotificationSettingViewController.m in Sources */,
+				0490A3EE1DEE7989006C4644 /* AboutDetialController.m in Sources */,
 				F3703B9D1DBDECAB000508B1 /* DefaultPortraitView.m in Sources */,
 				04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */,
 				F3E3E93C1D9B68A100E69300 /* LoginTwoViewController.m in Sources */,

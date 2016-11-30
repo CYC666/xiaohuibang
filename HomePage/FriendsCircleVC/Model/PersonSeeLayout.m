@@ -6,6 +6,8 @@
 //  Copyright © 2016年 消汇邦. All rights reserved.
 //
 
+// 个人动态单元格的布局
+
 #import "PersonSeeLayout.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
