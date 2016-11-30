@@ -14,6 +14,7 @@
 @property (strong, nonatomic) SeeModel *seeModel;
 @property (strong, nonatomic) UIImageView *aboutImageView;
 
+
 - (instancetype)initWithUserID:(NSString *)userID
                        aboutID:(NSString *)aboutID;
 

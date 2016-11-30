@@ -24,15 +24,17 @@
 #define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"  // 修改导航栏不透明的通知
 
 
-@interface AboutWithImageController () <UITextFieldDelegate> {
+@interface AboutWithImageController () <UITextFieldDelegate, UICollectionViewDelegate> {
 
     UIView *_tabView;           // 底部收纳按钮的视图
     UITextField *_inputField;    // 底部输入框
-
+    UILabel *_proLabel;             // 点赞人数
+    UILabel *_commentLabel;         // 评论人数
 }
 
 @property (assign, nonatomic) BOOL isHideNav;   // 是否隐藏导航栏
 @property (assign, nonatomic) BOOL isShowKeyBoard;  // 是否已经展示了键盘
+@property (assign, nonatomic) NSInteger proCount;       // 点赞人数
 
 @end
 
@@ -106,14 +108,7 @@
 
 }
 
-- (PersonSeeModel *)personModel {
 
-    if (_personModel == nil) {
-        _personModel = [[PersonSeeModel alloc] init];
-    }
-    return _personModel;
-
-}
 
 - (SeeModel *)seeModel {
 
@@ -161,8 +156,8 @@
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
 
+    // 设置图片
     [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
-
     // 创建底部的按钮栏
     _tabView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 49, kScreenWidth, 49)];
     _tabView.backgroundColor = [UIColor colorWithRed:15/255.0 green:15/255.0 blue:15/255.0 alpha:1];
@@ -172,7 +167,28 @@
     UIButton *proButton = [UIButton buttonWithType:UIButtonTypeCustom];
     proButton.frame = CGRectMake(kScreenWidth-114.5-18, 16.5, 18, 16);
     [proButton setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
+    // 判断我是否已经点赞
+    for (int i = 0; i < _seeModel.praise.count; i++) {
+        PraiseModel *praiseModel = _seeModel.praise[i];
+        if ([praiseModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
+            [proButton setImage:[UIImage imageNamed:@"icon_pro_red"] forState:UIControlStateNormal];
+            break;
+        }
+    }
+    // 点赞添加响应
+    [proButton addTarget:self action:@selector(proAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [_tabView addSubview:proButton];
+    
+    // 点赞人数
+    _proLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 88.5 - 15, 19, 15, 11.5)];
+    _proCount = _seeModel.praise.count;
+    _proLabel.text = [NSString stringWithFormat:@"%ld", _proCount];
+    _proLabel.font = [UIFont systemFontOfSize:16];
+    _proLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+    _proLabel.textAlignment = NSTextAlignmentRight;
+    [_tabView addSubview:_proLabel];
+    
     
     // 分割线
     UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 72, 14.5, 1, 20)];
@@ -184,6 +200,14 @@
      commentButton.frame = CGRectMake(kScreenWidth-38.5-17.5, 16.5, 17.5, 16);
     [commentButton setImage:[UIImage imageNamed:@"icon_comment_gray"] forState:UIControlStateNormal];
     [_tabView addSubview:commentButton];
+    
+    // 评论人数
+    _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 12.5 - 15, 19, 15, 11.5)];
+    _commentLabel.text = [NSString stringWithFormat:@"%ld", _seeModel.aveluate.count];
+    _commentLabel.font = [UIFont systemFontOfSize:16];
+    _commentLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+    _commentLabel.textAlignment = NSTextAlignmentRight;
+    [_tabView addSubview:_commentLabel];
     
     // 评论输入框
     _inputField = [[UITextField alloc] initWithFrame:CGRectMake(12, 10, kScreenWidth-164.5-12, 29)];
@@ -273,7 +297,34 @@
 
 }
 
+#pragma mark - 点赞跟评论
+- (void)proAction:(UIButton *)button {
 
+    
+    // 发送点赞请求
+    NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                             @"about_id":_seeModel.about_id};
+    [CNetTool postProWithParameters:params
+                            success:^(id response) {
+                                if ([response[@"data"] isEqualToString:@"ok"]) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"点赞成功"];
+                                    _proLabel.text = [NSString stringWithFormat:@"%ld", ++_proCount];
+                                    [button setImage:[UIImage imageNamed:@"icon_pro_red"] forState:UIControlStateNormal];
+                                } else {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"取消点赞成功"];
+                                    _proLabel.text = [NSString stringWithFormat:@"%ld", --_proCount];
+                                    [button setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
+                                }
+                                
+                            } failure:^(NSError *err) {
+                                [SVProgressHUD dismiss];
+                                [SVProgressHUD showSuccessWithStatus:@"请求失败"];
+                            }];
+    
+
+}
 
 
 
