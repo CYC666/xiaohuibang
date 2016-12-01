@@ -25,6 +25,8 @@
 @interface AboutDetialController ()
 
 @property (assign, nonatomic) BOOL isLike;      // 是否已经点赞
+@property (copy, nonatomic) NSString *user_id;
+@property (copy, nonatomic) NSString *about_id;
 
 @end
 
@@ -38,6 +40,8 @@
         // 请求单条动态
         NSDictionary *params = @{@"user_id":userID,
                                  @"about_id":aboutID};
+        _user_id = userID;
+        _about_id = aboutID;
         [CNetTool loadOneAboutWithParameters:params
                                      success:^(id response) {
                                          if ([response[@"msg"] isEqual:@1]) {
@@ -285,6 +289,47 @@
 - (void)proAction:(UIButton *)button {
 
     _isLike = !_isLike;
+    if (_isLike == YES) {
+        
+        
+        // 网络请求点赞功能
+        NSDictionary *param = @{
+                                @"user_id":[USER_D objectForKey:@"user_id"],
+                                @"about_id":_detialLayout.seeModel.about_id
+                                };
+        [CNetTool postProWithParameters:param
+                                success:^(id response) {
+                                    [button setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"已经点赞"];
+                                    // 刷新UI
+                                    [self reloadSubview];
+                                } failure:^(NSError *err) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"点赞失败"];
+                                }];
+        
+    } else {
+        
+        
+        // 网络请求取消赞功能
+        NSDictionary *param = @{
+                                @"user_id":[USER_D objectForKey:@"user_id"],
+                                @"about_id":_detialLayout.seeModel.about_id
+                                };
+        [CNetTool postProWithParameters:param
+                                success:^(id response) {
+                                    [button setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"已取消点赞"];
+                                    // 刷新UI
+                                    [self reloadSubview];
+                                } failure:^(NSError *err) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"取消点赞失败"];
+                                }];
+    }
+
 
 }
 
@@ -297,7 +342,62 @@
 
 
 
+#pragma mark - 重新加载视图(重要)
+- (void)reloadSubview {
 
+    // 请求单条动态
+    NSDictionary *params = @{@"user_id":_user_id,
+                             @"about_id":_about_id};
+    [CNetTool loadOneAboutWithParameters:params
+                                 success:^(id response) {
+                                     if ([response[@"msg"] isEqual:@1]) {
+                                         NSDictionary *dic = response[@"data"];
+                                         SeeModel *seeModel = [[SeeModel alloc] init];
+                                         seeModel.about_id = dic[@"id"];
+                                         seeModel.user_id = dic[@"user_id"];
+                                         seeModel.nickname = dic[@"nickname"];
+                                         seeModel.head_img = dic[@"head_img"];
+                                         seeModel.content = dic[@"content"];
+                                         seeModel.about_img = dic[@"about_img"];
+                                         seeModel.thumb_img = dic[@"thumb_img"];
+                                         seeModel.create_time = dic[@"create_time"];
+                                         NSMutableArray *praiseTempArr = [NSMutableArray array];
+                                         for (NSDictionary *praiseDic in dic[@"praise"]) {
+                                             PraiseModel *praiseModel = [[PraiseModel alloc] init];
+                                             praiseModel.nickname = praiseDic[@"nickname"];
+                                             praiseModel.user_id = praiseDic[@"user_id"];
+                                             praiseModel.thumb = praiseDic[@"thumb"];
+                                             [praiseTempArr addObject:praiseModel];
+                                         }
+                                         seeModel.praise = praiseTempArr;
+                                         NSMutableArray *aveluateTempArr = [NSMutableArray array];
+                                         for (NSDictionary *aveluateDic in dic[@"aveluate"]) {
+                                             AveluateModel *aveluateModel = [[AveluateModel alloc] init];
+                                             aveluateModel.nickname = aveluateDic[@"nickname"];
+                                             aveluateModel.user_id = aveluateDic[@"user_id"];
+                                             aveluateModel.about_content = aveluateDic[@"about_content"];
+                                             aveluateModel.thumb = aveluateDic[@"thumb"];
+                                             aveluateModel.eva_id = aveluateDic[@"eva_id"];
+                                             [aveluateTempArr addObject:aveluateModel];
+                                         }
+                                         seeModel.aveluate = aveluateTempArr;
+                                         
+                                         self.detialLayout.seeModel = seeModel;
+                                         
+                                         // 移除所有子视图
+                                         for (UIView *view in self.view.subviews) {
+                                             [view removeFromSuperview];
+                                         }
+                                         // 接受到数据菜创建子视图
+                                         [self _creatSubview];
+                                         
+                                     }
+                                 } failure:^(NSError *err) {
+                                     [SVProgressHUD dismiss];
+                                     [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                 }];
+
+}
 
 
 

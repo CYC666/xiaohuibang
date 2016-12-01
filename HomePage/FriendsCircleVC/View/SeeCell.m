@@ -297,7 +297,6 @@
 
     _isLike = !_isLike;
     if (_isLike == YES) {
-        [button setImage:[UIImage imageNamed:@"icon_pro_blue"] forState:UIControlStateNormal];
         
         // 网络请求点赞功能
         NSDictionary *param = @{
@@ -312,6 +311,7 @@
                                     // 刷新表视图 -- -- -- SeetableView
                                     [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
                                                                                         object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
+                                    [button setImage:[UIImage imageNamed:@"icon_pro_blue"] forState:UIControlStateNormal];
                                 
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
@@ -333,12 +333,12 @@
                                     // 刷新表视图 -- -- -- SeetableView
                                     [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
                                                                                         object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
-                                    
+                                    [button setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
                                     [SVProgressHUD showSuccessWithStatus:@"取消点赞失败"];
                                 }];
-        [button setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
+        
     }
     
     
