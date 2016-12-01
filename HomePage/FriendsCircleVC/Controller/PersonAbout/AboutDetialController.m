@@ -476,7 +476,7 @@
                          animations:^{
                              _holdLabel.alpha = 1;
                          }];
-    }
+    }    
     
     // 调节输入框高度
     CGRect rect = [textView.text boundingRectWithSize:CGSizeMake(kScreenHeight - 29 - 10, 9999)
@@ -493,6 +493,41 @@
                              _inputView.frame = frame;
                          }];
     }
+}
+
+#pragma mark - 检测是否点击了return
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+
+    if ([text isEqualToString:@"\n"]) {
+        // 发送评论
+        NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                 @"about_id":_detialLayout.seeModel.about_id,
+                                 @"about_content":textView.text};
+        [CNetTool postCommentWithParameters:params
+                                    success:^(id response) {
+                                        if ([response[@"msg"] isEqual:@1]) {
+                                            
+                                            [SVProgressHUD dismiss];
+                                            [SVProgressHUD showSuccessWithStatus:@"评论成功"];
+                                            textView.text = nil;
+                                            [textView endEditing:YES];
+                                            [UIView animateWithDuration:.35
+                                                             animations:^{
+                                                                 textView.frame = CGRectMake(13, kScreenHeight - 29 - 10, kScreenWidth - 13*2, 29);
+                                                             }];
+                                            // 刷新视图
+                                            [self reloadSubview];
+                                            _holdLabel.alpha = 1;
+                                        }
+                                    } failure:^(NSError *err) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"评论失败"];
+                                    }];
+        return NO;
+        
+    }
+    return YES;
+
 }
 
 #pragma mark - 滑动视图隐藏键盘
