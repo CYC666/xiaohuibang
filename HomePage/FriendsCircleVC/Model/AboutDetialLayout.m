@@ -120,9 +120,9 @@
     // 评论按钮
     self.commentButtonFrame = CGRectMake(kScreenWidth - kCommentRight - kCommengWidth, self.viewHeight + 11, kCommengWidth, kCommentHeight);
     self.viewHeight += 39;
+    // 设一个值来记录当前的高度
+    float tempHeight = self.viewHeight;
     
-    // 设一个值来记录点赞列表的高度
-    float proHeight = 0;
     if (_seeModel.praise.count > 0) {
         // 点赞详情的图标
         self.proDetialImageFrame = CGRectMake(kNicknameX + 12, self.viewHeight + 6.5, kProDetialImageWidth, kProDetialImageHeight);
@@ -135,13 +135,9 @@
             NSValue *value = [NSValue valueWithCGRect:rect];
             [self.proImageFrameArray addObject:value];
         }
-        proHeight = (kProDetialImageSize + 7.7)*(_seeModel.praise.count/kProNumber + 1);
         self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/kProNumber + 1);
     }
     
-    
-    // 设一个值来记录评论区的高度
-    float commentHeight = 0;
     if (_seeModel.aveluate.count > 0) {
         // 评论列表
         for (int i = 0; i < _seeModel.aveluate.count; i++) {
@@ -177,10 +173,9 @@
         }
         self.viewHeight += kSpace;
         
-        
     }
     
-    
+    self.proAndCommentBackgroundFrame = CGRectMake(kNicknameX, tempHeight, kScreenWidth - kNicknameX - kCommentRight, self.viewHeight - tempHeight);
     
 
 }
