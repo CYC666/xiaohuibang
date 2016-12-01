@@ -126,7 +126,7 @@
 
     if (_commentButton == nil) {
         _commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_commentButton setImage:[UIImage imageNamed:@"icon_comment"] forState:UIControlStateNormal];
+        [_commentButton setImage:[UIImage imageNamed:@"icon_comment_gray"] forState:UIControlStateNormal];
         [_commentButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_commentButton];
     }

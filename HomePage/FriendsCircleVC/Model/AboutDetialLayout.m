@@ -10,6 +10,7 @@
 
 
 #import "AboutDetialLayout.h"
+#import "AveluateModel.h"
 
 #define kSpace 15   // 空隙
 #define kHeadImageY 20.5    // 头像起点Y
@@ -30,9 +31,13 @@
 #define kCommentRight 12    // 评论按钮右边距离
 #define kCommengWidth 30    // 评论按钮宽度
 #define kCommentHeight 14.5 // 评论按钮高度
-#define kProDetialImageWidth 14.5   // 点赞列表图标的宽度
-#define kProDetialImageHeight 12    // 点赞列表图标的高度
+#define kProNumber 7        // 每行显示点赞头像的个数
+#define kProDetialImageWidth 29     // 点赞列表图标的宽度
+#define kProDetialImageHeight 29    // 点赞列表图标的高度
 #define kProDetialImageSize 29      // 点赞列表头像的大小
+#define kCommentDetialImageWidth 14.5   // 评论列表图标的宽度
+#define kCommentDetialImageHeight 12.5   // 评论列表图标的高度
+#define kCommentFontSize 14             // 评论文字的大小
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -116,22 +121,64 @@
     self.commentButtonFrame = CGRectMake(kScreenWidth - kCommentRight - kCommengWidth, self.viewHeight + 11, kCommengWidth, kCommentHeight);
     self.viewHeight += 39;
     
+    // 设一个值来记录点赞列表的高度
+    float proHeight = 0;
     if (_seeModel.praise.count > 0) {
         // 点赞详情的图标
-        self.proDetialImageFrame = CGRectMake(kNicknameX, self.viewHeight + 14.5, kProDetialImageWidth, kProDetialImageHeight);
+        self.proDetialImageFrame = CGRectMake(kNicknameX + 12, self.viewHeight + 6.5, kProDetialImageWidth, kProDetialImageHeight);
         // 点赞人数列表的frame
         for (int i = 0; i < _seeModel.praise.count; i++) {
-            CGRect rect = CGRectMake(kNicknameX + 38.5 + (kProDetialImageSize + 7.7)*(i % 7),
-                                     self.viewHeight + 6.5 + (kProDetialImageSize + 7.7)*(i / 7),
+            CGRect rect = CGRectMake(kNicknameX + 53 + (kProDetialImageSize + 7.7)*(i % kProNumber),
+                                     self.viewHeight + 6.5 + (kProDetialImageSize + 7.7)*(i / kProNumber),
                                      kProDetialImageSize,
                                      kProDetialImageSize);
             NSValue *value = [NSValue valueWithCGRect:rect];
             [self.proImageFrameArray addObject:value];
         }
-        self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/7 + 1);
+        proHeight = (kProDetialImageSize + 7.7)*(_seeModel.praise.count/kProNumber + 1);
+        self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/kProNumber + 1);
     }
     
     
+    // 设一个值来记录评论区的高度
+    float commentHeight = 0;
+    if (_seeModel.aveluate.count > 0) {
+        // 评论列表
+        for (int i = 0; i < _seeModel.aveluate.count; i++) {
+            // 根据评论内容计算高度
+            AveluateModel *aveluateModel = _seeModel.aveluate[i];
+            CGRect rect = [aveluateModel.about_content boundingRectWithSize:CGSizeMake(kScreenWidth - (kNicknameX + 52.5 + kCommentRight), 99999)
+                                            options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kCommentFontSize]}
+                                            context:nil];
+            CGRect imageRect = CGRectMake(kNicknameX + 12,
+                                          self.viewHeight + 11.5,
+                                          kProDetialImageSize,
+                                          kProDetialImageSize);
+            CGRect nicknameRect = CGRectMake(kNicknameX + 53,
+                                             self.viewHeight + 8,
+                                             kNicknameWidth,
+                                             kNicknameHeight);
+            CGRect contentRect = CGRectMake(kNicknameX + 53,
+                                            self.viewHeight + 29.5,
+                                            kScreenWidth - (kNicknameX + 53 + kCommentRight),
+                                            rect.size.height);
+            // 将frame封装成对象，再存入字典，最后把字典存到数组中
+            NSValue *imageValue = [NSValue valueWithCGRect:imageRect];
+            NSValue *nicknameValue = [NSValue valueWithCGRect:nicknameRect];
+            NSValue *contentValue = [NSValue valueWithCGRect:contentRect];
+            NSDictionary *dic = @{@"image":imageValue,
+                                  @"nickname":nicknameValue,
+                                  @"content":contentValue};
+            [self.commentFrameArray addObject:dic];
+            
+            // 刷新高度
+            self.viewHeight += (29.5 + rect.size.height + 8);
+        }
+        self.viewHeight += kSpace;
+        
+        
+    }
     
     
     

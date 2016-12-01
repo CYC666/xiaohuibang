@@ -28,5 +28,6 @@
 @property (strong, nonatomic) NSMutableArray *proImageFrameArray;   // 点赞详情头像frame数组
 @property (assign, nonatomic) CGRect commentDetialImageFrame;   // 评论详情图标
 @property (strong, nonatomic) NSMutableArray *commentFrameArray;    // 评论详情文本frame数组
+@property (assign, nonatomic) CGRect proAndCommentBackgroundFrame;  // 点赞和评论区的灰色背景
 
 @end

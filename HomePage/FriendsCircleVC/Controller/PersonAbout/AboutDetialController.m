@@ -105,7 +105,12 @@
 - (void)_creatSubview {
 
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-    scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
+    // 根据评论控制滑动视图的高度
+    if (_detialLayout.viewHeight > kScreenHeight) {
+        scrollView.contentSize = CGSizeMake(kScreenWidth, _detialLayout.viewHeight);
+    } else {
+        scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
+    }
     scrollView.alwaysBounceVertical = YES;
     [self.view addSubview:scrollView];
     
@@ -159,7 +164,7 @@
     for (int i = 0; i < _detialLayout.seeModel.praise.count; i++) {
         PraiseModel *praiseModel = _detialLayout.seeModel.praise[i];
         if ([praiseModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
-            [proButton setImage:[UIImage imageNamed:@"icon_pro_red"] forState:UIControlStateNormal];
+            [proButton setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
             break;
         }
     }
@@ -169,14 +174,19 @@
     // 评论按钮
     UIButton *commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
     commentButton.frame = _detialLayout.commentButtonFrame;
-    [commentButton setImage:[UIImage imageNamed:@"icon_comment_gray"] forState:UIControlStateNormal];
+    [commentButton setImage:[UIImage imageNamed:@"icon_comment_new"] forState:UIControlStateNormal];
     [commentButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:commentButton];
+    
+    // 点赞跟评论区背景颜色
+    UIView *backgroundView = [[UIView alloc] initWithFrame:_detialLayout.proAndCommentBackgroundFrame];
+    backgroundView.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
+    [scrollView addSubview:backgroundView];
     
     //  点赞列表
     if (_detialLayout.seeModel.praise.count > 0) {
         UIImageView *proDetialImage = [[UIImageView alloc] initWithFrame:_detialLayout.proDetialImageFrame];
-        proDetialImage.image = [UIImage imageNamed:@"icon_pro_blue"];
+        proDetialImage.image = [UIImage imageNamed:@"icon_pro"];
         [scrollView addSubview:proDetialImage];
         
         // 点赞人数列表
@@ -189,6 +199,40 @@
             PraiseModel *praiseModel = _detialLayout.seeModel.praise[i];
             [proImage sd_setImageWithURL:[NSURL URLWithString:praiseModel.thumb]];
             [scrollView addSubview:proImage];
+        }
+        
+    }
+    
+    // 评论列表
+    if (_detialLayout.seeModel.aveluate.count > 0) {
+        
+        for (int i = 0; i < _detialLayout.seeModel.aveluate.count; i++) {
+            NSDictionary *dic = _detialLayout.commentFrameArray[i];
+            AveluateModel *aveluteModel = _detialLayout.seeModel.aveluate[i];
+            // 头像
+            NSValue *imageValue = dic[@"image"];
+            UIImageView *headImage = [[UIImageView alloc] initWithFrame:[imageValue CGRectValue]];
+            [headImage sd_setImageWithURL:[NSURL URLWithString:aveluteModel.thumb]];
+            headImage.layer.cornerRadius = 14.4;
+            headImage.clipsToBounds = YES;
+            [scrollView addSubview:headImage];
+            // 昵称
+            NSValue *nicknameValue = dic[@"nickname"];
+            UILabel *nicknameLabel = [[UILabel alloc] initWithFrame:[nicknameValue CGRectValue]];
+            nicknameLabel.text = aveluteModel.nickname;
+            nicknameLabel.textColor = [UIColor colorWithRed:35/255.0 green:97/255.0 blue:185/255.0 alpha:1];
+            nicknameLabel.font = [UIFont systemFontOfSize:14];
+            nicknameLabel.textAlignment = NSTextAlignmentLeft;
+            [scrollView addSubview:nicknameLabel];
+            // 评论的内容
+            NSValue *contentValue = dic[@"content"];
+            UILabel *contentLabel = [[UILabel alloc] initWithFrame:[contentValue CGRectValue]];
+            contentLabel.numberOfLines = 0;
+            contentLabel.text = aveluteModel.about_content;
+            contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+            contentLabel.font = [UIFont systemFontOfSize:14];
+            contentLabel.textAlignment = NSTextAlignmentLeft;
+            [scrollView addSubview:contentLabel];
         }
         
     }
