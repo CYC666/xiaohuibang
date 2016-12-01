@@ -134,7 +134,8 @@
     
         AboutDetialController *controller = [[AboutDetialController alloc] initWithUserID:modelLayout.personSeeModel.user_id
                                                                                         aboutID:modelLayout.personSeeModel.about_id];
-        UINavigationController *selfNav = (UINavigationController *)[self viewController];
+        UINavigationController *selfNav = (UINavigationController *)[self viewController];        
+        
         [selfNav pushViewController:controller animated:YES];
         
     // 有图片

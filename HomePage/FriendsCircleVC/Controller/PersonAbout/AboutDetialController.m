@@ -24,6 +24,8 @@
 
 @interface AboutDetialController ()
 
+@property (assign, nonatomic) BOOL isLike;      // 是否已经点赞
+
 @end
 
 @implementation AboutDetialController
@@ -106,8 +108,8 @@
 
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     // 根据评论控制滑动视图的高度
-    if (_detialLayout.viewHeight > kScreenHeight) {
-        scrollView.contentSize = CGSizeMake(kScreenWidth, _detialLayout.viewHeight);
+    if (_detialLayout.viewHeight + 100 > kScreenHeight) {
+        scrollView.contentSize = CGSizeMake(kScreenWidth, _detialLayout.viewHeight + 100);
     } else {
         scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
     }
@@ -164,6 +166,7 @@
     for (int i = 0; i < _detialLayout.seeModel.praise.count; i++) {
         PraiseModel *praiseModel = _detialLayout.seeModel.praise[i];
         if ([praiseModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
+            _isLike = YES;
             [proButton setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
             break;
         }
@@ -242,6 +245,38 @@
 #pragma mark - 删除动态
 - (void)deleteAction:(UIButton *)button {
 
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除此条目？"
+                                                                   message:@"删除后不可恢复"
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    // 确定删除动态按钮
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           NSDictionary *param = @{@"id":_detialLayout.seeModel.about_id};
+                                                           [CNetTool deleteAboutWithParameters:param
+                                                                                       success:^(id response) {
+                                                                                           [SVProgressHUD dismiss];
+                                                                                           [SVProgressHUD showSuccessWithStatus:@"删除动态成功"];
+                                                                                           // 返回顶层页面
+                                                                                           [self.navigationController popToRootViewControllerAnimated:YES];
+                                                                                       } failure:^(NSError *err) {
+                                                                                           [SVProgressHUD dismiss];
+                                                                                           [SVProgressHUD showSuccessWithStatus:@"删除动态失败"];
+                                                                                       }];
+                                                       }];
+    
+    // 取消删除动态按钮
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    [alert addAction:sureAction];
+    [alert addAction:cancelAction];
+    
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert
+                                                                                 animated:YES
+                                                                               completion:nil];
+    
 
 
 }
@@ -249,7 +284,7 @@
 #pragma mark - 点赞按钮
 - (void)proAction:(UIButton *)button {
 
-
+    _isLike = !_isLike;
 
 }
 

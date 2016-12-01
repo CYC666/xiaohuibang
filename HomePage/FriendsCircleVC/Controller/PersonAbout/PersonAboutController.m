@@ -39,6 +39,7 @@
 @property (assign, nonatomic) NSInteger dataPage;                // 记录加载页数
 @property (strong, nonatomic) UIView *searchBar;                 // 搜索条
 
+
 @end
 
 @implementation PersonAboutController
@@ -389,6 +390,7 @@
     self.seeTableView.showsInfiniteScrolling = NO;
 
 }
+
 
 
 

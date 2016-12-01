@@ -294,6 +294,8 @@
     NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
                              @"about_id":_seeModel.about_id,
                              @"about_content":textField.text};
+    
+    
     // 发送评论
     [CNetTool postCommentWithParameters:params
                                 success:^(id response) {
@@ -308,7 +310,8 @@
                                     [SVProgressHUD dismiss];
                                     [SVProgressHUD showSuccessWithStatus:@"评论失败"];
                                 }];
-    
+
+
     
     return YES;
 
@@ -321,6 +324,8 @@
     // 发送点赞请求
     NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
                              @"about_id":_seeModel.about_id};
+    
+
     [CNetTool postProWithParameters:params
                             success:^(id response) {
                                 if ([response[@"data"] isEqualToString:@"ok"]) {
@@ -339,6 +344,8 @@
                                 [SVProgressHUD dismiss];
                                 [SVProgressHUD showSuccessWithStatus:@"请求失败"];
                             }];
+
+    
     
 }
 

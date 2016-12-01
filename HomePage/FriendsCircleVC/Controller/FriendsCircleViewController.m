@@ -310,6 +310,8 @@
                               } failure:^(NSError *err) {
                                   [SVProgressHUD dismiss];
                                   [SVProgressHUD showSuccessWithStatus:@"请求失败"];
+                                  // 结束刷新
+                                  [self.seeTableView.pullToRefreshView stopAnimating];
                               }];
     
     
@@ -346,6 +348,8 @@
                               } failure:^(NSError *err) {
                                   [SVProgressHUD dismiss];
                                   [SVProgressHUD showSuccessWithStatus:@"请求失败"];
+                                  // 请求失败也要停止转动
+                                  [self.seeTableView.infiniteScrollingView stopAnimating];
                               }];
     
     

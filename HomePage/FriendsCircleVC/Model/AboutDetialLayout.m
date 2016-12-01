@@ -24,14 +24,13 @@
 #define kImageSize 79       // 图片的大小
 #define kDeleteWidth 30     // 删除按钮宽度
 #define kDeleteHeight 12.5  // 删除按钮高度
-#define kTimeWidth 43.5     // 时间文本的宽度
+#define kTimeWidth 100     // 时间文本的宽度
 #define kProRight 46        // 点赞按钮右边距离
 #define kProWidth 30        // 点赞按钮宽度
 #define kProHeight 14       // 点赞按钮高度
 #define kCommentRight 12    // 评论按钮右边距离
 #define kCommengWidth 30    // 评论按钮宽度
 #define kCommentHeight 14.5 // 评论按钮高度
-#define kProNumber 7        // 每行显示点赞头像的个数
 #define kProDetialImageWidth 29     // 点赞列表图标的宽度
 #define kProDetialImageHeight 29    // 点赞列表图标的高度
 #define kProDetialImageSize 29      // 点赞列表头像的大小
@@ -123,19 +122,21 @@
     // 设一个值来记录当前的高度
     float tempHeight = self.viewHeight;
     
+    // 计算每行应该放多少个点赞人的头像
+    NSInteger headImageCount = (kScreenWidth - kNicknameX - 53 - kCommentRight) / (kProDetialImageSize + 7.7);
     if (_seeModel.praise.count > 0) {
         // 点赞详情的图标
         self.proDetialImageFrame = CGRectMake(kNicknameX + 12, self.viewHeight + 6.5, kProDetialImageWidth, kProDetialImageHeight);
         // 点赞人数列表的frame
         for (int i = 0; i < _seeModel.praise.count; i++) {
-            CGRect rect = CGRectMake(kNicknameX + 53 + (kProDetialImageSize + 7.7)*(i % kProNumber),
-                                     self.viewHeight + 6.5 + (kProDetialImageSize + 7.7)*(i / kProNumber),
+            CGRect rect = CGRectMake(kNicknameX + 53 + (kProDetialImageSize + 7.7)*(i % headImageCount),
+                                     self.viewHeight + 6.5 + (kProDetialImageSize + 7.7)*(i / headImageCount),
                                      kProDetialImageSize,
                                      kProDetialImageSize);
             NSValue *value = [NSValue valueWithCGRect:rect];
             [self.proImageFrameArray addObject:value];
         }
-        self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/kProNumber + 1);
+        self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/headImageCount + 1);
     }
     
     if (_seeModel.aveluate.count > 0) {
