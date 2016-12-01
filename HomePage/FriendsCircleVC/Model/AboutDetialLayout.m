@@ -139,6 +139,10 @@
         self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/headImageCount + 1);
     }
     
+    self.viewHeight += 7.7;
+    // 评论与点赞的分割线
+    self.proLineFrame = CGRectMake(kNicknameX, self.viewHeight, kScreenWidth - kNicknameX - kCommentRight, .7);
+    
     if (_seeModel.aveluate.count > 0) {
         // 评论列表
         for (int i = 0; i < _seeModel.aveluate.count; i++) {
@@ -160,13 +164,19 @@
                                             self.viewHeight + 29.5,
                                             kScreenWidth - (kNicknameX + 53 + kCommentRight),
                                             rect.size.height);
+            CGRect lineRect = CGRectMake(kNicknameX + 37.5,
+                                         self.viewHeight + 29.5 + rect.size.height,
+                                         kScreenWidth - (kNicknameX + 37.5 + kCommentRight),
+                                         .7);
             // 将frame封装成对象，再存入字典，最后把字典存到数组中
             NSValue *imageValue = [NSValue valueWithCGRect:imageRect];
             NSValue *nicknameValue = [NSValue valueWithCGRect:nicknameRect];
             NSValue *contentValue = [NSValue valueWithCGRect:contentRect];
+            NSValue *lineValue = [NSValue valueWithCGRect:lineRect];
             NSDictionary *dic = @{@"image":imageValue,
                                   @"nickname":nicknameValue,
-                                  @"content":contentValue};
+                                  @"content":contentValue,
+                                  @"line":lineValue};
             [self.commentFrameArray addObject:dic];
             
             // 刷新高度

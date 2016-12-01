@@ -269,6 +269,11 @@
         
     }
     
+    // 点赞列表的分割线
+    UIView *proLine = [[UIView alloc] initWithFrame:_detialLayout.proLineFrame];
+    proLine.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
+    [scrollView addSubview:proLine];
+    
     // 评论列表
     if (_detialLayout.seeModel.aveluate.count > 0) {
         
@@ -299,6 +304,11 @@
             contentLabel.font = [UIFont systemFontOfSize:14];
             contentLabel.textAlignment = NSTextAlignmentLeft;
             [scrollView addSubview:contentLabel];
+            // 评论分割线
+            NSValue *separatorLineValue = dic[@"line"];
+            UIView *separatorLine = [[UIView alloc] initWithFrame:[separatorLineValue CGRectValue]];
+            separatorLine.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
+            [scrollView addSubview:separatorLine];
         }
         
     }
