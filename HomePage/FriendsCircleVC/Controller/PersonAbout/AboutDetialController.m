@@ -22,7 +22,13 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 
 
-@interface AboutDetialController ()
+
+@interface AboutDetialController () <UITextViewDelegate, UIScrollViewDelegate> {
+
+    UITextView *_inputView;     // 输入框
+    UILabel *_holdLabel;        // "发表评论"字样
+
+}
 
 @property (assign, nonatomic) BOOL isLike;      // 是否已经点赞
 @property (copy, nonatomic) NSString *user_id;
@@ -104,6 +110,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    // 创建输入框
+    _inputView = [[UITextView alloc] initWithFrame:CGRectMake(13, kScreenHeight - 29 - 10, kScreenWidth - 13*2, 29)];
+    _inputView.layer.cornerRadius = 3;
+    _inputView.layer.borderWidth = 1;
+    _inputView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
+    _inputView.layer.borderColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1].CGColor;
+    _inputView.delegate = self;
+    _inputView.returnKeyType = UIReturnKeySend;
+    [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
+    
+    // "发表评论"
+    _holdLabel = [[UILabel alloc] initWithFrame:CGRectMake(11.5, 7.5, 100, 13.5)];
+    _holdLabel.text = @"发表评论";
+    _holdLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+    _holdLabel.font = [UIFont systemFontOfSize:14];
+    [_inputView addSubview:_holdLabel];
+    
+    // 显示键盘
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showKeyBoard:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    // 隐藏键盘
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideKeyBoard:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [super viewWillDisappear:animated];
+    
+    // 移除输入框
+    [_inputView removeFromSuperview];
+    _inputView = nil;
     
 }
 
@@ -118,6 +169,7 @@
         scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
     }
     scrollView.alwaysBounceVertical = YES;
+    scrollView.delegate = self;
     [self.view addSubview:scrollView];
     
     // 头像
@@ -142,6 +194,13 @@
     contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
     contentLabel.font = [UIFont systemFontOfSize:15];
     [scrollView addSubview:contentLabel];
+    
+    // 图片
+    UIImageView *aboutImage = [[UIImageView alloc] initWithFrame:_detialLayout.imageFrame];
+    [aboutImage sd_setImageWithURL:[NSURL URLWithString:_detialLayout.seeModel.thumb_img]];
+    aboutImage.contentMode = UIViewContentModeScaleAspectFill;
+    aboutImage.clipsToBounds = YES;
+    [scrollView addSubview:aboutImage];
     
     // 删除按钮
     if ([_detialLayout.seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
@@ -244,6 +303,8 @@
         
     }
     
+    
+    
 }
 
 #pragma mark - 删除动态
@@ -336,8 +397,8 @@
 #pragma mark - 评论按钮
 - (void)commentAction:(UIButton *)button {
 
-
-
+    
+    
 }
 
 
@@ -382,6 +443,9 @@
                                          }
                                          seeModel.aveluate = aveluateTempArr;
                                          
+                                         // 不重新创建的花，旧的内容不会改变
+                                         _detialLayout = nil;
+                                         
                                          self.detialLayout.seeModel = seeModel;
                                          
                                          // 移除所有子视图
@@ -397,6 +461,69 @@
                                      [SVProgressHUD showSuccessWithStatus:@"加载失败"];
                                  }];
 
+}
+
+#pragma mark - 输入框代理方法
+- (void)textViewDidChange:(UITextView *)textView {
+
+    if (textView.text.length > 0 && _holdLabel.alpha == 1) {
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _holdLabel.alpha = 0;
+                         }];
+    } else if (textView.text.length == 0 && _holdLabel.alpha == 0) {
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _holdLabel.alpha = 1;
+                         }];
+    }
+    
+    // 调节输入框高度
+    CGRect rect = [textView.text boundingRectWithSize:CGSizeMake(kScreenHeight - 29 - 10, 9999)
+                                              options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                           attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]}
+                                              context:nil];
+    CGRect frame = _inputView.frame;
+    float oldHeight = frame.size.height;
+    frame.size.height = rect.size.height + 8*2;
+    frame.origin.y -= (frame.size.height - oldHeight);
+    if (frame.size.height > _inputView.frame.size.height && frame.size.height < 300) {
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _inputView.frame = frame;
+                         }];
+    }
+}
+
+#pragma mark - 滑动视图隐藏键盘
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
+    if ([scrollView isEqual:_inputView]) {
+        return;
+    }
+    // 当不是滑动输入框才隐藏
+    [_inputView endEditing:YES];
+
+}
+
+
+#pragma mark - 弹出键盘
+- (void)showKeyBoard:(NSNotification *)notification {
+    
+    NSDictionary *userInfo = [notification userInfo];
+    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGFloat keyBoardHeight = value.CGRectValue.size.height;
+    
+    // 调节输入框位置
+    _inputView.transform = CGAffineTransformMakeTranslation(0, -keyBoardHeight);
+    
+}
+
+#pragma mark - 隐藏键盘
+- (void)hideKeyBoard:(NSNotification *)notification {
+    
+    _inputView.transform = CGAffineTransformIdentity;
+    
 }
 
 
@@ -419,12 +546,13 @@
 
 
 
-
-
-
-
-
-
+// 移除通知
+- (void)dealloc {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
+}
 
 
 - (void)didReceiveMemoryWarning {

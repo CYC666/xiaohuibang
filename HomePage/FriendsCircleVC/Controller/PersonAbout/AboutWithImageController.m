@@ -14,8 +14,10 @@
 #import "CNetTool.h"
 #import "PraiseModel.h"
 #import "AveluateModel.h"
+#import "AboutDetialController.h"
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
+
 
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -124,7 +126,6 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor blackColor];
-    self.navigationController.navigationBar.translucent = YES;
     
     
     // 监听键盘弹出的通知
@@ -199,6 +200,7 @@
      UIButton *commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
      commentButton.frame = CGRectMake(kScreenWidth-38.5-17.5, 16.5, 17.5, 16);
     [commentButton setImage:[UIImage imageNamed:@"icon_comment_gray"] forState:UIControlStateNormal];
+    [commentButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
     [_tabView addSubview:commentButton];
     
     // 评论人数
@@ -349,6 +351,13 @@
     
 }
 
+#pragma mark - 点击评论按钮，跳转到单条动态界面
+- (void)commentAction:(UIButton *)button {
+
+    AboutDetialController *detialController = [[AboutDetialController alloc] initWithUserID:_seeModel.user_id aboutID:_seeModel.about_id];
+    [self.navigationController pushViewController:detialController animated:YES];
+
+}
 
 
 
@@ -368,8 +377,12 @@
 
 
 
+// 当控制器出现了，将导航栏设置为透明的
+- (void)viewWillAppear:(BOOL)animated {
 
+    self.navigationController.navigationBar.translucent = YES;
 
+}
 
 
 // 控制器销毁之前，将导航栏设置回不透明，不然会影响其他导航栏
