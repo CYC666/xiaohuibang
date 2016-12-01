@@ -187,7 +187,7 @@
             proImage.clipsToBounds = YES;
             proImage.layer.cornerRadius = 14.4;
             PraiseModel *praiseModel = _detialLayout.seeModel.praise[i];
-            [proDetialImage sd_setImageWithURL:[NSURL URLWithString:praiseModel.thumb]];
+            [proImage sd_setImageWithURL:[NSURL URLWithString:praiseModel.thumb]];
             [scrollView addSubview:proImage];
         }
         
