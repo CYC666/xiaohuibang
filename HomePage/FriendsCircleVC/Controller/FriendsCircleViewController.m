@@ -77,7 +77,11 @@
                                                  name:openSendCommentControllerNotification
                                                object:nil];
     
-    
+}
+
+// 等视图都出现了再添加上拉加载下拉刷新的功能
+- (void)viewDidAppear:(BOOL)animated {
+
     // 创建一个若引用的self在block中调用方法，防止循环引用
     __weak FriendsCircleViewController *weakSelf = self;
     [self.seeTableView addPullDownRefreshBlock:^{
@@ -95,8 +99,6 @@
         }
     }];
 
-
-    
 }
 
 #pragma mark - 懒加载
@@ -489,13 +491,6 @@
     self.seeTableView.showsPullToRefresh = NO;
     self.seeTableView.showsInfiniteScrolling = NO;
     
-}
-
-// 切换到本页面的时候，自动刷新
-- (void)viewDidAppear:(BOOL)animated {
-
-    // [_seeTableView triggerPullToRefresh];
-
 }
 
 - (void)didReceiveMemoryWarning {

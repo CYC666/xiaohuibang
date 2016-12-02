@@ -159,6 +159,7 @@
 
     // 设置图片
     [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
+    
     // 创建底部的按钮栏
     _tabView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 49, kScreenWidth, 49)];
     _tabView.backgroundColor = [UIColor colorWithRed:15/255.0 green:15/255.0 blue:15/255.0 alpha:1];

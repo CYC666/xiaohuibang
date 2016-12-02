@@ -32,6 +32,7 @@
 		04095F521DE28755009AD2EC /* icon_keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4C1DE28755009AD2EC /* icon_keyboard.png */; };
 		04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */; };
 		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
+		041205001DF1143C00238117 /* SearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041204FF1DF1143C00238117 /* SearchTableView.m */; };
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
@@ -432,6 +433,8 @@
 		04095F4C1DE28755009AD2EC /* icon_keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_keyboard.png; sourceTree = "<group>"; };
 		04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@2x.png"; sourceTree = "<group>"; };
 		04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@3x.png"; sourceTree = "<group>"; };
+		041204FE1DF1143C00238117 /* SearchTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableView.h; sourceTree = "<group>"; };
+		041204FF1DF1143C00238117 /* SearchTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableView.m; sourceTree = "<group>"; };
 		044818111DE6BAED003B1F6C /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
 		044818121DE6BAED003B1F6C /* CButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CButton.m; sourceTree = "<group>"; };
 		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
@@ -1879,6 +1882,8 @@
 				04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */,
 				04AA38ED1DE3EFBB00CADF74 /* PersonSeeTableView.h */,
 				04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */,
+				041204FE1DF1143C00238117 /* SearchTableView.h */,
+				041204FF1DF1143C00238117 /* SearchTableView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2382,6 +2387,7 @@
 				F32AC99D1DBF369800807061 /* RCDAddressBookTableViewCell.m in Sources */,
 				F3E3E9551D9B68BB00E69300 /* SecurityCodeViewController.m in Sources */,
 				F34FE6951DBB5CF00054C5AD /* UITabBar+badge.m in Sources */,
+				041205001DF1143C00238117 /* SearchTableView.m in Sources */,
 				F3F478D21DDFE3C500E21E97 /* SendMomentsController.m in Sources */,
 				F313E6CA1DB62544005111E0 /* MultiSelectedPanel.m in Sources */,
 				F3130F741DD9A37900B12726 /* RCAnnotationView.m in Sources */,

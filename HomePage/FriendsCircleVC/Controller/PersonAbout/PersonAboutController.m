@@ -12,6 +12,7 @@
 
 #import "PersonAboutController.h"
 #import "PersonSeeTableView.h"
+#import "SearchTableView.h"
 #import "CNetTool.h"
 #import <SVProgressHUD.h>
 #import "PersonSeeLayout.h"
@@ -30,6 +31,8 @@
     UIImageView *_searchImage;// 搜索框里面的搜索图标
     UILabel *_label;            // 搜索框里的显示文字
     UIButton *_virtualButton;    // 搜索框出现后创建的背景按钮，点击以取消搜索
+    
+    
 
 }
 
@@ -38,7 +41,8 @@
 @property (assign, nonatomic) NSInteger dataTag;                 // 标志上拉加载下拉刷新
 @property (assign, nonatomic) NSInteger dataPage;                // 记录加载页数
 @property (strong, nonatomic) UIView *searchBar;                 // 搜索条
-
+@property (strong, nonatomic) UILabel *resultLabel;              // 搜索结果数目提示框
+@property (strong, nonatomic) SearchTableView *resultPersonSeeTableView; // 搜索结果显示的内容
 
 @end
 
@@ -50,7 +54,7 @@
     self = [super init];
     if (self != nil) {
         self.view.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
-        
+        _user_id = user_id;
         _dataPage = 1;
         
         // 根据id网络请求个人信息
@@ -120,6 +124,36 @@
     return _seeModelList;
     
 }
+- (UILabel *)resultLabel {
+
+    if (_resultLabel == nil) {
+        _resultLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 20)];
+        _resultLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
+        _resultLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        _resultLabel.font = [UIFont systemFontOfSize:12];
+        _resultLabel.layer.borderWidth = .5;
+        _resultLabel.alpha = 0;
+        _resultLabel.layer.borderColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1].CGColor;
+        [[UIApplication sharedApplication].keyWindow addSubview:_resultLabel];
+    }
+    return _resultLabel;
+
+}
+- (SearchTableView *)resultPersonSeeTableView {
+
+    if (_resultPersonSeeTableView == nil) {
+        _resultPersonSeeTableView = [[SearchTableView alloc] initWithFrame:CGRectMake(0, 64+20, kScreenWidth, kScreenHeight - 64 - 20)
+                                                                        style:UITableViewStylePlain];
+        _resultPersonSeeTableView.backgroundColor = [UIColor whiteColor];
+        _resultPersonSeeTableView.alpha = 0;
+        _resultPersonSeeTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        [[UIApplication sharedApplication].keyWindow addSubview:_resultPersonSeeTableView];
+    }
+    return _resultPersonSeeTableView;
+
+}
+
+
 - (UIView *)searchBar {
 
     if (_searchBar == nil) {
@@ -145,9 +179,11 @@
         [_searchBar addSubview:virtualView];
         
         // 搜索输入框
-        _input = [[UITextField alloc] initWithFrame:CGRectMake(15, 27.5, kScreenWidth - 55.5, 29)];
+        _input = [[UITextField alloc] initWithFrame:CGRectMake(15, 27.5, kScreenWidth - 55.5 - 15, 29)];
         _input.borderStyle = UITextBorderStyleNone;
         _input.delegate = self;
+        _input.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _input.returnKeyType = UIReturnKeySearch;
         [_searchBar addSubview:_input];
         
         // 取消按钮
@@ -343,18 +379,25 @@
 
 }
 
+// 取消搜索，将视图移除
 - (void)searchCancelAction:(UIButton *)button {
 
     // 移除
     [UIView animateWithDuration:.35
                      animations:^{
                          _virtualButton.alpha = 0;
+                         _resultLabel.alpha = 0;
                          _searchBar.transform = CGAffineTransformMakeTranslation(0, -64);
+                         _resultPersonSeeTableView.alpha = 0;
                      } completion:^(BOOL finished) {
                          [_virtualButton removeFromSuperview];
                          _virtualButton = nil;
                          [_searchBar removeFromSuperview];
                          _searchBar = nil;
+                         [_resultLabel removeFromSuperview];
+                         _resultLabel = nil;
+                         [_resultPersonSeeTableView removeFromSuperview];
+                         _resultPersonSeeTableView = nil;
                      }];
 
 }
@@ -372,7 +415,77 @@
 
 }
 
+// 按下return按钮，那就开始搜索
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
+    NSDictionary *params = @{@"user_id":_user_id,
+                             @"string":textField.text};
+    [CNetTool searchAboutWithParameters:params
+                                success:^(id response) {
+                                    if ([response[@"msg"] isEqual:@1]) {
+                                        // 处理数据
+                                        NSArray *dataArr = response[@"data"];
+                                        NSMutableArray *seeTempArr = [NSMutableArray array];
+                                        for (NSDictionary *dic in dataArr) {
+                                            PersonSeeModel *model = [[PersonSeeModel alloc] init];
+                                            model.about_id = dic[@"id"];
+                                            model.user_id = dic[@"user_id"];
+                                            model.content = dic[@"content"];
+                                            model.about_img = dic[@"about_img"];
+                                            model.create_time = dic[@"create_time"];
+                                            model.thumb_img = dic[@"thumb_img"];
+                                            
+                                            PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
+                                            layout.personSeeModel = model;
+                                            
+                                            [seeTempArr addObject:layout];
+                                        }
+                                        // 搜索结果提示
+                                        self.resultLabel.text = [NSString stringWithFormat:@"   %ld条搜索结果",seeTempArr.count];
+                                        // 将结果显示到表视图
+                                        self.resultPersonSeeTableView.seeLayoutList = seeTempArr;
+                                        // 刷新表视视图
+                                        [_resultPersonSeeTableView reloadData];
+                                        // 做动画，将视图显示出来
+                                        [UIView animateWithDuration:.35
+                                                         animations:^{
+                                                             _resultLabel.alpha = 1;
+                                                             _resultPersonSeeTableView.alpha = 1;
+                                                         }];
+                                        // 隐藏键盘
+                                        [_input endEditing:YES];
+                                    } else {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"毫无结果"];
+                                    }
+                                } failure:^(NSError *err) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"搜索失败"];
+                                }];
+    
+    
+    return YES;
+
+}
+
+// 按下清除按钮，隐藏搜索结果
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         _resultLabel.alpha = 0;
+                         _resultPersonSeeTableView.alpha = 0;
+                     } completion:^(BOOL finished) {
+                         [_resultLabel removeFromSuperview];
+                         _resultLabel = nil;
+                         
+                         [_resultPersonSeeTableView removeFromSuperview];
+                         _resultPersonSeeTableView = nil;
+                     }];
+    
+    return YES;
+
+}
 
 
 

@@ -136,12 +136,10 @@
             NSValue *value = [NSValue valueWithCGRect:rect];
             [self.proImageFrameArray addObject:value];
         }
-        self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/headImageCount + 1);
+        self.viewHeight += (kProDetialImageSize + 7.7)*(_seeModel.praise.count/headImageCount + 1) + 7.7;
+        // 评论与点赞的分割线
+        self.proLineFrame = CGRectMake(kNicknameX, self.viewHeight, kScreenWidth - kNicknameX - kCommentRight, .7);
     }
-    
-    self.viewHeight += 7.7;
-    // 评论与点赞的分割线
-    self.proLineFrame = CGRectMake(kNicknameX, self.viewHeight, kScreenWidth - kNicknameX - kCommentRight, .7);
     
     if (_seeModel.aveluate.count > 0) {
         // 评论列表
@@ -165,7 +163,7 @@
                                             kScreenWidth - (kNicknameX + 53 + kCommentRight),
                                             rect.size.height);
             CGRect lineRect = CGRectMake(kNicknameX + 37.5,
-                                         self.viewHeight + 29.5 + rect.size.height,
+                                         self.viewHeight + 29.5 + rect.size.height + 5,
                                          kScreenWidth - (kNicknameX + 37.5 + kCommentRight),
                                          .7);
             // 将frame封装成对象，再存入字典，最后把字典存到数组中

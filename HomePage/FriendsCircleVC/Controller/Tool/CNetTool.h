@@ -59,6 +59,10 @@
                            success:(void (^)(id response))success
                            failure:(void (^)(NSError *err))failure;
 
+// 搜索动态
++ (void)searchAboutWithParameters:(id)parameters
+                          success:(void (^)(id response))success
+                          failure:(void (^)(NSError *err))failure;
 
 
 
