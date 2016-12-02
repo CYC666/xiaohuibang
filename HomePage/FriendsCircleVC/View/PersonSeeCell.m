@@ -96,8 +96,12 @@
         [_aboutImageView sd_setImageWithURL:[NSURL URLWithString:_personSeeModelLayout.personSeeModel.thumb_img]];
     }
     
-    // 背景颜色框
-    self.backgroundColor.frame = _personSeeModelLayout.backgroundColorFrame;
+    if (_hideBackgroundColor == NO) {
+        // 背景颜色框
+        self.backgroundColor.frame = _personSeeModelLayout.backgroundColorFrame;
+    }
+    
+    
     
     // 设置动态文本,设置行间距
     self.contentLabel.frame = _personSeeModelLayout.contentFrame;

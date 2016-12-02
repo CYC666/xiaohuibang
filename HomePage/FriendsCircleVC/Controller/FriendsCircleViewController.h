@@ -7,7 +7,7 @@
 
 
 
-// UIView+Convenience   快捷访问frame的属性
+// 
 //
 
 #import <UIKit/UIKit.h>

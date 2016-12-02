@@ -348,6 +348,9 @@
 #pragma mark - 评论按钮响应,弹出键盘和输入框
 - (void)commentAction:(UIButton *)button {
     
+    // 收起键盘
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    
     // 创建输入框
     _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
     _inputView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, kHeight);
@@ -486,6 +489,9 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 #pragma mark - 点击头像、昵称，跳转到个人动态界面
 - (void)jumpToPersonAboutController:(UITapGestureRecognizer *)tap {
     
+    // 收起键盘
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    
     // 添加动画
     [UIView animateWithDuration:.35
                      animations:^{
@@ -504,6 +510,9 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     
 }
 - (void)jumpToPersonAboutControllerWithData:(CButton *)button {
+    
+    // 收起键盘
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
     UINavigationController *nav = (UINavigationController *)[self viewController];
     PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:button.user_id];

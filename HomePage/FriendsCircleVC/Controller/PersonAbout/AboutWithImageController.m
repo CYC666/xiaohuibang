@@ -298,7 +298,6 @@
                              @"about_id":_seeModel.about_id,
                              @"about_content":textField.text};
     
-    
     // 发送评论
     [CNetTool postCommentWithParameters:params
                                 success:^(id response) {
@@ -307,15 +306,15 @@
                                         [SVProgressHUD showSuccessWithStatus:@"评论成功"];
                                         _commentLabel.text = [NSString stringWithFormat:@"%ld", ++_commentCount];
                                         textField.text = nil;
-                                        [textField endEditing:YES];
+                                        
                                     }
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
                                     [SVProgressHUD showSuccessWithStatus:@"评论失败"];
                                 }];
 
-
-    
+    // 不管成不成功，先收起键盘再说，要不然重复点击会多次请求。如果发送不成功的话，不会将输入框的内容清除
+    [textField endEditing:YES];
     return YES;
 
 }

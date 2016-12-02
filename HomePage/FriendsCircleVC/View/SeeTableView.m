@@ -161,9 +161,19 @@
     }
     
     
-    // 昵称
-    UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - 100, kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15, 100, 30)];
-    nickName.text = [USER_D objectForKey:@"nickname"];
+    // 昵称(自适应昵称的宽度，与头像保持30的水平距离)
+    // 计算昵称宽度
+    NSString *nickname = [USER_D objectForKey:@"nickname"];
+    CGRect rect = [nickname boundingRectWithSize:CGSizeMake(200, 999)
+                                         options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17]}
+                                         context:nil];
+    
+    UILabel *nickName = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13 - rect.size.width - 30,
+                                                                  kScreenHeight*.4 - kScreenWidth*.192/2.0 - 15,
+                                                                  rect.size.width,
+                                                                  30)];
+    nickName.text = nickname;
     nickName.textColor = [UIColor whiteColor];
     nickName.font = [UIFont systemFontOfSize:17];
     [headView addSubview:nickName];
@@ -173,6 +183,9 @@
 }
 #pragma mark - 点击我的头像，跳转到我的动态界面
 - (void)jumpToMyAbout:(UITapGestureRecognizer *)tap {
+    
+    // 收起键盘
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 
     // 实现动画效果
     [UIView animateWithDuration:.35

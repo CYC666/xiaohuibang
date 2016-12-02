@@ -28,6 +28,7 @@
         self.delegate = self;
         self.dataSource = self;
         self.controller = controller;
+        self.separatorInset = UIEdgeInsetsMake(0, 85.9, 0, 0);
     }
     return self;
     
@@ -42,6 +43,7 @@
     
     PersonSeeCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"PersonSeeCell" owner:nil options:nil] lastObject];
     PersonSeeLayout *layout = _seeLayoutList[indexPath.row];
+    cell.hideBackgroundColor = YES;
     cell.personSeeModelLayout = layout;
     return cell;
     
