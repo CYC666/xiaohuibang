@@ -151,7 +151,7 @@
     [formatter setDateFormat:@"YYYY年MM月dd日 HH:mm:ss"];
     NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, 0, 100, 40)];
     title.text = confromTimespStr;
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor whiteColor];

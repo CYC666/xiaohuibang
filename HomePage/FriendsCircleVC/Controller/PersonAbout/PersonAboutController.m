@@ -23,6 +23,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 
+#define RemoveSearchBar @"RemoveSearchBar"  // 移除输入框的通知
 
 
 @interface PersonAboutController () <UITextFieldDelegate> {
@@ -84,16 +85,19 @@
                                                                  action:@selector(searchButtonAction:)];
     [self.navigationItem setRightBarButtonItem:rightItem];
     
+}
+- (void)viewDidAppear:(BOOL)animated {
+
     // 创建一个若引用的self在block中调用方法，防止循环引用
     __weak PersonAboutController *weakSelf = self;
     // 暂时不需要下拉刷新
-//    [self.seeTableView addPullDownRefreshBlock:^{
-//        @synchronized (weakSelf) {
-//            // 下拉刷新
-//            [weakSelf reloadData];
-//        }
-//        
-//    }];
+    //    [self.seeTableView addPullDownRefreshBlock:^{
+    //        @synchronized (weakSelf) {
+    //            // 下拉刷新
+    //            [weakSelf reloadData];
+    //        }
+    //
+    //    }];
     
     [self.seeTableView addInfiniteScrollingWithActionHandler:^{
         @synchronized (weakSelf) {
@@ -101,8 +105,10 @@
             [weakSelf downloadData];
         }
     }];
-
     
+    // 监听移除输入框的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchCancelAction) name:RemoveSearchBar object:nil];
+
 }
 
 #pragma mark - 懒加载
@@ -143,7 +149,8 @@
 
     if (_resultPersonSeeTableView == nil) {
         _resultPersonSeeTableView = [[SearchTableView alloc] initWithFrame:CGRectMake(0, 64+20, kScreenWidth, kScreenHeight - 64 - 20)
-                                                                        style:UITableViewStylePlain];
+                                                                     style:UITableViewStylePlain
+                                                                controller:self];
         _resultPersonSeeTableView.backgroundColor = [UIColor whiteColor];
         _resultPersonSeeTableView.alpha = 0;
         _resultPersonSeeTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -163,7 +170,7 @@
         _virtualButton.frame = CGRectZero;
         _virtualButton.backgroundColor = [UIColor colorWithRed:73/255.0 green:73/255.0 blue:73/255.0 alpha:1];
         _virtualButton.alpha = 0;
-        [_virtualButton addTarget:self action:@selector(searchCancelAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_virtualButton addTarget:self action:@selector(searchCancelAction) forControlEvents:UIControlEventTouchUpInside];
         [[UIApplication sharedApplication].keyWindow addSubview:_virtualButton];
         
         
@@ -192,7 +199,7 @@
         [cancelButton setTitleColor:[UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1]
                            forState:UIControlStateNormal];
         [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [cancelButton addTarget:self action:@selector(searchCancelAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cancelButton addTarget:self action:@selector(searchCancelAction) forControlEvents:UIControlEventTouchUpInside];
         [_searchBar addSubview:cancelButton];
         
         // 放大镜搜索图片
@@ -380,7 +387,7 @@
 }
 
 // 取消搜索，将视图移除
-- (void)searchCancelAction:(UIButton *)button {
+- (void)searchCancelAction{
 
     // 移除
     [UIView animateWithDuration:.35

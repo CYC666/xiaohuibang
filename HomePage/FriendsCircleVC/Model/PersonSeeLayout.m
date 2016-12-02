@@ -60,7 +60,7 @@
                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kTimeFontSize],
                                                   NSParagraphStyleAttributeName : style}
                                         context:nil];
-        // 当文本高度加空隙大于默认单元格高度
+        // 三行或三行以上
         if (rect.size.height+kSpace*2 > kCellHeight) {
             _cellHeight = kCellHeight;
             _contentFrame = CGRectMake(kTimeWidth,
@@ -71,8 +71,9 @@
                                        kSpace,
                                        kScreenWidth - (kTimeWidth + kSpace),
                                        kImgSize + kSpace);
-        } else {
-            _cellHeight = rect.size.height + kSpace*2;
+        // 一行
+        } else if (rect.size.height + kSpace*2 < 60) {
+            _cellHeight = rect.size.height + kSpace*2 + kSpace;
             _contentFrame = CGRectMake(kTimeWidth,
                                        kSpace,
                                        kScreenWidth - (kTimeWidth + kSpace),
@@ -80,7 +81,18 @@
             _backgroundColorFrame = CGRectMake(kTimeWidth,
                                        kSpace,
                                        kScreenWidth - (kTimeWidth + kSpace),
+                                       30);
+        // 两行
+        } else {
+            _cellHeight = rect.size.height + kSpace*2 + kSpace;
+            _contentFrame = CGRectMake(kTimeWidth,
+                                       kSpace,
+                                       kScreenWidth - (kTimeWidth + kSpace),
                                        rect.size.height + kSpace);
+            _backgroundColorFrame = CGRectMake(kTimeWidth,
+                                               kSpace,
+                                               kScreenWidth - (kTimeWidth + kSpace),
+                                               rect.size.height + kSpace);
             
         }
     
