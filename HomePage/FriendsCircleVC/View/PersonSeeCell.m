@@ -9,6 +9,8 @@
 #import "PersonSeeCell.h"
 #import <UIImageView+WebCache.h>
 
+#define JudgeTheSameTime @"JudgeTheSameTime"    // 创建一个标识，来确定当前动态是否跟上一个动态为同一天发布,当为0时，表示是第一个显示的第一个动态
+
 @implementation PersonSeeCell
 
 - (void)awakeFromNib {
@@ -68,26 +70,55 @@
     
     // 设置时间
     self.timeLabel.frame = _personSeeModelLayout.timeLabelFrame;
-    NSInteger time = [[NSDate date] timeIntervalSince1970] - [_personSeeModelLayout.personSeeModel.create_time integerValue];
-    NSInteger countTime = time / (60*60);
-    if (countTime < 24) {
-        _timeLabel.text = @"今天";
-        _timeLabel.font = [UIFont boldSystemFontOfSize:20];
+
+    // 时间戳转换时间
+    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[_personSeeModelLayout.personSeeModel.create_time integerValue]];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY-MM-dd"];
+    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+    
+    // 获取当前时间，判断是否是今天
+    NSString *currentTime = [formatter stringFromDate:[NSDate date]];
+    if ([confromTimespStr isEqualToString:currentTime]) {
+        
+        // 判断当前动态的创建时间是否跟上一个动态的创建时间一致，一致则不显示时间标签
+        NSString *tempStr = [USER_D objectForKey:JudgeTheSameTime];
+        if ([tempStr isEqualToString:@"0"]) {       // 若当前为显示的第一条动态，则修改状态标志为当前时间
+            _timeLabel.text = @"今天";
+        } else {                                    // 如果不是第一条动态，那么判断状态标志是否跟当前保持一致
+            if ([tempStr isEqualToString:@"今天"]) {  // 如果一致，那就没必要显示时间标签了
+                _timeLabel.text = nil;
+            } else {                                 // 如果不一致，那么要显示时间标签
+                _timeLabel.text = @"今天";
+            }
+        }
+        // 根据当前单元格的时间设定状态标志,刷新标志
+        [USER_D setObject:@"今天" forKey:JudgeTheSameTime];
+        
     } else {
-        // 时间戳转换时间
-        NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[_personSeeModelLayout.personSeeModel.create_time integerValue]];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateStyle:NSDateFormatterMediumStyle];
-        [formatter setTimeStyle:NSDateFormatterShortStyle];
-        [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-        NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
         // 富文本调节字体大小
         NSString *monthStr = [confromTimespStr substringWithRange:NSMakeRange(5, 2)];
         NSString *dayStr = [confromTimespStr substringWithRange:NSMakeRange(8, 2)];
         NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@月", dayStr, monthStr]];
         [attribute addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:NSMakeRange(0, 2)];
         [attribute addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(2, 3)];
-        _timeLabel.attributedText = attribute;
+        
+        // 判断当前动态的创建时间是否跟上一个动态的创建时间一致，一致则不显示时间标签
+        NSString *tempStr = [USER_D objectForKey:JudgeTheSameTime];
+        if ([tempStr isEqualToString:@"0"]) {
+            _timeLabel.attributedText = attribute;
+        } else {
+            if ([tempStr isEqualToString:confromTimespStr]) {
+                _timeLabel.text = nil;
+            } else {
+                _timeLabel.attributedText = attribute;
+            }
+        }
+        [USER_D setObject:confromTimespStr forKey:JudgeTheSameTime];
+        
+        
     }
     
     // 设置图片（如果有的话）

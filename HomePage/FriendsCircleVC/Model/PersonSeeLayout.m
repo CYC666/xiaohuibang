@@ -73,7 +73,7 @@
                                        kImgSize + kSpace);
         // 一行
         } else if (rect.size.height + kSpace*2 < 60) {
-            _cellHeight = rect.size.height + kSpace*2 + kSpace;
+            _cellHeight = rect.size.height + kSpace*2;
             _contentFrame = CGRectMake(kTimeWidth,
                                        kSpace,
                                        kScreenWidth - (kTimeWidth + kSpace),
@@ -84,7 +84,7 @@
                                        30);
         // 两行
         } else {
-            _cellHeight = rect.size.height + kSpace*2 + kSpace;
+            _cellHeight = rect.size.height + kSpace*2;
             _contentFrame = CGRectMake(kTimeWidth,
                                        kSpace,
                                        kScreenWidth - (kTimeWidth + kSpace),

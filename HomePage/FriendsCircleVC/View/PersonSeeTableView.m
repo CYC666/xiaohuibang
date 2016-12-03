@@ -21,6 +21,8 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kHeadImageSize kScreenWidth*0.23    // 头像大小
 
+#define JudgeTheSameTime @"JudgeTheSameTime"    // 创建一个标识，来确定当前动态是否跟上一个动态为同一天发布,当为0时，表示是第一个显示的第一个动态
+
 @interface PersonSeeTableView () {
 
     UIImageView *_imageView;    // 头视图的背景视图
@@ -39,6 +41,9 @@
         self.delegate = self;
         self.dataSource = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+        // 创建一个标识，来确定当前动态是否跟上一个动态为同一天发布,当为0时，表示是第一个显示的第一个动态
+        [USER_D setObject:@"0" forKey:@"JudgeTheSameTime"];
     }
     return self;
 
