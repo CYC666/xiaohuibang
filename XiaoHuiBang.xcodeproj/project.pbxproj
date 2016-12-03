@@ -36,6 +36,8 @@
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
+		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
+		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
 		0490A3EE1DEE7989006C4644 /* AboutDetialController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3ED1DEE7989006C4644 /* AboutDetialController.m */; };
 		0490A3F11DEE7CC9006C4644 /* AboutDetialLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3F01DEE7CC9006C4644 /* AboutDetialLayout.m */; };
 		04A652E61DEFC1B6006A85FD /* icon_pro.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A652E31DEFC1B6006A85FD /* icon_pro.png */; };
@@ -440,6 +442,10 @@
 		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
 		044818151DE6E929003B1F6C /* CYCOWN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYCOWN.m; sourceTree = "<group>"; };
 		044818161DE6E929003B1F6C /* CYCOWN.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYCOWN.xib; sourceTree = "<group>"; };
+		0485C2EF1DF274B200D19FA7 /* CLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabel.h; sourceTree = "<group>"; };
+		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
+		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
+		0485C2F31DF2750000D19FA7 /* CImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CImageView.m; sourceTree = "<group>"; };
 		0490A3EC1DEE7989006C4644 /* AboutDetialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialController.h; sourceTree = "<group>"; };
 		0490A3ED1DEE7989006C4644 /* AboutDetialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutDetialController.m; sourceTree = "<group>"; };
 		0490A3EF1DEE7CC9006C4644 /* AboutDetialLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialLayout.h; sourceTree = "<group>"; };
@@ -1783,6 +1789,8 @@
 		F3F478AD1DDFE3C500E21E97 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				0485C2EF1DF274B200D19FA7 /* CLabel.h */,
+				0485C2F01DF274B200D19FA7 /* CLabel.m */,
 				F3F478AE1DDFE3C500E21E97 /* CNetTool.h */,
 				F3F478AF1DDFE3C500E21E97 /* CNetTool.m */,
 				F3F478B01DDFE3C500E21E97 /* CRefresh.h */,
@@ -1798,6 +1806,8 @@
 				044818141DE6E929003B1F6C /* CYCOWN.h */,
 				044818151DE6E929003B1F6C /* CYCOWN.m */,
 				044818161DE6E929003B1F6C /* CYCOWN.xib */,
+				0485C2F21DF2750000D19FA7 /* CImageView.h */,
+				0485C2F31DF2750000D19FA7 /* CImageView.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2316,6 +2326,7 @@
 				F35B23F51DAE31E6009EFE77 /* SearchListViewController.m in Sources */,
 				F3A0E0271DB75A2200E9F12C /* MLLetterIndexNavigationView.m in Sources */,
 				F3A0E02A1DB761B300E9F12C /* GroupOfNewsViewController.m in Sources */,
+				0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */,
 				F35C035E1DC35B3B003D9613 /* RCDAddFriendViewController.m in Sources */,
 				F3130F791DD9A37900B12726 /* RealTimeLocationStatusView.m in Sources */,
 				F33F89AD1D9E5A1D00FB0F70 /* SystemSettingViewController.m in Sources */,
@@ -2387,6 +2398,7 @@
 				F32AC99D1DBF369800807061 /* RCDAddressBookTableViewCell.m in Sources */,
 				F3E3E9551D9B68BB00E69300 /* SecurityCodeViewController.m in Sources */,
 				F34FE6951DBB5CF00054C5AD /* UITabBar+badge.m in Sources */,
+				0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */,
 				041205001DF1143C00238117 /* SearchTableView.m in Sources */,
 				F3F478D21DDFE3C500E21E97 /* SendMomentsController.m in Sources */,
 				F313E6CA1DB62544005111E0 /* MultiSelectedPanel.m in Sources */,

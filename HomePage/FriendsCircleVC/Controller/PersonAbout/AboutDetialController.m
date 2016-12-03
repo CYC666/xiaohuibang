@@ -17,13 +17,15 @@
 #import "AveluateModel.h"
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
+#import "CImageView.h"
+#import "PersonAboutController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 
 
 
-@interface AboutDetialController () <UITextViewDelegate, UIScrollViewDelegate> {
+@interface AboutDetialController () <UITextViewDelegate, UIScrollViewDelegate, CImageViewDelegate> {
 
     UITextView *_inputView;     // 输入框
     UILabel *_holdLabel;        // "发表评论"字样
@@ -259,12 +261,15 @@
         for (int i = 0; i < _detialLayout.seeModel.praise.count; i++) {
             NSValue *value = _detialLayout.proImageFrameArray[i];
             CGRect rect = [value CGRectValue];
-            UIImageView *proImage = [[UIImageView alloc] initWithFrame:rect];
+            CImageView *proImage = [[CImageView alloc] initWithFrame:rect];
             proImage.clipsToBounds = YES;
             proImage.layer.cornerRadius = 14.4;
             PraiseModel *praiseModel = _detialLayout.seeModel.praise[i];
             [proImage sd_setImageWithURL:[NSURL URLWithString:praiseModel.thumb]];
+            proImage.imageID = praiseModel.user_id;
+            proImage.delegate = self;
             [scrollView addSubview:proImage];
+            
         }
         
     }
@@ -570,6 +575,14 @@
     
 }
 
+#pragma mark - 点击小头像调用的代理方法
+- (void)cImageViewTouch:(CImageView *)cImageView {
+
+    // 跳转到该用户的个人动态界面
+    PersonAboutController *personController = [[PersonAboutController alloc] initWithUserID:cImageView.imageID];
+    [self.navigationController pushViewController:personController animated:YES];
+
+}
 
 
 
