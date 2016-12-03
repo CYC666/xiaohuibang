@@ -18,6 +18,7 @@
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
 #import "CImageView.h"
+#import "CLabel.h"
 #import "PersonAboutController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -25,7 +26,7 @@
 
 
 
-@interface AboutDetialController () <UITextViewDelegate, UIScrollViewDelegate, CImageViewDelegate> {
+@interface AboutDetialController () <UITextViewDelegate, UIScrollViewDelegate, CImageViewDelegate, CLabelDeletage> {
 
     UITextView *_inputView;     // 输入框
     UILabel *_holdLabel;        // "发表评论"字样
@@ -287,10 +288,12 @@
             AveluateModel *aveluteModel = _detialLayout.seeModel.aveluate[i];
             // 头像
             NSValue *imageValue = dic[@"image"];
-            UIImageView *headImage = [[UIImageView alloc] initWithFrame:[imageValue CGRectValue]];
+            CImageView *headImage = [[CImageView alloc] initWithFrame:[imageValue CGRectValue]];
             [headImage sd_setImageWithURL:[NSURL URLWithString:aveluteModel.thumb]];
             headImage.layer.cornerRadius = 14.4;
             headImage.clipsToBounds = YES;
+            headImage.delegate = self;
+            headImage.imageID = aveluteModel.user_id;
             [scrollView addSubview:headImage];
             // 昵称
             NSValue *nicknameValue = dic[@"nickname"];
@@ -302,12 +305,14 @@
             [scrollView addSubview:nicknameLabel];
             // 评论的内容
             NSValue *contentValue = dic[@"content"];
-            UILabel *contentLabel = [[UILabel alloc] initWithFrame:[contentValue CGRectValue]];
+            CLabel *contentLabel = [[CLabel alloc] initWithFrame:[contentValue CGRectValue]];
             contentLabel.numberOfLines = 0;
             contentLabel.text = aveluteModel.about_content;
             contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
             contentLabel.font = [UIFont systemFontOfSize:14];
             contentLabel.textAlignment = NSTextAlignmentLeft;
+            contentLabel.delegate = self;
+            contentLabel.labelID = aveluteModel.user_id;
             [scrollView addSubview:contentLabel];
             // 评论分割线
             NSValue *separatorLineValue = dic[@"line"];
@@ -584,7 +589,13 @@
 
 }
 
+#pragma mark - 点击动态的内容响应代理方法
+- (void)cLabelTouch:(CLabel *)cLabel {
 
+    // 在这里可以做回复功能
+    NSLog(@"%@", cLabel.text);
+
+}
 
 
 

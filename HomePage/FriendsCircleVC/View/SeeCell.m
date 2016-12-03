@@ -15,6 +15,7 @@
 #import "NSString+Extension.h"
 #import "PersonAboutController.h"
 #import "CButton.h"
+#import "CLabel.h"
 
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
@@ -26,7 +27,7 @@
 #define kHeight 53  // 输入视图默认高度
 #define kProListHeight 25       // 点赞列表的高度
 
-@interface SeeCell () <UITextViewDelegate, UIScrollViewDelegate>
+@interface SeeCell () <UITextViewDelegate, UIScrollViewDelegate, CLabelDeletage>
 
 
 
@@ -261,10 +262,12 @@
     for (int i = 0; i < _seeLayout.commentListFrameArr.count; i++) {
         AveluateModel *aveluate = _seeLayout.seeModel.aveluate[i];
         CGRect frame = [_seeLayout.commentListFrameArr[i] CGRectValue];
-        UILabel *comment = [[UILabel alloc] initWithFrame:frame];
+        CLabel *comment = [[CLabel alloc] initWithFrame:frame];
         comment.numberOfLines = 0;
         comment.font = [UIFont systemFontOfSize:14];
         comment.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+        comment.delegate = self;
+        comment.labelID = aveluate.user_id;
         
         // 富文本
         NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: %@", aveluate.nickname, aveluate.about_content]];
@@ -626,7 +629,12 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 
 }
 
+#pragma maek - 点击评论响应代理方法，在这里可以做回复评论
+- (void)cLabelTouch:(CLabel *)cLabel {
 
+    NSLog(@"%@", cLabel.text);
+
+}
 
 
 

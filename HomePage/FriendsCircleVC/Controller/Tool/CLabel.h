@@ -21,6 +21,6 @@
 
 @property (weak, nonatomic) id<CLabelDeletage> delegate;
 @property (copy, nonatomic) NSString *labelID;
-
+@property (assign, nonatomic) BOOL isNickname;  // 点击的是否是昵称
 
 @end

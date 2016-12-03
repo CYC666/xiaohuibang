@@ -30,17 +30,26 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
-    self.cColor = self.textColor;
-    self.textColor = [UIColor lightGrayColor];
+    // 如果是富文本，那就不要设定颜色了，不然颜色会改变
+    if (self.attributedText == nil) {
+        self.cColor = self.textColor;
+        self.textColor = [UIColor lightGrayColor];
+    }
+    
 
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-
-    self.textColor = _cColor;
     
     // 执行代理方法,传递数据
     [_delegate cLabelTouch:self];
+
+    // 如果是富文本，那就不要设定颜色了，不然颜色会改变
+    if (self.attributedText == nil) {
+        self.textColor = _cColor;
+    }
+    
+    
 
 }
 
