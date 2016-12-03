@@ -17,15 +17,15 @@
 #import "AboutWithImageController.h"
 #import "AboutDetialController.h"
 
+#define kHeadImageSize kScreenWidth*0.23                        // 头像大小
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
-#define kHeadImageSize kScreenWidth*0.23    // 头像大小
 
 #define JudgeTheSameTime @"JudgeTheSameTime"    // 创建一个标识，来确定当前动态是否跟上一个动态为同一天发布,当为0时，表示是第一个显示的第一个动态
 
 @interface PersonSeeTableView () {
 
-    UIImageView *_imageView;    // 头视图的背景视图
+    UIImageView *_imageView;                    // 头视图的背景视图
 
 }
 

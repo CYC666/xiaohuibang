@@ -29,9 +29,7 @@
 @property (strong, nonatomic) UIImageView *proListIcon;                 // 点赞详情的icon
 @property (strong, nonatomic) UILabel *proListLabel;                    // 点赞详情标签
 
-
 @property (assign, nonatomic) BOOL isLike;                              // 是否点赞
-
 @property (strong, nonatomic) InputView *inputView;                     // 评论输入框
 
 

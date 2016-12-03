@@ -22,8 +22,8 @@
 @property (copy, nonatomic) NSString *about_img;        // 动态的图片URL
 @property (copy, nonatomic) NSString *thumb_img;        // 动态图片的缩略图
 @property (copy, nonatomic) NSString *create_time;      // 动态创建的时间
-@property (strong, nonatomic) NSMutableArray *praise;          // 点赞
-@property (strong, nonatomic) NSMutableArray *aveluate;        // 评论
+@property (strong, nonatomic) NSMutableArray *praise;   // 点赞
+@property (strong, nonatomic) NSMutableArray *aveluate; // 评论
 
 
 @end

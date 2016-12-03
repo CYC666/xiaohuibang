@@ -13,14 +13,14 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 
-#define kSpace 15               // 控件之间的空隙
-#define kCellHeight 100          // 单元格的默认高度
-#define kTimeWidth 85.5         // 时间框框的宽度
-#define kTimeLabelX 16          // 时间文本的起点X
-#define kTimeLabelHeight 23.5   // 时间文本的高度
-#define kTimeFontSize 14        // 时间文本字体大小
+#define kSpace 15                                               // 控件之间的空隙
+#define kCellHeight 100                                         // 单元格的默认高度
+#define kTimeWidth 85.5                                         // 时间框框的宽度
+#define kTimeLabelX 16                                          // 时间文本的起点X
+#define kTimeLabelHeight 23.5                                   // 时间文本的高度
+#define kTimeFontSize 14                                        // 时间文本字体大小
+#define kImgSize 64                                             // 动态的图片的大小
 
-#define kImgSize 64             // 动态的图片的大小
 
 
 

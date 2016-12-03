@@ -11,23 +11,26 @@
 
 
 #import "SendMomentsController.h"
-#import "NSString+Extension.h"
-#import "FromCameraController.h"
-#import "CLocationController.h"
-#import <SVProgressHUD.h>
-#import "NSString+Extension.h"
 #import "CNetTool.h"
+#import "NSString+Extension.h"
+#import "NSString+Extension.h"
+#import "CLocationController.h"
+#import "FromCameraController.h"
+#import <SVProgressHUD.h>
 
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 
 
-@interface SendMomentsController () <UITextViewDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RCEmojiViewDelegate> {
+@interface SendMomentsController () <UITextViewDelegate, UIScrollViewDelegate,
+                                    UITableViewDelegate, UITableViewDataSource,
+                        UIImagePickerControllerDelegate, UINavigationControllerDelegate,
+                                    RCEmojiViewDelegate> {
 
     UITableView *_tableView;
-    UITextView *_textView;  // 输入框
+    UITextView *_textView;              // 输入框
     RCEmojiBoardView *_emojiInputView;  // 表情输入框
-    NSData *_photoData;     // 等待上传的图片数据
+    NSData *_photoData;                 // 等待上传的图片数据
     
     
     

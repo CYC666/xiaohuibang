@@ -15,18 +15,18 @@
 #import "PersonAboutController.h"
 #import "CYCOWN.h"
 
+#define kSpace 12.3             // 控件之间的Y空隙
+#define kContentX 66.0          // 正文的开始X
+#define kProListHeight 25       // 点赞列表的高度
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
-#define kSpace 12.3           // 控件之间的Y空隙
-#define kContentX 66.0      // 正文的开始X
-#define kProListHeight 25       // 点赞列表的高度
 
 #define SeeCellID @"SeeCellID"
-#define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 点赞刷新表视图通知
-#define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
-#define ScrollTableView @"ScrollTableView"  // 接收调节表视图偏移的通知
-#define CommentReloadTableView @"CommentReloadTableView" // 评论后刷新表视图通知
-#define HideCellInputView @"HideCellInputView"  // 隐藏单元格输入框的通知
+#define DeleteRow @"DeleteRow"                                  // 删除单元格并刷新表视图的通知名
+#define ScrollTableView @"ScrollTableView"                      // 接收调节表视图偏移的通知
+#define HideCellInputView @"HideCellInputView"                  // 隐藏单元格输入框的通知
+#define CommentReloadTableView @"CommentReloadTableView"        // 评论后刷新表视图通知
+#define reloadTableViewDataNotification @"reloadTableViewDataNotification"                          // 点赞刷新表视图通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
 

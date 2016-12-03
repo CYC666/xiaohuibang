@@ -17,7 +17,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 
-#define RemoveSearchBar @"RemoveSearchBar"  // 移除输入框的通知
+#define RemoveSearchBar @"RemoveSearchBar"                      // 移除输入框的通知
 
 @implementation SearchTableView
 

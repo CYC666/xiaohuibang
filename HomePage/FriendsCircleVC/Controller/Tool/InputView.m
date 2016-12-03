@@ -7,10 +7,10 @@
 //
 
 #import "InputView.h"
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
+#define kHeight 53                                              // 输入框默认高度
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
-#define kHeight 53  // 输入框默认高度
-#define ScrollTableView @"ScrollTableView"  // 接收调节表视图偏移的通知
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
+#define ScrollTableView @"ScrollTableView"                      // 接收调节表视图偏移的通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
 

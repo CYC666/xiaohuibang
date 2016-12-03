@@ -19,7 +19,7 @@
 @property (assign, nonatomic) CGRect timeLabelFrame;            // 时间框frame
 @property (assign, nonatomic) CGRect aboutImageFrame;           // 动态图片frame
 @property (assign, nonatomic) CGRect contentFrame;              // 动态文本frame
-@property (assign, nonatomic) CGRect backgroundColorFrame;           // 文本背后的颜色区frame
+@property (assign, nonatomic) CGRect backgroundColorFrame;      // 文本背后的颜色区frame
 
 
 @end

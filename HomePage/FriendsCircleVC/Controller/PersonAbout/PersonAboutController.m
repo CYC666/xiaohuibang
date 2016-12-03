@@ -11,39 +11,39 @@
 
 
 #import "PersonAboutController.h"
-#import "PersonSeeTableView.h"
-#import "SearchTableView.h"
 #import "CNetTool.h"
-#import <SVProgressHUD.h>
-#import "PersonSeeLayout.h"
-#import "PersonSeeModel.h"
-#import "AFHttpTool.h"
 #import "CRefresh.h"
+#import "AFHttpTool.h"
+#import "PersonSeeModel.h"
+#import "SearchTableView.h"
+#import "PersonSeeLayout.h"
+#import "PersonSeeTableView.h"
+#import <SVProgressHUD.h>
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 
-#define RemoveSearchBar @"RemoveSearchBar"  // 移除输入框的通知
+#define RemoveSearchBar @"RemoveSearchBar"                      // 移除输入框的通知
 
 
 @interface PersonAboutController () <UITextFieldDelegate> {
 
-    UITextField *_input;     // 搜索框
-    UIImageView *_searchImage;// 搜索框里面的搜索图标
-    UILabel *_label;            // 搜索框里的显示文字
-    UIButton *_virtualButton;    // 搜索框出现后创建的背景按钮，点击以取消搜索
+    UITextField *_input;            // 搜索框
+    UIImageView *_searchImage;      // 搜索框里面的搜索图标
+    UILabel *_label;                // 搜索框里的显示文字
+    UIButton *_virtualButton;       // 搜索框出现后创建的背景按钮，点击以取消搜索
     
     
 
 }
 
-@property (strong, nonatomic) PersonSeeTableView *seeTableView;  // 个人动态表视图
-@property (strong, nonatomic) NSMutableArray *seeModelList;      // 储存动态的数组
-@property (assign, nonatomic) NSInteger dataTag;                 // 标志上拉加载下拉刷新
-@property (assign, nonatomic) NSInteger dataPage;                // 记录加载页数
-@property (strong, nonatomic) UIView *searchBar;                 // 搜索条
-@property (strong, nonatomic) UILabel *resultLabel;              // 搜索结果数目提示框
-@property (strong, nonatomic) SearchTableView *resultPersonSeeTableView; // 搜索结果显示的内容
+@property (strong, nonatomic) PersonSeeTableView *seeTableView;             // 个人动态表视图
+@property (strong, nonatomic) NSMutableArray *seeModelList;                 // 储存动态的数组
+@property (assign, nonatomic) NSInteger dataTag;                            // 标志上拉加载下拉刷新
+@property (assign, nonatomic) NSInteger dataPage;                           // 记录加载页数
+@property (strong, nonatomic) UIView *searchBar;                            // 搜索条
+@property (strong, nonatomic) UILabel *resultLabel;                         // 搜索结果数目提示框
+@property (strong, nonatomic) SearchTableView *resultPersonSeeTableView;    // 搜索结果显示的内容
 
 @end
 

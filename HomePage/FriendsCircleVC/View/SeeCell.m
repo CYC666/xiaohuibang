@@ -17,15 +17,16 @@
 #import "CButton.h"
 #import "CLabel.h"
 
+#define kHeight 53                                                          // 输入视图默认高度
+#define kProListHeight 25                                                   // 点赞列表的高度
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height              // 屏高
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width                // 屏宽
+
+#define DeleteRow @"DeleteRow"                                              // 删除单元格并刷新表视图的通知名
+#define ScrollTableView @"ScrollTableView"                                  // 发送调节表视图偏移的通知
+#define HideCellInputView @"HideCellInputView"                              // 接收隐藏单元格输入框的通知
+#define CommentReloadTableView @"CommentReloadTableView"                    // 评论后刷新表视图通知
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
-#define DeleteRow @"DeleteRow"  // 删除单元格并刷新表视图的通知名
-#define ScrollTableView @"ScrollTableView"  // 发送调节表视图偏移的通知
-#define CommentReloadTableView @"CommentReloadTableView" // 评论后刷新表视图通知
-#define HideCellInputView @"HideCellInputView"  // 接收隐藏单元格输入框的通知
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
-#define kHeight 53  // 输入视图默认高度
-#define kProListHeight 25       // 点赞列表的高度
 
 @interface SeeCell () <UITextViewDelegate, UIScrollViewDelegate, CLabelDeletage>
 
@@ -279,8 +280,12 @@
         [self.contentView addSubview:comment];
         
         // 添加点击昵称的按钮
+        CGRect rect = [aveluate.nickname boundingRectWithSize:CGSizeMake(300, 999)
+                                                      options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                   attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]}
+                                                      context:nil];
         frame.size.height = 20;
-        frame.size.width = aveluate.nickname.length * 10;
+        frame.size.width = rect.size.width;
         CButton *nickButton = [CButton buttonWithType:UIButtonTypeCustom];
         nickButton.frame = frame;
         nickButton.user_id = aveluate.user_id;

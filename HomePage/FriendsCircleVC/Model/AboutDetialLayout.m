@@ -12,19 +12,19 @@
 #import "AboutDetialLayout.h"
 #import "AveluateModel.h"
 
-#define kSpace 15   // 空隙
+#define kSpace 15           // 空隙
 #define kHeadImageY 20.5    // 头像起点Y
 #define kHeadImageSize 44   // 头像大小
 #define kNicknameX 72       // 昵称起点X
 #define kNicknameWidth 100  // 昵称长度
-#define kNicknameHeight 12.5  // 昵称高度
+#define kNicknameHeight 12.5// 昵称高度
 #define kContentSize 15     // 动态文本字体的大小
 #define kContentY 48        // 动态文本起点Y
 #define kContentRight 29.5  // 动态文本右边的距离
 #define kImageSize 79       // 图片的大小
 #define kDeleteWidth 30     // 删除按钮宽度
 #define kDeleteHeight 12.5  // 删除按钮高度
-#define kTimeWidth 100     // 时间文本的宽度
+#define kTimeWidth 100      // 时间文本的宽度
 #define kProRight 46        // 点赞按钮右边距离
 #define kProWidth 30        // 点赞按钮宽度
 #define kProHeight 14       // 点赞按钮高度
@@ -35,7 +35,7 @@
 #define kProDetialImageHeight 29    // 点赞列表图标的高度
 #define kProDetialImageSize 29      // 点赞列表头像的大小
 #define kCommentDetialImageWidth 14.5   // 评论列表图标的宽度
-#define kCommentDetialImageHeight 12.5   // 评论列表图标的高度
+#define kCommentDetialImageHeight 12.5  // 评论列表图标的高度
 #define kCommentFontSize 14             // 评论文字的大小
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高

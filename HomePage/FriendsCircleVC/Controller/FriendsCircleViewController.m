@@ -7,23 +7,23 @@
 //
 
 #import "FriendsCircleViewController.h"
-#import "SendMomentsController.h"
-#import "FromCameraController.h"
 #import "SeeModel.h"
+#import "CRefresh.h"
+#import "CNetTool.h"
+#import "SeeLayout.h"
 #import "PraiseModel.h"
 #import "AveluateModel.h"
-#import "SeeLayout.h"
-#import "CRefresh.h"
+#import "FromCameraController.h"
+#import "SendMomentsController.h"
 #import <UIImageView+WebCache.h>
-#import "CNetTool.h"
 
 
 
 
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
+#define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"                  // 修改导航栏不透明的通知
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
-#define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"  // 修改导航栏不透明的通知
 
 
 @interface FriendsCircleViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>

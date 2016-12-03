@@ -11,23 +11,23 @@
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
-#define kSpace 12.3           // 控件之间的Y空隙
-#define kNickLabelHight 33.3  // 昵称高度，昵称下面就是动态正文
-#define kContentX 66.0      // 正文的开始X
-#define kContentY 35      // 正文的开始Y
-#define kFontSzie 15        // 正文字体大小
-#define kCommentFontSize 14 // 评论文本字体大小
+#define kSpace 12.3                                             // 控件之间的Y空隙
+#define kNickLabelHight 33.3                                    // 昵称高度，昵称下面就是动态正文
+#define kContentX 66.0                                          // 正文的开始X
+#define kContentY 35                                            // 正文的开始Y
+#define kFontSzie 15                                            // 正文字体大小
+#define kCommentFontSize 14                                     // 评论文本字体大小
 #define kImgSize (kScreenWidth - kContentX - kContentX)         // 图片大小
-#define kDeleteButtonWidth 30   // 删除按钮长度
-#define kTimeLabelWidth 60      // 时间文本的长度
-#define kTimeLabelHeight 12     // 时间文本的高度
-#define kCommentWidth 30      // 评论按钮长度
-#define kCommentHeight 30     // 评论按钮高度
-#define kProWidth 30            // 点赞按钮的宽度
-#define kProHeight 30         // 点赞按钮的高度
+#define kDeleteButtonWidth 30                                   // 删除按钮长度
+#define kTimeLabelWidth 60                                      // 时间文本的长度
+#define kTimeLabelHeight 12                                     // 时间文本的高度
+#define kCommentWidth 30                                        // 评论按钮长度
+#define kCommentHeight 30                                       // 评论按钮高度
+#define kProWidth 30                                            // 点赞按钮的宽度
+#define kProHeight 30                                           // 点赞按钮的高度
 
-#define kProListHeight 25       // 点赞列表的高度
-#define kCommentX 77          // 评论的起点X
+#define kProListHeight 25                                       // 点赞列表的高度
+#define kCommentX 77                                            // 评论的起点X
 
 
 @implementation SeeLayout

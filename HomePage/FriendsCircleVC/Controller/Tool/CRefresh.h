@@ -9,7 +9,7 @@
 #ifndef CRefresh_h
 #define CRefresh_h
 
-#import "UIScrollView+PullDownRefresh.h"
 #import "UIScrollView+PullUpRefresh.h"
+#import "UIScrollView+PullDownRefresh.h"
 
 #endif /* CRefresh_h */

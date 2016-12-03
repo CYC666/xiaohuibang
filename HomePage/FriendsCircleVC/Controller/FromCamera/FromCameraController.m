@@ -14,28 +14,28 @@
 
 
 #import "FromCameraController.h"
+#import "SendMomentsController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "SendMomentsController.h"
 
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
 
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 @interface FromCameraController () {
-    SystemSoundID soundID; //系统声音标识符
+    SystemSoundID soundID;                                                          //系统声音标识符
 }
-@property (weak, nonatomic) IBOutlet UILabel *picLabel;   // 拍照标签
-@property (weak, nonatomic) IBOutlet UILabel *movLabel; // 摄像标签
+@property (weak, nonatomic) IBOutlet UILabel *picLabel;                             // 拍照标签
+@property (weak, nonatomic) IBOutlet UILabel *movLabel;                             // 摄像标签
 
-@property (strong,nonatomic) AVCaptureSession *captureSession;//负责输入和输出设备之间的数据传递
-@property (strong,nonatomic) AVCaptureDeviceInput *captureDeviceInput;//负责从AVCaptureDevice获得输入数据
-@property (strong,nonatomic) AVCaptureStillImageOutput *captureStillImageOutput;//照片输出流
-@property (strong,nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;//相机拍摄预览图层
+@property (strong,nonatomic) AVCaptureSession *captureSession;                      //负责输入和输出设备之间的数据传递
+@property (strong,nonatomic) AVCaptureDeviceInput *captureDeviceInput;              //负责从AVCaptureDevice获得输入数据
+@property (strong,nonatomic) AVCaptureStillImageOutput *captureStillImageOutput;    //照片输出流
+@property (strong,nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;  //相机拍摄预览图层
 @property (weak, nonatomic) IBOutlet UIView *viewContainer;
-@property (weak, nonatomic) IBOutlet UIButton *takeButton;//拍照按钮
-@property (weak, nonatomic) IBOutlet UIButton *flashOnButton;//打开闪光灯按钮
-@property (weak, nonatomic) IBOutlet UIImageView *focusCursor; //聚焦光标
+@property (weak, nonatomic) IBOutlet UIButton *takeButton;                          //拍照按钮
+@property (weak, nonatomic) IBOutlet UIButton *flashOnButton;                       //打开闪光灯按钮
+@property (weak, nonatomic) IBOutlet UIImageView *focusCursor;                      //聚焦光标
 
 @end
 

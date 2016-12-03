@@ -11,15 +11,15 @@
 
 
 #import "AboutDetialController.h"
+#import "CLabel.h"
 #import "CNetTool.h"
 #import "SeeModel.h"
+#import "CImageView.h"
 #import "PraiseModel.h"
 #import "AveluateModel.h"
+#import "PersonAboutController.h"
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
-#import "CImageView.h"
-#import "CLabel.h"
-#import "PersonAboutController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -28,12 +28,12 @@
 
 @interface AboutDetialController () <UITextViewDelegate, UIScrollViewDelegate, CImageViewDelegate, CLabelDeletage> {
 
-    UITextView *_inputView;     // 输入框
-    UILabel *_holdLabel;        // "发表评论"字样
+    UITextView *_inputView;                                     // 输入框
+    UILabel *_holdLabel;                                        // "发表评论"字样
 
 }
 
-@property (assign, nonatomic) BOOL isLike;      // 是否已经点赞
+@property (assign, nonatomic) BOOL isLike;                      // 是否已经点赞
 @property (copy, nonatomic) NSString *user_id;
 @property (copy, nonatomic) NSString *about_id;
 

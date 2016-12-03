@@ -20,24 +20,24 @@
 
 
 
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height          // 屏高
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width            // 屏宽
 
 #define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"  // 修改导航栏不透明的通知
 
 
 @interface AboutWithImageController () <UITextFieldDelegate, UICollectionViewDelegate> {
 
-    UIView *_tabView;           // 底部收纳按钮的视图
-    UITextField *_inputField;    // 底部输入框
-    UILabel *_proLabel;             // 点赞人数
-    UILabel *_commentLabel;         // 评论人数
+    UIView *_tabView;                                   // 底部收纳按钮的视图
+    UITextField *_inputField;                           // 底部输入框
+    UILabel *_proLabel;                                 // 点赞人数
+    UILabel *_commentLabel;                             // 评论人数
 }
 
-@property (assign, nonatomic) BOOL isHideNav;   // 是否隐藏导航栏
-@property (assign, nonatomic) BOOL isShowKeyBoard;  // 是否已经展示了键盘
+@property (assign, nonatomic) BOOL isHideNav;           // 是否隐藏导航栏
+@property (assign, nonatomic) BOOL isShowKeyBoard;      // 是否已经展示了键盘
 @property (assign, nonatomic) NSInteger proCount;       // 点赞人数
-@property (assign, nonatomic) NSInteger commentCount;       // 评论人数
+@property (assign, nonatomic) NSInteger commentCount;   // 评论人数
 
 @end
 
