@@ -89,7 +89,7 @@
                                          } 
                                      } failure:^(NSError *err) {
                                          [SVProgressHUD dismiss];
-                                         [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                         [SVProgressHUD showErrorWithStatus:@"加载失败"];
                                      }];
     }
     return self;
@@ -310,7 +310,7 @@
                                     }
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"评论失败"];
+                                    [SVProgressHUD showErrorWithStatus:@"评论失败"];
                                 }];
 
     // 不管成不成功，先收起键盘再说，要不然重复点击会多次请求。如果发送不成功的话，不会将输入框的内容清除
@@ -344,7 +344,7 @@
                                 
                             } failure:^(NSError *err) {
                                 [SVProgressHUD dismiss];
-                                [SVProgressHUD showSuccessWithStatus:@"请求失败"];
+                                [SVProgressHUD showErrorWithStatus:@"请求失败"];
                             }];
 
     

@@ -26,6 +26,9 @@
 #define RemoveSearchBar @"RemoveSearchBar"                      // 移除输入框的通知
 
 
+
+
+
 @interface PersonAboutController () <UITextFieldDelegate> {
 
     UITextField *_input;            // 搜索框
@@ -67,7 +70,7 @@
                             }
                         } failure:^(NSError *err) {
                             [SVProgressHUD dismiss];
-                            [SVProgressHUD showSuccessWithStatus:@"请求失败"];
+                            [SVProgressHUD showErrorWithStatus:@"请求失败"];
                         }];
         
     }
@@ -250,13 +253,13 @@
                                         } else {
                                             // 没有动态
                                             [SVProgressHUD dismiss];
-                                            [SVProgressHUD showSuccessWithStatus:@"没有动态"];
+                                            [SVProgressHUD showErrorWithStatus:@"没有动态"];
                                             // [self.seeTableView.pullToRefreshView stopAnimating];
                                         }
                                         
                                     } failure:^(NSError *err) {
                                         [SVProgressHUD dismiss];
-                                        [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                        [SVProgressHUD showErrorWithStatus:@"加载失败"];
                                     }];
     
     
@@ -280,13 +283,13 @@
                                         } else {
                                             // 没有动态
                                             [SVProgressHUD dismiss];
-                                            [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
+                                            [SVProgressHUD showErrorWithStatus:@"没有更多动态"];
                                             // [self.seeTableView.pullToRefreshView stopAnimating];
                                         }
                                         
                                     } failure:^(NSError *err) {
                                         [SVProgressHUD dismiss];
-                                        [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                        [SVProgressHUD showErrorWithStatus:@"加载失败"];
                                     }];
     
 }
@@ -310,13 +313,13 @@
                                         } else {
                                             // 没有动态
                                             [SVProgressHUD dismiss];
-                                            [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
+                                            [SVProgressHUD showErrorWithStatus:@"没有更多动态"];
                                             [self.seeTableView.infiniteScrollingView stopAnimating];
                                         }
                                         
                                     } failure:^(NSError *err) {
                                         [SVProgressHUD dismiss];
-                                        [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                        [SVProgressHUD showErrorWithStatus:@"加载失败"];
                                     }];
     
     
@@ -463,11 +466,11 @@
                                         [_input endEditing:YES];
                                     } else {
                                         [SVProgressHUD dismiss];
-                                        [SVProgressHUD showSuccessWithStatus:@"毫无结果"];
+                                        [SVProgressHUD showErrorWithStatus:@"毫无结果"];
                                     }
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"搜索失败"];
+                                    [SVProgressHUD showErrorWithStatus:@"搜索失败"];
                                 }];
     
     

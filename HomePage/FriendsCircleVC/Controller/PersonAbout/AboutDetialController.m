@@ -93,7 +93,7 @@
                                          }
                                      } failure:^(NSError *err) {
                                          [SVProgressHUD dismiss];
-                                         [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                         [SVProgressHUD showErrorWithStatus:@"加载失败"];
                                      }];
     }
     return self;
@@ -347,7 +347,7 @@
                                                                                            [self.navigationController popToRootViewControllerAnimated:YES];
                                                                                        } failure:^(NSError *err) {
                                                                                            [SVProgressHUD dismiss];
-                                                                                           [SVProgressHUD showSuccessWithStatus:@"删除动态失败"];
+                                                                                           [SVProgressHUD showErrorWithStatus:@"删除动态失败"];
                                                                                        }];
                                                        }];
     
@@ -387,7 +387,7 @@
                                     [self reloadSubview];
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"点赞失败"];
+                                    [SVProgressHUD showErrorWithStatus:@"点赞失败"];
                                 }];
         
     } else {
@@ -407,7 +407,7 @@
                                     [self reloadSubview];
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"取消点赞失败"];
+                                    [SVProgressHUD showErrorWithStatus:@"取消点赞失败"];
                                 }];
     }
 
@@ -478,7 +478,7 @@
                                      }
                                  } failure:^(NSError *err) {
                                      [SVProgressHUD dismiss];
-                                     [SVProgressHUD showSuccessWithStatus:@"加载失败"];
+                                     [SVProgressHUD showErrorWithStatus:@"加载失败"];
                                  }];
 
 }
@@ -541,7 +541,7 @@
                                         }
                                     } failure:^(NSError *err) {
                                         [SVProgressHUD dismiss];
-                                        [SVProgressHUD showSuccessWithStatus:@"评论失败"];
+                                        [SVProgressHUD showErrorWithStatus:@"评论失败"];
                                     }];
         return NO;
     }

@@ -169,14 +169,14 @@
     if (_textView.text.length > 255) {
         // 弹窗提示字数过多
         [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"请少于255字"];
+        [SVProgressHUD showErrorWithStatus:@"请少于255字"];
         return;
     }
     
     // 判断是否含有表情
     if ([NSString stringContainsEmoji:_textView.text]) {
         [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"暂不支持表情"];
+        [SVProgressHUD showErrorWithStatus:@"暂不支持表情"];
         return;
     }
 
@@ -195,7 +195,7 @@
                                       [SVProgressHUD showSuccessWithStatus:@"发送成功"];
                                   } failure:^(NSError *err) {
                                       [SVProgressHUD dismiss];
-                                      [SVProgressHUD showSuccessWithStatus:@"发送失败"];
+                                      [SVProgressHUD showErrorWithStatus:@"发送失败"];
                                   }];
     } else {
     
@@ -205,7 +205,7 @@
                                       [SVProgressHUD showSuccessWithStatus:@"发送成功"];
                                   } failure:^(NSError *err) {
                                       [SVProgressHUD dismiss];
-                                      [SVProgressHUD showSuccessWithStatus:@"发送失败"];
+                                      [SVProgressHUD showErrorWithStatus:@"发送失败"];
                                   }];
     
     }
@@ -326,7 +326,7 @@
 
     if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
         [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"此功能还没开放呢"];
+        [SVProgressHUD showErrorWithStatus:@"此功能还没开放呢"];
     }
     
 }

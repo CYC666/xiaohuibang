@@ -201,8 +201,7 @@
     // 设置动态图片的frame,加载缩略图
     if (_seeLayout.seeModel.about_img != nil) {
        
-        [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img]
-                               placeholderImage:[UIImage imageNamed:@"pic_loading"]];
+        [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img]];
         self.aboutImageView.frame = _seeLayout.imgFrame;
     }
     
@@ -572,8 +571,17 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     // 设置imageview的内容模式，必须在设置图片之前设置，不然会出错
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.userInteractionEnabled = YES;
+    // [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]];
+    // 先显示缩略图，一边加载高清图，实时显示进度
     [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]
-                 placeholderImage:[UIImage imageNamed:@"pic_loading"]];
+                 placeholderImage:_aboutImageView.image
+                          options:SDWebImageRetryFailed
+                         progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                             [SVProgressHUD showProgress:receivedSize / (expectedSize * 1.0)];
+                         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                             [SVProgressHUD dismiss];
+                         }];
+    
     // 添加长按手势，保存到本地
     UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(longPressAction:)];
