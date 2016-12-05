@@ -12,11 +12,14 @@
 
 #import "SendMomentsController.h"
 #import "CNetTool.h"
+#import "CImageView.h"
 #import "NSString+Extension.h"
 #import "NSString+Extension.h"
 #import "CLocationController.h"
 #import "FromCameraController.h"
 #import <SVProgressHUD.h>
+#import "SuPhotoPicker.h"
+#import "SuPhotoPreviewer.h"
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -25,18 +28,15 @@
 @interface SendMomentsController () <UITextViewDelegate, UIScrollViewDelegate,
                                     UITableViewDelegate, UITableViewDataSource,
                         UIImagePickerControllerDelegate, UINavigationControllerDelegate,
-                                    RCEmojiViewDelegate> {
+                                    RCEmojiViewDelegate, CImageViewDelegate> {
 
     UITableView *_tableView;
     UITextView *_textView;              // 输入框
     RCEmojiBoardView *_emojiInputView;  // 表情输入框
     NSData *_photoData;                 // 等待上传的图片数据
-    
-    
-    
-    
-}
 
+}
+@property (strong, nonatomic) CImageView *imageWillPush;    // 显示即将上传的图片
 
 
 @end
@@ -60,7 +60,8 @@
     self = [super init];
     if (self != nil) {
         self.willPushPhoto = image;
-        self.willPushImageView.image = image;
+        self.imageWillPush.image = image;
+        _imageWillPush.imageNum = 1;
         
     }
     return self;
@@ -78,33 +79,28 @@
 
 
 #pragma mark - 懒加载
-- (UIImageView *)willPushImageView {
+- (CImageView *)imageWillPush {
 
-    if (_willPushImageView == nil) {
-        // 控制位置
-        _willPushImageView = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth - 240)/2.0, kScreenHeight-240, 240, 240)];
-        _willPushImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _willPushImageView.userInteractionEnabled = YES;
-        [self.view addSubview:_willPushImageView];
-        
-        // 给图片添加点击手势，点击图片后将图片删除
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteImage:)];
-        tap.numberOfTapsRequired = 2;
-        [_willPushImageView addGestureRecognizer:tap];
-        
-        // 提示双指点击可删除
-        NSString *result = [USER_D objectForKey:@"双击图片可删除"];
-        if (result == nil) {
-            [SVProgressHUD dismiss];
-            [SVProgressHUD showSuccessWithStatus:@"双击图片可删除"];
-            [USER_D setObject:@"已经提示过" forKey:@"双击图片可删除"];
-        }
-        
+    if (_imageWillPush == nil) {
+        _imageWillPush = [[CImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 40 - 8, 19.5, 40, 40)];
+        _imageWillPush.contentMode = UIViewContentModeScaleAspectFill;
+        _imageWillPush.clipsToBounds = YES;
+        _imageWillPush.delegate = self;
+        // 将提示的图片添加到输入框的父视图，而不是添加到输入框（添加到输入框的话，输入框字数过多，图片会被顶出屏幕）
+        [_textView.superview addSubview:_imageWillPush];
     }
-    return _willPushImageView;
+    return _imageWillPush;
 
 }
 
+- (NSMutableArray *)willPushPhotoArr {
+
+    if (_willPushPhotoArr == nil) {
+        _willPushPhotoArr = [NSMutableArray array];
+    }
+    return _willPushPhotoArr;
+
+}
 
 
 #pragma mark - 设置导航栏
@@ -275,7 +271,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         
-        _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.3)];
+        _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth - 62.5, kScreenHeight*.3)];
         _textView.text = @"记录我的生活";
         _textView.font = [UIFont systemFontOfSize:17];
         _textView.textColor = [UIColor lightGrayColor];
@@ -389,11 +385,19 @@
 
 #pragma mark - 打开系统相册选区照片
 - (void)openSystemPicture {
+
+    SuPhotoPicker * picker = [[SuPhotoPicker alloc]init];
+    //最大选择图片的数量以及最大快速预览图片的数量，默认为20
+    picker.selectedCount = 9;
+    picker.preViewCount = 20;
+    //现在在界面上
+    [picker showInSender:self handle:^(NSArray<UIImage *> *photos) {
+        //完成选择后的操作
+        self.willPushPhotoArr = [NSMutableArray arrayWithArray:photos];
+        self.imageWillPush.image = photos.firstObject;
+        self.imageWillPush.imageNum = photos.count;
+    }];
     
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePickerController.delegate = self;
-    [self presentViewController:imagePickerController animated:YES completion:nil];
     
 }
 
@@ -415,13 +419,16 @@
         // 取出照片
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
+        self.imageWillPush.image = image;
+        _imageWillPush.imageNum = 1;
         self.willPushPhoto = image;
-        self.willPushImageView.image = image;
         
     } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         UIImage *image = info[UIImagePickerControllerOriginalImage];
+        
+        self.imageWillPush.image = image;
+        _imageWillPush.imageNum = 1;
         self.willPushPhoto = image;
-        self.willPushImageView.image = image;
     }
     
     //关闭,返回
@@ -482,11 +489,23 @@
 #pragma mark - 删除即将上传的照片
 - (void)deleteImage:(UITapGestureRecognizer *)tap {
 
-    _willPushImageView.image = nil;
 
+    
 }
 
+#pragma mark - 点击了图片预览，跳转查看已经选着的image
+- (void)cImageViewTouch:(CImageView *)cImageView {
 
+//    SuPhotoPreviewer * previewer = [[SuPhotoPreviewer alloc]init];
+//    previewer.isPreviewSelectedPhotos = YES;
+//    previewer.previewPhotos = self.willPushPhotoArr;
+//    [self.navigationController pushViewController:previewer animated:YES];
+
+    for (UIImage *image in self.willPushPhotoArr) {
+        NSLog(@"%@", image);
+    }
+    
+}
 
 
 
@@ -528,7 +547,38 @@
  //           [SVProgressHUD showSuccessWithStatus:@"发送失败"];
  //       }];
 
+ - (UIImageView *)willPushImageView {
  
+ if (_willPushImageView == nil) {
+ // 控制位置
+ _willPushImageView = [[UIImageView alloc] initWithFrame:CGRectMake((kScreenWidth - 240)/2.0, kScreenHeight-240, 240, 240)];
+ _willPushImageView.contentMode = UIViewContentModeScaleAspectFit;
+ _willPushImageView.userInteractionEnabled = YES;
+ [self.view addSubview:_willPushImageView];
+ 
+ // 给图片添加点击手势，点击图片后将图片删除
+ UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteImage:)];
+ tap.numberOfTapsRequired = 2;
+ [_willPushImageView addGestureRecognizer:tap];
+ 
+ // 提示双指点击可删除
+ NSString *result = [USER_D objectForKey:@"双击图片可删除"];
+ if (result == nil) {
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"双击图片可删除"];
+ [USER_D setObject:@"已经提示过" forKey:@"双击图片可删除"];
+ }
+ 
+ }
+ return _willPushImageView;
+ 
+ }
+ 
+ //    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+ //    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+ //    imagePickerController.delegate = self;
+ //    [self presentViewController:imagePickerController animated:YES completion:nil];
+
  
  */
 

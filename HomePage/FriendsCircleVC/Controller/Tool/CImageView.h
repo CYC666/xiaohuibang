@@ -25,8 +25,12 @@
 
 @interface CImageView : UIImageView
 
+// 点击头像跳转界面
 @property (weak, nonatomic) id<CImageViewDelegate> delegate;
 @property (copy, nonatomic) NSString *imageID;
+
+// 发表多图动态界面
+@property (assign, nonatomic) NSInteger imageNum;   // 图片量
 
 
 @end

@@ -609,6 +609,7 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 // 隐藏查看原图
 - (void)hideBiggerImageView:(UITapGestureRecognizer *)tap {
 
+    [SVProgressHUD dismiss];
     [UIView animateWithDuration:.35
                      animations:^{
                         tap.view.alpha = 0;

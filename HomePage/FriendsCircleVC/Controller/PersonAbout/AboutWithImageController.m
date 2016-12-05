@@ -158,7 +158,12 @@
     self.navigationItem.titleView = title;
 
     // 设置图片
-    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
+    // [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
+    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]
+                           placeholderImage:nil
+                                    options:SDWebImageProgressiveDownload
+                                   progress:nil
+                                  completed:nil];
     
     // 创建底部的按钮栏
     _tabView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 49, kScreenWidth, 49)];
@@ -384,6 +389,15 @@
 
 }
 
+// 当视图即将消失时，将导航栏归原样
+- (void)viewWillDisappear:(BOOL)animated {
+
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+                     }];
+
+}
 
 // 控制器销毁之前，将导航栏设置回不透明，不然会影响其他导航栏
 - (void)dealloc {

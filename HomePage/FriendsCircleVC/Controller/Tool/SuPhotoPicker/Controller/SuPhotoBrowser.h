@@ -1,0 +1,21 @@
+//
+//  SuPhotoBrowser.h
+//  LazyWeather
+//
+//  Created by KevinSu on 15/12/6.
+//  Copyright © 2015年 SuXiaoMing. All rights reserved.
+//
+
+// 集合视图显示所有的图片，都是缩略图
+
+
+
+#import "SuPhotoBaseController.h"
+
+@class PHAssetCollection;
+@interface SuPhotoBrowser : SuPhotoBaseController
+
+@property (nonatomic, copy) NSString * collectionTitle;
+@property (nonatomic, strong) PHAssetCollection * assetCollection;
+
+@end

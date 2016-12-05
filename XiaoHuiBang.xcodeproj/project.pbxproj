@@ -38,6 +38,32 @@
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
 		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
 		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
+		0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */; };
+		0485C32C1DF54A7100D19FA7 /* UIButton+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FD1DF54A7100D19FA7 /* UIButton+SU.m */; };
+		0485C32D1DF54A7100D19FA7 /* UIImage+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FF1DF54A7100D19FA7 /* UIImage+SU.m */; };
+		0485C32E1DF54A7100D19FA7 /* UIView+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3011DF54A7100D19FA7 /* UIView+SU.m */; };
+		0485C32F1DF54A7100D19FA7 /* UIView+SuAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3031DF54A7100D19FA7 /* UIView+SuAnimation.m */; };
+		0485C3301DF54A7100D19FA7 /* UIView+SuLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3051DF54A7100D19FA7 /* UIView+SuLine.m */; };
+		0485C3311DF54A7100D19FA7 /* SuPhotoAblumList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3081DF54A7100D19FA7 /* SuPhotoAblumList.m */; };
+		0485C3321DF54A7100D19FA7 /* SuPhotoBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C30A1DF54A7100D19FA7 /* SuPhotoBaseController.m */; };
+		0485C3331DF54A7100D19FA7 /* SuPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C30C1DF54A7100D19FA7 /* SuPhotoBrowser.m */; };
+		0485C3341DF54A7100D19FA7 /* SuPhotoBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0485C30D1DF54A7100D19FA7 /* SuPhotoBrowser.xib */; };
+		0485C3351DF54A7100D19FA7 /* SuPhotoPreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3101DF54A7100D19FA7 /* SuPhotoPreviewer.m */; };
+		0485C3361DF54A7100D19FA7 /* SuPhotoPreviewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0485C3111DF54A7100D19FA7 /* SuPhotoPreviewer.xib */; };
+		0485C3371DF54A7100D19FA7 /* SuAblumInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3141DF54A7100D19FA7 /* SuAblumInfo.m */; };
+		0485C3381DF54A7100D19FA7 /* SuBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0485C3161DF54A7100D19FA7 /* SuBack@2x.png */; };
+		0485C3391DF54A7100D19FA7 /* SuBack@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0485C3171DF54A7100D19FA7 /* SuBack@3x.png */; };
+		0485C33A1DF54A7100D19FA7 /* SuPhoto_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0485C3181DF54A7100D19FA7 /* SuPhoto_circle@2x.png */; };
+		0485C33B1DF54A7100D19FA7 /* SuPhoto_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0485C3191DF54A7100D19FA7 /* SuPhoto_selected@2x.png */; };
+		0485C33C1DF54A7100D19FA7 /* SuPhoto_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0485C31A1DF54A7100D19FA7 /* SuPhoto_unselected@2x.png */; };
+		0485C33D1DF54A7100D19FA7 /* SuPhotoPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C31C1DF54A7100D19FA7 /* SuPhotoPicker.m */; };
+		0485C33E1DF54A7100D19FA7 /* SuMessageTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C31F1DF54A7100D19FA7 /* SuMessageTool.m */; };
+		0485C33F1DF54A7100D19FA7 /* SuPhotoCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3211DF54A7100D19FA7 /* SuPhotoCenter.m */; };
+		0485C3401DF54A7100D19FA7 /* SuPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3231DF54A7100D19FA7 /* SuPhotoManager.m */; };
+		0485C3411DF54A7100D19FA7 /* SuPhotoAblumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3261DF54A7100D19FA7 /* SuPhotoAblumCell.m */; };
+		0485C3421DF54A7100D19FA7 /* SuPhotoAblumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0485C3271DF54A7100D19FA7 /* SuPhotoAblumCell.xib */; };
+		0485C3431DF54A7100D19FA7 /* SuPhotoBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3291DF54A7100D19FA7 /* SuPhotoBrowserCell.m */; };
+		0485C3441DF54A7100D19FA7 /* SuPhotoBrowserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0485C32A1DF54A7100D19FA7 /* SuPhotoBrowserCell.xib */; };
 		0490A3EE1DEE7989006C4644 /* AboutDetialController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3ED1DEE7989006C4644 /* AboutDetialController.m */; };
 		0490A3F11DEE7CC9006C4644 /* AboutDetialLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3F01DEE7CC9006C4644 /* AboutDetialLayout.m */; };
 		04A652E61DEFC1B6006A85FD /* icon_pro.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A652E31DEFC1B6006A85FD /* icon_pro.png */; };
@@ -446,6 +472,50 @@
 		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
 		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
 		0485C2F31DF2750000D19FA7 /* CImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CImageView.m; sourceTree = "<group>"; };
+		0485C2FA1DF54A7100D19FA7 /* NSString+SU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SU.h"; sourceTree = "<group>"; };
+		0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SU.m"; sourceTree = "<group>"; };
+		0485C2FC1DF54A7100D19FA7 /* UIButton+SU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SU.h"; sourceTree = "<group>"; };
+		0485C2FD1DF54A7100D19FA7 /* UIButton+SU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SU.m"; sourceTree = "<group>"; };
+		0485C2FE1DF54A7100D19FA7 /* UIImage+SU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SU.h"; sourceTree = "<group>"; };
+		0485C2FF1DF54A7100D19FA7 /* UIImage+SU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SU.m"; sourceTree = "<group>"; };
+		0485C3001DF54A7100D19FA7 /* UIView+SU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SU.h"; sourceTree = "<group>"; };
+		0485C3011DF54A7100D19FA7 /* UIView+SU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SU.m"; sourceTree = "<group>"; };
+		0485C3021DF54A7100D19FA7 /* UIView+SuAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SuAnimation.h"; sourceTree = "<group>"; };
+		0485C3031DF54A7100D19FA7 /* UIView+SuAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SuAnimation.m"; sourceTree = "<group>"; };
+		0485C3041DF54A7100D19FA7 /* UIView+SuLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SuLine.h"; sourceTree = "<group>"; };
+		0485C3051DF54A7100D19FA7 /* UIView+SuLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SuLine.m"; sourceTree = "<group>"; };
+		0485C3071DF54A7100D19FA7 /* SuPhotoAblumList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoAblumList.h; sourceTree = "<group>"; };
+		0485C3081DF54A7100D19FA7 /* SuPhotoAblumList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoAblumList.m; sourceTree = "<group>"; };
+		0485C3091DF54A7100D19FA7 /* SuPhotoBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoBaseController.h; sourceTree = "<group>"; };
+		0485C30A1DF54A7100D19FA7 /* SuPhotoBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoBaseController.m; sourceTree = "<group>"; };
+		0485C30B1DF54A7100D19FA7 /* SuPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoBrowser.h; sourceTree = "<group>"; };
+		0485C30C1DF54A7100D19FA7 /* SuPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoBrowser.m; sourceTree = "<group>"; };
+		0485C30D1DF54A7100D19FA7 /* SuPhotoBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuPhotoBrowser.xib; sourceTree = "<group>"; };
+		0485C30E1DF54A7100D19FA7 /* SuPhotoHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoHeader.h; sourceTree = "<group>"; };
+		0485C30F1DF54A7100D19FA7 /* SuPhotoPreviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoPreviewer.h; sourceTree = "<group>"; };
+		0485C3101DF54A7100D19FA7 /* SuPhotoPreviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoPreviewer.m; sourceTree = "<group>"; };
+		0485C3111DF54A7100D19FA7 /* SuPhotoPreviewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuPhotoPreviewer.xib; sourceTree = "<group>"; };
+		0485C3131DF54A7100D19FA7 /* SuAblumInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuAblumInfo.h; sourceTree = "<group>"; };
+		0485C3141DF54A7100D19FA7 /* SuAblumInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuAblumInfo.m; sourceTree = "<group>"; };
+		0485C3161DF54A7100D19FA7 /* SuBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SuBack@2x.png"; sourceTree = "<group>"; };
+		0485C3171DF54A7100D19FA7 /* SuBack@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SuBack@3x.png"; sourceTree = "<group>"; };
+		0485C3181DF54A7100D19FA7 /* SuPhoto_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SuPhoto_circle@2x.png"; sourceTree = "<group>"; };
+		0485C3191DF54A7100D19FA7 /* SuPhoto_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SuPhoto_selected@2x.png"; sourceTree = "<group>"; };
+		0485C31A1DF54A7100D19FA7 /* SuPhoto_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SuPhoto_unselected@2x.png"; sourceTree = "<group>"; };
+		0485C31B1DF54A7100D19FA7 /* SuPhotoPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoPicker.h; sourceTree = "<group>"; };
+		0485C31C1DF54A7100D19FA7 /* SuPhotoPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoPicker.m; sourceTree = "<group>"; };
+		0485C31E1DF54A7100D19FA7 /* SuMessageTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuMessageTool.h; sourceTree = "<group>"; };
+		0485C31F1DF54A7100D19FA7 /* SuMessageTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuMessageTool.m; sourceTree = "<group>"; };
+		0485C3201DF54A7100D19FA7 /* SuPhotoCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoCenter.h; sourceTree = "<group>"; };
+		0485C3211DF54A7100D19FA7 /* SuPhotoCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoCenter.m; sourceTree = "<group>"; };
+		0485C3221DF54A7100D19FA7 /* SuPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoManager.h; sourceTree = "<group>"; };
+		0485C3231DF54A7100D19FA7 /* SuPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoManager.m; sourceTree = "<group>"; };
+		0485C3251DF54A7100D19FA7 /* SuPhotoAblumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoAblumCell.h; sourceTree = "<group>"; };
+		0485C3261DF54A7100D19FA7 /* SuPhotoAblumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoAblumCell.m; sourceTree = "<group>"; };
+		0485C3271DF54A7100D19FA7 /* SuPhotoAblumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuPhotoAblumCell.xib; sourceTree = "<group>"; };
+		0485C3281DF54A7100D19FA7 /* SuPhotoBrowserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoBrowserCell.h; sourceTree = "<group>"; };
+		0485C3291DF54A7100D19FA7 /* SuPhotoBrowserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoBrowserCell.m; sourceTree = "<group>"; };
+		0485C32A1DF54A7100D19FA7 /* SuPhotoBrowserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuPhotoBrowserCell.xib; sourceTree = "<group>"; };
 		0490A3EC1DEE7989006C4644 /* AboutDetialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialController.h; sourceTree = "<group>"; };
 		0490A3ED1DEE7989006C4644 /* AboutDetialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutDetialController.m; sourceTree = "<group>"; };
 		0490A3EF1DEE7CC9006C4644 /* AboutDetialLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialLayout.h; sourceTree = "<group>"; };
@@ -991,6 +1061,105 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0485C2F81DF54A7100D19FA7 /* SuPhotoPicker */ = {
+			isa = PBXGroup;
+			children = (
+				0485C2F91DF54A7100D19FA7 /* Category */,
+				0485C3061DF54A7100D19FA7 /* Controller */,
+				0485C3121DF54A7100D19FA7 /* Model */,
+				0485C3151DF54A7100D19FA7 /* Resource */,
+				0485C31B1DF54A7100D19FA7 /* SuPhotoPicker.h */,
+				0485C31C1DF54A7100D19FA7 /* SuPhotoPicker.m */,
+				0485C31D1DF54A7100D19FA7 /* Tool */,
+				0485C3241DF54A7100D19FA7 /* View */,
+			);
+			path = SuPhotoPicker;
+			sourceTree = "<group>";
+		};
+		0485C2F91DF54A7100D19FA7 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				0485C2FA1DF54A7100D19FA7 /* NSString+SU.h */,
+				0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */,
+				0485C2FC1DF54A7100D19FA7 /* UIButton+SU.h */,
+				0485C2FD1DF54A7100D19FA7 /* UIButton+SU.m */,
+				0485C2FE1DF54A7100D19FA7 /* UIImage+SU.h */,
+				0485C2FF1DF54A7100D19FA7 /* UIImage+SU.m */,
+				0485C3001DF54A7100D19FA7 /* UIView+SU.h */,
+				0485C3011DF54A7100D19FA7 /* UIView+SU.m */,
+				0485C3021DF54A7100D19FA7 /* UIView+SuAnimation.h */,
+				0485C3031DF54A7100D19FA7 /* UIView+SuAnimation.m */,
+				0485C3041DF54A7100D19FA7 /* UIView+SuLine.h */,
+				0485C3051DF54A7100D19FA7 /* UIView+SuLine.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		0485C3061DF54A7100D19FA7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0485C3071DF54A7100D19FA7 /* SuPhotoAblumList.h */,
+				0485C3081DF54A7100D19FA7 /* SuPhotoAblumList.m */,
+				0485C3091DF54A7100D19FA7 /* SuPhotoBaseController.h */,
+				0485C30A1DF54A7100D19FA7 /* SuPhotoBaseController.m */,
+				0485C30B1DF54A7100D19FA7 /* SuPhotoBrowser.h */,
+				0485C30C1DF54A7100D19FA7 /* SuPhotoBrowser.m */,
+				0485C30D1DF54A7100D19FA7 /* SuPhotoBrowser.xib */,
+				0485C30E1DF54A7100D19FA7 /* SuPhotoHeader.h */,
+				0485C30F1DF54A7100D19FA7 /* SuPhotoPreviewer.h */,
+				0485C3101DF54A7100D19FA7 /* SuPhotoPreviewer.m */,
+				0485C3111DF54A7100D19FA7 /* SuPhotoPreviewer.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0485C3121DF54A7100D19FA7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0485C3131DF54A7100D19FA7 /* SuAblumInfo.h */,
+				0485C3141DF54A7100D19FA7 /* SuAblumInfo.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0485C3151DF54A7100D19FA7 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				0485C3161DF54A7100D19FA7 /* SuBack@2x.png */,
+				0485C3171DF54A7100D19FA7 /* SuBack@3x.png */,
+				0485C3181DF54A7100D19FA7 /* SuPhoto_circle@2x.png */,
+				0485C3191DF54A7100D19FA7 /* SuPhoto_selected@2x.png */,
+				0485C31A1DF54A7100D19FA7 /* SuPhoto_unselected@2x.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		0485C31D1DF54A7100D19FA7 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				0485C31E1DF54A7100D19FA7 /* SuMessageTool.h */,
+				0485C31F1DF54A7100D19FA7 /* SuMessageTool.m */,
+				0485C3201DF54A7100D19FA7 /* SuPhotoCenter.h */,
+				0485C3211DF54A7100D19FA7 /* SuPhotoCenter.m */,
+				0485C3221DF54A7100D19FA7 /* SuPhotoManager.h */,
+				0485C3231DF54A7100D19FA7 /* SuPhotoManager.m */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		0485C3241DF54A7100D19FA7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0485C3251DF54A7100D19FA7 /* SuPhotoAblumCell.h */,
+				0485C3261DF54A7100D19FA7 /* SuPhotoAblumCell.m */,
+				0485C3271DF54A7100D19FA7 /* SuPhotoAblumCell.xib */,
+				0485C3281DF54A7100D19FA7 /* SuPhotoBrowserCell.h */,
+				0485C3291DF54A7100D19FA7 /* SuPhotoBrowserCell.m */,
+				0485C32A1DF54A7100D19FA7 /* SuPhotoBrowserCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		04AA38E91DE3E21B00CADF74 /* PersonAbout */ = {
 			isa = PBXGroup;
 			children = (
@@ -1789,6 +1958,7 @@
 		F3F478AD1DDFE3C500E21E97 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				0485C2F81DF54A7100D19FA7 /* SuPhotoPicker */,
 				0485C2EF1DF274B200D19FA7 /* CLabel.h */,
 				0485C2F01DF274B200D19FA7 /* CLabel.m */,
 				F3F478AE1DDFE3C500E21E97 /* CNetTool.h */,
@@ -2018,6 +2188,8 @@
 				F34823B11DD2BF5500D2834E /* icon_moments_selected_selected@2x.png in Resources */,
 				F334F4991DCC5CF5002CFBBC /* 图层-2@3x.png in Resources */,
 				F34823D11DD2C0B000D2834E /* icon_xiaoxin_unselected_@3x.png in Resources */,
+				0485C3381DF54A7100D19FA7 /* SuBack@2x.png in Resources */,
+				0485C3341DF54A7100D19FA7 /* SuPhotoBrowser.xib in Resources */,
 				F30947661DD33ECF00638827 /* icon_press@2x.png in Resources */,
 				04A652F21DEFC31F006A85FD /* icon_pro_selected.png in Resources */,
 				F34823CA1DD2C0B000D2834E /* icon_profile_selected@2x.png in Resources */,
@@ -2052,6 +2224,7 @@
 				04A652F31DEFC31F006A85FD /* icon_pro_selected@2x.png in Resources */,
 				F34823CE1DD2C0B000D2834E /* icon_xiaohui_selected-@2x.png in Resources */,
 				F39FD7661DDDBA9F00D3724C /* icon_pro_gray@3x.png in Resources */,
+				0485C3421DF54A7100D19FA7 /* SuPhotoAblumCell.xib in Resources */,
 				F39FD75F1DDDBA9F00D3724C /* pic_loading.png in Resources */,
 				F34823CD1DD2C0B000D2834E /* icon_profile_unselected@3x.png in Resources */,
 				04028FA21DED55280000CE45 /* icon_comment_blue@3x.png in Resources */,
@@ -2065,6 +2238,7 @@
 				F39FD7051DDDB5BF00D3724C /* white_location_icon.png in Resources */,
 				F39FD6E91DDDB43300D3724C /* icon_back_weizhi@2x.png in Resources */,
 				F39FD6F21DDDB43300D3724C /* icon_position_sharer@2x.png in Resources */,
+				0485C33B1DF54A7100D19FA7 /* SuPhoto_selected@2x.png in Resources */,
 				F3EBC48F1D9A471D00E93C02 /* icon_password_hide@2x.png in Resources */,
 				F317F4061DA7828F00DB5F70 /* icon_加人@2x.png in Resources */,
 				F3F478D91DDFE3C500E21E97 /* loading@2x.gif in Resources */,
@@ -2086,6 +2260,7 @@
 				F3F631F51D9A7B3100388996 /* 头像@3x.png in Resources */,
 				F39FD7071DDDB5D300D3724C /* location_arrow.png in Resources */,
 				F334F4A91DCC5FB5002CFBBC /* pic_delete@3x.png in Resources */,
+				0485C3441DF54A7100D19FA7 /* SuPhotoBrowserCell.xib in Resources */,
 				F3EBC4A71D9A6B7700E93C02 /* ceshi.png in Resources */,
 				F39FD6F31DDDB43300D3724C /* icon_position_sharer@3x.png in Resources */,
 				F3E3E9521D9B68BB00E69300 /* RegistAgreementViewController.xib in Resources */,
@@ -2098,6 +2273,7 @@
 				F309474C1DD33EB800638827 /* icon_emoj@2x.png in Resources */,
 				F34823B51DD2BF5500D2834E /* icon_moments_unselected@3x.png in Resources */,
 				F317F4071DA7828F00DB5F70 /* icon_加人@3x.png in Resources */,
+				0485C33A1DF54A7100D19FA7 /* SuPhoto_circle@2x.png in Resources */,
 				04028F961DED54FB0000CE45 /* icon_pro_red@3x.png in Resources */,
 				F39FD6EA1DDDB43300D3724C /* icon_back_weizhi@3x.png in Resources */,
 				F33F89941D9E4EA600FB0F70 /* icon_massage@3x.png in Resources */,
@@ -2114,6 +2290,7 @@
 				F3EC358C1DBA100A00F350CA /* icon_profile@2x.png in Resources */,
 				F35DB80E1DA6310400AF5A31 /* app icon@3x.png in Resources */,
 				04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */,
+				0485C33C1DF54A7100D19FA7 /* SuPhoto_unselected@2x.png in Resources */,
 				04A652E61DEFC1B6006A85FD /* icon_pro.png in Resources */,
 				F30947651DD33ECF00638827 /* icon_position@3x.png in Resources */,
 				F30947641DD33ECF00638827 /* icon_position@2x.png in Resources */,
@@ -2138,6 +2315,7 @@
 				F334F4981DCC5CF5002CFBBC /* 图层-2@2x.png in Resources */,
 				04028FA11DED55280000CE45 /* icon_comment_blue@2x.png in Resources */,
 				F3E3E9541D9B68BB00E69300 /* RegistViewController.xib in Resources */,
+				0485C3391DF54A7100D19FA7 /* SuBack@3x.png in Resources */,
 				F30947401DD33E9C00638827 /* icon_@@2x.png in Resources */,
 				F334F4B91DCC775A002CFBBC /* icon_bangyouquan_unselected@2x.png in Resources */,
 				04095F511DE28755009AD2EC /* icon_emojNew@3x.png in Resources */,
@@ -2164,6 +2342,7 @@
 				F3EBC49A1D9A657E00E93C02 /* tx1.png in Resources */,
 				F317F4081DA7828F00DB5F70 /* icon_add@2x.png in Resources */,
 				F334F4A81DCC5FB5002CFBBC /* pic_delete@2x.png in Resources */,
+				0485C3361DF54A7100D19FA7 /* SuPhotoPreviewer.xib in Resources */,
 				F3703BBA1DBDFD38000508B1 /* AB5C9E0319D66CB8A938884D6D960D34.png in Resources */,
 				F30947881DD3409500638827 /* alpha50@2x.png in Resources */,
 				F3F478CE1DDFE3C500E21E97 /* FromCameraController.xib in Resources */,
@@ -2320,8 +2499,10 @@
 				F35DD7011DC35E98001A8F99 /* RCDContactSelectedTableViewCell.m in Sources */,
 				04AA38EC1DE3E24100CADF74 /* PersonAboutController.m in Sources */,
 				F313E6C71DB62544005111E0 /* MultiSelectSearchResultTableViewCell.m in Sources */,
+				0485C3311DF54A7100D19FA7 /* SuPhotoAblumList.m in Sources */,
 				F3E3E9511D9B68BB00E69300 /* RegistAgreementViewController.m in Sources */,
 				F3A0E0261DB75A2200E9F12C /* MLLetterIndexNavigationItem.m in Sources */,
+				0485C33E1DF54A7100D19FA7 /* SuMessageTool.m in Sources */,
 				F3E3E9721D9BCE2600E69300 /* PersonageViewController.m in Sources */,
 				F35B23F51DAE31E6009EFE77 /* SearchListViewController.m in Sources */,
 				F3A0E0271DB75A2200E9F12C /* MLLetterIndexNavigationView.m in Sources */,
@@ -2338,6 +2519,7 @@
 				04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */,
 				F30804231DA5F78E00859781 /* SetMessageToInformViewController.m in Sources */,
 				F33F89B51D9E6C2600FB0F70 /* UserInfomationTableViewCell.m in Sources */,
+				0485C3411DF54A7100D19FA7 /* SuPhotoAblumCell.m in Sources */,
 				F3F478D51DDFE3C500E21E97 /* UIScrollView+PullDownRefresh.m in Sources */,
 				F35C03531DC3593B003D9613 /* RCDConversationSettingTableViewHeaderItem.m in Sources */,
 				F3F478E01DDFE3C500E21E97 /* SeeLayout.m in Sources */,
@@ -2357,6 +2539,7 @@
 				F3E3E9321D9B5A3500E69300 /* MyTool.m in Sources */,
 				04095F461DE285A8009AD2EC /* InputView.m in Sources */,
 				F3B763141DC0AFD7009619DA /* pinyin.c in Sources */,
+				0485C3331DF54A7100D19FA7 /* SuPhotoBrowser.m in Sources */,
 				F34FE69A1DBB7D210054C5AD /* RCDChatListCell.m in Sources */,
 				04AA38F51DE3F51400CADF74 /* PersonSeeLayout.m in Sources */,
 				F35DD7041DC35F66001A8F99 /* RCDCreateGroupViewController.m in Sources */,
@@ -2368,6 +2551,7 @@
 				F3F478CD1DDFE3C500E21E97 /* FromCameraController.m in Sources */,
 				F3130F7A1DD9A37900B12726 /* RealTimeLocationViewController.m in Sources */,
 				F313E6C91DB62544005111E0 /* MultiSelectTableViewCell.m in Sources */,
+				0485C3321DF54A7100D19FA7 /* SuPhotoBaseController.m in Sources */,
 				F33F89831D9E4B9000FB0F70 /* PersonageTableViewCell.m in Sources */,
 				F3B7631A1DC0B9FA009619DA /* RCDContactTableViewCell.m in Sources */,
 				F35C03461DC355DD003D9613 /* RCDBaseSettingTableViewCell.m in Sources */,
@@ -2386,12 +2570,18 @@
 				F32AC99A1DBF34EA00807061 /* RCDAddressBookViewController.m in Sources */,
 				F317F3FF1DA77C5000DB5F70 /* FTPopOverMenu.m in Sources */,
 				F33F89A71D9E59B900FB0F70 /* AccountSettingViewController.m in Sources */,
+				0485C3431DF54A7100D19FA7 /* SuPhotoBrowserCell.m in Sources */,
 				F3EC35851DBA0B4000F350CA /* MyChatConversationViewController.m in Sources */,
 				F33F89AA1D9E59FD00FB0F70 /* NotificationSettingViewController.m in Sources */,
 				0490A3EE1DEE7989006C4644 /* AboutDetialController.m in Sources */,
 				F3703B9D1DBDECAB000508B1 /* DefaultPortraitView.m in Sources */,
+				0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */,
 				04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */,
 				F3E3E93C1D9B68A100E69300 /* LoginTwoViewController.m in Sources */,
+				0485C33F1DF54A7100D19FA7 /* SuPhotoCenter.m in Sources */,
+				0485C32C1DF54A7100D19FA7 /* UIButton+SU.m in Sources */,
+				0485C3301DF54A7100D19FA7 /* UIView+SuLine.m in Sources */,
+				0485C32F1DF54A7100D19FA7 /* UIView+SuAnimation.m in Sources */,
 				F36DEC4F1DBB53F700AEFE62 /* RCDHttpTool.m in Sources */,
 				F3E3E95C1D9B6A1500E69300 /* ForgetViewController.m in Sources */,
 				F36DEC4C1DBB511B00AEFE62 /* RCDRCIMDataSource.m in Sources */,
@@ -2407,9 +2597,11 @@
 				F31B2A9A1DA4E73B00330636 /* ChangePhoneViewController.m in Sources */,
 				F3F478D11DDFE3C500E21E97 /* CLocationController.m in Sources */,
 				F39494A11DB0CF6800BE3E51 /* SDBaseTableViewController.m in Sources */,
+				0485C32D1DF54A7100D19FA7 /* UIImage+SU.m in Sources */,
 				F3F478E41DDFE3C500E21E97 /* SeeTableView.m in Sources */,
 				F358E4571DDB0EBE00DA4124 /* RCDTestMessage.m in Sources */,
 				F3ACCB591DCA1EF5002355AC /* RCDGroupViewController.m in Sources */,
+				0485C33D1DF54A7100D19FA7 /* SuPhotoPicker.m in Sources */,
 				F3130F771DD9A37900B12726 /* RealTimeLocationEndCell.m in Sources */,
 				F32E4D131D98D49B0034BBB8 /* ViewController.m in Sources */,
 				F39AFE871DAF6BA20045C323 /* AddFridensDataViewController.m in Sources */,
@@ -2420,6 +2612,7 @@
 				F3E3E9571D9B68BB00E69300 /* SetHeadNameViewController.m in Sources */,
 				F3F478E11DDFE3C500E21E97 /* SeeModel.m in Sources */,
 				04AA38F21DE3F41C00CADF74 /* PersonSeeModel.m in Sources */,
+				0485C3351DF54A7100D19FA7 /* SuPhotoPreviewer.m in Sources */,
 				F3F478E21DDFE3C500E21E97 /* SeeCell.m in Sources */,
 				F306DE831DD096360034BA65 /* UsersToTheirOwnGroupViewController.m in Sources */,
 				F32E4D0D1D98D49B0034BBB8 /* main.m in Sources */,
@@ -2435,9 +2628,12 @@
 				044818171DE6E929003B1F6C /* CYCOWN.m in Sources */,
 				F3E3E93E1D9B68A100E69300 /* LoginViewController.m in Sources */,
 				F3F478CC1DDFE3C500E21E97 /* FriendsCircleViewController.m in Sources */,
+				0485C32E1DF54A7100D19FA7 /* UIView+SU.m in Sources */,
 				044818131DE6BAED003B1F6C /* CButton.m in Sources */,
 				F3703B9A1DBDE92B000508B1 /* RCDUtilities.m in Sources */,
 				F3D906DA1DC7411C00E742D2 /* SortForTime.m in Sources */,
+				0485C3371DF54A7100D19FA7 /* SuAblumInfo.m in Sources */,
+				0485C3401DF54A7100D19FA7 /* SuPhotoManager.m in Sources */,
 				F32AC9971DBF02AE00807061 /* AFriendRequestListViewController.m in Sources */,
 				F3130F751DD9A37900B12726 /* RCLocationConvert.m in Sources */,
 				F394949B1DB0C99100BE3E51 /* SDContactModel.m in Sources */,
