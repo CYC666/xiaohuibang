@@ -17,7 +17,7 @@
 #define kContentY 35                                            // 正文的开始Y
 #define kFontSzie 15                                            // 正文字体大小
 #define kCommentFontSize 14                                     // 评论文本字体大小
-#define kImgSize (kScreenWidth - kContentX - kContentX)         // 图片大小
+#define kImgSize (kScreenWidth - 66 - 66 - 5 - 5)/3             // 图片大小
 #define kDeleteButtonWidth 30                                   // 删除按钮长度
 #define kTimeLabelWidth 60                                      // 时间文本的长度
 #define kTimeLabelHeight 12                                     // 时间文本的高度
@@ -50,12 +50,27 @@
     //  更新单元格的高度(不加空隙，挤一点好看)
     self.cellHeight += CGRectGetHeight(self.seeFrame);
     
-    
-    // 当动态携带图片时
-    if (![self.seeModel.about_img isEqualToString:@"0"]) {
-        self.imgFrame = CGRectMake(kContentX, self.cellHeight, kImgSize, kImgSize);
-        self.cellHeight += kImgSize + kSpace;
+    // 当动态携带一张图片时
+    if (self.seeModel.about_img.count == 1) {
+        CGRect rect = CGRectMake(kContentX, self.cellHeight,
+                                 (kScreenWidth - kContentX - kContentX),
+                                 (kScreenWidth - kContentX - kContentX));
+        NSValue *rectValue = [NSValue valueWithCGRect:rect];
+        [self.imgFrameArr addObject:rectValue];
+        self.cellHeight += (kScreenWidth - kContentX - kContentX) + kSpace;
+    // 当动态携带多张图片时
+    } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
+        for (int i = 0; i < self.seeModel.about_img.count; i++) {
+            CGRect rect = CGRectMake( kContentX + (kImgSize + 5) * (i % 3),
+                                     self.cellHeight + (kImgSize + 5) * (i / 3), kImgSize, kImgSize);
+            NSValue *rectValue = [NSValue valueWithCGRect:rect];
+            [self.imgFrameArr addObject:rectValue];
+        }
+        
+        // 最后确定单元格高度
+        self.cellHeight += (kImgSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + kSpace;
     }
+    
     
     // 删除按钮
     self.deleteFrame = CGRectMake(kContentX, self.cellHeight-5, kDeleteButtonWidth, kTimeLabelHeight);
@@ -154,7 +169,14 @@
 
 }
 
+- (NSMutableArray *)imgFrameArr {
 
+    if (_imgFrameArr == nil) {
+        _imgFrameArr = [NSMutableArray array];
+    }
+    return _imgFrameArr;
+
+}
 
 
 

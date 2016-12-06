@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) UILabel *contentLabel;                    // 动态内容视图
 @property (strong, nonatomic) UIImageView *aboutImageView;              // 动态的图片视图
+
 @property (strong, nonatomic) UILabel *timeLabel;                       // 显示发布动态的时间Label
 @property (strong, nonatomic) UIButton *deleteButton;                   // 删除按钮
 @property (strong, nonatomic) UIButton *proButton;                      // 点赞按钮

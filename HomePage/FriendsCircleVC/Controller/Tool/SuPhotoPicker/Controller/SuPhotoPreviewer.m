@@ -85,8 +85,13 @@
 }
 
 - (void)refreshSelBtnStatusWithCurrentPage:(int)page {
-    self.selBtn.selected = [[SuPhotoCenter shareCenter].selectedPhotos containsObject:self.dataSource[page]];
-    self.currentPage = page;
+//    if (page < 0) {
+//        self.selBtn.selected = YES;
+//        self.currentPage = 0;
+//    } else {
+        self.selBtn.selected = [[SuPhotoCenter shareCenter].selectedPhotos containsObject:self.dataSource[page]];
+        self.currentPage = page;
+//    }
 }
 
 - (void)refreshTitle {

@@ -16,6 +16,8 @@
 #import "PersonAboutController.h"
 #import "CButton.h"
 #import "CLabel.h"
+#import "CScrollView.h"
+
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -80,6 +82,8 @@
     return _aboutImageView;
 
 }
+
+//  滑动多图
 
 // 时间文本
 - (UILabel *)timeLabel {
@@ -199,11 +203,25 @@
     self.contentLabel.frame = _seeLayout.seeFrame;
     
     // 设置动态图片的frame,加载缩略图
-    if (_seeLayout.seeModel.about_img != nil) {
-       
-        [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img]];
-        self.aboutImageView.frame = _seeLayout.imgFrame;
+    if (self.seeLayout.seeModel.about_img.count != 0) {
+        for (int i = 0; i < self.seeLayout.seeModel.about_img.count; i++) {
+            // 创建图片显示
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_seeLayout.imgFrameArr[i] CGRectValue]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img[i]]];
+            if (self.seeLayout.seeModel.about_img.count == 1) {
+                imageView.contentMode = UIViewContentModeScaleAspectFit;
+            } else {
+                imageView.contentMode = UIViewContentModeScaleAspectFill;
+            }
+            imageView.clipsToBounds = YES;
+            [self.contentView addSubview:imageView];
+            
+        }
+        
+        
     }
+    
+    
     
     // 当微博是自己的时候，显示删除按钮
     if (_seeLayout.seeModel.user_id == [USER_D objectForKey:@"user_id"]) {
@@ -226,7 +244,7 @@
         }
     }
     if (_isLike == YES) {
-        [self.proButton setImage:[UIImage imageNamed:@"icon_pro_blue"] forState:UIControlStateNormal];
+        [self.proButton setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
     } else {
         [self.proButton setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
     }
@@ -318,7 +336,7 @@
                                     // 刷新表视图 -- -- -- SeetableView
                                     [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
                                                                                         object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
-                                    [button setImage:[UIImage imageNamed:@"icon_pro_blue"] forState:UIControlStateNormal];
+                                    [button setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
                                 
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
@@ -573,7 +591,7 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     imageView.userInteractionEnabled = YES;
     // [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]];
     // 先显示缩略图，一边加载高清图，实时显示进度
-    [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]
+    [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img.firstObject]
                  placeholderImage:_aboutImageView.image
                           options:SDWebImageRetryFailed
                          progress:^(NSInteger receivedSize, NSInteger expectedSize) {

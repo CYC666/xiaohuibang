@@ -19,8 +19,8 @@
 @property (copy, nonatomic) NSString *nickname;         // 用户昵称
 @property (copy, nonatomic) NSString *head_img;         // 用户头像URL
 @property (copy, nonatomic) NSString *content;          // 动态内容
-@property (copy, nonatomic) NSString *about_img;        // 动态的图片URL
-@property (copy, nonatomic) NSString *thumb_img;        // 动态图片的缩略图
+@property (strong, nonatomic) NSMutableArray *about_img;        // 动态的图片URL数组
+@property (strong, nonatomic) NSMutableArray *thumb_img;        // 动态图片的缩略图数组
 @property (copy, nonatomic) NSString *create_time;      // 动态创建的时间
 @property (strong, nonatomic) NSMutableArray *praise;   // 点赞
 @property (strong, nonatomic) NSMutableArray *aveluate; // 评论

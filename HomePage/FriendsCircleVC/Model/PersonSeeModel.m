@@ -22,5 +22,18 @@
     
 }
 
+- (NSMutableArray *)about_img {
+    if (_about_img == nil) {
+        _about_img = [NSMutableArray array];
+    }
+    return _about_img;
+}
+
+- (NSMutableArray *)thumb_img {
+    if (_thumb_img == nil) {
+        _thumb_img = [NSMutableArray array];
+    }
+    return _thumb_img;
+}
 
 @end

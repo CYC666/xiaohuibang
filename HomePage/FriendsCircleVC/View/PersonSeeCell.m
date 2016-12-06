@@ -122,9 +122,9 @@
     }
     
     // 设置图片（如果有的话）
-    if (![_personSeeModelLayout.personSeeModel.about_img isEqualToString:@"0"]) {
+    if (_personSeeModelLayout.personSeeModel.about_img.count != 0) {
         self.aboutImageView.frame = _personSeeModelLayout.aboutImageFrame;
-        [_aboutImageView sd_setImageWithURL:[NSURL URLWithString:_personSeeModelLayout.personSeeModel.thumb_img]];
+        [_aboutImageView sd_setImageWithURL:[NSURL URLWithString:_personSeeModelLayout.personSeeModel.thumb_img.firstObject]];
     }
     
     if (_hideBackgroundColor == NO) {
@@ -138,7 +138,7 @@
     self.contentLabel.frame = _personSeeModelLayout.contentFrame;
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:_personSeeModelLayout.personSeeModel.content];
     NSMutableParagraphStyle *paragrah = [[NSMutableParagraphStyle alloc] init];
-    if ([_personSeeModelLayout.personSeeModel.about_img isEqualToString:@"0"]) {
+    if (_personSeeModelLayout.personSeeModel.about_img != nil) {
         paragrah.lineSpacing = 13;
     } else {
         paragrah.lineSpacing = 5;

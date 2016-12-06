@@ -36,7 +36,7 @@
     _timeLabelFrame = CGRectMake(0, kSpace, kTimeWidth, kTimeLabelHeight);
     
     // 如果有照片
-    if (![personSeeModel.about_img isEqualToString:@"0"]) {
+    if (personSeeModel.about_img.count != 0) {
         _cellHeight = kCellHeight;
         _aboutImageFrame = CGRectMake(kTimeWidth, kSpace, kImgSize, kImgSize);
         _contentFrame = CGRectMake(kTimeWidth + kImgSize + 11.9,

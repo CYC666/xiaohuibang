@@ -20,6 +20,8 @@
 #import <SVProgressHUD.h>
 #import "SuPhotoPicker.h"
 #import "SuPhotoPreviewer.h"
+#import "SuPhotoCenter.h"
+#import "NSString+Emojize.h"
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -33,7 +35,6 @@
     UITableView *_tableView;
     UITextView *_textView;              // 输入框
     RCEmojiBoardView *_emojiInputView;  // 表情输入框
-    NSData *_photoData;                 // 等待上传的图片数据
 
 }
 @property (strong, nonatomic) CImageView *imageWillPush;    // 显示即将上传的图片
@@ -50,7 +51,8 @@
     [self _createSubView];
     [self _setNavigationBar];
     
-    
+    // 首次创建，重置图片筛选
+    [SuPhotoCenter shareCenter].reset = YES;
     
     
 }
@@ -59,9 +61,11 @@
 
     self = [super init];
     if (self != nil) {
-        self.willPushPhoto = image;
+        
         self.imageWillPush.image = image;
         _imageWillPush.imageNum = 1;
+        
+         [self.willPushPhotoArr addObject:image];
         
     }
     return self;
@@ -73,7 +77,15 @@
     [super viewDidAppear:animated];
     
     _scrollView.delegate = self;
+    
+    // 把选中的图显示到最顶层
+    [_textView.superview insertSubview:_imageWillPush belowSubview:_textView];
+}
 
+- (void)viewDidDisappear:(BOOL)animated {
+
+    
+    
 }
 
 
@@ -169,23 +181,28 @@
         return;
     }
     
+//    NSString *simpleString = [NSString emojizedStringWithString:_textView.text];
+//    NSLog(@"%@", simpleString);
+//    
     // 判断是否含有表情
-    if ([NSString stringContainsEmoji:_textView.text]) {
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showErrorWithStatus:@"暂不支持表情"];
-        return;
-    }
+//    if ([NSString stringContainsEmoji:_textView.text]) {
+//        [SVProgressHUD dismiss];
+//        [SVProgressHUD showErrorWithStatus:@"暂不支持表情"];
+//        return;
+//    }
 
     // 发表动态
-    _photoData = UIImageJPEGRepresentation(_willPushPhoto, 0.75);
+    NSMutableArray *imageDataArr = [NSMutableArray array];
+    for (int i = 0; i < _willPushPhotoArr.count; i++) {
+        [imageDataArr addObject:UIImageJPEGRepresentation(_willPushPhotoArr[i], 1)];
+    }
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : _textView.text,
-                             @"file" : _willPushPhoto == nil ? @"" : _willPushPhoto};
+                             @"file" : _willPushPhotoArr.count == 0 ? @"" : _willPushPhotoArr};
     
-    
-    if (_willPushPhoto != nil) {
+    if (_willPushPhotoArr.count != 0) {
         [CNetTool postAboutWithParameters:params
-                                     data:_photoData
+                                     data:imageDataArr
                                   success:^(id response) {
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showSuccessWithStatus:@"发送成功"];
@@ -203,6 +220,18 @@
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showErrorWithStatus:@"发送失败"];
                                   }];
+//        NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_publish";
+//        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
+//        [request setHTTPMethod:@"POST"];
+//        NSString *bodyString = [NSString stringWithFormat:@"user_id=%@&content=%@", [USER_D objectForKey:@"user_id"], _textView.text];
+//        NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+//        [request setHTTPBody:bodyData];
+//        NSURLSession *session = [NSURLSession sharedSession];
+//        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+//            NSLog(@"%@", httpResponse);
+//        }];
+//        [task resume];
     
     }
     
@@ -247,6 +276,8 @@
     if (textView.textColor != [UIColor blackColor]) {
         textView.textColor = [UIColor blackColor];
     }
+    
+    
 }
 
 #pragma mark - scrollView代理方法
@@ -320,7 +351,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
+    if (indexPath.row == 1 || indexPath.row == 2) {
         [SVProgressHUD dismiss];
         [SVProgressHUD showErrorWithStatus:@"此功能还没开放呢"];
     }
@@ -385,6 +416,9 @@
 
 #pragma mark - 打开系统相册选区照片
 - (void)openSystemPicture {
+    
+    // 收起键盘
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
     SuPhotoPicker * picker = [[SuPhotoPicker alloc]init];
     //最大选择图片的数量以及最大快速预览图片的数量，默认为20
@@ -421,14 +455,15 @@
         
         self.imageWillPush.image = image;
         _imageWillPush.imageNum = 1;
-        self.willPushPhoto = image;
+        
         
     } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
         self.imageWillPush.image = image;
         _imageWillPush.imageNum = 1;
-        self.willPushPhoto = image;
+        
+        [self.willPushPhotoArr addObject:image];
     }
     
     //关闭,返回
@@ -498,12 +533,7 @@
 
 //    SuPhotoPreviewer * previewer = [[SuPhotoPreviewer alloc]init];
 //    previewer.isPreviewSelectedPhotos = YES;
-//    previewer.previewPhotos = self.willPushPhotoArr;
 //    [self.navigationController pushViewController:previewer animated:YES];
-
-    for (UIImage *image in self.willPushPhotoArr) {
-        NSLog(@"%@", image);
-    }
     
 }
 

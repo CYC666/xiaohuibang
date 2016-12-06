@@ -199,11 +199,22 @@
     [scrollView addSubview:contentLabel];
     
     // 图片
-    UIImageView *aboutImage = [[UIImageView alloc] initWithFrame:_detialLayout.imageFrame];
-    [aboutImage sd_setImageWithURL:[NSURL URLWithString:_detialLayout.seeModel.thumb_img]];
-    aboutImage.contentMode = UIViewContentModeScaleAspectFill;
-    aboutImage.clipsToBounds = YES;
-    [scrollView addSubview:aboutImage];
+    for (int i = 0; i < _detialLayout.seeModel.about_img.count; i++) {
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_detialLayout.imageFrameArr[i] CGRectValue]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:_detialLayout.seeModel.thumb_img[i]]];
+        if (_detialLayout.seeModel.about_img.count == 1) {
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+        } else {
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.clipsToBounds = YES;
+        }
+        [scrollView addSubview:imageView];
+    }
+//    UIImageView *aboutImage = [[UIImageView alloc] initWithFrame:_detialLayout.imageFrame];
+//    [aboutImage sd_setImageWithURL:[NSURL URLWithString:_detialLayout.seeModel.thumb_img.firstObject]];
+//    aboutImage.contentMode = UIViewContentModeScaleAspectFill;
+//    aboutImage.clipsToBounds = YES;
+//    [scrollView addSubview:aboutImage];
     
     // 删除按钮
     if ([_detialLayout.seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {

@@ -29,7 +29,7 @@
 
 // 发表动态(含图片)
 + (void)postAboutWithParameters:(id)parameters
-                           data:(NSData *)data
+                           data:(NSMutableArray *)dataArr
                         success:(void (^)(id response))success
                         failure:(void (^)(NSError *err))failure;
 

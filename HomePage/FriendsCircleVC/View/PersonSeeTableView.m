@@ -135,7 +135,7 @@
     PersonSeeLayout *modelLayout = _seeLayoutList[indexPath.row];
     
     // 如果没有图片
-    if ([modelLayout.personSeeModel.about_img isEqualToString:@"0"]) {
+    if (modelLayout.personSeeModel.about_img.count == 0) {
     
         AboutDetialController *controller = [[AboutDetialController alloc] initWithUserID:modelLayout.personSeeModel.user_id
                                                                                         aboutID:modelLayout.personSeeModel.about_id];

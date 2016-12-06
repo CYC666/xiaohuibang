@@ -6,6 +6,10 @@
 //  Copyright (c) 2015年 SuXiaoMing. All rights reserved.
 //
 
+
+// 多图选着控制器
+
+
 #import <UIKit/UIKit.h>
 
 @interface SuPhotoPicker : UIView

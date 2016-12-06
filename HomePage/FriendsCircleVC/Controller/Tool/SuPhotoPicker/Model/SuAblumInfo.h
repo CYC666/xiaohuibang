@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 SuXiaoMing. All rights reserved.
 //
 
+// 代表一个相册
+
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 

@@ -57,7 +57,7 @@
 
 // 发表动态(含图片)
 + (void)postAboutWithParameters:(id)parameters
-                           data:(NSData *)data
+                           data:(NSMutableArray *)dataArr
                         success:(void (^)(id response))success
                         failure:(void (^)(NSError *err))failure {
 
@@ -66,13 +66,24 @@
     session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     [session POST:urlStr
        parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-           [formData appendPartWithFileData:data name:@"file" fileName:@"user.jpg" mimeType:@"image/jpg"];
+           
+           for (int i = 0; i < dataArr.count; i++) {
+               NSData *imageData = dataArr[i];
+               // 上传的参数名
+               NSString * name = [NSString stringWithFormat:@"CYCimage%d", i+1];
+               // 上传filename
+               NSString * fileName = [NSString stringWithFormat:@"%@.jpg", name];
+               [formData appendPartWithFileData:imageData name:name fileName:fileName mimeType:@"image/jpg"];
+           }
+           
        } progress:nil
           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
               success(responseObject);
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
               failure(error);
           }];
+    
+    
 
 }
 

@@ -159,7 +159,7 @@
 
     // 设置图片
     // [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
-    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]
+    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img.firstObject]
                            placeholderImage:nil
                                     options:SDWebImageProgressiveDownload
                                    progress:nil

@@ -18,7 +18,7 @@
 @property (strong, nonatomic) SeeModel *seeModel;                   // 动态数据
 @property (assign, nonatomic) CGFloat cellHeight;                   // 单元格的高度
 @property (assign, nonatomic) CGRect seeFrame;                      // 正文frame
-@property (assign, nonatomic) CGRect imgFrame;                      // 图片frame
+@property (strong, nonatomic) NSMutableArray *imgFrameArr;          // 图片的frame（多图）
 @property (assign, nonatomic) CGRect timeFrame;                     // 时间frame
 @property (assign, nonatomic) CGRect deleteFrame;                   // 删除按钮frame
 @property (copy, nonatomic) NSString *timeText;                     // 转化后的时间

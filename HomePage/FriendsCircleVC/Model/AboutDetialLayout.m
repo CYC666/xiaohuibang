@@ -21,7 +21,7 @@
 #define kContentSize 15     // 动态文本字体的大小
 #define kContentY 48        // 动态文本起点Y
 #define kContentRight 29.5  // 动态文本右边的距离
-#define kImageSize 79       // 图片的大小
+#define kImageSize (kScreenWidth - kNicknameX - 20 - 5 - 5)/3       // 图片的大小
 #define kDeleteWidth 30     // 删除按钮宽度
 #define kDeleteHeight 12.5  // 删除按钮高度
 #define kTimeWidth 100      // 时间文本的宽度
@@ -63,6 +63,15 @@
     
 }
 
+- (NSMutableArray *)imageFrameArr {
+
+    if (_imageFrameArr == nil) {
+        _imageFrameArr = [NSMutableArray array];
+    }
+    return _imageFrameArr;
+
+}
+
 
 - (void)setSeeModel:(SeeModel *)seeModel {
 
@@ -83,10 +92,25 @@
     
     self.viewHeight = kContentY + textRect.size.height;
     
-    // 动态的图片
-    if (![_seeModel.about_img isEqualToString:@"0"]) {
-        self.imageFrame = CGRectMake(kNicknameX, self.viewHeight + 8.5, kImageSize, kImageSize);
-        self.viewHeight += (kImageSize + 8.5);
+    // 当动态携带一张图片时
+    if (self.seeModel.about_img.count == 1) {
+        CGRect rect = CGRectMake(kNicknameX, self.viewHeight,
+                                 (kScreenWidth - kNicknameX - 20),
+                                 (kScreenWidth - kNicknameX - 20));
+        NSValue *rectValue = [NSValue valueWithCGRect:rect];
+        [self.imageFrameArr addObject:rectValue];
+        self.viewHeight += (kScreenWidth - kNicknameX - 20) + kSpace;
+        // 当动态携带多张图片时
+    } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
+        for (int i = 0; i < self.seeModel.about_img.count; i++) {
+            CGRect rect = CGRectMake( kNicknameX + (kImageSize + 5) * (i % 3),
+                                     self.viewHeight + (kImageSize + 5) * (i / 3), kImageSize, kImageSize);
+            NSValue *rectValue = [NSValue valueWithCGRect:rect];
+            [self.imageFrameArr addObject:rectValue];
+        }
+        
+        // 最后确定单元格高度
+        self.viewHeight += (kImageSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + kSpace;
     }
     
     // 删除按钮

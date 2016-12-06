@@ -27,7 +27,12 @@
 
 #pragma mark - 获取所有图片
 - (void)fetchAllAsset {
-    [self clearInfos];
+    // 判断是否要重置
+    if (_reset == YES) {
+        [self clearInfos];
+        // 关闭重置
+        _reset = NO;
+    }
     [[PHPhotoLibrary sharedPhotoLibrary]registerChangeObserver:self];
     [self photoLibaryAuthorizationValid];
 }

@@ -16,6 +16,11 @@
 @interface SuPhotoCenter : NSObject
 
 /*
+ * 是否要重置选择的照片（CYC666）
+ */
+@property (assign, nonatomic) BOOL reset;
+
+/*
  * 最大选择数,默认为20
  */
 @property (nonatomic, assign) NSInteger selectedCount;
