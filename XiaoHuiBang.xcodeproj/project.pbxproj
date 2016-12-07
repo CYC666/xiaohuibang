@@ -34,6 +34,7 @@
 		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
 		041205001DF1143C00238117 /* SearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041204FF1DF1143C00238117 /* SearchTableView.m */; };
 		041C69361DF6DD8900E56D14 /* NSString+Emojize.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C69351DF6DD8900E56D14 /* NSString+Emojize.m */; };
+		041C69391DF70ADC00E56D14 /* CScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C69381DF70ADC00E56D14 /* CScrollView.m */; };
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
@@ -83,7 +84,6 @@
 		04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */; };
 		04AA38FD1DE3F8EF00CADF74 /* PersonSeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */; };
 		04AA38FF1DE4248000CADF74 /* backgroundPicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */; };
-		04D011D81DF65D3000FDE20B /* CScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D011D71DF65D3000FDE20B /* CScrollView.m */; };
 		DB7F902B3A8335807EDD4AA1 /* libPods-XiaoHuiBang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */; };
 		F306DE831DD096360034BA65 /* UsersToTheirOwnGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F306DE811DD096360034BA65 /* UsersToTheirOwnGroupViewController.m */; };
 		F306DE841DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F306DE821DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib */; };
@@ -468,6 +468,8 @@
 		041C69331DF6DD8900E56D14 /* emojis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emojis.h; sourceTree = "<group>"; };
 		041C69341DF6DD8900E56D14 /* NSString+Emojize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Emojize.h"; sourceTree = "<group>"; };
 		041C69351DF6DD8900E56D14 /* NSString+Emojize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Emojize.m"; sourceTree = "<group>"; };
+		041C69371DF70ADC00E56D14 /* CScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScrollView.h; sourceTree = "<group>"; };
+		041C69381DF70ADC00E56D14 /* CScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CScrollView.m; sourceTree = "<group>"; };
 		044818111DE6BAED003B1F6C /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
 		044818121DE6BAED003B1F6C /* CButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CButton.m; sourceTree = "<group>"; };
 		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
@@ -548,8 +550,6 @@
 		04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonSeeCell.m; sourceTree = "<group>"; };
 		04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonSeeCell.xib; sourceTree = "<group>"; };
 		04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundPicture.jpg; sourceTree = "<group>"; };
-		04D011D61DF65D3000FDE20B /* CScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScrollView.h; sourceTree = "<group>"; };
-		04D011D71DF65D3000FDE20B /* CScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CScrollView.m; sourceTree = "<group>"; };
 		8F5B587656139CFD557E4D67 /* Pods-XiaoHuiBang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.release.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.release.xcconfig"; sourceTree = "<group>"; };
 		A01A17214919735FFEBF2768 /* Pods-XiaoHuiBang.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.debug.xcconfig"; sourceTree = "<group>"; };
 		D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XiaoHuiBang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1996,6 +1996,8 @@
 				044818161DE6E929003B1F6C /* CYCOWN.xib */,
 				0485C2F21DF2750000D19FA7 /* CImageView.h */,
 				0485C2F31DF2750000D19FA7 /* CImageView.m */,
+				041C69371DF70ADC00E56D14 /* CScrollView.h */,
+				041C69381DF70ADC00E56D14 /* CScrollView.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2082,8 +2084,6 @@
 				04AA38EE1DE3EFBB00CADF74 /* PersonSeeTableView.m */,
 				041204FE1DF1143C00238117 /* SearchTableView.h */,
 				041204FF1DF1143C00238117 /* SearchTableView.m */,
-				04D011D61DF65D3000FDE20B /* CScrollView.h */,
-				04D011D71DF65D3000FDE20B /* CScrollView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2512,7 +2512,6 @@
 				F35DD7071DC35FDD001A8F99 /* RCDGroupMemberCollectionViewCell.m in Sources */,
 				F3B763171DC0B37B009619DA /* MyContactViewController.m in Sources */,
 				F3ACCB5A1DCA1EF5002355AC /* RCDGroupTableViewCell.m in Sources */,
-				04D011D81DF65D3000FDE20B /* CScrollView.m in Sources */,
 				F35C03551DC3593B003D9613 /* RCDGroupAnnouncementViewController.m in Sources */,
 				F35DD6FE1DC35E16001A8F99 /* RCDContactSelectedTableViewController.m in Sources */,
 				F30E92791DAE1CDA00EDF97B /* MessageListTableViewCell.m in Sources */,
@@ -2557,6 +2556,7 @@
 				F35DD6FB1DC35CF8001A8F99 /* RCDGroupSettingsTableViewController.m in Sources */,
 				F313E6CC1DB62544005111E0 /* MultiSelectItem.m in Sources */,
 				F35C03581DC3593B003D9613 /* RCDGroupSettingsTableViewCell.m in Sources */,
+				041C69391DF70ADC00E56D14 /* CScrollView.m in Sources */,
 				F3E3E9321D9B5A3500E69300 /* MyTool.m in Sources */,
 				04095F461DE285A8009AD2EC /* InputView.m in Sources */,
 				F3B763141DC0AFD7009619DA /* pinyin.c in Sources */,

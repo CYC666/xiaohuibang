@@ -17,6 +17,7 @@
 #import "AboutDetialController.h"
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
+#import "CScrollView.h"
 
 
 
@@ -96,20 +97,20 @@
 
 }
 #pragma mark - 懒加载
-- (UIImageView *)aboutImageView {
-
-    if (_aboutImageView == nil) {
-        _aboutImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _aboutImageView.userInteractionEnabled = YES;
-        _aboutImageView.contentMode = UIViewContentModeScaleAspectFit;
-        [self.view addSubview:_aboutImageView];
-        //  添加手势，点击隐藏、显示导航栏、标签栏
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-        [_aboutImageView addGestureRecognizer:tap];
-    }
-    return _aboutImageView;
-
-}
+//- (UIImageView *)aboutImageView {
+//
+//    if (_aboutImageView == nil) {
+//        _aboutImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//        _aboutImageView.userInteractionEnabled = YES;
+//        _aboutImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        [self.view addSubview:_aboutImageView];
+//        //  添加手势，点击隐藏、显示导航栏、标签栏
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+//        [_aboutImageView addGestureRecognizer:tap];
+//    }
+//    return _aboutImageView;
+//
+//}
 
 
 
@@ -126,6 +127,12 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor blackColor];
+    
+    // 导航栏右边的详情按钮
+    UIBarButtonItem *detialItem = [[UIBarButtonItem alloc] initWithTitle:@"详情"
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self action:@selector(commentAction)];
+    [self.navigationItem setRightBarButtonItem:detialItem];
     
     
     // 监听键盘弹出的通知
@@ -158,12 +165,19 @@
     self.navigationItem.titleView = title;
 
     // 设置图片
-    // [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
-    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img.firstObject]
-                           placeholderImage:nil
-                                    options:SDWebImageProgressiveDownload
-                                   progress:nil
-                                  completed:nil];
+    CScrollView *cScrollView = [[CScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                       imageArray:_seeModel.about_img
+                                                      currentPage:0];
+    [self.view addSubview:cScrollView];
+    //  添加手势，点击隐藏、显示导航栏、标签栏(但是打开之后，视图会有上下偏移)
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    [cScrollView addGestureRecognizer:tap];
+//     [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
+//    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img.firstObject]
+//                           placeholderImage:nil
+//                                    options:SDWebImageProgressiveDownload
+//                                   progress:nil
+//                                  completed:nil];
     
     // 创建底部的按钮栏
     _tabView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 49, kScreenWidth, 49)];
@@ -206,7 +220,7 @@
      UIButton *commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
      commentButton.frame = CGRectMake(kScreenWidth-38.5-17.5, 16.5, 17.5, 16);
     [commentButton setImage:[UIImage imageNamed:@"icon_comment_gray"] forState:UIControlStateNormal];
-    [commentButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
+    [commentButton addTarget:self action:@selector(commentAction) forControlEvents:UIControlEventTouchUpInside];
     [_tabView addSubview:commentButton];
     
     // 评论人数
@@ -357,7 +371,7 @@
 }
 
 #pragma mark - 点击评论按钮，跳转到单条动态界面
-- (void)commentAction:(UIButton *)button {
+- (void)commentAction {
 
     AboutDetialController *detialController = [[AboutDetialController alloc] initWithUserID:_seeModel.user_id aboutID:_seeModel.about_id];
     [self.navigationController pushViewController:detialController animated:YES];

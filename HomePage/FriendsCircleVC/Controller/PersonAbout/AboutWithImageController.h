@@ -11,7 +11,7 @@
 @interface AboutWithImageController : UIViewController
 
 @property (strong, nonatomic) SeeModel *seeModel;
-@property (strong, nonatomic) UIImageView *aboutImageView;
+// @property (strong, nonatomic) UIImageView *aboutImageView;
 
 
 - (instancetype)initWithUserID:(NSString *)userID

@@ -17,6 +17,7 @@
 #import "CButton.h"
 #import "CLabel.h"
 #import "CScrollView.h"
+#import "CImageView.h"
 
 
 #define kHeight 53                                                          // 输入视图默认高度
@@ -30,7 +31,7 @@
 #define CommentReloadTableView @"CommentReloadTableView"                    // 评论后刷新表视图通知
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 
-@interface SeeCell () <UITextViewDelegate, UIScrollViewDelegate, CLabelDeletage>
+@interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate>
 
 
 
@@ -66,22 +67,7 @@
 
 }
 
-// 动态的图片视图（一张）
-- (UIImageView *)aboutImageView {
 
-    if (_aboutImageView == nil) {
-        _aboutImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _aboutImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _aboutImageView.clipsToBounds = YES;
-        _aboutImageView.userInteractionEnabled = YES;
-        // 添加点击手势
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBiggerImageView:)];
-        [_aboutImageView addGestureRecognizer:tap];
-        [self.contentView addSubview:_aboutImageView];
-    }
-    return _aboutImageView;
-
-}
 
 //  滑动多图
 
@@ -206,8 +192,10 @@
     if (self.seeLayout.seeModel.about_img.count != 0) {
         for (int i = 0; i < self.seeLayout.seeModel.about_img.count; i++) {
             // 创建图片显示
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_seeLayout.imgFrameArr[i] CGRectValue]];
+            CImageView *imageView = [[CImageView alloc] initWithFrame:[_seeLayout.imgFrameArr[i] CGRectValue]];
             [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img[i]]];
+            imageView.delegate = self;
+            imageView.imagePage = i;
             if (self.seeLayout.seeModel.about_img.count == 1) {
                 imageView.contentMode = UIViewContentModeScaleAspectFit;
             } else {
@@ -564,102 +552,39 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 }
 
 #pragma mark - 点击动态图片查看大图
-- (void)showBiggerImageView:(UITapGestureRecognizer *)tap {
+- (void)cImageViewTouch:(CImageView *)cImageView {
 
-    // 创建滑动视图
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
-    scrollView.backgroundColor = [UIColor blackColor];
-    scrollView.delegate = self;
-    // 先设置为透明，然后再用动画显示出来
-    scrollView.alpha = 0;
-    // 允许内容尺寸小于bounds时滑动
-    scrollView.alwaysBounceHorizontal = YES;
-    scrollView.alwaysBounceVertical = YES;
-    // 设置最大最小缩放倍数
-    scrollView.minimumZoomScale = 1;
-    scrollView.maximumZoomScale = 2.5;
-    // 添加单击手势，隐藏查看原图
-    UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                             action:@selector(hideBiggerImageView:)];
-    [scrollView addGestureRecognizer:newTap];
-    // 添加图片
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    imageView.tag = 123;
-    // 设置imageview的内容模式，必须在设置图片之前设置，不然会出错
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.userInteractionEnabled = YES;
-    // [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]];
-    // 先显示缩略图，一边加载高清图，实时显示进度
-    [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img.firstObject]
-                 placeholderImage:_aboutImageView.image
-                          options:SDWebImageRetryFailed
-                         progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                             [SVProgressHUD showProgress:receivedSize / (expectedSize * 1.0)];
-                         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                             [SVProgressHUD dismiss];
-                         }];
-    
-    // 添加长按手势，保存到本地
-    UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                          action:@selector(longPressAction:)];
-    longPre.minimumPressDuration = 1.5;
-    [imageView addGestureRecognizer:longPre];
-    [scrollView addSubview:imageView];
-    
-    [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
+    CScrollView *showBigScrollView = [[CScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                             imageArray:_seeLayout.seeModel.about_img
+                                                            currentPage:cImageView.imagePage];
+    showBigScrollView.alpha = 0;
+    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
     [UIView animateWithDuration:.35
                      animations:^{
-                         scrollView.alpha = 1;
-                     } completion:^(BOOL finished) {
-                         // 提示怎么保存图片
-                         NSString *result = [USER_D objectForKey:@"长按自动将图片保存到本地"];
-                         if (result == nil) {
-                             [SVProgressHUD dismiss];
-                             [SVProgressHUD showSuccessWithStatus:@"长按自动将图片保存到本地"];
-                             [USER_D setObject:@"已经提示过" forKey:@"长按自动将图片保存到本地"];
-                         }
-
+                         showBigScrollView.alpha = 1;
                      }];
-    
-
+    // 添加手势，点击退出查看大图
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    [showBigScrollView addGestureRecognizer:tap];
 }
-// 隐藏查看原图
-- (void)hideBiggerImageView:(UITapGestureRecognizer *)tap {
 
-    [SVProgressHUD dismiss];
+- (void)tapAction:(UITapGestureRecognizer *)tap {
+    
     [UIView animateWithDuration:.35
                      animations:^{
-                        tap.view.alpha = 0;
+                         tap.view.alpha = 0;
                      } completion:^(BOOL finished) {
-                        [tap.view removeFromSuperview];
+                         [tap.view removeFromSuperview];
                      }];
     
+}
 
-}
-// 长按手势响应
-- (void)longPressAction:(UILongPressGestureRecognizer *)longPre {
-    
-    // 长按手势会调用两次（开始、结束）
-    if (longPre.state == UIGestureRecognizerStateBegan) {
-        UIImageWriteToSavedPhotosAlbum([(UIImageView *)(longPre.view) image], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
-        // 直接将图片保存到本地
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"已经将图片保存到本地"];
-    } 
-    
-    
-}
+// 保存图片
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     
 }
 
-// 滑动视图的代理方法，缩放时让图片也缩放
-- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 
-    return [scrollView viewWithTag:123];
-
-}
 
 #pragma maek - 点击评论响应代理方法，在这里可以做回复评论
 - (void)cLabelTouch:(CLabel *)cLabel {
@@ -693,6 +618,23 @@ _commentsListView.backgroundColor = [UIColor clearColor];
 return _commentsListView;
 
 }
+
+ // 动态的图片视图（一张）
+ - (UIImageView *)aboutImageView {
+ 
+ if (_aboutImageView == nil) {
+ _aboutImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+ _aboutImageView.contentMode = UIViewContentModeScaleAspectFit;
+ _aboutImageView.clipsToBounds = YES;
+ _aboutImageView.userInteractionEnabled = YES;
+ // 添加点击手势
+ UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBiggerImageView:)];
+ [_aboutImageView addGestureRecognizer:tap];
+ [self.contentView addSubview:_aboutImageView];
+ }
+ return _aboutImageView;
+ 
+ }
  
  //// 头像的图片
  //- (void)setHeadImage:(UIImage *)headImage {
@@ -710,6 +652,99 @@ return _commentsListView;
  //
  //}
 
+ 
+ - (void)showBiggerImageView:(UITapGestureRecognizer *)tap {
+ 
+ // 创建滑动视图
+ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+ scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
+ scrollView.backgroundColor = [UIColor blackColor];
+ scrollView.delegate = self;
+ // 先设置为透明，然后再用动画显示出来
+ scrollView.alpha = 0;
+ // 允许内容尺寸小于bounds时滑动
+ scrollView.alwaysBounceHorizontal = YES;
+ scrollView.alwaysBounceVertical = YES;
+ // 设置最大最小缩放倍数
+ scrollView.minimumZoomScale = 1;
+ scrollView.maximumZoomScale = 2.5;
+ // 添加单击手势，隐藏查看原图
+ UITapGestureRecognizer *newTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+ action:@selector(hideBiggerImageView:)];
+ [scrollView addGestureRecognizer:newTap];
+ // 添加图片
+ UIImageView *imageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+ imageView.tag = 123;
+ // 设置imageview的内容模式，必须在设置图片之前设置，不然会出错
+ imageView.contentMode = UIViewContentModeScaleAspectFit;
+ imageView.userInteractionEnabled = YES;
+ // [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img]];
+ // 先显示缩略图，一边加载高清图，实时显示进度
+ [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.about_img.firstObject]
+ placeholderImage:_aboutImageView.image
+ options:SDWebImageRetryFailed
+ progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+ [SVProgressHUD showProgress:receivedSize / (expectedSize * 1.0)];
+ } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+ [SVProgressHUD dismiss];
+ }];
+ 
+ // 添加长按手势，保存到本地
+ UILongPressGestureRecognizer *longPre = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+ action:@selector(longPressAction:)];
+ longPre.minimumPressDuration = 1.5;
+ [imageView addGestureRecognizer:longPre];
+ [scrollView addSubview:imageView];
+ 
+ [[[UIApplication sharedApplication] keyWindow] addSubview:scrollView];
+ [UIView animateWithDuration:.35
+ animations:^{
+ scrollView.alpha = 1;
+ } completion:^(BOOL finished) {
+ // 提示怎么保存图片
+ NSString *result = [USER_D objectForKey:@"长按自动将图片保存到本地"];
+ if (result == nil) {
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"长按自动将图片保存到本地"];
+ [USER_D setObject:@"已经提示过" forKey:@"长按自动将图片保存到本地"];
+ }
+ 
+ }];
+ 
+ 
+ }
+ // 隐藏查看原图
+ - (void)hideBiggerImageView:(UITapGestureRecognizer *)tap {
+ 
+ [SVProgressHUD dismiss];
+ [UIView animateWithDuration:.35
+ animations:^{
+ tap.view.alpha = 0;
+ } completion:^(BOOL finished) {
+ [tap.view removeFromSuperview];
+ }];
+ 
+ 
+ }
+ // 长按手势响应
+ - (void)longPressAction:(UILongPressGestureRecognizer *)longPre {
+ 
+ // 长按手势会调用两次（开始、结束）
+ if (longPre.state == UIGestureRecognizerStateBegan) {
+ UIImageWriteToSavedPhotosAlbum([(UIImageView *)(longPre.view) image], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+ // 直接将图片保存到本地
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"已经将图片保存到本地"];
+ }
+ 
+ // 滑动视图的代理方法，缩放时让图片也缩放
+ - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+ 
+ return [scrollView viewWithTag:123];
+ 
+ }
+ 
+ }
  
 */
 

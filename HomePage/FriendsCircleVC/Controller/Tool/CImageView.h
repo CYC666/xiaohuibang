@@ -32,5 +32,8 @@
 // 发表多图动态界面
 @property (assign, nonatomic) NSInteger imageNum;   // 图片量
 
+// 滑动视图点击的页数
+@property (assign, nonatomic) NSInteger imagePage;  // 当前页数
+
 
 @end
