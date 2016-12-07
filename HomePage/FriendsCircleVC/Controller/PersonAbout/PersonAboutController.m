@@ -333,6 +333,7 @@
     }
 
     NSMutableArray *seeTempArr = [NSMutableArray array];
+    NSString *dateStr = @"";
     for (NSDictionary *dic in array) {
         PersonSeeModel *model = [[PersonSeeModel alloc] init];
         model.about_id = dic[@"id"];
@@ -344,6 +345,26 @@
         
         PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
         layout.personSeeModel = model;
+        
+        // 判断时间，处理单元格要不要显示时间标签
+        // 如果标志的字符串为空或者跟当前model的时间不一致，那么当前单元格就应该显示时间
+        
+        // 先将年月日提取出来，不然只靠时间戳，判断时间肯定都是不一样的
+        // 时间戳转换时间
+        NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[dic[@"create_time"] integerValue]];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateStyle:NSDateFormatterMediumStyle];
+        [formatter setTimeStyle:NSDateFormatterShortStyle];
+        [formatter setDateFormat:@"YYYY-MM-dd"];
+        NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+        
+        if ([dateStr isEqualToString:confromTimespStr]) {
+            layout.isFirst = NO;
+        } else {
+            layout.isFirst = YES;
+            dateStr = confromTimespStr;
+        }
+        
         
         [seeTempArr addObject:layout];
     }

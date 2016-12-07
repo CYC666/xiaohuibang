@@ -579,10 +579,7 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     
 }
 
-// 保存图片
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    
-}
+
 
 
 

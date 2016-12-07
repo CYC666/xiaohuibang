@@ -66,7 +66,13 @@
                      placeholderImage:nil
                               options:SDWebImageProgressiveDownload];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.userInteractionEnabled = YES;
         [scrollView addSubview:imageView];
+        
+        // 长按保存
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                action:@selector(saveAction:)];
+        [imageView addGestureRecognizer:longPress];
     }
 
 }
@@ -86,6 +92,28 @@
     _currentPage = self.contentOffset.x / scrollView.frame.size.width;
     
     
+}
+
+#pragma mark - 保存图片
+- (void)saveAction:(UILongPressGestureRecognizer *)longPress {
+
+    
+    // 长按手势会调用两次（开始、结束）
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        UIImageWriteToSavedPhotosAlbum([(UIImageView *)(longPress.view) image], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    }
+
+}
+// 保存图片
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error == nil) {
+        // 直接将图片保存到本地
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"已经将图片保存到本地"];
+    } else {
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"保存失败了哟"];
+    }
 }
 
 
@@ -109,7 +137,22 @@
 
 
 
-
+/*
+ //        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否保存图片?"
+ //                                                                       message:nil
+ //                                                                preferredStyle:UIAlertControllerStyleActionSheet];
+ //        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"拒绝"
+ //                                                               style:UIAlertActionStyleCancel
+ //                                                             handler:nil];
+ //        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"好的"
+ //                                                             style:UIAlertActionStyleDefault
+ //                                                           handler:^(UIAlertAction * _Nonnull action) {
+ //
+ //                                                           }];
+ //        [alert addAction:cancelAction];
+ //        [alert addAction:sureAction];
+ //        [[self viewController] presentViewController:alert animated:YES completion:nil];
+ */
 
 
 
