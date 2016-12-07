@@ -28,6 +28,15 @@
 
 @implementation PersonSeeLayout
 
+- (NSMutableArray *)imageFrameArr {
+
+    if (_imageFrameArr == nil) {
+        _imageFrameArr = [NSMutableArray array];
+    }
+    return _imageFrameArr;
+
+}
+
 
 - (void)setPersonSeeModel:(PersonSeeModel *)personSeeModel {
 
@@ -38,7 +47,50 @@
     // 如果有照片
     if (personSeeModel.about_img.count != 0) {
         _cellHeight = kCellHeight;
-        _aboutImageFrame = CGRectMake(kTimeWidth, kSpace, kImgSize, kImgSize);
+        // _aboutImageFrame = CGRectMake(kTimeWidth, kSpace, kImgSize, kImgSize);
+        
+        if (personSeeModel.about_img.count == 1) {
+            CGRect rect = CGRectMake(kTimeWidth, kSpace, kImgSize, kImgSize);
+            NSValue *rectValue = [NSValue valueWithCGRect:rect];
+            [self.imageFrameArr addObject:rectValue];
+            
+        } else if (personSeeModel.about_img.count == 2) {
+            CGRect rectA = CGRectMake(kTimeWidth, kSpace, kImgSize/2.0-0.5, kImgSize);
+            NSValue *rectValueA = [NSValue valueWithCGRect:rectA];
+            [self.imageFrameArr addObject:rectValueA];
+            CGRect rectB = CGRectMake(kTimeWidth + kImgSize/2.0+0.5, kSpace, kImgSize/2.0-0.5, kImgSize);
+            NSValue *rectValueB = [NSValue valueWithCGRect:rectB];
+            [self.imageFrameArr addObject:rectValueB];
+            
+        } else if (personSeeModel.about_img.count == 3) {
+            CGRect rectA = CGRectMake(kTimeWidth, kSpace, kImgSize/2.0-0.5, kImgSize);
+            NSValue *rectValueA = [NSValue valueWithCGRect:rectA];
+            [self.imageFrameArr addObject:rectValueA];
+            CGRect rectB = CGRectMake(kTimeWidth + kImgSize/2.0+0.5, kSpace, kImgSize/2.0-0.5, kImgSize/2.0-0.5);
+            NSValue *rectValueB = [NSValue valueWithCGRect:rectB];
+            [self.imageFrameArr addObject:rectValueB];
+            CGRect rectC = CGRectMake(kTimeWidth + kImgSize/2.0+0.5, kSpace + kImgSize/2.0+0.5, kImgSize/2.0-0.5, kImgSize/2.0-0.5);
+            NSValue *rectValueC = [NSValue valueWithCGRect:rectC];
+            [self.imageFrameArr addObject:rectValueC];
+            
+        } else {
+            CGRect rectA = CGRectMake(kTimeWidth, kSpace, kImgSize/2.0-0.5, kImgSize/2.0-0.5);
+            NSValue *rectValueA = [NSValue valueWithCGRect:rectA];
+            [self.imageFrameArr addObject:rectValueA];
+            CGRect rectB = CGRectMake(kTimeWidth + kImgSize/2.0+0.5, kSpace, kImgSize/2.0-0.5, kImgSize/2.0-0.5);
+            NSValue *rectValueB = [NSValue valueWithCGRect:rectB];
+            [self.imageFrameArr addObject:rectValueB];
+            CGRect rectC = CGRectMake(kTimeWidth + kImgSize/2.0+0.5, kSpace + kImgSize/2.0+0.5, kImgSize/2.0-0.5, kImgSize/2.0-0.5);
+            NSValue *rectValueC = [NSValue valueWithCGRect:rectC];
+            [self.imageFrameArr addObject:rectValueC];
+            CGRect rectD = CGRectMake(kTimeWidth, kSpace + kImgSize/2.0+0.5, kImgSize/2.0-0.5, kImgSize/2.0-0.5);
+            NSValue *rectValueD = [NSValue valueWithCGRect:rectD];
+            [self.imageFrameArr addObject:rectValueD];
+        }
+        
+        
+        
+        
         _contentFrame = CGRectMake(kTimeWidth + kImgSize + 11.9,
                                    kSpace/2,
                                    kScreenWidth - (kTimeWidth + kImgSize + 11.9 + kSpace),

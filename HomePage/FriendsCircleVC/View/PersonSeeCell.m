@@ -123,8 +123,16 @@
     
     // 设置图片（如果有的话）
     if (_personSeeModelLayout.personSeeModel.about_img.count != 0) {
-        self.aboutImageView.frame = _personSeeModelLayout.aboutImageFrame;
-        [_aboutImageView sd_setImageWithURL:[NSURL URLWithString:_personSeeModelLayout.personSeeModel.thumb_img.firstObject]];
+        
+        for (int i = 0; i < _personSeeModelLayout.imageFrameArr.count; i++) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_personSeeModelLayout.imageFrameArr[i] CGRectValue]];
+            [imageView sd_setImageWithURL:_personSeeModelLayout.personSeeModel.thumb_img[i]];
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.clipsToBounds = YES;
+            [self.contentView addSubview:imageView];
+        }
+//        self.aboutImageView.frame = _personSeeModelLayout.aboutImageFrame;
+//        [_aboutImageView sd_setImageWithURL:[NSURL URLWithString:_personSeeModelLayout.personSeeModel.thumb_img.firstObject]];
     }
     
     if (_hideBackgroundColor == NO) {

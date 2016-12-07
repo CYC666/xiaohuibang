@@ -18,6 +18,7 @@
 @property (assign, nonatomic) float cellHeight;                 // 单元格高度
 @property (assign, nonatomic) CGRect timeLabelFrame;            // 时间框frame
 @property (assign, nonatomic) CGRect aboutImageFrame;           // 动态图片frame
+@property (strong, nonatomic) NSMutableArray *imageFrameArr;    // 动态图片的frame数组
 @property (assign, nonatomic) CGRect contentFrame;              // 动态文本frame
 @property (assign, nonatomic) CGRect backgroundColorFrame;      // 文本背后的颜色区frame
 
