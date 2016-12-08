@@ -8,6 +8,7 @@
 
 #import "SeeLayout.h"
 #import "AveluateModel.h"
+#import "NSString+CEmojChange.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -47,6 +48,9 @@
     CGFloat contentHeight = textRect.size.height;
     // 计算动态内容文本的frame
     self.seeFrame = CGRectMake(kContentX, kContentY, kScreenWidth - 97, contentHeight);
+    // 处理文本中包含有表情的情况
+    self.seeModel.content = [self.seeModel.content changeToEmoj];
+    
     //  更新单元格的高度(不加空隙，挤一点好看)
     self.cellHeight += CGRectGetHeight(self.seeFrame);
     

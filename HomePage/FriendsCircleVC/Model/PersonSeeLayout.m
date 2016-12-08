@@ -9,6 +9,7 @@
 // 个人动态单元格的布局
 
 #import "PersonSeeLayout.h"
+#import "NSString+CEmojChange.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -43,6 +44,8 @@
     _personSeeModel = personSeeModel;
     
     _timeLabelFrame = CGRectMake(0, kSpace, kTimeWidth, kTimeLabelHeight);
+    // 处理表情
+    self.personSeeModel.content = [self.personSeeModel.content changeToEmoj];
     
     // 如果有照片
     if (personSeeModel.about_img.count != 0) {

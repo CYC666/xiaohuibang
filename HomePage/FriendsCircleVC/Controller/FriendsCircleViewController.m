@@ -21,6 +21,7 @@
 
 
 
+
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
 #define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"                  // 修改导航栏不透明的通知
@@ -423,7 +424,7 @@
         seeModel.user_id = dic[@"user_id"];
         seeModel.nickname = dic[@"nickname"];
         seeModel.head_img = dic[@"head_img"];
-        seeModel.content = dic[@"content"];
+        seeModel.content = dic[@"content"];        
         seeModel.about_img = dic[@"about_img"];
         seeModel.thumb_img = dic[@"thumb_img"];
         seeModel.create_time = dic[@"create_time"];
@@ -453,7 +454,7 @@
         seeLayout.seeModel = seeModel;
         [seeTempArr addObject:seeLayout];
         
-      
+        
     }
     
     

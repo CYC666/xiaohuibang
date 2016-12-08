@@ -9,7 +9,7 @@
 #import "PersonSeeCell.h"
 #import <UIImageView+WebCache.h>
 
-#define JudgeTheSameTime @"JudgeTheSameTime"    // 创建一个标识，来确定当前动态是否跟上一个动态为同一天发布,当为0时，表示是第一个显示的第一个动态
+
 
 @implementation PersonSeeCell
 
@@ -113,8 +113,6 @@
             imageView.clipsToBounds = YES;
             [self.contentView addSubview:imageView];
         }
-//        self.aboutImageView.frame = _personSeeModelLayout.aboutImageFrame;
-//        [_aboutImageView sd_setImageWithURL:[NSURL URLWithString:_personSeeModelLayout.personSeeModel.thumb_img.firstObject]];
     }
     
     if (_hideBackgroundColor == NO) {
@@ -160,7 +158,7 @@
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
+// #define JudgeTheSameTime @"JudgeTheSameTime"    // 创建一个标识，来确定当前动态是否跟上一个动态为同一天发布,当为0时，表示是第一个显示的第一个动态
 
 //    // 获取当前时间，判断是否是今天
 //    NSString *currentTime = [formatter stringFromDate:[NSDate date]];

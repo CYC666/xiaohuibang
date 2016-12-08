@@ -468,7 +468,7 @@
                                             
                                             PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
                                             layout.personSeeModel = model;
-                                            
+                                            layout.isFirst = YES;
                                             [seeTempArr addObject:layout];
                                         }
                                         // 搜索结果提示

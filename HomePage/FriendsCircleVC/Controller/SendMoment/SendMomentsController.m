@@ -14,14 +14,14 @@
 #import "CNetTool.h"
 #import "CImageView.h"
 #import "NSString+Extension.h"
-#import "NSString+Extension.h"
 #import "CLocationController.h"
 #import "FromCameraController.h"
 #import <SVProgressHUD.h>
 #import "SuPhotoPicker.h"
 #import "SuPhotoPreviewer.h"
 #import "SuPhotoCenter.h"
-#import "NSString+Emojize.h"
+#import "NSString+CEmojChange.h"
+
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -181,15 +181,10 @@
         return;
     }
     
-//    NSString *simpleString = [NSString emojizedStringWithString:_textView.text];
-//    NSLog(@"%@", simpleString);
-//    
-    // 判断是否含有表情
-//    if ([NSString stringContainsEmoji:_textView.text]) {
-//        [SVProgressHUD dismiss];
-//        [SVProgressHUD showErrorWithStatus:@"暂不支持表情"];
-//        return;
-//    }
+    // 调用自定义类目的方法处理表情问题,讲表情转成字符串
+    NSString *content = [_textView.text changeToString];
+    
+
 
     // 发表动态
     NSMutableArray *imageDataArr = [NSMutableArray array];
@@ -197,8 +192,9 @@
         [imageDataArr addObject:UIImageJPEGRepresentation(_willPushPhotoArr[i], 1)];
     }
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
-                             @"content" : _textView.text,
+                             @"content" : content,
                              @"file" : _willPushPhotoArr.count == 0 ? @"" : _willPushPhotoArr};
+
     
     if (_willPushPhotoArr.count != 0) {
         [CNetTool postAboutWithParameters:params
@@ -399,7 +395,6 @@
                          animations:^{
                              _emojiInputView.alpha = 1;
                          }];
-        NSLog(@"%@", _emojiInputView);
         
     } else {
         // 如果不从父视图移除的话，会内存泄露，不断创建_emojiInputView
@@ -455,6 +450,7 @@
         
         self.imageWillPush.image = image;
         _imageWillPush.imageNum = 1;
+        [self.willPushPhotoArr addObject:image];
         
         
     } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
@@ -466,11 +462,8 @@
         [self.willPushPhotoArr addObject:image];
     }
     
-    //关闭,返回
-    [picker dismissViewControllerAnimated:YES completion:^{
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"添加图片成功"];
-    }];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 #pragma mark - RCEmojiViewDelegate表情输入框代理方法
@@ -609,6 +602,13 @@
  //    imagePickerController.delegate = self;
  //    [self presentViewController:imagePickerController animated:YES completion:nil];
 
+ //    //关闭,返回
+ //    [picker dismissViewControllerAnimated:YES completion:^{
+ //        [SVProgressHUD dismiss];
+ //        [SVProgressHUD showSuccessWithStatus:@"添加图片成功"];
+ //    }];
+
+ 
  
  */
 

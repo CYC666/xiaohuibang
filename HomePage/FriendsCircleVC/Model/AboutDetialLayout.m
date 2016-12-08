@@ -11,6 +11,7 @@
 
 #import "AboutDetialLayout.h"
 #import "AveluateModel.h"
+#import "NSString+CEmojChange.h"
 
 #define kSpace 15           // 空隙
 #define kHeadImageY 20.5    // 头像起点Y
@@ -82,6 +83,9 @@
     
     // 昵称
     self.nicknameFrame = CGRectMake(kNicknameX, kHeadImageY, kNicknameWidth, kNicknameHeight);
+    
+    // 处理文本携带图片的情况
+    self.seeModel.content = [self.seeModel.content changeToEmoj];
     
     // 动态文本
     CGRect textRect = [seeModel.content boundingRectWithSize:CGSizeMake(kScreenWidth - kNicknameX - kContentRight, 99999)
