@@ -101,24 +101,15 @@
 
 }
 
-// 点赞按钮
-- (UIButton *)proButton {
 
-    if (_proButton == nil) {
-        _proButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_proButton addTarget:self action:@selector(proAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_proButton];
-    }
-    return _proButton;
-
-}
 
 // 评论按钮
 - (UIButton *)commentButton {
 
     if (_commentButton == nil) {
         _commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_commentButton setImage:[UIImage imageNamed:@"icon_comment_gray"] forState:UIControlStateNormal];
+        [_commentButton setImage:[UIImage imageNamed:@"icon_comment_right_nor"] forState:UIControlStateNormal];
+        [_commentButton setImage:[UIImage imageNamed:@"icon_comment_right_selected"] forState:UIControlStateHighlighted];
         [_commentButton addTarget:self action:@selector(commentAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_commentButton];
     }
@@ -223,19 +214,6 @@
     
     
     
-    // 设置点赞按钮
-    self.proButton.frame = _seeLayout.proFrame;
-    for (PraiseModel *praise in _seeLayout.seeModel.praise) {
-        if (praise.user_id == [USER_D objectForKey:@"user_id"]) {
-            _isLike = YES;
-            break;
-        }
-    }
-    if (_isLike == YES) {
-        [self.proButton setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
-    } else {
-        [self.proButton setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
-    }
     
     // 设置评论按钮
     self.commentButton.frame = _seeLayout.commentFrame;
@@ -753,6 +731,36 @@ return _commentsListView;
  }
  
  }
+ 
+ 
+ -----------------------------------------------------224-----------------------------------------------------
+ // 设置点赞按钮
+ self.proButton.frame = _seeLayout.proFrame;
+ for (PraiseModel *praise in _seeLayout.seeModel.praise) {
+ if (praise.user_id == [USER_D objectForKey:@"user_id"]) {
+ _isLike = YES;
+ break;
+ }
+ }
+ if (_isLike == YES) {
+ [self.proButton setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
+ } else {
+ [self.proButton setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
+ }
+
+ -----------------------------------------------------104-----------------------------------------------------
+ // 点赞按钮
+ - (UIButton *)proButton {
+ 
+ if (_proButton == nil) {
+ _proButton = [UIButton buttonWithType:UIButtonTypeCustom];
+ [_proButton addTarget:self action:@selector(proAction:) forControlEvents:UIControlEventTouchUpInside];
+ [self.contentView addSubview:_proButton];
+ }
+ return _proButton;
+ 
+ }
+ 
  
 */
 
