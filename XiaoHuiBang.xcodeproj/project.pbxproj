@@ -69,6 +69,7 @@
 		044BE9341DFAB036004B6DCE /* icon_liked_magnify@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 044BE91C1DFAB036004B6DCE /* icon_liked_magnify@2x.png */; };
 		044BE9351DFAB036004B6DCE /* icon_liked_magnify@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 044BE91D1DFAB036004B6DCE /* icon_liked_magnify@3x.png */; };
 		044BE9381DFAB04F004B6DCE /* CCommentPro.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE9371DFAB04F004B6DCE /* CCommentPro.m */; };
+		044BE93B1DFABFA1004B6DCE /* CCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE93A1DFABFA1004B6DCE /* CCommentButton.m */; };
 		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
 		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
 		0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */; };
@@ -537,6 +538,8 @@
 		044BE91D1DFAB036004B6DCE /* icon_liked_magnify@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_liked_magnify@3x.png"; sourceTree = "<group>"; };
 		044BE9361DFAB04F004B6DCE /* CCommentPro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCommentPro.h; sourceTree = "<group>"; };
 		044BE9371DFAB04F004B6DCE /* CCommentPro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCommentPro.m; sourceTree = "<group>"; };
+		044BE9391DFABFA1004B6DCE /* CCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCommentButton.h; sourceTree = "<group>"; };
+		044BE93A1DFABFA1004B6DCE /* CCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCommentButton.m; sourceTree = "<group>"; };
 		0485C2EF1DF274B200D19FA7 /* CLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabel.h; sourceTree = "<group>"; };
 		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
 		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
@@ -2078,6 +2081,8 @@
 				04095F471DE285CF009AD2EC /* InputView.xib */,
 				044818111DE6BAED003B1F6C /* CButton.h */,
 				044818121DE6BAED003B1F6C /* CButton.m */,
+				044BE9391DFABFA1004B6DCE /* CCommentButton.h */,
+				044BE93A1DFABFA1004B6DCE /* CCommentButton.m */,
 				044818141DE6E929003B1F6C /* CYCOWN.h */,
 				044818151DE6E929003B1F6C /* CYCOWN.m */,
 				044818161DE6E929003B1F6C /* CYCOWN.xib */,
@@ -2688,6 +2693,7 @@
 				04AA38F51DE3F51400CADF74 /* PersonSeeLayout.m in Sources */,
 				F35DD7041DC35F66001A8F99 /* RCDCreateGroupViewController.m in Sources */,
 				F35C03541DC3593B003D9613 /* RCDEditGroupNameViewController.m in Sources */,
+				044BE93B1DFABFA1004B6DCE /* CCommentButton.m in Sources */,
 				F33F89B01D9E5A5B00FB0F70 /* AboutXHBViewController.m in Sources */,
 				F348D6181DBF4A150034D0C2 /* RCDPrivateSettingsTableViewController.m in Sources */,
 				F35C035B1DC35A8C003D9613 /* UITextViewAndPlaceholder.m in Sources */,

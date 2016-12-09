@@ -18,6 +18,7 @@
 #import "CLabel.h"
 #import "CImageView.h"
 #import "CScrollImage.h"
+#import "CCommentPro.h"
 
 
 #define kHeight 53                                                          // 输入视图默认高度
@@ -26,12 +27,15 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width                // 屏宽
 
 #define DeleteRow @"DeleteRow"                                              // 删除单元格并刷新表视图的通知名
+#define reloadSeeDate @"reloadSeeDate"                                      // 刷新动态数据的通知
 #define ScrollTableView @"ScrollTableView"                                  // 发送调节表视图偏移的通知
 #define HideCellInputView @"HideCellInputView"                              // 接收隐藏单元格输入框的通知
 #define CommentReloadTableView @"CommentReloadTableView"                    // 评论后刷新表视图通知
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
+#define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
-@interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate>
+
+@interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate, CCommentProDelegate>
 
 
 
@@ -282,65 +286,63 @@
 }
 
 
-#pragma mark - 点赞按钮响应
-- (void)proAction:(UIButton *)button {
 
-
-    _isLike = !_isLike;
-    if (_isLike == YES) {
-        
-        // 网络请求点赞功能
-        NSDictionary *param = @{
-                                @"user_id":[USER_D objectForKey:@"user_id"],
-                                @"about_id":_seeLayout.seeModel.about_id
-                                };
-        [CNetTool postProWithParameters:param
-                                success:^(id response) {
-
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"已经点赞"];
-                                    // 刷新表视图 -- -- -- SeetableView
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
-                                                                                        object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
-                                    [button setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
-                                
-                                } failure:^(NSError *err) {
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"点赞失败"];
-                                }];
-        
-    } else {
-        
-        // 网络请求取消赞功能
-        NSDictionary *param = @{
-                                @"user_id":[USER_D objectForKey:@"user_id"],
-                                @"about_id":_seeLayout.seeModel.about_id
-                                };
-        [CNetTool postProWithParameters:param
-                                success:^(id response) {
-                                    
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"已取消点赞"];
-                                    // 刷新表视图 -- -- -- SeetableView
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
-                                                                                        object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
-                                    [button setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
-                                } failure:^(NSError *err) {
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"取消点赞失败"];
-                                }];
-        
-    }
-    
-    
-
-}
 
 #pragma mark - 评论按钮响应,弹出键盘和输入框
 - (void)commentAction:(UIButton *)button {
     
-    // 收起键盘
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    if (_commentPro == nil) {
+        
+        for (PraiseModel *praise in _seeLayout.seeModel.praise) {
+            if (praise.user_id == [USER_D objectForKey:@"user_id"]) {
+                _isLike = YES;
+                break;
+            }
+        }
+        CGRect rect = [button convertRect:button.bounds fromView:[UIApplication sharedApplication].keyWindow];
+        _commentPro = [[CCommentPro alloc] initWithFrame:CGRectMake(-(rect.origin.x) - 170, -(rect.origin.y) - 5, 0, 0)
+                                                   state:_isLike];
+        _commentPro.delegate = self;
+        [[UIApplication sharedApplication].keyWindow addSubview:_commentPro];
+        // 发送通知，允许表视图滑动的时候发送通知让输入框隐藏
+        [[NSNotificationCenter defaultCenter] postNotificationName:AllowTableViewPostHideInputViewNotification object:nil];
+    }
+    
+    
+    
+    
+    
+    
+    
+//    // 收起键盘
+//    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+//    
+//    // 创建输入框
+//    _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
+//    _inputView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, kHeight);
+//    [_inputView.input becomeFirstResponder];
+//    _inputView.input.delegate = self;
+//    _inputView.input.returnKeyType = UIReturnKeySend;
+//    _inputView.input.layer.cornerRadius = 5;
+//    _inputView.input.layer.borderColor = [UIColor colorWithRed:229/255.0
+//                                               green:229/255.0
+//                                                blue:229/255.0 alpha:1].CGColor;
+//    _inputView.input.layer.borderWidth = 0.5;
+//    _inputView.input.clipsToBounds = YES;
+//    _inputView.cellRow = _indexpathRow;
+//
+//    [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
+//    
+    
+}
+
+#pragma mark - CCommentProDelegate代理方法，点赞评论
+- (void)comTouch {
+    
+    if (_commentPro != nil) {
+        [_commentPro lose];
+        _commentPro = nil;
+    }
     
     // 创建输入框
     _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
@@ -357,9 +359,48 @@
     _inputView.cellRow = _indexpathRow;
 
     [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
-    
-    
+
+
 }
+
+- (void)proTouch {
+    
+    if (_commentPro != nil) {
+        [_commentPro lose];
+        _commentPro = nil;
+    }
+
+    NSDictionary *param = @{
+                            @"user_id":[USER_D objectForKey:@"user_id"],
+                            @"about_id":_seeLayout.seeModel.about_id
+                            };
+
+    
+    [CNetTool postProWithParameters:param
+                            success:^(id response) {
+                                
+                                _isLike = !_isLike;
+                                [SVProgressHUD dismiss];
+                                if (_isLike == YES) {
+                                    [SVProgressHUD showSuccessWithStatus:@"点赞成功"];
+                                } else {
+                                    [SVProgressHUD showSuccessWithStatus:@"取消点赞成功"];
+                                }
+                                // 成功后刷新数据
+                                [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
+                                                                                    object:nil];
+                                
+                            } failure:^(NSError *err) {
+                                [SVProgressHUD dismiss];
+                                if (_isLike == YES) {
+                                    [SVProgressHUD showSuccessWithStatus:@"取消点赞失败"];
+                                } else {
+                                    [SVProgressHUD showSuccessWithStatus:@"点赞失败"];
+                                }
+                            }];
+
+}
+
 
 #pragma mark - 删除按钮
 - (void)deleteAction:(UIButton *)button {
@@ -372,19 +413,19 @@
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * _Nonnull action) {
-// 网络请求删除动态，并且删除单元格  -- -- -- SeetableView
-[[NSNotificationCenter defaultCenter] postNotificationName:DeleteRow
-                                                    object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
-NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
-[CNetTool deleteAboutWithParameters:param
-                            success:^(id response) {
-                                [SVProgressHUD dismiss];
-                                [SVProgressHUD showSuccessWithStatus:@"删除动态成功"];
-                            } failure:^(NSError *err) {
-                                [SVProgressHUD dismiss];
-                                [SVProgressHUD showSuccessWithStatus:@"删除动态失败"];
-                            }];
-                                                       }];
+    // 网络请求删除动态，并且删除单元格  -- -- -- SeetableView
+    [[NSNotificationCenter defaultCenter] postNotificationName:DeleteRow
+                                                        object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
+    NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
+    [CNetTool deleteAboutWithParameters:param
+                                success:^(id response) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"删除动态成功"];
+                                } failure:^(NSError *err) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"删除动态失败"];
+                                }];
+                                                           }];
     
     // 取消删除动态按钮
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
@@ -474,11 +515,23 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
         [_inputView.input endEditing:YES];
     }
     
+    // 隐藏
+    if (_commentPro != nil) {
+        [_commentPro lose];
+        _commentPro = nil;
+    }
+    
+    
     
 }
 
 #pragma mark - 点击头像、昵称，跳转到个人动态界面
 - (void)jumpToPersonAboutController:(UITapGestureRecognizer *)tap {
+    
+    if (_commentPro != nil) {
+        [_commentPro lose];
+        _commentPro = nil;
+    }
     
     // 收起键盘
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -501,6 +554,11 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     
 }
 - (void)jumpToPersonAboutControllerWithData:(CButton *)button {
+    
+    if (_commentPro != nil) {
+        [_commentPro lose];
+        _commentPro = nil;
+    }
     
     // 收起键盘
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -579,6 +637,15 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 
 }
 
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    if (_commentPro != nil) {
+        [_commentPro lose];
+        _commentPro = nil;
+    }
+    
+}
 
 
 
@@ -761,6 +828,63 @@ return _commentsListView;
  
  }
  
+ 
+ 
+  ----------------------------------------------------------------------------------------------------------
+ #pragma mark - 点赞按钮响应
+ - (void)proAction:(UIButton *)button {
+ 
+ 
+ _isLike = !_isLike;
+ if (_isLike == YES) {
+ 
+ // 网络请求点赞功能
+ NSDictionary *param = @{
+ @"user_id":[USER_D objectForKey:@"user_id"],
+ @"about_id":_seeLayout.seeModel.about_id
+ };
+ [CNetTool postProWithParameters:param
+ success:^(id response) {
+ 
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"已经点赞"];
+ // 刷新表视图 -- -- -- SeetableView
+ [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
+ object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
+ [button setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
+ 
+ } failure:^(NSError *err) {
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"点赞失败"];
+ }];
+ 
+ } else {
+ 
+ // 网络请求取消赞功能
+ NSDictionary *param = @{
+ @"user_id":[USER_D objectForKey:@"user_id"],
+ @"about_id":_seeLayout.seeModel.about_id
+ };
+ [CNetTool postProWithParameters:param
+ success:^(id response) {
+ 
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"已取消点赞"];
+ // 刷新表视图 -- -- -- SeetableView
+ [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
+ object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
+ [button setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
+ } failure:^(NSError *err) {
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"取消点赞失败"];
+ }];
+ 
+ }
+ 
+ 
+ 
+ }
+ ----------------------------------------------------------------------------------------------------------
  
 */
 

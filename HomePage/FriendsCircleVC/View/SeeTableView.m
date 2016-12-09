@@ -26,6 +26,7 @@
 #define ScrollTableView @"ScrollTableView"                      // 接收调节表视图偏移的通知
 #define HideCellInputView @"HideCellInputView"                  // 隐藏单元格输入框的通知
 #define CommentReloadTableView @"CommentReloadTableView"        // 评论后刷新表视图通知
+#define HideCellInputView @"HideCellInputView"                  // 发送隐藏单元格输入框的通知
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"                          // 点赞刷新表视图通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
@@ -183,6 +184,8 @@
 }
 #pragma mark - 点击我的头像，跳转到我的动态界面
 - (void)jumpToMyAbout:(UITapGestureRecognizer *)tap {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
     
     // 收起键盘
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];

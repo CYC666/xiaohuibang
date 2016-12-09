@@ -105,11 +105,13 @@
                                               imageView.transform = CGAffineTransformIdentity;
                                           } completion:^(BOOL finished) {
                                               [imageView removeFromSuperview];
+                                              // 执行完动画再执行代理，不然点赞动画会停留
+                                              [_delegate proTouch];
                                           }];
                      }];
     
     
-    [_delegate proTouch];
+    
 
 }
 
