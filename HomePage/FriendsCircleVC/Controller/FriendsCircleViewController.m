@@ -26,6 +26,7 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
 #define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"                  // 修改导航栏不透明的通知
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
+#define reloadSeeDate @"reloadSeeDate"                                                  // 刷新动态数据的通知
 
 
 @interface FriendsCircleViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -71,14 +72,18 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     // 加载动态数据
-    [self reloadData];
+    [self reloadSeeData];
     
     // 监听打开发送动态界面的通知
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveOpenSendCommentControllerNotification:)
                                                  name:openSendCommentControllerNotification
                                                object:nil];
-    
+    // 监听刷新数据的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadSeeData)
+                                                 name:reloadSeeDate
+                                               object:nil];
 }
 
 // 等视图都出现了再添加上拉加载下拉刷新的功能
@@ -89,7 +94,7 @@
     [self.seeTableView addPullDownRefreshBlock:^{
         @synchronized (weakSelf) {
             // 下拉刷新
-            [weakSelf reloadData];
+            [weakSelf reloadSeeData];
         }
         
     }];
@@ -286,7 +291,7 @@
 
 
 #pragma mark - 首次加载或下拉刷新
-- (void)reloadData {
+- (void)reloadSeeData {
     
     _dataPage = 1;
     _dataTag = 0;
@@ -490,6 +495,7 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:openSendCommentControllerNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NotigicationOfSelfTranslucent object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:reloadSeeDate object:nil];
     // 必须将上拉加载下拉刷新移除
     self.seeTableView.showsPullToRefresh = NO;
     self.seeTableView.showsInfiniteScrolling = NO;

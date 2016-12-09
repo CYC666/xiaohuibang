@@ -17,7 +17,7 @@
 #import "AboutDetialController.h"
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
-#import "CScrollView.h"
+#import "CScrollImage.h"
 
 
 
@@ -165,7 +165,7 @@
     self.navigationItem.titleView = title;
 
     // 设置图片
-    CScrollView *cScrollView = [[CScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds
+    CScrollImage *cScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                        imageArray:_seeModel.about_img
                                                       currentPage:0];
     [self.view addSubview:cScrollView];

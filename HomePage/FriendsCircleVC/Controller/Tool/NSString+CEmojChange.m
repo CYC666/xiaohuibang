@@ -65,19 +65,19 @@
     [self enumerateSubstringsInRange:NSMakeRange(0, self.length)
                              options:NSStringEnumerationByComposedCharacterSequences
                           usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
-                              
-                              if ([substring isEqualToString:@"["]) {
-                                  NSString *tempStr = [self substringWithRange:NSMakeRange(substringRange.location+1, 6)];
-                                  int tempInt = EMOJI_CODE_TO_SYMBOL([tempStr intValue]);
-                                  NSString *emojStr = [[NSString alloc] initWithBytes:&tempInt
-                                                                               length:sizeof(tempInt)
-                                                                             encoding:NSUTF8StringEncoding];
-                                  if (emojStr != nil) {
-                                      count = 8;
-                                      [mStr appendString:emojStr];
-                                  } else {
-                                      [mStr appendString:@"["];
-                                  }
+                              // [123212]
+                              if ([substring isEqualToString:@"["] && (self.length - substringRange.location >= 8)) {
+                                      NSString *tempStr = [self substringWithRange:NSMakeRange(substringRange.location+1, 6)];
+                                      int tempInt = EMOJI_CODE_TO_SYMBOL([tempStr intValue]);
+                                      NSString *emojStr = [[NSString alloc] initWithBytes:&tempInt
+                                                                                   length:sizeof(tempInt)
+                                                                                 encoding:NSUTF8StringEncoding];
+                                      if (emojStr != nil) {
+                                          count = 8;
+                                          [mStr appendString:emojStr];
+                                      } else {
+                                          [mStr appendString:@"["];
+                                      }
                                   
                                   
                               } else {

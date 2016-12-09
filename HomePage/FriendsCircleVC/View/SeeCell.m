@@ -16,8 +16,8 @@
 #import "PersonAboutController.h"
 #import "CButton.h"
 #import "CLabel.h"
-#import "CScrollView.h"
 #import "CImageView.h"
+#import "CScrollImage.h"
 
 
 #define kHeight 53                                                          // 输入视图默认高度
@@ -554,9 +554,9 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
 #pragma mark - 点击动态图片查看大图
 - (void)cImageViewTouch:(CImageView *)cImageView {
 
-    CScrollView *showBigScrollView = [[CScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds
-                                                             imageArray:_seeLayout.seeModel.about_img
-                                                            currentPage:cImageView.imagePage];
+    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                               imageArray:_seeLayout.seeModel.about_img
+                                                              currentPage:cImageView.imagePage];
     showBigScrollView.alpha = 0;
     [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
     [UIView animateWithDuration:.35

@@ -22,6 +22,8 @@
 #import "SuPhotoCenter.h"
 #import "NSString+CEmojChange.h"
 
+#define reloadSeeDate @"reloadSeeDate"                                                  // 刷新动态数据的通知
+
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -202,6 +204,9 @@
                                   success:^(id response) {
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+                                      // 成功后刷新数据
+                                      [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
+                                                                                          object:nil];
                                   } failure:^(NSError *err) {
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showErrorWithStatus:@"发送失败"];
@@ -212,6 +217,8 @@
                                   success:^(id response) {
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+                                      [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
+                                                                                          object:nil];
                                   } failure:^(NSError *err) {
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showErrorWithStatus:@"发送失败"];

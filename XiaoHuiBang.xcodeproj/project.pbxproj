@@ -34,10 +34,10 @@
 		04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */; };
 		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
 		041205001DF1143C00238117 /* SearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041204FF1DF1143C00238117 /* SearchTableView.m */; };
-		041C69391DF70ADC00E56D14 /* CScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C69381DF70ADC00E56D14 /* CScrollView.m */; };
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
+		044BE82C1DFA42F8004B6DCE /* CScrollImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE82B1DFA42F8004B6DCE /* CScrollImage.m */; };
 		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
 		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
 		0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */; };
@@ -467,13 +467,13 @@
 		04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@3x.png"; sourceTree = "<group>"; };
 		041204FE1DF1143C00238117 /* SearchTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableView.h; sourceTree = "<group>"; };
 		041204FF1DF1143C00238117 /* SearchTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableView.m; sourceTree = "<group>"; };
-		041C69371DF70ADC00E56D14 /* CScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScrollView.h; sourceTree = "<group>"; };
-		041C69381DF70ADC00E56D14 /* CScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CScrollView.m; sourceTree = "<group>"; };
 		044818111DE6BAED003B1F6C /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
 		044818121DE6BAED003B1F6C /* CButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CButton.m; sourceTree = "<group>"; };
 		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
 		044818151DE6E929003B1F6C /* CYCOWN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYCOWN.m; sourceTree = "<group>"; };
 		044818161DE6E929003B1F6C /* CYCOWN.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CYCOWN.xib; sourceTree = "<group>"; };
+		044BE82A1DFA42F8004B6DCE /* CScrollImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CScrollImage.h; sourceTree = "<group>"; };
+		044BE82B1DFA42F8004B6DCE /* CScrollImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CScrollImage.m; sourceTree = "<group>"; };
 		0485C2EF1DF274B200D19FA7 /* CLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabel.h; sourceTree = "<group>"; };
 		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
 		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
@@ -1986,8 +1986,8 @@
 				044818161DE6E929003B1F6C /* CYCOWN.xib */,
 				0485C2F21DF2750000D19FA7 /* CImageView.h */,
 				0485C2F31DF2750000D19FA7 /* CImageView.m */,
-				041C69371DF70ADC00E56D14 /* CScrollView.h */,
-				041C69381DF70ADC00E56D14 /* CScrollView.m */,
+				044BE82A1DFA42F8004B6DCE /* CScrollImage.h */,
+				044BE82B1DFA42F8004B6DCE /* CScrollImage.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2527,6 +2527,7 @@
 				F3E3E94F1D9B68BB00E69300 /* PasswordViewController.m in Sources */,
 				F348D6171DBF4A150034D0C2 /* RCDPrivateSettingsCell.m in Sources */,
 				04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */,
+				044BE82C1DFA42F8004B6DCE /* CScrollImage.m in Sources */,
 				F30804231DA5F78E00859781 /* SetMessageToInformViewController.m in Sources */,
 				F33F89B51D9E6C2600FB0F70 /* UserInfomationTableViewCell.m in Sources */,
 				0485C3411DF54A7100D19FA7 /* SuPhotoAblumCell.m in Sources */,
@@ -2546,7 +2547,6 @@
 				F35DD6FB1DC35CF8001A8F99 /* RCDGroupSettingsTableViewController.m in Sources */,
 				F313E6CC1DB62544005111E0 /* MultiSelectItem.m in Sources */,
 				F35C03581DC3593B003D9613 /* RCDGroupSettingsTableViewCell.m in Sources */,
-				041C69391DF70ADC00E56D14 /* CScrollView.m in Sources */,
 				F3E3E9321D9B5A3500E69300 /* MyTool.m in Sources */,
 				04095F461DE285A8009AD2EC /* InputView.m in Sources */,
 				F3B763141DC0AFD7009619DA /* pinyin.c in Sources */,

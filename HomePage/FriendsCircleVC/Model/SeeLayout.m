@@ -40,6 +40,9 @@
     // 单元格的高度 = 昵称文本框高度 + 空隙
     self.cellHeight = kNickLabelHight + kSpace;
     
+    // 处理文本中包含有表情的情况
+    self.seeModel.content = [self.seeModel.content changeToEmoj];
+    
     CGRect textRect = [self.seeModel.content boundingRectWithSize:CGSizeMake(kScreenWidth - 97, 99999)
                                                           options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
                                                        attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kFontSzie]}
@@ -48,8 +51,6 @@
     CGFloat contentHeight = textRect.size.height;
     // 计算动态内容文本的frame
     self.seeFrame = CGRectMake(kContentX, kContentY, kScreenWidth - 97, contentHeight);
-    // 处理文本中包含有表情的情况
-    self.seeModel.content = [self.seeModel.content changeToEmoj];
     
     //  更新单元格的高度(不加空隙，挤一点好看)
     self.cellHeight += CGRectGetHeight(self.seeFrame);
