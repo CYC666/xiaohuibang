@@ -565,17 +565,28 @@ NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
                      }];
     // 添加手势，点击退出查看大图
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    
     [showBigScrollView addGestureRecognizer:tap];
 }
 
 - (void)tapAction:(UITapGestureRecognizer *)tap {
     
-    [UIView animateWithDuration:.35
-                     animations:^{
-                         tap.view.alpha = 0;
-                     } completion:^(BOOL finished) {
-                         [tap.view removeFromSuperview];
-                     }];
+    // 当标识为yes才执行单击隐藏大图的操作
+    CScrollImage *view = (CScrollImage *)(tap.view);
+    
+    // 延迟两秒调用，如果允许单击就执行，如果不允许那就不执行
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (view.allowHide == YES) {
+            [UIView animateWithDuration:.35
+                             animations:^{
+                                 tap.view.alpha = 0;
+                             } completion:^(BOOL finished) {
+                                 [tap.view removeFromSuperview];
+                             }];
+        }
+
+    });
+    
     
 }
 

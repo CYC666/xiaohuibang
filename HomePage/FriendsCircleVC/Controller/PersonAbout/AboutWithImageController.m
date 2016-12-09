@@ -254,7 +254,7 @@
         
         [UIView animateWithDuration:.35
                          animations:^{
-                             self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0, -64);
+                             // self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0, -64);
                              _tabView.transform = CGAffineTransformMakeTranslation(0, 49);
                              
                              // 当键盘已经显示,要收起键盘
@@ -271,7 +271,7 @@
         
         [UIView animateWithDuration:.35
                          animations:^{
-                             self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0, 0);
+                             // self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0, 0);
                              _tabView.transform = CGAffineTransformMakeTranslation(0, 0);
                          }];
     }
@@ -373,6 +373,9 @@
 #pragma mark - 点击评论按钮，跳转到单条动态界面
 - (void)commentAction {
 
+    // 收起键盘
+    [_inputField endEditing:YES];
+    
     AboutDetialController *detialController = [[AboutDetialController alloc] initWithUserID:_seeModel.user_id aboutID:_seeModel.about_id];
     [self.navigationController pushViewController:detialController animated:YES];
 

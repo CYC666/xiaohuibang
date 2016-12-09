@@ -20,7 +20,6 @@
     
     NSArray *_imageArr;
     NSInteger _currentPage;
-    float _lastScale;           // 上次缩放的倍数
     UIScrollView *_background;  // 底部滑动视图
     UIPageControl *_pageControl;// 分页控制小点点
     UILabel *_pageLabel;        // 显示页数
@@ -40,6 +39,7 @@
     if (self != nil) {
         _imageArr = array;
         _currentPage = page;
+        _allowHide = YES;
         
         // 创建子视图
         [self _creatSubviews];
@@ -72,6 +72,12 @@
         scrollView.maximumZoomScale = 3;
         scrollView.contentSize = CGSizeMake(self.frame.size.width, self.frame.size.height);
         [_background addSubview:scrollView];
+        // 双击将图返回原样
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(resetImage:)];
+        doubleTap.numberOfTapsRequired = 2;
+        [scrollView addGestureRecognizer:doubleTap];
+        
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         [imageView sd_setImageWithURL:[NSURL URLWithString:_imageArr[i]]
@@ -85,6 +91,7 @@
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                                 action:@selector(saveAction:)];
         [imageView addGestureRecognizer:longPress];
+        
     }
     
 //    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, kScreenHeight - 40, 100, 40)];
@@ -110,6 +117,28 @@
     // 指向imageView
     return scrollView.subviews.firstObject;
     
+}
+
+
+#pragma mark - 双击放大缩小
+- (void)resetImage:(UITapGestureRecognizer *)tap {
+    
+    _allowHide = NO;
+    UIScrollView *scview = (UIScrollView *)(tap.view);
+    
+    // 判断是否已经放大，如果放大了，那么恢复，如果没有放大，那么进行放大
+    if (scview.zoomScale == 1) {
+        [(UIScrollView *)(tap.view) setZoomScale:3 animated:YES];
+    } else {
+        [(UIScrollView *)(tap.view) setZoomScale:1 animated:YES];
+    }
+
+    
+    // 缩放之后再允许单击操作
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _allowHide = YES;
+    });
+
 }
 
 #pragma mark - 翻页监控
