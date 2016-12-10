@@ -246,6 +246,13 @@
     }
     self.proListLabel.text = mString;
     
+    // 分割线
+    if (_seeLayout.seeModel.aveluate.count != 0) {
+        UIView *line = [[UIView alloc] initWithFrame:_seeLayout.lineFrame];
+        line.backgroundColor = [UIColor colorWithRed:226/255.0 green:226/255.0 blue:226/255.0 alpha:1];
+        [self.contentView addSubview:line];
+    }
+    
     // 评论详情    
     for (int i = 0; i < _seeLayout.commentListFrameArr.count; i++) {
         AveluateModel *aveluate = _seeLayout.seeModel.aveluate[i];

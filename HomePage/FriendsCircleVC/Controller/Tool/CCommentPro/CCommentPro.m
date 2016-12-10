@@ -123,7 +123,7 @@
 
 - (void)lose {
 
-    [UIView animateWithDuration:.2
+    [UIView animateWithDuration:.05
                      animations:^{
                          _line.transform = CGAffineTransformIdentity;
                          _proButton.transform = CGAffineTransformIdentity;

@@ -18,7 +18,7 @@
 #define kContentY 35                                            // 正文的开始Y
 #define kFontSzie 15                                            // 正文字体大小
 #define kCommentFontSize 14                                     // 评论文本字体大小
-#define kImgSize (kScreenWidth - 66 - 66 - 5 - 5)/3             // 图片大小
+#define kImgSize (kScreenWidth - 66 - 66 - 3 - 3)/3             // 图片大小
 #define kDeleteButtonWidth 30                                   // 删除按钮长度
 #define kTimeLabelWidth 60                                      // 时间文本的长度
 #define kTimeLabelHeight 12                                     // 时间文本的高度
@@ -27,7 +27,7 @@
 #define kProWidth 30                                            // 点赞按钮的宽度
 #define kProHeight 30                                           // 点赞按钮的高度
 
-#define kProListHeight 25                                       // 点赞列表的高度
+#define kProListHeight 23                                       // 点赞列表的高度
 #define kCommentX 77                                            // 评论的起点X
 
 
@@ -66,8 +66,8 @@
     // 当动态携带多张图片时
     } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
         for (int i = 0; i < self.seeModel.about_img.count; i++) {
-            CGRect rect = CGRectMake( kContentX + (kImgSize + 5) * (i % 3),
-                                     self.cellHeight + (kImgSize + 5) * (i / 3), kImgSize, kImgSize);
+            CGRect rect = CGRectMake( kContentX + (kImgSize + 3) * (i % 3),
+                                     self.cellHeight + (kImgSize + 3) * (i / 3), kImgSize, kImgSize);
             NSValue *rectValue = [NSValue valueWithCGRect:rect];
             [self.imgFrameArr addObject:rectValue];
         }
@@ -115,13 +115,19 @@
 
     // 点赞列表
     if (_seeModel.praise.count != 0) {
-        self.proListIconFrame = CGRectMake(kContentX + 8.5, self.cellHeight + 8.5, 14.5, 13);
-        self.proListLabelFrame = CGRectMake(kContentX + 8.5 + 20, self.cellHeight + 8.5, kScreenWidth - kContentX - 12.5 - 20, 13);
+        self.proListIconFrame = CGRectMake(kContentX + 5, self.cellHeight + 5, 14.5, 13);
+        self.proListLabelFrame = CGRectMake(kContentX + 5 + 20, self.cellHeight + 5, kScreenWidth - kContentX - 12.5 - 20, 13);
         self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 12.5, kProListHeight);
-        self.cellHeight += (kProListHeight + kSpace);
+        self.lineFrame = CGRectMake(kContentX, self.cellHeight + kProListHeight - 3, kScreenWidth - kContentX - 12.5, .5);
+        if (_seeModel.aveluate.count != 0) {
+            self.cellHeight += kProListHeight;
+        } else {
+            self.cellHeight += (kProListHeight + kSpace);
+        }
+        
     } else {
         self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 12.5, 0);
-        self.cellHeight += 8.5;
+        self.cellHeight += 5;
     }
     
     
@@ -140,18 +146,19 @@
                                             context:nil];
             // 设置这条评论的frame
             CGFloat commentHeight = rect.size.height;
-            CGRect commentFrame = CGRectMake(kContentX + 12.5 , self.cellHeight, kScreenWidth - 110, commentHeight);
+            CGRect commentFrame = CGRectMake(kContentX + 5 , self.cellHeight, kScreenWidth - 110, commentHeight);
             // 将计算好的frame转换成value对象，存入数组
             [self.commentListFrameArr addObject:[NSValue valueWithCGRect:commentFrame]];
             // 累计评论的高度
-            tempHeight += (commentHeight + 8.5);
+            tempHeight += (commentHeight + 5);
             // 重新获取单元格的高度
-            self.cellHeight += (commentHeight + 8.5);
+            self.cellHeight += (commentHeight + 5);
+            
         }
         
         // 点赞+评论
         CGRect tempRect = self.proAndCommentFrame;
-        tempRect.size.height += (tempHeight + kSpace);
+        tempRect.size.height += tempHeight;
         self.proAndCommentFrame = tempRect;
         
         self.cellHeight += kSpace;
