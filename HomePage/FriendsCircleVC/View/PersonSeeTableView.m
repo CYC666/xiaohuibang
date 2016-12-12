@@ -16,6 +16,7 @@
 #import "RCDPersonDetailViewController.h"
 #import "AboutWithImageController.h"
 #import "AboutDetialController.h"
+#import "CNetTool.h"
 
 #define kHeadImageSize kScreenWidth*0.23                        // 头像大小
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
@@ -155,7 +156,61 @@
 
 }
 
-// 头视图下拉放大的效果
+#pragma mark - 单元格编辑模式，左滑删除
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // 如果当前动态是本人的，那么添加左滑删除
+    if ([_user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
+        return YES;
+    }
+    return NO;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除此条动态？"
+                                                                   message:@"删除后不可恢复"
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    // 确定删除动态按钮
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           // 网络请求删除动态，并且删除单元格  -- -- -- SeetableView
+                                                           PersonSeeLayout *layout = _seeLayoutList[indexPath.row];
+                                                           NSDictionary *param = @{@"id":layout.personSeeModel.about_id};
+                                                           [CNetTool deleteAboutWithParameters:param
+                                                                                       success:^(id response) {
+                   // 刷新表视图,网络已经删除，本地删除一次刷新就好
+                   // 先让cell做动画高度为0，然后再删除
+                   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                   [UIView animateWithDuration:.35
+                                    animations:^{
+                                        cell.transform = CGAffineTransformMakeTranslation(kScreenWidth, 0);
+                                    } completion:^(BOOL finished) {
+                                        [_seeLayoutList removeObjectAtIndex:indexPath.row];
+                                        [self reloadData];
+                                    }];
+                   
+               } failure:^(NSError *err) {
+                   [SVProgressHUD dismiss];
+                   [SVProgressHUD showSuccessWithStatus:@"删除动态失败"];
+                                                                                       }];
+                                                       }];
+    
+    // 取消删除动态按钮
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    [alert addAction:sureAction];
+    [alert addAction:cancelAction];
+    [[self viewController] presentViewController:alert animated:YES completion:nil];
+    
+}
+
+#pragma mark - 头视图下拉放大的效果
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
     // 不使用缩放，使用计算frame，改变imageview的frame

@@ -152,6 +152,7 @@
     
     // 计算每行应该放多少个点赞人的头像
     NSInteger headImageCount = (kScreenWidth - kNicknameX - 53 - kCommentRight) / (kProDetialImageSize + 7.7);
+    self.headImageCount = headImageCount;
     if (_seeModel.praise.count > 0) {
         // 点赞详情的图标
         self.proDetialImageFrame = CGRectMake(kNicknameX + 12, self.viewHeight + 6.5, kProDetialImageWidth, kProDetialImageHeight);
@@ -208,7 +209,7 @@
             // 刷新高度
             self.viewHeight += (29.5 + rect.size.height + 8);
         }
-        self.viewHeight += kSpace;
+//        self.viewHeight += kSpace;
         
     }
     

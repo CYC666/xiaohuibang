@@ -61,6 +61,16 @@
     return _contentLabel;
 
 }
+-(UITextView *)contentText {
+
+    if (_contentText == nil) {
+        _contentText = [[UITextView alloc] initWithFrame:CGRectZero];
+        _contentText.font = [UIFont systemFontOfSize:14];
+        [self.contentView addSubview:_contentText];
+    }
+    return _contentText;
+
+}
 
 
 #pragma mark -
@@ -85,6 +95,7 @@
     
         if (_personSeeModelLayout.isFirst == YES) {
             _timeLabel.text = @"今天";
+            _timeLabel.font = [UIFont boldSystemFontOfSize:24];
         }
         
     } else {
@@ -124,23 +135,28 @@
     
     // 设置动态文本,设置行间距
     self.contentLabel.frame = _personSeeModelLayout.contentFrame;
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:_personSeeModelLayout.personSeeModel.content];
-    NSMutableParagraphStyle *paragrah = [[NSMutableParagraphStyle alloc] init];
-    if (_personSeeModelLayout.personSeeModel.about_img != nil) {
-        paragrah.lineSpacing = 13;
-    } else {
-        paragrah.lineSpacing = 5;
+    _contentLabel.text = _personSeeModelLayout.personSeeModel.content;
+    
+    // 长按删除动态
+    if ([_personSeeModelLayout.personSeeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                action:@selector(deleteAction:)];
+        longPress.minimumPressDuration = 3;
+        [self addGestureRecognizer:longPress];
     }
-    NSRange range = NSMakeRange(0, string.length);
-    [string addAttribute:NSParagraphStyleAttributeName value:paragrah range:range];
-    _contentLabel.attributedText = string;
-    
-    
     
 }
 
 
+- (void)deleteAction:(UILongPressGestureRecognizer *)longPress {
 
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+    }
+    
+
+}
 
 
 
@@ -202,6 +218,16 @@
 //
 //    }
 
+//    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:_personSeeModelLayout.personSeeModel.content];
+//    NSMutableParagraphStyle *paragrah = [[NSMutableParagraphStyle alloc] init];
+//    if (_personSeeModelLayout.personSeeModel.about_img != nil) {
+//        paragrah.lineSpacing = 13;
+//    } else {
+//        paragrah.lineSpacing = 5;
+//    }
+//    NSRange range = NSMakeRange(0, string.length);
+//    [string addAttribute:NSParagraphStyleAttributeName value:paragrah range:range];
+//    _contentLabel.attributedText = string;
 
 
 

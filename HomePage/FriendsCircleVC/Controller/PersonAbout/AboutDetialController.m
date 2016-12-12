@@ -210,11 +210,6 @@
         }
         [scrollView addSubview:imageView];
     }
-//    UIImageView *aboutImage = [[UIImageView alloc] initWithFrame:_detialLayout.imageFrame];
-//    [aboutImage sd_setImageWithURL:[NSURL URLWithString:_detialLayout.seeModel.thumb_img.firstObject]];
-//    aboutImage.contentMode = UIViewContentModeScaleAspectFill;
-//    aboutImage.clipsToBounds = YES;
-//    [scrollView addSubview:aboutImage];
     
     // 删除按钮
     if ([_detialLayout.seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
@@ -286,10 +281,12 @@
         
     }
     
-    // 点赞列表的分割线
-    UIView *proLine = [[UIView alloc] initWithFrame:_detialLayout.proLineFrame];
-    proLine.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
-    [scrollView addSubview:proLine];
+    // 点赞列表的分割线,当超过一行再创建分割线或者存在评论
+    if (_detialLayout.seeModel.praise.count >= _detialLayout.headImageCount || _detialLayout.seeModel.aveluate.count > 0) {
+        UIView *proLine = [[UIView alloc] initWithFrame:_detialLayout.proLineFrame];
+        proLine.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
+        [scrollView addSubview:proLine];
+    }
     
     // 评论列表
     if (_detialLayout.seeModel.aveluate.count > 0) {
@@ -325,11 +322,14 @@
             contentLabel.delegate = self;
             contentLabel.labelID = aveluteModel.user_id;
             [scrollView addSubview:contentLabel];
-            // 评论分割线
-            NSValue *separatorLineValue = dic[@"line"];
-            UIView *separatorLine = [[UIView alloc] initWithFrame:[separatorLineValue CGRectValue]];
-            separatorLine.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
-            [scrollView addSubview:separatorLine];
+            // 评论分割线,如果是最后一条，那就不需要分割线了
+            if (i != _detialLayout.seeModel.aveluate.count-1) {
+                NSValue *separatorLineValue = dic[@"line"];
+                UIView *separatorLine = [[UIView alloc] initWithFrame:[separatorLineValue CGRectValue]];
+                separatorLine.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
+                [scrollView addSubview:separatorLine];
+            }
+
         }
         
     }
