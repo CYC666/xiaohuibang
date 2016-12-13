@@ -392,8 +392,6 @@
         [CNetTool postProWithParameters:param
                                 success:^(id response) {
                                     [button setImage:[UIImage imageNamed:@"icon_pro_selected"] forState:UIControlStateNormal];
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"已经点赞"];
                                     // 刷新UI
                                     [self reloadSubview];
                                 } failure:^(NSError *err) {
@@ -412,8 +410,6 @@
         [CNetTool postProWithParameters:param
                                 success:^(id response) {
                                     [button setImage:[UIImage imageNamed:@"icon_pro_gray"] forState:UIControlStateNormal];
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"已取消点赞"];
                                     // 刷新UI
                                     [self reloadSubview];
                                 } failure:^(NSError *err) {
@@ -537,9 +533,6 @@
         [CNetTool postCommentWithParameters:params
                                     success:^(id response) {
                                         if ([response[@"msg"] isEqual:@1]) {
-                                            
-                                            [SVProgressHUD dismiss];
-                                            [SVProgressHUD showSuccessWithStatus:@"评论成功"];
                                             textView.text = nil;
                                             [textView endEditing:YES];
                                             [UIView animateWithDuration:.35

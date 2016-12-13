@@ -350,8 +350,6 @@
     [CNetTool postProWithParameters:params
                             success:^(id response) {
                                 if ([response[@"data"] isEqualToString:@"ok"]) {
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"点赞成功"];
                                     _proLabel.text = [NSString stringWithFormat:@"%ld", ++_proCount];
                                     [button setImage:[UIImage imageNamed:@"icon_pro_red"] forState:UIControlStateNormal];
                                 } else {

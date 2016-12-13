@@ -387,12 +387,6 @@
                             success:^(id response) {
                                 
                                 _isLike = !_isLike;
-                                [SVProgressHUD dismiss];
-                                if (_isLike == YES) {
-                                    [SVProgressHUD showSuccessWithStatus:@"点赞成功"];
-                                } else {
-                                    [SVProgressHUD showSuccessWithStatus:@"取消点赞成功"];
-                                }
                                 // 成功后刷新数据
                                 [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
                                                                                     object:nil];
@@ -495,8 +489,7 @@
                                 @"about_content":textView.text};
         [CNetTool postCommentWithParameters:param
                                     success:^(id response) {
-                                        [SVProgressHUD dismiss];
-                                        [SVProgressHUD showSuccessWithStatus:@"评论成功"];
+                                        
                                         // 发送通知，让表视图刷新
                                         [[NSNotificationCenter defaultCenter] postNotificationName:CommentReloadTableView object:@{@"about_content":textView.text,
                                                                                                                                    @"indexpathRow":[NSString stringWithFormat:@"%ld", (long)_indexpathRow]}];
