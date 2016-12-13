@@ -353,8 +353,15 @@
 - (void)deleteRowNotification:(NSNotification *)notification {
 
     NSInteger indexpathRow =  [notification.object integerValue];
-    [self.seeLayoutList removeObjectAtIndex:indexpathRow];
-    [self reloadData];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:indexpathRow inSection:0];
+    UITableViewCell *cell = [self cellForRowAtIndexPath:indexPath];
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         cell.transform = CGAffineTransformMakeTranslation(kScreenWidth, 0);
+                     } completion:^(BOOL finished) {
+                         [self.seeLayoutList removeObjectAtIndex:indexpathRow];
+                         [self reloadData];
+                     }];
 
 }
 - (void)scrollTableView:(NSNotification *)notification {

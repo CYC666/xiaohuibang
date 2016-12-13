@@ -36,6 +36,9 @@
         self.textColor = [UIColor lightGrayColor];
     }
     
+    // 改变底色
+    self.backgroundColor = [UIColor colorWithWhite:0 alpha:.1];
+    
 
 }
 
@@ -49,8 +52,15 @@
         self.textColor = _cColor;
     }
     
+    self.backgroundColor = [UIColor clearColor];
     
 
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+
+    self.backgroundColor = [UIColor clearColor];
+    
 }
 
 

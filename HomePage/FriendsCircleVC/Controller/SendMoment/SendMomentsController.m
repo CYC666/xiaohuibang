@@ -202,8 +202,7 @@
         [CNetTool postAboutWithParameters:params
                                      data:imageDataArr
                                   success:^(id response) {
-                                      [SVProgressHUD dismiss];
-                                      [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+                                      
                                       // 成功后刷新数据
                                       [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
                                                                                           object:nil];
@@ -215,8 +214,7 @@
     
         [CNetTool postAboutWithParameters:params
                                   success:^(id response) {
-                                      [SVProgressHUD dismiss];
-                                      [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+                                      
                                       [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
                                                                                           object:nil];
                                   } failure:^(NSError *err) {

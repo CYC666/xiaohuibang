@@ -321,25 +321,7 @@
     
     
     
-//    // 收起键盘
-//    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-//    
-//    // 创建输入框
-//    _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
-//    _inputView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, kHeight);
-//    [_inputView.input becomeFirstResponder];
-//    _inputView.input.delegate = self;
-//    _inputView.input.returnKeyType = UIReturnKeySend;
-//    _inputView.input.layer.cornerRadius = 5;
-//    _inputView.input.layer.borderColor = [UIColor colorWithRed:229/255.0
-//                                               green:229/255.0
-//                                                blue:229/255.0 alpha:1].CGColor;
-//    _inputView.input.layer.borderWidth = 0.5;
-//    _inputView.input.clipsToBounds = YES;
-//    _inputView.cellRow = _indexpathRow;
-//
-//    [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
-//    
+
     
 }
 
@@ -420,8 +402,7 @@
     NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     [CNetTool deleteAboutWithParameters:param
                                 success:^(id response) {
-                                    [SVProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:@"删除动态成功"];
+                                    
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
                                     [SVProgressHUD showSuccessWithStatus:@"删除动态失败"];
@@ -885,6 +866,26 @@ return _commentsListView;
  
  }
  ----------------------------------------------------------------------------------------------------------
+ //    // 收起键盘
+ //    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+ //
+ //    // 创建输入框
+ //    _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
+ //    _inputView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, kHeight);
+ //    [_inputView.input becomeFirstResponder];
+ //    _inputView.input.delegate = self;
+ //    _inputView.input.returnKeyType = UIReturnKeySend;
+ //    _inputView.input.layer.cornerRadius = 5;
+ //    _inputView.input.layer.borderColor = [UIColor colorWithRed:229/255.0
+ //                                               green:229/255.0
+ //                                                blue:229/255.0 alpha:1].CGColor;
+ //    _inputView.input.layer.borderWidth = 0.5;
+ //    _inputView.input.clipsToBounds = YES;
+ //    _inputView.cellRow = _indexpathRow;
+ //
+ //    [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
+ //
+ 
  
 */
 
