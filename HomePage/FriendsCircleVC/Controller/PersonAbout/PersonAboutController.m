@@ -24,6 +24,7 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 
 #define RemoveSearchBar @"RemoveSearchBar"                      // 移除输入框的通知
+#define RemoveYearLabel @"RemoveYearLabel"                      // 移除年份标签
 
 
 
@@ -111,6 +112,13 @@
     
     // 监听移除输入框的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchCancelAction) name:RemoveSearchBar object:nil];
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    // 发送通知，隐藏显示年份的标签personSeeTableView
+    [[NSNotificationCenter defaultCenter] postNotificationName:RemoveYearLabel object:nil];
 
 }
 

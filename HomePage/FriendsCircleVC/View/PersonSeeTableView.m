@@ -21,14 +21,15 @@
 #define kHeadImageSize kScreenWidth*0.23                        // 头像大小
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
+#define RemoveYearLabel @"RemoveYearLabel"                      // 移除年份标签
 
 
-
-@interface PersonSeeTableView () {
+@interface PersonSeeTableView () <PersonSeeCellDelegate> {
 
     UIImageView *_imageView;                    // 头视图的背景视图
-
+    
 }
+@property (strong, nonatomic) UILabel *yearLabel;   // 导航栏下面显示年份的标签
 
 @end
 
@@ -43,10 +44,40 @@
         self.dataSource = self;
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         
+        // 监听是否移除年份标签
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(removeYearLabel:)
+                                                     name:RemoveYearLabel
+                                                   object:nil];
+        
         // 创建一个标识，来确定当前动态是否跟上一个动态为同一天发布,当为0时，表示是第一个显示的第一个动态
         [USER_D setObject:@"0" forKey:@"JudgeTheSameTime"];
     }
     return self;
+
+}
+
+- (void)removeYearLabel:(NSNotification *)noti {
+
+    
+     [_yearLabel removeFromSuperview];
+     _yearLabel = nil;
+
+    
+
+}
+
+- (UILabel *)yearLabel {
+
+    if (_yearLabel == nil) {
+        _yearLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 20)];
+        _yearLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
+        _yearLabel.alpha = 0;
+        _yearLabel.textColor = [UIColor colorWithWhite:.7 alpha:1];
+        _yearLabel.font = [UIFont systemFontOfSize:12];
+        [[UIApplication sharedApplication].keyWindow addSubview:_yearLabel];
+    }
+    return _yearLabel;
 
 }
 
@@ -62,6 +93,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     PersonSeeCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"PersonSeeCell" owner:nil options:nil] lastObject];
+    // 必须在设置layout之前设置代理，不然代理方法不会走
+    cell.delegate = self;
     PersonSeeLayout *layout = _seeLayoutList[indexPath.row];
     cell.personSeeModelLayout = layout;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -216,13 +249,26 @@
     // 不使用缩放，使用计算frame，改变imageview的frame
     float offset = scrollView.contentOffset.y;
     float height = kScreenHeight*.37;
-    
     if (offset < 0) {
         
         float newHeight = height + ABS(offset);
         float newWidth = newHeight * (kScreenWidth / height);
         _imageView.frame = CGRectMake(-(newWidth - kScreenWidth)/2.0, offset, newWidth, newHeight);
         
+    } else if (offset < kScreenHeight * .42) {
+    
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _yearLabel.alpha = 0;
+                         }];
+    
+    } if (offset > kScreenHeight * .42) {
+    
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _yearLabel.alpha = 1;
+                         }];
+    
     }
 
 }
@@ -289,6 +335,14 @@
     }
     return nil;
 }
+
+#pragma mark - cell的代理方法，把年份传过来
+- (void)getYearToTableView:(NSString *)year {
+
+    self.yearLabel.text = [NSString stringWithFormat:@"    %@年", year];
+
+}
+
 
 
 

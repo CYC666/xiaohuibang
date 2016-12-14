@@ -83,9 +83,12 @@
         [imageView sd_setImageWithURL:[NSURL URLWithString:_imageArr[i]]
                      placeholderImage:nil
                               options:SDWebImageProgressiveDownload];
+        
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.userInteractionEnabled = YES;
         [scrollView addSubview:imageView];
+        
+        
         
         // 长按保存
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
@@ -94,16 +97,16 @@
         
     }
     
-//    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, kScreenHeight - 40, 100, 40)];
-//    _pageControl.numberOfPages = _imageArr.count;
-//    _pageControl.currentPage = _currentPage;
-//    [self addSubview:_pageControl];
+    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, kScreenHeight - 40, 100, 40)];
+    _pageControl.numberOfPages = _imageArr.count;
+    _pageControl.currentPage = _currentPage;
+    [self addSubview:_pageControl];
     
-    _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, kScreenHeight - 40, 100, 40)];
-    _pageLabel.textColor = [UIColor lightGrayColor];
-    _pageLabel.textAlignment = NSTextAlignmentCenter;
-    _pageLabel.text = [NSString stringWithFormat:@"%ld / %ld", _currentPage+1, _imageArr.count];
-    [self addSubview:_pageLabel];
+//    _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, kScreenHeight - 40, 100, 40)];
+//    _pageLabel.textColor = [UIColor lightGrayColor];
+//    _pageLabel.textAlignment = NSTextAlignmentCenter;
+//    _pageLabel.text = [NSString stringWithFormat:@"%ld / %ld", _currentPage+1, _imageArr.count];
+//    [self addSubview:_pageLabel];
 
 
 }
@@ -155,8 +158,8 @@
         _scaleView = nil;
     }
     
-//    _pageControl.currentPage = _currentPage;
-    _pageLabel.text = [NSString stringWithFormat:@"%ld / %ld", _currentPage+1, _imageArr.count];
+    _pageControl.currentPage = _currentPage;
+//    _pageLabel.text = [NSString stringWithFormat:@"%ld / %ld", _currentPage+1, _imageArr.count];
     
     
 }

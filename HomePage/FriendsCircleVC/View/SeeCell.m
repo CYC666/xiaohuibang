@@ -73,6 +73,7 @@
 
 
 
+
 //  滑动多图
 
 // 时间文本
@@ -591,7 +592,7 @@
     // 当标识为yes才执行单击隐藏大图的操作
     CScrollImage *view = (CScrollImage *)(tap.view);
     
-    // 延迟两秒调用，如果允许单击就执行，如果不允许那就不执行
+    // 延迟零点二秒调用，如果允许单击就执行，如果不允许那就不执行
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (view.allowHide == YES) {
             [UIView animateWithDuration:.35

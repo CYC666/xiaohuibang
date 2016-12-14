@@ -89,6 +89,9 @@
     [formatter setDateFormat:@"YYYY-MM-dd"];
     NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
     
+    // 年份,传到tableView
+    [self.delegate getYearToTableView:[confromTimespStr substringWithRange:NSMakeRange(0, 4)]];
+    
     // 获取当前时间，判断是否是今天
     NSString *currentTime = [formatter stringFromDate:[NSDate date]];
     if ([confromTimespStr isEqualToString:currentTime]) {

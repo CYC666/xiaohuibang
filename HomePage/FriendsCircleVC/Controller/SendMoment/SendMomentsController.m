@@ -37,6 +37,8 @@
     UITableView *_tableView;
     UITextView *_textView;              // 输入框
     RCEmojiBoardView *_emojiInputView;  // 表情输入框
+                                        
+
 
 }
 @property (strong, nonatomic) CImageView *imageWillPush;    // 显示即将上传的图片
@@ -441,7 +443,11 @@
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePickerController.delegate = self;
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    
     [self presentViewController:imagePickerController animated:YES completion:nil];
+    
 
 }
 
@@ -467,8 +473,18 @@
         [self.willPushPhotoArr addObject:image];
     }
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    }];
     
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    }];
+
 }
 
 #pragma mark - RCEmojiViewDelegate表情输入框代理方法
@@ -613,7 +629,20 @@
  //        [SVProgressHUD showSuccessWithStatus:@"添加图片成功"];
  //    }];
 
+ #pragma mark - 隐藏状态栏
+ - (BOOL)prefersStatusBarHidden {
  
+ //    if (_hideStatus == YES) {
+ //        _hideStatus = NO;
+ //        return NO;
+ //    } else {
+ //        _hideStatus = YES;
+ //        return YES;
+ //    }
+ 
+ return YES;
+ 
+ }
  
  */
 

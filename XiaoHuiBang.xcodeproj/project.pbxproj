@@ -70,6 +70,7 @@
 		044BE9351DFAB036004B6DCE /* icon_liked_magnify@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 044BE91D1DFAB036004B6DCE /* icon_liked_magnify@3x.png */; };
 		044BE9381DFAB04F004B6DCE /* CCommentPro.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE9371DFAB04F004B6DCE /* CCommentPro.m */; };
 		044BE93B1DFABFA1004B6DCE /* CCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE93A1DFABFA1004B6DCE /* CCommentButton.m */; };
+		046BAEC21E00ED7F008FC23C /* FromCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 046BAEC11E00ED7F008FC23C /* FromCamera.m */; };
 		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
 		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
 		0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */; };
@@ -540,6 +541,8 @@
 		044BE9371DFAB04F004B6DCE /* CCommentPro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCommentPro.m; sourceTree = "<group>"; };
 		044BE9391DFABFA1004B6DCE /* CCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCommentButton.h; sourceTree = "<group>"; };
 		044BE93A1DFABFA1004B6DCE /* CCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCommentButton.m; sourceTree = "<group>"; };
+		046BAEC01E00ED7F008FC23C /* FromCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FromCamera.h; sourceTree = "<group>"; };
+		046BAEC11E00ED7F008FC23C /* FromCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FromCamera.m; sourceTree = "<group>"; };
 		0485C2EF1DF274B200D19FA7 /* CLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabel.h; sourceTree = "<group>"; };
 		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
 		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
@@ -2034,6 +2037,8 @@
 				F3F478A01DDFE3C500E21E97 /* FromCameraController.h */,
 				F3F478A11DDFE3C500E21E97 /* FromCameraController.m */,
 				F3F478A21DDFE3C500E21E97 /* FromCameraController.xib */,
+				046BAEC01E00ED7F008FC23C /* FromCamera.h */,
+				046BAEC11E00ED7F008FC23C /* FromCamera.m */,
 			);
 			path = FromCamera;
 			sourceTree = "<group>";
@@ -2687,6 +2692,7 @@
 				F35C03581DC3593B003D9613 /* RCDGroupSettingsTableViewCell.m in Sources */,
 				F3E3E9321D9B5A3500E69300 /* MyTool.m in Sources */,
 				04095F461DE285A8009AD2EC /* InputView.m in Sources */,
+				046BAEC21E00ED7F008FC23C /* FromCamera.m in Sources */,
 				F3B763141DC0AFD7009619DA /* pinyin.c in Sources */,
 				0485C3331DF54A7100D19FA7 /* SuPhotoBrowser.m in Sources */,
 				F34FE69A1DBB7D210054C5AD /* RCDChatListCell.m in Sources */,

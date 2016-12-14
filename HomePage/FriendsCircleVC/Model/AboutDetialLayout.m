@@ -175,7 +175,7 @@
         for (int i = 0; i < _seeModel.aveluate.count; i++) {
             // 根据评论内容计算高度
             AveluateModel *aveluateModel = _seeModel.aveluate[i];
-            CGRect rect = [aveluateModel.about_content boundingRectWithSize:CGSizeMake(kScreenWidth - (kNicknameX + 52.5 + kCommentRight), 99999)
+            CGRect rect = [aveluateModel.about_content boundingRectWithSize:CGSizeMake(kScreenWidth - (kNicknameX + 52.5 + kCommentRight) - 5, 99999)
                                             options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
                                          attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kCommentFontSize]}
                                             context:nil];
@@ -189,7 +189,7 @@
                                              kNicknameHeight);
             CGRect contentRect = CGRectMake(kNicknameX + 53,
                                             self.viewHeight + 29.5,
-                                            kScreenWidth - (kNicknameX + 53 + kCommentRight),
+                                            kScreenWidth - (kNicknameX + 53 + kCommentRight) - 5,
                                             rect.size.height);
             CGRect lineRect = CGRectMake(kNicknameX + 37.5,
                                          self.viewHeight + 29.5 + rect.size.height + 5,

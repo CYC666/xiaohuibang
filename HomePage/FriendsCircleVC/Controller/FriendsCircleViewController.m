@@ -15,6 +15,7 @@
 #import "AveluateModel.h"
 #import "FromCameraController.h"
 #import "SendMomentsController.h"
+#import "FromCamera.h"
 #import <UIImageView+WebCache.h>
 
 
@@ -142,22 +143,23 @@
     
 
     // 创建选项view，提供功能选着
-    UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(0,kScreenHeight , kScreenWidth, kScreenHeight*.3)];
+    float alertHeight = kScreenHeight*.35;
+    UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(0,kScreenHeight , kScreenWidth, alertHeight)];
     alertView.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
     alertView.tag = 1001;
     [virtualView addSubview:alertView];
     
     [UIView animateWithDuration:.35
                      animations:^{
-                         alertView.transform = CGAffineTransformMakeTranslation(0, -kScreenHeight*.3);
+                         alertView.transform = CGAffineTransformMakeTranslation(0, -alertHeight);
                      }];
     
-    float buttonHeight = (kScreenHeight*.3 - 10)/4.0;
-    NSArray *titleArr = @[@"记录生活", @"视频/拍照", @"从手机相册选择", @"取消"];
-    for (int i = 0; i < 4; i++) {
+    float buttonHeight = (alertHeight - 10)/5.0;
+    NSArray *titleArr = @[@"记录生活", @"拍照", @"摄像", @"从手机相册选择", @"取消"];
+    for (int i = 0; i < titleArr.count; i++) {
+        
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.font = [UIFont systemFontOfSize:15];
-        button.tag = 1500 + i;
         [button setTitle:titleArr[i] forState:UIControlStateNormal];
         [button setBackgroundColor:[UIColor whiteColor]];
         [button setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1]] forState:UIControlStateHighlighted];
@@ -169,8 +171,10 @@
             button.frame = CGRectMake(0, buttonHeight + 1, kScreenWidth, buttonHeight);
         } else if (i == 2) {
             button.frame = CGRectMake(0, buttonHeight*2 + 2, kScreenWidth, buttonHeight);
+        } else if (i == 3) {
+            button.frame = CGRectMake(0, buttonHeight*3 + 3, kScreenWidth, buttonHeight);
         } else {
-            button.frame = CGRectMake(0, kScreenHeight*.3 - buttonHeight, kScreenWidth, buttonHeight);
+            button.frame = CGRectMake(0, alertHeight - buttonHeight, kScreenWidth, buttonHeight);
         }
         [alertView addSubview:button];
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -184,7 +188,7 @@
 
     [UIView animateWithDuration:.35
                      animations:^{
-                         [tap.view viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.3);
+                         [tap.view viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
                      } completion:^(BOOL finished) {
                          [tap.view removeFromSuperview];
                      }];
@@ -193,8 +197,7 @@
 // alert按钮响应
 - (void)buttonAction:(UIButton *)button {
 
-    NSInteger buttonTag = button.tag - 1500;
-    if (buttonTag == 0) {
+    if ([button.titleLabel.text isEqualToString:@"记录生活"]) {
         // push到编辑界面
         SendMomentsController *momentsController = [[SendMomentsController alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:momentsController];
@@ -204,31 +207,44 @@
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.3);
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
         
-    } else if (buttonTag == 1) {
+    } else if ([button.titleLabel.text isEqualToString:@"拍照"]) {
         // 通过摄像头
-        [self presentViewController:[[FromCameraController alloc] init]
+        [self presentViewController:[[FromCamera alloc] initWithType:Picture]
                            animated:YES
                          completion:nil];
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.3);
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
 
-    } else if (buttonTag == 2) {
+    } else if ([button.titleLabel.text isEqualToString:@"摄像"]) {
+        // 通过摄像头
+        [self presentViewController:[[FromCamera alloc] initWithType:Movie]
+                           animated:YES
+                         completion:nil];
+        // 移除alert
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
+                         } completion:^(BOOL finished) {
+                             [button.superview.superview removeFromSuperview];
+                         }];
+        
+    } else if ([button.titleLabel.text isEqualToString:@"从手机相册选择"]) {
         // 从手机相册获取
         [self sendFromSystemPicture];
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.3);
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
@@ -236,7 +252,7 @@
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.3);
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];

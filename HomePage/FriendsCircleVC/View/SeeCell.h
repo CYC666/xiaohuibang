@@ -26,7 +26,7 @@
 @property (strong, nonatomic) UILabel *timeLabel;                       // 显示发布动态的时间Label
 @property (strong, nonatomic) UIButton *deleteButton;                   // 删除按钮
 @property (strong, nonatomic) UIButton *proButton;                      // 点赞按钮
-@property (strong, nonatomic) UIButton *commentButton;            // 评论按钮
+@property (strong, nonatomic) UIButton *commentButton;                  // 评论按钮
 @property (strong, nonatomic) CCommentPro *commentPro;                  // 点击评论按钮弹出的选项
 @property (strong, nonatomic) UIView *commentAndProView;                // 点赞跟评论的背景视图
 @property (strong, nonatomic) UIImageView *proListIcon;                 // 点赞详情的icon

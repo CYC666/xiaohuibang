@@ -62,8 +62,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     // 初始化会话
     _captureSession=[[AVCaptureSession alloc]init];
     // 设置分辨率
-    if ([_captureSession canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
-        _captureSession.sessionPreset=AVCaptureSessionPreset1280x720;
+    if ([_captureSession canSetSessionPreset:AVCaptureSessionPresetHigh]) {
+        _captureSession.sessionPreset=AVCaptureSessionPresetHigh;
     }
     // 获得输入设备
     AVCaptureDevice *captureDevice=[self getCameraDeviceWithPosition:AVCaptureDevicePositionBack];//取得后置摄像头

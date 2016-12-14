@@ -120,7 +120,7 @@
         self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 12.5, kProListHeight);
         self.lineFrame = CGRectMake(kContentX, self.cellHeight + kProListHeight - 3, kScreenWidth - kContentX - 12.5, .5);
         if (_seeModel.aveluate.count != 0) {
-            self.cellHeight += kProListHeight;
+            self.cellHeight += (kProListHeight + 5);
         } else {
             self.cellHeight += (kProListHeight + kSpace);
         }
@@ -146,7 +146,7 @@
                                             context:nil];
             // 设置这条评论的frame
             CGFloat commentHeight = rect.size.height;
-            CGRect commentFrame = CGRectMake(kContentX + 5 , self.cellHeight, kScreenWidth - 90, commentHeight);
+            CGRect commentFrame = CGRectMake(kContentX + 5 , self.cellHeight - 3, kScreenWidth - 90, commentHeight);
             // 将计算好的frame转换成value对象，存入数组
             [self.commentListFrameArr addObject:[NSValue valueWithCGRect:commentFrame]];
             // 累计评论的高度
