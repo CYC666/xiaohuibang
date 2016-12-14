@@ -22,6 +22,8 @@
 @property (assign, nonatomic) CGRect contentFrame;              // 动态文本frame
 @property (assign, nonatomic) CGRect backgroundColorFrame;      // 文本背后的颜色区frame
 
+@property (copy, nonatomic) NSMutableAttributedString *timeText;// 转换之后的时间，月日
+@property (copy, nonatomic) NSString *timeTextYear;             // 转换之后的时间，年份
 @property (assign, nonatomic) BOOL isFirst;                     // 标识是不是新日期的第一个动态
 
 

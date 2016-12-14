@@ -80,42 +80,11 @@
     
     // 设置时间
     self.timeLabel.frame = _personSeeModelLayout.timeLabelFrame;
-
-    // 时间戳转换时间
-    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[_personSeeModelLayout.personSeeModel.create_time integerValue]];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateStyle:NSDateFormatterMediumStyle];
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
-    [formatter setDateFormat:@"YYYY-MM-dd"];
-    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+    
+    self.timeLabel.attributedText = _personSeeModelLayout.timeText;
     
     // 年份,传到tableView
-    [self.delegate getYearToTableView:[confromTimespStr substringWithRange:NSMakeRange(0, 4)]];
-    
-    // 获取当前时间，判断是否是今天
-    NSString *currentTime = [formatter stringFromDate:[NSDate date]];
-    if ([confromTimespStr isEqualToString:currentTime]) {
-    
-        if (_personSeeModelLayout.isFirst == YES) {
-            _timeLabel.text = @"今天";
-            _timeLabel.font = [UIFont boldSystemFontOfSize:24];
-        }
-        
-    } else {
-        
-        if (_personSeeModelLayout.isFirst == YES) {
-            // 富文本调节字体大小
-            NSString *monthStr = [confromTimespStr substringWithRange:NSMakeRange(5, 2)];
-            NSString *dayStr = [confromTimespStr substringWithRange:NSMakeRange(8, 2)];
-            NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@月", dayStr, monthStr]];
-            [attribute addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:NSMakeRange(0, 2)];
-            [attribute addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(2, 3)];
-            
-            _timeLabel.attributedText = attribute;
-        }
-        
-    }
-
+    [self.delegate getYearToTableView:_personSeeModelLayout.timeTextYear];
     
     // 设置图片（如果有的话）
     if (_personSeeModelLayout.personSeeModel.about_img.count != 0) {
@@ -233,7 +202,40 @@
 //    _contentLabel.attributedText = string;
 
 
-
+//    // 时间戳转换时间
+//    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[_personSeeModelLayout.personSeeModel.create_time integerValue]];
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateStyle:NSDateFormatterMediumStyle];
+//    [formatter setTimeStyle:NSDateFormatterShortStyle];
+//    [formatter setDateFormat:@"YYYY-MM-dd"];
+//    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+//
+//    // 年份,传到tableView
+//    [self.delegate getYearToTableView:[confromTimespStr substringWithRange:NSMakeRange(0, 4)]];
+//
+//    // 获取当前时间，判断是否是今天
+//    NSString *currentTime = [formatter stringFromDate:[NSDate date]];
+//    if ([confromTimespStr isEqualToString:currentTime]) {
+//
+//        if (_personSeeModelLayout.isFirst == YES) {
+//            _timeLabel.text = @"今天";
+//            _timeLabel.font = [UIFont boldSystemFontOfSize:24];
+//        }
+//
+//    } else {
+//
+//        if (_personSeeModelLayout.isFirst == YES) {
+//            // 富文本调节字体大小
+//            NSString *monthStr = [confromTimespStr substringWithRange:NSMakeRange(5, 2)];
+//            NSString *dayStr = [confromTimespStr substringWithRange:NSMakeRange(8, 2)];
+//            NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@月", dayStr, monthStr]];
+//            [attribute addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:NSMakeRange(0, 2)];
+//            [attribute addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(2, 3)];
+//
+//            _timeLabel.attributedText = attribute;
+//        }
+//
+//    }
 
 
 

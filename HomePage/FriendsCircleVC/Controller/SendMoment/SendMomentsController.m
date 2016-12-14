@@ -454,18 +454,11 @@
 #pragma mark - imagePicker代理方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
 
-    // 判断资源的来源 相册||摄像头
-    if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary || picker.sourceType == UIImagePickerControllerSourceTypeSavedPhotosAlbum) {
-        // 取出照片
+    // 判断资源的来源摄像头
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
-        self.imageWillPush.image = image;
-        _imageWillPush.imageNum = 1;
-        [self.willPushPhotoArr addObject:image];
-        
-        
-    } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         
         self.imageWillPush.image = image;
         _imageWillPush.imageNum = 1;

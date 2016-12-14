@@ -352,7 +352,6 @@
         model.thumb_img = dic[@"thumb_img"];
         
         PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
-        layout.personSeeModel = model;
         
         // 判断时间，处理单元格要不要显示时间标签
         // 如果标志的字符串为空或者跟当前model的时间不一致，那么当前单元格就应该显示时间
@@ -372,6 +371,11 @@
             layout.isFirst = YES;
             dateStr = confromTimespStr;
         }
+        
+        // 有了_isFirst标志，就可以在model中使判断了
+        layout.personSeeModel = model;
+        
+        
         
         
         [seeTempArr addObject:layout];
