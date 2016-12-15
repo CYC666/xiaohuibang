@@ -30,6 +30,13 @@
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"                          // 点赞刷新表视图通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
+@interface SeeTableView () <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+
+    UIImageView *_imageView;    // 头视图的背景图
+
+}
+
+@end
 
 @implementation SeeTableView
 
@@ -130,11 +137,24 @@
     headView.backgroundColor = [UIColor whiteColor];
     
     // 背景图片
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.37)];
-    imageView.image = [UIImage imageNamed:@"backgroundPicture.jpg"];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.layer.masksToBounds = YES;
-    [headView addSubview:imageView];
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.37)];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath = [[paths firstObject] stringByAppendingString:@"/headerImage.jpg"];
+    NSData *imageData = [NSData dataWithContentsOfFile:filePath];
+    if (imageData == nil) {
+        _imageView.image = [UIImage imageNamed:@"backgroundPicture.jpg"];
+    } else {
+        _imageView.image = [UIImage imageWithData:imageData];
+    }
+    
+    _imageView.contentMode = UIViewContentModeScaleAspectFill;
+    _imageView.layer.masksToBounds = YES;
+    [headView addSubview:_imageView];
+    // 添加手势，更改图片
+    _imageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *changeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeHeaderImage:)];
+    changeTap.numberOfTapsRequired = 2;
+    [_imageView addGestureRecognizer:changeTap];
     
     // 遮住背景图片和第一条分割线的白视图
     UIView *whiteView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight*.37, kScreenWidth, kScreenHeight*0.06)];
@@ -182,6 +202,32 @@
     return headView;
 
 }
+
+#pragma mark - 更换背景图片
+- (void)changeHeaderImage:(UITapGestureRecognizer *)tap {
+
+    UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+    pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    pickerController.allowsEditing = YES;
+    pickerController.delegate = self;
+    pickerController.navigationBar.tintColor = [UIColor redColor];
+    [[self viewController] presentViewController:pickerController animated:YES completion:nil];
+
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    _imageView.image = image;
+    
+    // 保存到沙盒
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath = [[paths firstObject] stringByAppendingString:@"/headerImage.jpg"];
+    [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+
+}
+
 #pragma mark - 点击我的头像，跳转到我的动态界面
 - (void)jumpToMyAbout:(UITapGestureRecognizer *)tap {
     

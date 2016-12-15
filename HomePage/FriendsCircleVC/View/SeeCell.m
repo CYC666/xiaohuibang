@@ -299,6 +299,9 @@
 #pragma mark - 评论按钮响应,弹出键盘和输入框
 - (void)commentAction:(UIButton *)button {
     
+    // 我不管，我就是要把键盘隐藏先
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    
     if (_commentPro == nil) {
         
         for (PraiseModel *praise in _seeLayout.seeModel.praise) {
