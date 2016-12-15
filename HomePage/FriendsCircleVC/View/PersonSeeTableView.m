@@ -97,7 +97,7 @@
     cell.delegate = self;
     PersonSeeLayout *layout = _seeLayoutList[indexPath.row];
     cell.personSeeModelLayout = layout;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     return cell;
 
 }

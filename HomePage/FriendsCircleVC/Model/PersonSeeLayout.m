@@ -20,8 +20,9 @@
 #define kTimeLabelX 16                                          // 时间文本的起点X
 #define kTimeLabelHeight 23.5                                   // 时间文本的高度
 #define kTimeFontSize 14                                        // 时间文本字体大小
-#define kImgSize 64                                             // 动态的图片的大小
-
+#define kImgSize 70                                             // 动态的图片的大小
+#define kIsFirstSize 20                                         // 当cell是组开始的cell时的偏移
+#define kEdge 5                                                 // 内容与边缘的边距离
 
 
 
@@ -35,7 +36,7 @@
         _imageFrameArr = [NSMutableArray array];
     }
     return _imageFrameArr;
-
+    
 }
 
 
@@ -43,10 +44,11 @@
 
     _personSeeModel = personSeeModel;
     
+    // 这个有必要判断吗？时间标签是在第一组cell才有的
     if (_isFirst == YES) {
-        _timeLabelFrame = CGRectMake(0, kSpace + kSpace, kTimeWidth, kTimeLabelHeight);
+        _timeLabelFrame = CGRectMake(0, kIsFirstSize + kEdge, kTimeWidth, kTimeLabelHeight);
     } else {
-        _timeLabelFrame = CGRectMake(0, kSpace, kTimeWidth, kTimeLabelHeight);
+        _timeLabelFrame = CGRectMake(0, kEdge, kTimeWidth, kTimeLabelHeight);
     }
     
     // 处理表情
@@ -59,11 +61,11 @@
         
         // 当cell是一组的开头时，添加垂直位移
         if (_isFirst == YES) {
-            startY = kSpace + kSpace;
-            _cellHeight = kCellHeight - 10 + kSpace;
+            startY = kIsFirstSize + kEdge;
+            _cellHeight = kCellHeight + kIsFirstSize;
         } else {
-            startY = kSpace;
-            _cellHeight = kCellHeight - 10;
+            startY = kEdge;
+            _cellHeight = kCellHeight;
         }
         
         if (personSeeModel.about_img.count == 1) {
@@ -136,15 +138,15 @@
                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kTimeFontSize]}
                                         context:nil];
         
-        
+        // 没有图片的话，文本底部还会有灰色的框，为了使灰色的框与文字存在边距，也应该让cell高提升10,也就不至于灰色的框超出cell
         
         if (rect.size.height > kImgSize) {
             if (_isFirst == YES) {
-                startY = kSpace + kSpace;
-                _cellHeight = kImgSize + kSpace - 10 + kSpace;
+                startY = kIsFirstSize + kEdge;
+                _cellHeight = kIsFirstSize + kCellHeight + 10;
             } else {
-                startY = kSpace;
-                _cellHeight = kImgSize + kSpace - 10;
+                startY = kEdge;
+                _cellHeight = kCellHeight + 10;
             }
             _contentFrame = CGRectMake(kTimeWidth + 5,
                                        startY,
@@ -157,11 +159,11 @@
 
         } else {
             if (_isFirst == YES) {
-                startY = kSpace + kSpace;
-                _cellHeight = rect.size.height + kSpace + kSpace;
+                startY = kIsFirstSize + kEdge;
+                _cellHeight = kIsFirstSize + rect.size.height + kEdge*2 + 10;
             } else {
-                startY = kSpace;
-                _cellHeight = rect.size.height + kSpace;
+                startY = kEdge;
+                _cellHeight = rect.size.height + kEdge*2 + 10;
             }
             _contentFrame = CGRectMake(kTimeWidth + 5,
                                        startY + 5,

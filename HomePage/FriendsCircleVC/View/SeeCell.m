@@ -370,9 +370,9 @@
                             success:^(id response) {
                                 
                                 _isLike = !_isLike;
-                                // 成功后刷新数据
-                                [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
-                                                                                    object:nil];
+                                // 刷新表视图 -- -- -- SeetableView
+                                [[NSNotificationCenter defaultCenter] postNotificationName:reloadTableViewDataNotification
+                                                                                    object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
                                 
                             } failure:^(NSError *err) {
                                 [SVProgressHUD dismiss];
@@ -899,10 +899,6 @@ return _commentsListView;
 
 
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
-}
 
 @end
