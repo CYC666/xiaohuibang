@@ -18,6 +18,7 @@
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
 #import "CScrollImage.h"
+#import "NSString+CEmojChange.h"
 
 
 
@@ -312,10 +313,12 @@
 
 #pragma mark - textfield的代理方法，点击return发送评论
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    NSString *comment = [textField.text changeToString];
 
     NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
                              @"about_id":_seeModel.about_id,
-                             @"about_content":textField.text};
+                             @"about_content":comment};
     
     // 发送评论
     [CNetTool postCommentWithParameters:params

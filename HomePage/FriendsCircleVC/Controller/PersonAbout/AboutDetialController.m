@@ -20,6 +20,7 @@
 #import "PersonAboutController.h"
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
+#import "NSString+CEmojChange.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -315,7 +316,8 @@
             NSValue *contentValue = dic[@"content"];
             CLabel *contentLabel = [[CLabel alloc] initWithFrame:[contentValue CGRectValue]];
             contentLabel.numberOfLines = 0;
-            contentLabel.text = aveluteModel.about_content;
+            NSString *commentText = [aveluteModel.about_content changeToEmoj];
+            contentLabel.text = commentText;
             contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
             contentLabel.font = [UIFont systemFontOfSize:14];
             contentLabel.textAlignment = NSTextAlignmentLeft;
@@ -527,9 +529,11 @@
 
     if ([text isEqualToString:@"\n"]) {
         // 发送评论
+        
+        NSString *comment = [textView.text changeToString];
         NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
                                  @"about_id":_detialLayout.seeModel.about_id,
-                                 @"about_content":textView.text};
+                                 @"about_content":comment};
         [CNetTool postCommentWithParameters:params
                                     success:^(id response) {
                                         if ([response[@"msg"] isEqual:@1]) {
