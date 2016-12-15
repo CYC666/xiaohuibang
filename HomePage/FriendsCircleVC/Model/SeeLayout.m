@@ -140,10 +140,11 @@
             AveluateModel *aveluate = _seeModel.aveluate[i];
             // 根据评论内容来获取区域大小
             NSString *str = [NSString stringWithFormat:@"%@: %@", aveluate.nickname, aveluate.about_content];
-            CGRect rect = [str boundingRectWithSize:CGSizeMake(kScreenWidth - 90, 99999)
-                                            options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
-                                         attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kCommentFontSize]}
-                                            context:nil];
+            NSString *comment = [str changeToEmoj];
+            CGRect rect = [comment boundingRectWithSize:CGSizeMake(kScreenWidth - 90, 99999)
+                                                options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kCommentFontSize]}
+                                                context:nil];
             // 设置这条评论的frame
             CGFloat commentHeight = rect.size.height;
             CGRect commentFrame = CGRectMake(kContentX + 5 , self.cellHeight - 3, kScreenWidth - 90, commentHeight);

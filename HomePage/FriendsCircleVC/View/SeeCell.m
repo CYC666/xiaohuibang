@@ -13,6 +13,7 @@
 #import "CNetTool.h"
 #import "InputView.h"
 #import "NSString+Extension.h"
+#import "NSString+CEmojChange.h"
 #import "PersonAboutController.h"
 #import "CButton.h"
 #import "CLabel.h"
@@ -266,7 +267,8 @@
         comment.labelID = aveluate.user_id;
         
         // 富文本
-        NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: %@", aveluate.nickname, aveluate.about_content]];
+        NSString *commentText = [aveluate.about_content changeToEmoj];
+        NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: %@", aveluate.nickname, commentText]];
         [attribute addAttribute:NSForegroundColorAttributeName
                           value:[UIColor colorWithRed:25/255.0 green:97/255.0 blue:185/255.0 alpha:1]
                           range:NSMakeRange(0, aveluate.nickname.length+1)];
@@ -468,15 +470,18 @@
             [SVProgressHUD showSuccessWithStatus:@"评论不能为空"];
             return NO;
         }
+        
+        // 处理表情
+        NSString *comment = [textView.text changeToString];
         // 发送评论
         NSDictionary *param = @{@"user_id":[USER_D objectForKey:@"user_id"],
                                 @"about_id":_seeLayout.seeModel.about_id,
-                                @"about_content":textView.text};
+                                @"about_content":comment};
         [CNetTool postCommentWithParameters:param
                                     success:^(id response) {
                                         
                                         // 发送通知，让表视图刷新
-                                        [[NSNotificationCenter defaultCenter] postNotificationName:CommentReloadTableView object:@{@"about_content":textView.text,
+                                        [[NSNotificationCenter defaultCenter] postNotificationName:CommentReloadTableView object:@{@"about_content":comment,
                                                                                                                                    @"indexpathRow":[NSString stringWithFormat:@"%ld", (long)_indexpathRow]}];
 
                                     } failure:^(NSError *err) {
