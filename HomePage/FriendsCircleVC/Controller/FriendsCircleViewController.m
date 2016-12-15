@@ -17,7 +17,9 @@
 #import "SendMomentsController.h"
 #import "FromCamera.h"
 #import <UIImageView+WebCache.h>
-#import "CObject.h"
+#import <FMDB.h>
+#import "CFMDBManager.h"
+
 
 
 
@@ -29,7 +31,7 @@
 #define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"                  // 修改导航栏不透明的通知
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
 #define reloadSeeDate @"reloadSeeDate"                                                  // 刷新动态数据的通知
-
+#define  FMDBManager  [CFMDBManager ShareFMDBManager]
 
 @interface FriendsCircleViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -66,11 +68,16 @@
     self.navigationItem.titleView = title;
     
     // 发布动态按钮
-    UIBarButtonItem *sendMomentsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_camera"]
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:self
-                                                                          action:@selector(sendMomentsAction:)];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 40, 40);
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -20)];
+    [button setImage:[UIImage imageNamed:@"icon_camera"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(sendMomentsAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *sendMomentsButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setRightBarButtonItem:sendMomentsButton];
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                            action:@selector(jumpToSendAbout:)];
+    [button addGestureRecognizer:longPress];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     // 加载动态数据
@@ -134,7 +141,7 @@
 
 
 #pragma mark - 发布动态
-- (void)sendMomentsAction:(UIBarButtonItem *)button {
+- (void)sendMomentsAction:(UIButton *)button {
     
     UIView *virtualView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     virtualView.backgroundColor = [UIColor colorWithWhite:0 alpha:.3];
@@ -144,7 +151,7 @@
     
 
     // 创建选项view，提供功能选着
-    float alertHeight = kScreenHeight*.35;
+    float alertHeight = kScreenHeight*.25;
     UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(0,kScreenHeight , kScreenWidth, alertHeight)];
     alertView.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
     alertView.tag = 1001;
@@ -155,8 +162,8 @@
                          alertView.transform = CGAffineTransformMakeTranslation(0, -alertHeight);
                      }];
     
-    float buttonHeight = (alertHeight - 10)/5.0;
-    NSArray *titleArr = @[@"记录生活", @"拍照", @"摄像", @"从手机相册选择", @"取消"];
+    float buttonHeight = (alertHeight - 10)/3.0;
+    NSArray *titleArr = @[@"拍照", @"摄像", @"取消"];
     for (int i = 0; i < titleArr.count; i++) {
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -170,10 +177,6 @@
             button.frame = CGRectMake(0, 0, kScreenWidth, buttonHeight);
         } else if (i == 1) {
             button.frame = CGRectMake(0, buttonHeight + 1, kScreenWidth, buttonHeight);
-        } else if (i == 2) {
-            button.frame = CGRectMake(0, buttonHeight*2 + 2, kScreenWidth, buttonHeight);
-        } else if (i == 3) {
-            button.frame = CGRectMake(0, buttonHeight*3 + 3, kScreenWidth, buttonHeight);
         } else {
             button.frame = CGRectMake(0, alertHeight - buttonHeight, kScreenWidth, buttonHeight);
         }
@@ -189,7 +192,7 @@
 
     [UIView animateWithDuration:.35
                      animations:^{
-                         [tap.view viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
+                         [tap.view viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
                      } completion:^(BOOL finished) {
                          [tap.view removeFromSuperview];
                      }];
@@ -198,22 +201,7 @@
 // alert按钮响应
 - (void)buttonAction:(UIButton *)button {
 
-    if ([button.titleLabel.text isEqualToString:@"记录生活"]) {
-        // push到编辑界面
-        SendMomentsController *momentsController = [[SendMomentsController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:momentsController];
-        nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
-        [self presentViewController:nav animated:YES completion:nil];
-        
-        // 移除alert
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
-                         } completion:^(BOOL finished) {
-                             [button.superview.superview removeFromSuperview];
-                         }];
-        
-    } else if ([button.titleLabel.text isEqualToString:@"拍照"]) {
+    if ([button.titleLabel.text isEqualToString:@"拍照"]) {
         // 通过摄像头
         [self presentViewController:[[FromCamera alloc] initWithType:Picture]
                            animated:YES
@@ -221,7 +209,7 @@
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
@@ -234,30 +222,31 @@
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
         
-    } else if ([button.titleLabel.text isEqualToString:@"从手机相册选择"]) {
-        // 从手机相册获取
-        [self sendFromSystemPicture];
-        // 移除alert
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
-                         } completion:^(BOOL finished) {
-                             [button.superview.superview removeFromSuperview];
-                         }];
     } else {
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.35);
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
     }
+
+}
+
+#pragma mark - 跳转到发送动态界面
+- (void)jumpToSendAbout:(UILongPressGestureRecognizer *)longPress {
+
+    // push到编辑界面
+    SendMomentsController *momentsController = [[SendMomentsController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:momentsController];
+    nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+    [self presentViewController:nav animated:YES completion:nil];
 
 }
 
@@ -322,6 +311,11 @@
                               success:^(id response) {
                                   // 查看是否有动态
                                   NSDictionary *dic = response;
+                                  
+                                  
+                                  
+                                  
+                                  
                                   if ([dic[@"msg"]  isEqual: @1]) {
                                       // 在支线程处理数据,加载数据
                                       dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -479,7 +473,6 @@
         
     }
     
-    
     // 返回主线程，刷新表视图
     dispatch_sync(dispatch_get_main_queue(), ^{
         
@@ -520,11 +513,6 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 
 
@@ -556,6 +544,23 @@
 /*
  
 被丢弃的代码
+ 
+ if ([button.titleLabel.text isEqualToString:@"记录生活"]) {
+ // push到编辑界面
+ SendMomentsController *momentsController = [[SendMomentsController alloc] init];
+ UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:momentsController];
+ nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+ [self presentViewController:nav animated:YES completion:nil];
+ 
+ // 移除alert
+ [UIView animateWithDuration:.35
+ animations:^{
+ [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
+ } completion:^(BOOL finished) {
+ [button.superview.superview removeFromSuperview];
+ }];
+ 
+ } else
  
  // 加载头像
  //UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:dic[@"head_img"]]]];

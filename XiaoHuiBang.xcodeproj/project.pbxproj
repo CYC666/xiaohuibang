@@ -72,6 +72,7 @@
 		044BE93B1DFABFA1004B6DCE /* CCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE93A1DFABFA1004B6DCE /* CCommentButton.m */; };
 		046BAEC21E00ED7F008FC23C /* FromCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 046BAEC11E00ED7F008FC23C /* FromCamera.m */; };
 		046FB0321E02755D008030D1 /* CObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FB0311E02755D008030D1 /* CObject.m */; };
+		046FB0351E028A5C008030D1 /* CFMDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FB0341E028A5C008030D1 /* CFMDBManager.m */; };
 		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
 		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
 		0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */; };
@@ -546,6 +547,8 @@
 		046BAEC11E00ED7F008FC23C /* FromCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FromCamera.m; sourceTree = "<group>"; };
 		046FB0301E02755D008030D1 /* CObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CObject.h; sourceTree = "<group>"; };
 		046FB0311E02755D008030D1 /* CObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CObject.m; sourceTree = "<group>"; };
+		046FB0331E028A5C008030D1 /* CFMDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFMDBManager.h; sourceTree = "<group>"; };
+		046FB0341E028A5C008030D1 /* CFMDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFMDBManager.m; sourceTree = "<group>"; };
 		0485C2EF1DF274B200D19FA7 /* CLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabel.h; sourceTree = "<group>"; };
 		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
 		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
@@ -2100,6 +2103,8 @@
 				044BE82B1DFA42F8004B6DCE /* CScrollImage.m */,
 				046FB0301E02755D008030D1 /* CObject.h */,
 				046FB0311E02755D008030D1 /* CObject.m */,
+				046FB0331E028A5C008030D1 /* CFMDBManager.h */,
+				046FB0341E028A5C008030D1 /* CFMDBManager.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2705,6 +2710,7 @@
 				04AA38F51DE3F51400CADF74 /* PersonSeeLayout.m in Sources */,
 				F35DD7041DC35F66001A8F99 /* RCDCreateGroupViewController.m in Sources */,
 				F35C03541DC3593B003D9613 /* RCDEditGroupNameViewController.m in Sources */,
+				046FB0351E028A5C008030D1 /* CFMDBManager.m in Sources */,
 				044BE93B1DFABFA1004B6DCE /* CCommentButton.m in Sources */,
 				F33F89B01D9E5A5B00FB0F70 /* AboutXHBViewController.m in Sources */,
 				F348D6181DBF4A150034D0C2 /* RCDPrivateSettingsTableViewController.m in Sources */,
