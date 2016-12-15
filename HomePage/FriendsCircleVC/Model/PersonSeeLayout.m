@@ -20,9 +20,9 @@
 #define kTimeLabelX 16                                          // 时间文本的起点X
 #define kTimeLabelHeight 23.5                                   // 时间文本的高度
 #define kTimeFontSize 14                                        // 时间文本字体大小
-#define kImgSize 70                                             // 动态的图片的大小
+#define kImgSize 75                                             // 动态的图片的大小
 #define kIsFirstSize 20                                         // 当cell是组开始的cell时的偏移
-#define kEdge 5                                                 // 内容与边缘的边距离
+#define kEdge 2.5                                               // 内容与边缘的边距离
 
 
 

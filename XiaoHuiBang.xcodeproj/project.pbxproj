@@ -71,6 +71,7 @@
 		044BE9381DFAB04F004B6DCE /* CCommentPro.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE9371DFAB04F004B6DCE /* CCommentPro.m */; };
 		044BE93B1DFABFA1004B6DCE /* CCommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BE93A1DFABFA1004B6DCE /* CCommentButton.m */; };
 		046BAEC21E00ED7F008FC23C /* FromCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 046BAEC11E00ED7F008FC23C /* FromCamera.m */; };
+		046FB0321E02755D008030D1 /* CObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FB0311E02755D008030D1 /* CObject.m */; };
 		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
 		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
 		0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */; };
@@ -543,6 +544,8 @@
 		044BE93A1DFABFA1004B6DCE /* CCommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCommentButton.m; sourceTree = "<group>"; };
 		046BAEC01E00ED7F008FC23C /* FromCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FromCamera.h; sourceTree = "<group>"; };
 		046BAEC11E00ED7F008FC23C /* FromCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FromCamera.m; sourceTree = "<group>"; };
+		046FB0301E02755D008030D1 /* CObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CObject.h; sourceTree = "<group>"; };
+		046FB0311E02755D008030D1 /* CObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CObject.m; sourceTree = "<group>"; };
 		0485C2EF1DF274B200D19FA7 /* CLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabel.h; sourceTree = "<group>"; };
 		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
 		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
@@ -2095,6 +2098,8 @@
 				0485C2F31DF2750000D19FA7 /* CImageView.m */,
 				044BE82A1DFA42F8004B6DCE /* CScrollImage.h */,
 				044BE82B1DFA42F8004B6DCE /* CScrollImage.m */,
+				046FB0301E02755D008030D1 /* CObject.h */,
+				046FB0311E02755D008030D1 /* CObject.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2689,6 +2694,7 @@
 				0490A3F11DEE7CC9006C4644 /* AboutDetialLayout.m in Sources */,
 				F35DD6FB1DC35CF8001A8F99 /* RCDGroupSettingsTableViewController.m in Sources */,
 				F313E6CC1DB62544005111E0 /* MultiSelectItem.m in Sources */,
+				046FB0321E02755D008030D1 /* CObject.m in Sources */,
 				F35C03581DC3593B003D9613 /* RCDGroupSettingsTableViewCell.m in Sources */,
 				F3E3E9321D9B5A3500E69300 /* MyTool.m in Sources */,
 				04095F461DE285A8009AD2EC /* InputView.m in Sources */,

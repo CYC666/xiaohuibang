@@ -210,7 +210,6 @@
     pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     pickerController.allowsEditing = YES;
     pickerController.delegate = self;
-    pickerController.navigationBar.tintColor = [UIColor redColor];
     [[self viewController] presentViewController:pickerController animated:YES completion:nil];
 
 }

@@ -17,6 +17,7 @@
 #import "SendMomentsController.h"
 #import "FromCamera.h"
 #import <UIImageView+WebCache.h>
+#import "CObject.h"
 
 
 
@@ -502,7 +503,8 @@
         [self.seeTableView reloadData];
         
     });
-  
+    
+    
 
 }
 

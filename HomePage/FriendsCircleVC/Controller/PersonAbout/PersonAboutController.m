@@ -477,10 +477,10 @@
                                             model.about_img = dic[@"about_img"];
                                             model.create_time = dic[@"create_time"];
                                             model.thumb_img = dic[@"thumb_img"];
-                                            
                                             PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
-                                            layout.personSeeModel = model;
+                                            // 要将isFirst放在设置model之前，不然使用无法使用isFirst来确定是否创建时间标签
                                             layout.isFirst = YES;
+                                            layout.personSeeModel = model;
                                             [seeTempArr addObject:layout];
                                         }
                                         // 搜索结果提示
