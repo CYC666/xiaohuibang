@@ -59,12 +59,13 @@
 
 #pragma mark - 懒加载
 // 动态的内容label
-- (UILabel *)contentLabel {
+- (CLabel *)contentLabel {
 
     if (_contentLabel == nil) {
-        _contentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _contentLabel = [[CLabel alloc] initWithFrame:CGRectZero];
         _contentLabel.font = [UIFont systemFontOfSize:15];
         _contentLabel.numberOfLines = 0;
+        _contentLabel.delegate = self;
         _contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
         [self.contentView addSubview:_contentLabel];
     }
@@ -184,6 +185,40 @@
     // 设置动态内容label
     self.contentLabel.text = _seeLayout.seeModel.content;
     self.contentLabel.frame = _seeLayout.seeFrame;
+    __weak SeeCell *weakSelf = self;
+    self.contentLabel.cLabelBlock = ^(NSArray *arr){
+    
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleActionSheet];
+        for (int i = 0; i < arr.count; i++) {
+            NSString *str = arr[i];
+            NSString *title;
+            NSURL *url;
+            if ([str characterAtIndex:0] == 'w') {
+                title = [NSString stringWithFormat:@"打开网址-->%@", str];
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", str]];
+            } else {
+                title = [NSString stringWithFormat:@"拨打电话-->%@", str];
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", str]];
+            }
+            
+            UIAlertAction *sureAction = [UIAlertAction actionWithTitle:title
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * _Nonnull action) {
+                                                                   [[UIApplication sharedApplication] openURL:url];
+                                                               }];
+            [alert addAction:sureAction];
+        }
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+        
+        
+        [alert addAction:cancelAction];
+        [[weakSelf viewController] presentViewController:alert animated:YES completion:nil];
+    
+    };
     
     // 设置动态图片的frame,加载缩略图
     if (self.seeLayout.seeModel.about_img.count != 0) {

@@ -10,6 +10,7 @@
 #import "SeeLayout.h"
 #import "InputView.h"
 #import "CCommentPro.h"
+#import "CLabel.h"
 
 
 @interface SeeCell : UITableViewCell
@@ -20,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headImageView;        // 头像
 @property (weak, nonatomic) IBOutlet UILabel *nickNameLabel;            // 昵称
 
-@property (strong, nonatomic) UILabel *contentLabel;                    // 动态内容视图
+@property (strong, nonatomic) CLabel *contentLabel;                    // 动态内容视图
 @property (strong, nonatomic) UIImageView *aboutImageView;              // 动态的图片视图
 
 @property (strong, nonatomic) UILabel *timeLabel;                       // 显示发布动态的时间Label

@@ -119,6 +119,9 @@
 		04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */; };
 		04AA38FD1DE3F8EF00CADF74 /* PersonSeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */; };
 		04AA38FF1DE4248000CADF74 /* backgroundPicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */; };
+		04FB5FB71E03D99800228FD9 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FB5FB61E03D99800228FD9 /* libicucore.tbd */; };
+		04FB5FBC1E03D9BD00228FD9 /* RegexKitLite.html in Resources */ = {isa = PBXBuildFile; fileRef = 04FB5FBA1E03D9BD00228FD9 /* RegexKitLite.html */; };
+		04FB5FBD1E03D9BD00228FD9 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FB5FBB1E03D9BD00228FD9 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB7F902B3A8335807EDD4AA1 /* libPods-XiaoHuiBang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */; };
 		F306DE831DD096360034BA65 /* UsersToTheirOwnGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F306DE811DD096360034BA65 /* UsersToTheirOwnGroupViewController.m */; };
 		F306DE841DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F306DE821DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib */; };
@@ -624,6 +627,10 @@
 		04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonSeeCell.m; sourceTree = "<group>"; };
 		04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonSeeCell.xib; sourceTree = "<group>"; };
 		04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundPicture.jpg; sourceTree = "<group>"; };
+		04FB5FB61E03D99800228FD9 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		04FB5FB91E03D9BD00228FD9 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		04FB5FBA1E03D9BD00228FD9 /* RegexKitLite.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RegexKitLite.html; sourceTree = "<group>"; };
+		04FB5FBB1E03D9BD00228FD9 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		8F5B587656139CFD557E4D67 /* Pods-XiaoHuiBang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.release.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.release.xcconfig"; sourceTree = "<group>"; };
 		A01A17214919735FFEBF2768 /* Pods-XiaoHuiBang.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.debug.xcconfig"; sourceTree = "<group>"; };
 		D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XiaoHuiBang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1098,6 +1105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FB5FB71E03D99800228FD9 /* libicucore.tbd in Frameworks */,
 				F33D12DE1D9D127F00F1D94E /* Photos.framework in Frameworks */,
 				F33D12DC1D9D127700F1D94E /* UIKit.framework in Frameworks */,
 				F33D12DA1D9D127100F1D94E /* SystemConfiguration.framework in Frameworks */,
@@ -1287,9 +1295,20 @@
 			path = PersonAbout;
 			sourceTree = "<group>";
 		};
+		04FB5FB81E03D9BD00228FD9 /* RegexKitLite */ = {
+			isa = PBXGroup;
+			children = (
+				04FB5FB91E03D9BD00228FD9 /* RegexKitLite.h */,
+				04FB5FBA1E03D9BD00228FD9 /* RegexKitLite.html */,
+				04FB5FBB1E03D9BD00228FD9 /* RegexKitLite.m */,
+			);
+			path = RegexKitLite;
+			sourceTree = "<group>";
+		};
 		636C67FCAA54B97F2A97C8C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04FB5FB61E03D99800228FD9 /* libicucore.tbd */,
 				F33D12DD1D9D127F00F1D94E /* Photos.framework */,
 				F33D12DB1D9D127700F1D94E /* UIKit.framework */,
 				F33D12D91D9D127100F1D94E /* SystemConfiguration.framework */,
@@ -2074,6 +2093,7 @@
 		F3F478AD1DDFE3C500E21E97 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				04FB5FB81E03D9BD00228FD9 /* RegexKitLite */,
 				044BE9051DFAB036004B6DCE /* CCommentPro */,
 				0485C2F81DF54A7100D19FA7 /* SuPhotoPicker */,
 				0485C2EF1DF274B200D19FA7 /* CLabel.h */,
@@ -2489,6 +2509,7 @@
 				F3F478DC1DDFE3C500E21E97 /* pic_loading@2x.png in Resources */,
 				F317F40B1DA7828F00DB5F70 /* icon_group-chat@3x.png in Resources */,
 				F39FD6F01DDDB43300D3724C /* icon_position_beginer@3x.png in Resources */,
+				04FB5FBC1E03D9BD00228FD9 /* RegexKitLite.html in Resources */,
 				F3F478D31DDFE3C500E21E97 /* SendMomentsController.xib in Resources */,
 				F334F4951DCC53E0002CFBBC /* user_67.png in Resources */,
 				F3EBC49A1D9A657E00E93C02 /* tx1.png in Resources */,
@@ -2788,6 +2809,7 @@
 				F32E4D0D1D98D49B0034BBB8 /* main.m in Sources */,
 				F39494821DB089DF00BE3E51 /* AddressBookTableViewCell.m in Sources */,
 				F39AFE8D1DAF90430045C323 /* FriendsValidationViewController.m in Sources */,
+				04FB5FBD1E03D9BD00228FD9 /* RegexKitLite.m in Sources */,
 				F34FE69D1DBB7DF90054C5AD /* RCDUserInfo.m in Sources */,
 				F3E3E9531D9B68BB00E69300 /* RegistViewController.m in Sources */,
 				F31B2A9D1DA4F00300330636 /* ChangePhoneCodeViewController.m in Sources */,
