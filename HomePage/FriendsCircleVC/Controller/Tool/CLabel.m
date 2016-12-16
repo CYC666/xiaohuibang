@@ -55,8 +55,8 @@
     [resultArr addObjectsFromArray:[self.text componentsMatchedByRegex:MOBILEA]];
     NSString *MOBILEB = @"\\d{3}-\\d{8}|\\d{4}-\\d{7}";
     [resultArr addObjectsFromArray:[self.text componentsMatchedByRegex:MOBILEB]];
-    NSString *www = @"[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
-    [resultArr addObjectsFromArray:[self.text componentsMatchedByRegex:www]];
+    NSString *http = @"(http|ftp|https)://[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
+    [resultArr addObjectsFromArray:[self.text componentsMatchedByRegex:http]];
     // 根据字典的唯一性，去除数组重复元素
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     for (NSString *str in resultArr) {

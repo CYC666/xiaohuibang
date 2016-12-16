@@ -195,9 +195,9 @@
             NSString *str = arr[i];
             NSString *title;
             NSURL *url;
-            if ([str characterAtIndex:0] == 'w') {
+            if ([str characterAtIndex:0] == 'h') {
                 title = [NSString stringWithFormat:@"打开网址-->%@", str];
-                url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", str]];
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", str]];
             } else {
                 title = [NSString stringWithFormat:@"拨打电话-->%@", str];
                 url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", str]];
