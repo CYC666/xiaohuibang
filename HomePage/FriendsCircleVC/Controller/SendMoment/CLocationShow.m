@@ -39,7 +39,6 @@
     self.navigationItem.titleView = title;
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
                                                                  style:UIBarButtonItemStylePlain
@@ -91,7 +90,7 @@
     // 地名+纬度+经度
     CLLocationCoordinate2D coordinate2D = _location.coordinate;
     NSString *placeStr = [NSString stringWithFormat:@"%@%@", _place.locality, _place.thoroughfare];
-    __block NSString *outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
+    __block NSString *outStr = [NSString stringWithFormat:@"%@+%.15f+%.15f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
     self.locationBlock(outStr);
     
     // 返回
