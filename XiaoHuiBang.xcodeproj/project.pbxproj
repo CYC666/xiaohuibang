@@ -101,6 +101,12 @@
 		0485C3421DF54A7100D19FA7 /* SuPhotoAblumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0485C3271DF54A7100D19FA7 /* SuPhotoAblumCell.xib */; };
 		0485C3431DF54A7100D19FA7 /* SuPhotoBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C3291DF54A7100D19FA7 /* SuPhotoBrowserCell.m */; };
 		0485C3441DF54A7100D19FA7 /* SuPhotoBrowserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0485C32A1DF54A7100D19FA7 /* SuPhotoBrowserCell.xib */; };
+		048DCC051E077A5B008ADDCB /* CLocationShow.m in Sources */ = {isa = PBXBuildFile; fileRef = 048DCC041E077A5B008ADDCB /* CLocationShow.m */; };
+		048DCC091E078AD6008ADDCB /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 048DCC071E078AD6008ADDCB /* LocationCell.m */; };
+		048DCC0A1E078AD6008ADDCB /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 048DCC081E078AD6008ADDCB /* LocationCell.xib */; };
+		048DCC0E1E07BC16008ADDCB /* icon_position_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 048DCC0B1E07BC16008ADDCB /* icon_position_blue.png */; };
+		048DCC0F1E07BC16008ADDCB /* icon_position_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 048DCC0C1E07BC16008ADDCB /* icon_position_blue@2x.png */; };
+		048DCC101E07BC16008ADDCB /* icon_position_blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 048DCC0D1E07BC16008ADDCB /* icon_position_blue@3x.png */; };
 		0490A3EE1DEE7989006C4644 /* AboutDetialController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3ED1DEE7989006C4644 /* AboutDetialController.m */; };
 		0490A3F11DEE7CC9006C4644 /* AboutDetialLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0490A3F01DEE7CC9006C4644 /* AboutDetialLayout.m */; };
 		04A652E61DEFC1B6006A85FD /* icon_pro.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A652E31DEFC1B6006A85FD /* icon_pro.png */; };
@@ -433,7 +439,6 @@
 		F3F478CE1DDFE3C500E21E97 /* FromCameraController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3F478A21DDFE3C500E21E97 /* FromCameraController.xib */; };
 		F3F478CF1DDFE3C500E21E97 /* FromSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F478A51DDFE3C500E21E97 /* FromSystemController.m */; };
 		F3F478D01DDFE3C500E21E97 /* FromSystemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3F478A61DDFE3C500E21E97 /* FromSystemController.xib */; };
-		F3F478D11DDFE3C500E21E97 /* CLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F478A91DDFE3C500E21E97 /* CLocationController.m */; };
 		F3F478D21DDFE3C500E21E97 /* SendMomentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F478AB1DDFE3C500E21E97 /* SendMomentsController.m */; };
 		F3F478D31DDFE3C500E21E97 /* SendMomentsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3F478AC1DDFE3C500E21E97 /* SendMomentsController.xib */; };
 		F3F478D41DDFE3C500E21E97 /* CNetTool.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F478AF1DDFE3C500E21E97 /* CNetTool.m */; };
@@ -600,6 +605,14 @@
 		0485C3281DF54A7100D19FA7 /* SuPhotoBrowserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuPhotoBrowserCell.h; sourceTree = "<group>"; };
 		0485C3291DF54A7100D19FA7 /* SuPhotoBrowserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuPhotoBrowserCell.m; sourceTree = "<group>"; };
 		0485C32A1DF54A7100D19FA7 /* SuPhotoBrowserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuPhotoBrowserCell.xib; sourceTree = "<group>"; };
+		048DCC031E077A5B008ADDCB /* CLocationShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLocationShow.h; sourceTree = "<group>"; };
+		048DCC041E077A5B008ADDCB /* CLocationShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLocationShow.m; sourceTree = "<group>"; };
+		048DCC061E078AD6008ADDCB /* LocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
+		048DCC071E078AD6008ADDCB /* LocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
+		048DCC081E078AD6008ADDCB /* LocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
+		048DCC0B1E07BC16008ADDCB /* icon_position_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_position_blue.png; sourceTree = "<group>"; };
+		048DCC0C1E07BC16008ADDCB /* icon_position_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_position_blue@2x.png"; sourceTree = "<group>"; };
+		048DCC0D1E07BC16008ADDCB /* icon_position_blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_position_blue@3x.png"; sourceTree = "<group>"; };
 		0490A3EC1DEE7989006C4644 /* AboutDetialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialController.h; sourceTree = "<group>"; };
 		0490A3ED1DEE7989006C4644 /* AboutDetialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutDetialController.m; sourceTree = "<group>"; };
 		0490A3EF1DEE7CC9006C4644 /* AboutDetialLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutDetialLayout.h; sourceTree = "<group>"; };
@@ -1064,8 +1077,6 @@
 		F3F478A41DDFE3C500E21E97 /* FromSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FromSystemController.h; sourceTree = "<group>"; };
 		F3F478A51DDFE3C500E21E97 /* FromSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FromSystemController.m; sourceTree = "<group>"; };
 		F3F478A61DDFE3C500E21E97 /* FromSystemController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FromSystemController.xib; sourceTree = "<group>"; };
-		F3F478A81DDFE3C500E21E97 /* CLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLocationController.h; sourceTree = "<group>"; };
-		F3F478A91DDFE3C500E21E97 /* CLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLocationController.m; sourceTree = "<group>"; };
 		F3F478AA1DDFE3C500E21E97 /* SendMomentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMomentsController.h; sourceTree = "<group>"; };
 		F3F478AB1DDFE3C500E21E97 /* SendMomentsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMomentsController.m; sourceTree = "<group>"; };
 		F3F478AC1DDFE3C500E21E97 /* SendMomentsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendMomentsController.xib; sourceTree = "<group>"; };
@@ -2081,11 +2092,14 @@
 		F3F478A71DDFE3C500E21E97 /* SendMoment */ = {
 			isa = PBXGroup;
 			children = (
-				F3F478A81DDFE3C500E21E97 /* CLocationController.h */,
-				F3F478A91DDFE3C500E21E97 /* CLocationController.m */,
 				F3F478AA1DDFE3C500E21E97 /* SendMomentsController.h */,
 				F3F478AB1DDFE3C500E21E97 /* SendMomentsController.m */,
 				F3F478AC1DDFE3C500E21E97 /* SendMomentsController.xib */,
+				048DCC031E077A5B008ADDCB /* CLocationShow.h */,
+				048DCC041E077A5B008ADDCB /* CLocationShow.m */,
+				048DCC061E078AD6008ADDCB /* LocationCell.h */,
+				048DCC071E078AD6008ADDCB /* LocationCell.m */,
+				048DCC081E078AD6008ADDCB /* LocationCell.xib */,
 			);
 			path = SendMoment;
 			sourceTree = "<group>";
@@ -2154,6 +2168,9 @@
 		F3F478B81DDFE3C500E21E97 /* MyDocuments */ = {
 			isa = PBXGroup;
 			children = (
+				048DCC0B1E07BC16008ADDCB /* icon_position_blue.png */,
+				048DCC0C1E07BC16008ADDCB /* icon_position_blue@2x.png */,
+				048DCC0D1E07BC16008ADDCB /* icon_position_blue@3x.png */,
 				044BE8BC1DFAA936004B6DCE /* icon_comment_right_nor.png */,
 				044BE8BD1DFAA936004B6DCE /* icon_comment_right_nor@2x.png */,
 				044BE8BE1DFAA936004B6DCE /* icon_comment_right_nor@3x.png */,
@@ -2420,6 +2437,7 @@
 				04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */,
 				F3F631F51D9A7B3100388996 /* 头像@3x.png in Resources */,
 				F39FD7071DDDB5D300D3724C /* location_arrow.png in Resources */,
+				048DCC101E07BC16008ADDCB /* icon_position_blue@3x.png in Resources */,
 				F334F4A91DCC5FB5002CFBBC /* pic_delete@3x.png in Resources */,
 				044BE9251DFAB036004B6DCE /* icon_like_nor@2x.png in Resources */,
 				0485C3441DF54A7100D19FA7 /* SuPhotoBrowserCell.xib in Resources */,
@@ -2448,6 +2466,7 @@
 				F34823CB1DD2C0B000D2834E /* icon_profile_selected@3x.png in Resources */,
 				044BE92B1DFAB036004B6DCE /* icon_liked@2x.png in Resources */,
 				F3EBC48D1D9A471D00E93C02 /* icon_closed@2x.png in Resources */,
+				048DCC0A1E078AD6008ADDCB /* LocationCell.xib in Resources */,
 				F39FD6EF1DDDB43300D3724C /* icon_position_beginer@2x.png in Resources */,
 				F33F89971D9E4EA600FB0F70 /* icon_setting@2x.png in Resources */,
 				F39FD7641DDDBA9F00D3724C /* icon_pro_gray@2x.png in Resources */,
@@ -2467,6 +2486,7 @@
 				F3F478DA1DDFE3C500E21E97 /* loading@3x.gif in Resources */,
 				F39FD6FD1DDDB43300D3724C /* nav-bar.png in Resources */,
 				F39FD6FA1DDDB43300D3724C /* icon_speak.png in Resources */,
+				048DCC0F1E07BC16008ADDCB /* icon_position_blue@2x.png in Resources */,
 				04A652F41DEFC31F006A85FD /* icon_pro_selected@3x.png in Resources */,
 				F317F3FB1DA7500800DB5F70 /* icon_mute@3x.png in Resources */,
 				F30947621DD33ECF00638827 /* icon_open@2x.png in Resources */,
@@ -2562,6 +2582,7 @@
 				04A652ED1DEFC2C1006A85FD /* icon_comment_new@2x.png in Resources */,
 				044BE92A1DFAB036004B6DCE /* icon_liked.png in Resources */,
 				F30947891DD3409500638827 /* alpha50@3x.png in Resources */,
+				048DCC0E1E07BC16008ADDCB /* icon_position_blue.png in Resources */,
 				044BE9211DFAB036004B6DCE /* icon_comment_nor.png in Resources */,
 				044BE9291DFAB036004B6DCE /* icon_like_nor_highlight@3x.png in Resources */,
 				044BE92D1DFAB036004B6DCE /* icon_liked_down.png in Resources */,
@@ -2673,6 +2694,7 @@
 			files = (
 				F3703B971DBDE6C0000508B1 /* RCDUserInfoManager.m in Sources */,
 				F3F478D71DDFE3C500E21E97 /* AveluateModel.m in Sources */,
+				048DCC091E078AD6008ADDCB /* LocationCell.m in Sources */,
 				F35DD7071DC35FDD001A8F99 /* RCDGroupMemberCollectionViewCell.m in Sources */,
 				F3B763171DC0B37B009619DA /* MyContactViewController.m in Sources */,
 				F3ACCB5A1DCA1EF5002355AC /* RCDGroupTableViewCell.m in Sources */,
@@ -2747,6 +2769,7 @@
 				F3B73DF11DC87FDB00407EEE /* RCDUIBarButtonItem.m in Sources */,
 				F39494A71DB0E0B500BE3E51 /* AddressBookViewController.m in Sources */,
 				F3F478CF1DDFE3C500E21E97 /* FromSystemController.m in Sources */,
+				048DCC051E077A5B008ADDCB /* CLocationShow.m in Sources */,
 				F317F4111DA7A96400DB5F70 /* AddFriendViewController.m in Sources */,
 				F39AFE901DAF94020045C323 /* FriendsNoteViewController.m in Sources */,
 				F3E3E9661D9B71D900E69300 /* ToResetPswViewController.m in Sources */,
@@ -2786,7 +2809,6 @@
 				F3130F741DD9A37900B12726 /* RCAnnotationView.m in Sources */,
 				F348D6161DBF4A150034D0C2 /* RCDPrivateSettingsUserInfoCell.m in Sources */,
 				F31B2A9A1DA4E73B00330636 /* ChangePhoneViewController.m in Sources */,
-				F3F478D11DDFE3C500E21E97 /* CLocationController.m in Sources */,
 				F39494A11DB0CF6800BE3E51 /* SDBaseTableViewController.m in Sources */,
 				0485C32D1DF54A7100D19FA7 /* UIImage+SU.m in Sources */,
 				F3F478E41DDFE3C500E21E97 /* SeeTableView.m in Sources */,

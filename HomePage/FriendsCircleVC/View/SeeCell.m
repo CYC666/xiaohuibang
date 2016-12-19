@@ -91,6 +91,19 @@
 
 }
 
+// 定位文本
+- (UILabel *)locationLabel {
+
+    if (_locationLabel == nil) {
+        _locationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _locationLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        _locationLabel.font = [UIFont systemFontOfSize:13];
+        [self.contentView addSubview:_locationLabel];
+    }
+    return _locationLabel;
+
+}
+
 // 删除按钮
 - (UIButton *)deleteButton {
 
@@ -190,7 +203,7 @@
     
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
                                                                            message:nil
-                                                                    preferredStyle:UIAlertControllerStyleActionSheet];
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
         for (int i = 0; i < arr.count; i++) {
             NSString *str = arr[i];
             NSString *title;
@@ -252,7 +265,9 @@
     self.timeLabel.text = _seeLayout.timeText;
     self.timeLabel.frame = _seeLayout.timeFrame;
     
-    
+    // 设置定位
+    self.locationLabel.text = _seeLayout.locationText;
+    self.locationLabel.frame = _seeLayout.locationFrame;
     
     
     
@@ -300,6 +315,61 @@
         comment.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
         comment.delegate = self;
         comment.labelID = aveluate.user_id;
+        comment.cLabelBlock = ^(NSArray *arr) {
+        
+            if (arr.count != 0) {
+                // 如果有电话号码就弹出提示，如果没有就直接弹出评论
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
+                                                                               message:nil
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                for (int i = 0; i < arr.count; i++) {
+                    NSString *str = arr[i];
+                    NSString *title;
+                    NSURL *url;
+                    if ([str characterAtIndex:0] == 'h') {
+                        title = [NSString stringWithFormat:@"打开网址-->%@", str];
+                        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", str]];
+                    } else {
+                        title = [NSString stringWithFormat:@"拨打电话-->%@", str];
+                        url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", str]];
+                    }
+                    
+                    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:title
+                                                                         style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                                           [[UIApplication sharedApplication] openURL:url];
+                                                                       }];
+                    [alert addAction:sureAction];
+                }
+                UIAlertAction *comAction = [UIAlertAction actionWithTitle:@"评论"
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                                         
+                                                                         // 进行评论操作
+                                                                         
+                                                                     }];
+                
+                
+                [alert addAction:comAction];
+
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:nil];
+                
+                
+                [alert addAction:cancelAction];
+                [[weakSelf viewController] presentViewController:alert animated:YES completion:nil];
+            
+            } else {
+            
+                // 如果没有，那就直接评论咯(没必要用协议了)
+                
+            
+            }
+            
+            
+        
+        };
         
         // 富文本
         NSString *commentText = [aveluate.about_content changeToEmoj];

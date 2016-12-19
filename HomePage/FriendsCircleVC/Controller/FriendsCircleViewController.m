@@ -440,7 +440,8 @@
         seeModel.user_id = dic[@"user_id"];
         seeModel.nickname = dic[@"nickname"];
         seeModel.head_img = dic[@"head_img"];
-        seeModel.content = dic[@"content"];        
+        seeModel.content = dic[@"content"];
+        seeModel.place = dic[@"place"];
         seeModel.about_img = dic[@"about_img"];
         seeModel.thumb_img = dic[@"thumb_img"];
         seeModel.create_time = dic[@"create_time"];

@@ -19,9 +19,11 @@
 @property (assign, nonatomic) CGFloat cellHeight;                   // 单元格的高度
 @property (assign, nonatomic) CGRect seeFrame;                      // 正文frame
 @property (strong, nonatomic) NSMutableArray *imgFrameArr;          // 图片的frame（多图）
-@property (assign, nonatomic) CGRect timeFrame;                     // 时间frame
 @property (assign, nonatomic) CGRect deleteFrame;                   // 删除按钮frame
+@property (assign, nonatomic) CGRect timeFrame;                     // 时间frame
+@property (assign, nonatomic) CGRect locationFrame;                 // 定位frame
 @property (copy, nonatomic) NSString *timeText;                     // 转化后的时间
+@property (copy, nonatomic) NSString *locationText;                 // 转化后的定位文本
 @property (assign, nonatomic) CGRect proFrame;                      // 点赞按钮frame
 @property (assign, nonatomic) CGRect commentFrame;                  // 评论按钮frame
 @property (assign, nonatomic) CGRect proListIconFrame;              // 点赞列表图标的frame

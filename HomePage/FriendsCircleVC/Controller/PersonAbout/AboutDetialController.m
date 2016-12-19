@@ -192,11 +192,48 @@
     [scrollView addSubview:nicknameLabel];
     
     // 文本
-    UILabel *contentLabel = [[UILabel alloc] initWithFrame:_detialLayout.contentFrame];
+    CLabel *contentLabel = [[CLabel alloc] initWithFrame:_detialLayout.contentFrame];
     contentLabel.numberOfLines = 0;
     contentLabel.text = _detialLayout.seeModel.content;
     contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
     contentLabel.font = [UIFont systemFontOfSize:15];
+    contentLabel.delegate = self;
+    
+    __weak AboutDetialController *weakSelf = self;
+    contentLabel.cLabelBlock = ^(NSArray *arr) {
+    
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        for (int i = 0; i < arr.count; i++) {
+            NSString *str = arr[i];
+            NSString *title;
+            NSURL *url;
+            if ([str characterAtIndex:0] == 'h') {
+                title = [NSString stringWithFormat:@"打开网址-->%@", str];
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", str]];
+            } else {
+                title = [NSString stringWithFormat:@"拨打电话-->%@", str];
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", str]];
+            }
+            
+            UIAlertAction *sureAction = [UIAlertAction actionWithTitle:title
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * _Nonnull action) {
+                                                                   [[UIApplication sharedApplication] openURL:url];
+                                                               }];
+            [alert addAction:sureAction];
+        }
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+        
+        
+        [alert addAction:cancelAction];
+        [weakSelf presentViewController:alert animated:YES completion:nil];
+
+    
+    };
     [scrollView addSubview:contentLabel];
     
     // 图片
@@ -324,6 +361,60 @@
             contentLabel.delegate = self;
             contentLabel.labelID = aveluteModel.user_id;
             [scrollView addSubview:contentLabel];
+            contentLabel.cLabelBlock = ^(NSArray *arr) {
+            
+                __weak AboutDetialController *weakSelf = self;
+                if (arr.count != 0) {
+                    // 如果有电话号码就弹出提示，如果没有就直接弹出评论
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
+                                                                                   message:nil
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    for (int i = 0; i < arr.count; i++) {
+                        NSString *str = arr[i];
+                        NSString *title;
+                        NSURL *url;
+                        if ([str characterAtIndex:0] == 'h') {
+                            title = [NSString stringWithFormat:@"打开网址-->%@", str];
+                            url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", str]];
+                        } else {
+                            title = [NSString stringWithFormat:@"拨打电话-->%@", str];
+                            url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", str]];
+                        }
+                        
+                        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:title
+                                                                             style:UIAlertActionStyleDefault
+                                                                           handler:^(UIAlertAction * _Nonnull action) {
+                                                                               [[UIApplication sharedApplication] openURL:url];
+                                                                           }];
+                        [alert addAction:sureAction];
+                    }
+                    UIAlertAction *comAction = [UIAlertAction actionWithTitle:@"评论"
+                                                                        style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction * _Nonnull action) {
+                                                                          
+                                                                          // 进行评论操作
+                                                                          
+                                                                      }];
+                    
+                    
+                    [alert addAction:comAction];
+                    
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                                           style:UIAlertActionStyleDefault
+                                                                         handler:nil];
+                    
+                    
+                    [alert addAction:cancelAction];
+                    [weakSelf presentViewController:alert animated:YES completion:nil];
+                    
+                } else {
+                    
+                    // 如果没有，那就直接评论咯(没必要用协议了)
+                    
+                    
+                }
+            
+            };
             // 评论分割线,如果是最后一条，那就不需要分割线了
             if (i != _detialLayout.seeModel.aveluate.count-1) {
                 NSValue *separatorLineValue = dic[@"line"];

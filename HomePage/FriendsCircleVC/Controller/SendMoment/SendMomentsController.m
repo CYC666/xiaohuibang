@@ -14,13 +14,13 @@
 #import "CNetTool.h"
 #import "CImageView.h"
 #import "NSString+Extension.h"
-#import "CLocationController.h"
 #import "FromCameraController.h"
 #import <SVProgressHUD.h>
 #import "SuPhotoPicker.h"
 #import "SuPhotoPreviewer.h"
 #import "SuPhotoCenter.h"
 #import "NSString+CEmojChange.h"
+#import "CLocationShow.h"
 
 #define reloadSeeDate @"reloadSeeDate"                                                  // 刷新动态数据的通知
 
@@ -37,6 +37,7 @@
     UITableView *_tableView;
     UITextView *_textView;              // 输入框
     RCEmojiBoardView *_emojiInputView;  // 表情输入框
+    UIButton *_locationButton;          // 定位按钮
                                         
 
 
@@ -197,7 +198,8 @@
     }
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : content,
-                             @"file" : _willPushPhotoArr.count == 0 ? @"" : _willPushPhotoArr};
+                             @"file" : _willPushPhotoArr.count == 0 ? @"" : _willPushPhotoArr,
+                             @"place" : _locationStr == nil ? @"" : _locationStr};
 
     
     if (_willPushPhotoArr.count != 0) {
@@ -223,18 +225,6 @@
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showErrorWithStatus:@"发送失败"];
                                   }];
-//        NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_publish";
-//        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
-//        [request setHTTPMethod:@"POST"];
-//        NSString *bodyString = [NSString stringWithFormat:@"user_id=%@&content=%@", [USER_D objectForKey:@"user_id"], _textView.text];
-//        NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-//        [request setHTTPBody:bodyData];
-//        NSURLSession *session = [NSURLSession sharedSession];
-//        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-//            NSLog(@"%@", httpResponse);
-//        }];
-//        [task resume];
     
     }
     
@@ -379,6 +369,7 @@
         // 打开摄像头
         [self openSystemCamare];
     } else if (num == 3) {
+        _locationButton = button;
         [self openLocation];
     }
 
@@ -524,15 +515,21 @@
 #pragma mark - 打开定位界面
 - (void)openLocation {
 
-    CLocationController *locationCtrl = [[CLocationController alloc] init];
-    [self.navigationController pushViewController:locationCtrl animated:YES];
-
-}
-#pragma mark - 删除即将上传的照片
-- (void)deleteImage:(UITapGestureRecognizer *)tap {
-
-
+    CLocationShow *pickerLocation = [[CLocationShow alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:pickerLocation];
+    nav.navigationBar.translucent = NO;
+    nav.navigationBar.barTintColor = [UIColor blackColor];
+    [self presentViewController:nav animated:YES completion:nil];
     
+    // 接收传过来的地理信息
+    pickerLocation.locationBlock = ^(NSString *str){
+    
+        self.locationStr = str;
+        // 更改定位按钮的颜色
+        [_locationButton setImage:[UIImage imageNamed:@"icon_position_blue"] forState:UIControlStateNormal];
+    
+    };
+
 }
 
 #pragma mark - 点击了图片预览，跳转查看已经选着的image
@@ -636,6 +633,22 @@
  return YES;
  
  }
+ 
+ //        NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_publish";
+ //        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
+ //        [request setHTTPMethod:@"POST"];
+ //        NSString *bodyString = [NSString stringWithFormat:@"user_id=%@&content=%@", [USER_D objectForKey:@"user_id"], _textView.text];
+ //        NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+ //        [request setHTTPBody:bodyData];
+ //        NSURLSession *session = [NSURLSession sharedSession];
+ //        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+ //            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+ //            NSLog(@"%@", httpResponse);
+ //        }];
+ //        [task resume];
+
+ 
+ 
  
  */
 

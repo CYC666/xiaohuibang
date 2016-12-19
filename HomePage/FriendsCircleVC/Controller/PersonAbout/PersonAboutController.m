@@ -348,6 +348,7 @@
         model.user_id = dic[@"user_id"];
         model.content = dic[@"content"];
         model.about_img = dic[@"about_img"];
+        model.place = dic[@"place"];
         model.create_time = dic[@"create_time"];
         model.thumb_img = dic[@"thumb_img"];
         
@@ -474,6 +475,7 @@
                                             model.about_id = dic[@"id"];
                                             model.user_id = dic[@"user_id"];
                                             model.content = dic[@"content"];
+                                            model.place = dic[@"place"];
                                             model.about_img = dic[@"about_img"];
                                             model.create_time = dic[@"create_time"];
                                             model.thumb_img = dic[@"thumb_img"];
