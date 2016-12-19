@@ -518,7 +518,6 @@
     CLocationShow *pickerLocation = [[CLocationShow alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:pickerLocation];
     nav.navigationBar.translucent = NO;
-    nav.navigationBar.barTintColor = [UIColor blackColor];
     [self presentViewController:nav animated:YES completion:nil];
     
     // 接收传过来的地理信息

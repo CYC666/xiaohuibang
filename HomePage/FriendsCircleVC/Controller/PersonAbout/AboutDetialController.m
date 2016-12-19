@@ -21,6 +21,7 @@
 #import <SVProgressHUD.h>
 #import <UIImageView+WebCache.h>
 #import "NSString+CEmojChange.h"
+#import "LocationController.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -62,7 +63,7 @@
                                             seeModel.nickname = dic[@"nickname"];
                                             seeModel.head_img = dic[@"head_img"];
                                             seeModel.content = dic[@"content"];
-                                             seeModel.place = dic[@"place"];
+                                            seeModel.place = dic[@"place"];
                                             seeModel.about_img = dic[@"about_img"];
                                             seeModel.thumb_img = dic[@"thumb_img"];
                                             seeModel.create_time = dic[@"create_time"];
@@ -272,8 +273,12 @@
     if (_detialLayout.seeModel.place != nil) {
         UILabel *locationLabel = [[UILabel alloc] initWithFrame:_detialLayout.locationLabelFrame];
         locationLabel.text = _detialLayout.locationText;
-        locationLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        locationLabel.textColor = [UIColor colorWithRed:35/255.0 green:97/255.0 blue:185/255.0 alpha:1];
         locationLabel.font = [UIFont systemFontOfSize:13];
+        // 添加点击手势，跳转到地图，显示定位
+        locationLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationTapAction:)];
+        [locationLabel addGestureRecognizer:tap];
         [scrollView addSubview:locationLabel];
     }
     
@@ -705,8 +710,16 @@
 
 }
 
-
-
+#pragma mark - 跳转到地图界面
+- (void)locationTapAction:(UITapGestureRecognizer *)tap {
+    
+    LocationController *locationController = [[LocationController alloc] initWithLocationString:_detialLayout.seeModel.place];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:locationController];
+    nav.navigationBar.barTintColor = [UIColor blackColor];
+    nav.navigationBar.translucent = NO;
+    [self presentViewController:nav animated:YES completion:nil];
+    
+}
 
 
 

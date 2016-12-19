@@ -20,6 +20,7 @@
 #import "CImageView.h"
 #import "CScrollImage.h"
 #import "CCommentPro.h"
+#import "LocationController.h"
 
 
 #define kHeight 53                                                          // 输入视图默认高度
@@ -96,8 +97,12 @@
 
     if (_locationLabel == nil) {
         _locationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _locationLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        _locationLabel.textColor = [UIColor colorWithRed:35/255.0 green:97/255.0 blue:185/255.0 alpha:1];
         _locationLabel.font = [UIFont systemFontOfSize:13];
+        // 添加点击手势，跳转到地图定位界面
+        _locationLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationTapAction:)];
+        [_locationLabel addGestureRecognizer:tap];
         [self.contentView addSubview:_locationLabel];
     }
     return _locationLabel;
@@ -742,7 +747,15 @@
     
 }
 
+- (void)locationTapAction:(UITapGestureRecognizer *)tap {
 
+    LocationController *locationController = [[LocationController alloc] initWithLocationString:_seeLayout.seeModel.place];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:locationController];
+    nav.navigationBar.barTintColor = [UIColor blackColor];
+    nav.navigationBar.translucent = NO;
+    [[self viewController] presentViewController:nav animated:YES completion:nil];
+
+}
 
 
 

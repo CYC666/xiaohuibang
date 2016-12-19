@@ -111,7 +111,10 @@
     // 转换定位信息
     if (self.seeModel.place != nil) {
         NSArray *locationArray = [self.seeModel.place componentsSeparatedByString:@"+"];
-        self.locationText = locationArray[0];
+        NSMutableString *mStr = [NSMutableString stringWithString:locationArray[0]];
+        // 将"市"字更改为@" · "
+        [mStr replaceOccurrencesOfString:@"市" withString:@" · " options:NSCaseInsensitiveSearch range:NSMakeRange(0, mStr.length)];
+        self.locationText = [mStr copy];
     }
     
     
