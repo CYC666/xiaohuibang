@@ -62,6 +62,7 @@
                                             seeModel.nickname = dic[@"nickname"];
                                             seeModel.head_img = dic[@"head_img"];
                                             seeModel.content = dic[@"content"];
+                                             seeModel.place = dic[@"place"];
                                             seeModel.about_img = dic[@"about_img"];
                                             seeModel.thumb_img = dic[@"thumb_img"];
                                             seeModel.create_time = dic[@"create_time"];
@@ -262,11 +263,19 @@
     
     // 时间标签
     UILabel *timeLabel = [[UILabel alloc] initWithFrame:_detialLayout.timeLabelFrame];
-    timeLabel.numberOfLines = 0;
     timeLabel.text = _detialLayout.timeText;
     timeLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
-    timeLabel.font = [UIFont systemFontOfSize:15];
+    timeLabel.font = [UIFont systemFontOfSize:13];
     [scrollView addSubview:timeLabel];
+    
+    // 位置标签
+    if (_detialLayout.seeModel.place != nil) {
+        UILabel *locationLabel = [[UILabel alloc] initWithFrame:_detialLayout.locationLabelFrame];
+        locationLabel.text = _detialLayout.locationText;
+        locationLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        locationLabel.font = [UIFont systemFontOfSize:13];
+        [scrollView addSubview:locationLabel];
+    }
     
     // 点赞按钮
     UIButton *proButton = [UIButton buttonWithType:UIButtonTypeCustom];

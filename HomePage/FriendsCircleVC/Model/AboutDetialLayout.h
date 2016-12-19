@@ -22,6 +22,7 @@
 @property (assign, nonatomic) CGRect deleteButtonFrame;             // 删除按钮
 @property (assign, nonatomic) CGRect timeLabelFrame;                // 时间标签
 @property (copy, nonatomic) NSString *timeText;                     // 转化后的时间
+@property (copy, nonatomic) NSString *locationText;                 // 转化后的定位
 @property (assign, nonatomic) CGRect locationLabelFrame;            // 地址标签
 @property (assign, nonatomic) CGRect proButtonFrame;                // 点赞按钮
 @property (assign, nonatomic) CGRect commentButtonFrame;            // 评论按钮

@@ -25,7 +25,8 @@
 #define kImageSize (kScreenWidth - kNicknameX - 20 - 5 - 5)/3       // 图片的大小
 #define kDeleteWidth 30     // 删除按钮宽度
 #define kDeleteHeight 12.5  // 删除按钮高度
-#define kTimeWidth 100      // 时间文本的宽度
+#define kTimeWidth 70      // 时间文本的宽度
+#define kLocationWidth 100  // 定位标签的宽度
 #define kProRight 46        // 点赞按钮右边距离
 #define kProWidth 30        // 点赞按钮宽度
 #define kProHeight 14       // 点赞按钮高度
@@ -121,8 +122,10 @@
     if ([_seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
         self.deleteButtonFrame = CGRectMake(kNicknameX, self.viewHeight + 11, kDeleteWidth, kDeleteHeight);
         self.timeLabelFrame = CGRectMake(kNicknameX + kDeleteWidth + 12, self.viewHeight + 11, kTimeWidth, kDeleteHeight);
+        self.locationLabelFrame = CGRectMake(kNicknameX + kDeleteWidth + 12 + kTimeWidth, self.viewHeight + 11, kLocationWidth, kDeleteHeight);
     } else {
         self.timeLabelFrame = CGRectMake(kNicknameX, self.viewHeight + 11, kTimeWidth, kDeleteHeight);
+        self.locationLabelFrame = CGRectMake(kNicknameX + kTimeWidth, self.viewHeight + 11 , kLocationWidth, kDeleteHeight);
     }
     
     // 将原始时间戳，转换成过去时间
@@ -139,6 +142,12 @@
             countTime = countTime / 24;
             self.timeText = [NSString stringWithFormat:@"%ld天前", countTime];
         }
+    }
+    
+    // 转换定位信息
+    if (self.seeModel.place != nil) {
+        NSArray *locationArray = [self.seeModel.place componentsSeparatedByString:@"+"];
+        self.locationText = locationArray[0];
     }
     
     // 点赞按钮
