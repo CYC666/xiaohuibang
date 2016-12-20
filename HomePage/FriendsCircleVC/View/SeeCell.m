@@ -63,6 +63,7 @@
 }
 
 
+
 #pragma mark - 懒加载
 // 动态的内容label
 - (CLabel *)contentLabel {
@@ -765,6 +766,9 @@
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+    
+    // 收起输入框
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
     
 }
 

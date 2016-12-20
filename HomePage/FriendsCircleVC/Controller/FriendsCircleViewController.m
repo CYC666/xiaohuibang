@@ -18,7 +18,6 @@
 #import "FromCamera.h"
 #import <UIImageView+WebCache.h>
 #import <FMDB.h>
-#import "CFMDBManager.h"
 
 
 
@@ -31,7 +30,7 @@
 #define NotigicationOfSelfTranslucent @"NotigicationOfSelfTranslucent"                  // 修改导航栏不透明的通知
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
 #define reloadSeeDate @"reloadSeeDate"                                                  // 刷新动态数据的通知
-#define  FMDBManager  [CFMDBManager ShareFMDBManager]
+#define HideCommentView @"HideCommentView"                                              // 发送隐藏评论点赞框的通知
 
 @interface FriendsCircleViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -114,6 +113,13 @@
             [weakSelf downloadData];
         }
     }];
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+    // 发送通知，收起点赞框
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
 
 }
 
