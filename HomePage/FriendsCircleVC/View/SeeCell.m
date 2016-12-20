@@ -98,7 +98,7 @@
     if (_locationLabel == nil) {
         _locationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _locationLabel.textColor = [UIColor colorWithRed:35/255.0 green:97/255.0 blue:185/255.0 alpha:1];
-        _locationLabel.font = [UIFont systemFontOfSize:13];
+        _locationLabel.font = [UIFont systemFontOfSize:12];
         // 添加点击手势，跳转到地图定位界面
         _locationLabel.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(locationTapAction:)];

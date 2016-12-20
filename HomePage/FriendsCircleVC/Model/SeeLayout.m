@@ -21,7 +21,7 @@
 #define kImgSize (kScreenWidth - 66 - 66 - 3 - 3)/3             // 图片大小
 #define kDeleteButtonWidth 30                                   // 删除按钮长度
 #define kTimeLabelWidth 70                                      // 时间文本的长度
-#define kLocationLabelWidth 150                                 // 定位文本的长度
+#define kLocationLabelWidth (kScreenWidth - kContentY - kSpace) // 定位文本的长度
 #define kTimeLabelHeight 12                                     // 时间文本的高度
 #define kCommentWidth 30                                        // 评论按钮长度
 #define kCommentHeight 30                                       // 评论按钮高度
@@ -77,6 +77,12 @@
         self.cellHeight += (kImgSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + kSpace;
     }
     
+    // 定位标签
+    if (_seeModel.place != nil) {
+        self.locationFrame = CGRectMake(kContentX, self.cellHeight, kLocationLabelWidth, kTimeLabelHeight);
+        self.cellHeight += (kTimeLabelHeight + 10);
+    }
+    
     
     // 删除按钮
     self.deleteFrame = CGRectMake(kContentX, self.cellHeight-5, kDeleteButtonWidth, kTimeLabelHeight);
@@ -84,12 +90,8 @@
     // 时间标签
     if (_seeModel.user_id == [USER_D objectForKey:@"user_id"]) {
         self.timeFrame = CGRectMake(kContentX + kDeleteButtonWidth + kSpace, self.cellHeight-5, kTimeLabelWidth, kTimeLabelHeight);
-        self.locationFrame = CGRectMake(kContentX + kDeleteButtonWidth + kSpace + kTimeLabelWidth,
-                                        self.cellHeight-5, kLocationLabelWidth, kTimeLabelHeight);
     } else {
         self.timeFrame = CGRectMake(kContentX, self.cellHeight-5, kTimeLabelWidth, kTimeLabelHeight);
-        self.locationFrame = CGRectMake(kContentX + kTimeLabelWidth,
-                                        self.cellHeight-5, kTimeLabelWidth, kTimeLabelHeight);
     }
     
     // 将原始时间戳，转换成过去时间

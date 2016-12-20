@@ -184,7 +184,7 @@
         }
         
         // 表视图显示
-        _locationTable = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
+        _locationTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
         _locationTable.delegate = self;
         _locationTable.dataSource = self;
         [self.view addSubview:_locationTable];
