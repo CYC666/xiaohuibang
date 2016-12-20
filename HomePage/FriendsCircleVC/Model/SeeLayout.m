@@ -21,7 +21,7 @@
 #define kImgSize (kScreenWidth - 66 - 66 - 3 - 3)/3             // 图片大小
 #define kDeleteButtonWidth 30                                   // 删除按钮长度
 #define kTimeLabelWidth 70                                      // 时间文本的长度
-#define kLocationLabelWidth 100                                 // 定位文本的长度
+#define kLocationLabelWidth 150                                 // 定位文本的长度
 #define kTimeLabelHeight 12                                     // 时间文本的高度
 #define kCommentWidth 30                                        // 评论按钮长度
 #define kCommentHeight 30                                       // 评论按钮高度

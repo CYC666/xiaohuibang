@@ -73,6 +73,9 @@
 		046BAEC21E00ED7F008FC23C /* FromCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 046BAEC11E00ED7F008FC23C /* FromCamera.m */; };
 		046FB0321E02755D008030D1 /* CObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FB0311E02755D008030D1 /* CObject.m */; };
 		046FB0351E028A5C008030D1 /* CFMDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FB0341E028A5C008030D1 /* CFMDBManager.m */; };
+		048205161E08D5B400F2DD8C /* icon_go.png in Resources */ = {isa = PBXBuildFile; fileRef = 048205131E08D5B400F2DD8C /* icon_go.png */; };
+		048205171E08D5B400F2DD8C /* icon_go@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 048205141E08D5B400F2DD8C /* icon_go@2x.png */; };
+		048205181E08D5B400F2DD8C /* icon_go@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 048205151E08D5B400F2DD8C /* icon_go@3x.png */; };
 		0485C2F11DF274B200D19FA7 /* CLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F01DF274B200D19FA7 /* CLabel.m */; };
 		0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2F31DF2750000D19FA7 /* CImageView.m */; };
 		0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485C2FB1DF54A7100D19FA7 /* NSString+SU.m */; };
@@ -558,6 +561,9 @@
 		046FB0311E02755D008030D1 /* CObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CObject.m; sourceTree = "<group>"; };
 		046FB0331E028A5C008030D1 /* CFMDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFMDBManager.h; sourceTree = "<group>"; };
 		046FB0341E028A5C008030D1 /* CFMDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFMDBManager.m; sourceTree = "<group>"; };
+		048205131E08D5B400F2DD8C /* icon_go.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_go.png; sourceTree = "<group>"; };
+		048205141E08D5B400F2DD8C /* icon_go@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_go@2x.png"; sourceTree = "<group>"; };
+		048205151E08D5B400F2DD8C /* icon_go@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_go@3x.png"; sourceTree = "<group>"; };
 		0485C2EF1DF274B200D19FA7 /* CLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLabel.h; sourceTree = "<group>"; };
 		0485C2F01DF274B200D19FA7 /* CLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLabel.m; sourceTree = "<group>"; };
 		0485C2F21DF2750000D19FA7 /* CImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CImageView.h; sourceTree = "<group>"; };
@@ -2181,6 +2187,9 @@
 		F3F478B81DDFE3C500E21E97 /* MyDocuments */ = {
 			isa = PBXGroup;
 			children = (
+				048205131E08D5B400F2DD8C /* icon_go.png */,
+				048205141E08D5B400F2DD8C /* icon_go@2x.png */,
+				048205151E08D5B400F2DD8C /* icon_go@3x.png */,
 				048DCC0B1E07BC16008ADDCB /* icon_position_blue.png */,
 				048DCC0C1E07BC16008ADDCB /* icon_position_blue@2x.png */,
 				048DCC0D1E07BC16008ADDCB /* icon_position_blue@3x.png */,
@@ -2428,6 +2437,7 @@
 				F39FD7051DDDB5BF00D3724C /* white_location_icon.png in Resources */,
 				F39FD6E91DDDB43300D3724C /* icon_back_weizhi@2x.png in Resources */,
 				F39FD6F21DDDB43300D3724C /* icon_position_sharer@2x.png in Resources */,
+				048205161E08D5B400F2DD8C /* icon_go.png in Resources */,
 				0485C33B1DF54A7100D19FA7 /* SuPhoto_selected@2x.png in Resources */,
 				F3EBC48F1D9A471D00E93C02 /* icon_password_hide@2x.png in Resources */,
 				044BE91F1DFAB036004B6DCE /* icon_comment_highlight@2x.png in Resources */,
@@ -2451,6 +2461,7 @@
 				F3F631F51D9A7B3100388996 /* 头像@3x.png in Resources */,
 				F39FD7071DDDB5D300D3724C /* location_arrow.png in Resources */,
 				048DCC101E07BC16008ADDCB /* icon_position_blue@3x.png in Resources */,
+				048205171E08D5B400F2DD8C /* icon_go@2x.png in Resources */,
 				F334F4A91DCC5FB5002CFBBC /* pic_delete@3x.png in Resources */,
 				044BE9251DFAB036004B6DCE /* icon_like_nor@2x.png in Resources */,
 				0485C3441DF54A7100D19FA7 /* SuPhotoBrowserCell.xib in Resources */,
@@ -2528,6 +2539,7 @@
 				F3A0E0211DB757A000E9F12C /* CellNotSelected@2x.png in Resources */,
 				F35DB80D1DA6310400AF5A31 /* app icon@2x.png in Resources */,
 				F39FD7011DDDB51A00D3724C /* big_arrow.png in Resources */,
+				048205181E08D5B400F2DD8C /* icon_go@3x.png in Resources */,
 				F39494851DB08F7300BE3E51 /* 未标题-1.png in Resources */,
 				F3F478DE1DDFE3C500E21E97 /* sound.mp3 in Resources */,
 				04AA38FF1DE4248000CADF74 /* backgroundPicture.jpg in Resources */,

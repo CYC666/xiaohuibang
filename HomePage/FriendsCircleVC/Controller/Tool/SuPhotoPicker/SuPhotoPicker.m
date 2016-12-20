@@ -105,7 +105,11 @@
     UIButton * albumBtn = [UIButton buttonWithFrame:CGRectMake(80, 193, 40, 20) title:@"相册" target:self selector:@selector(albumBrowser)];
     [self.photoSheet addSubview:albumBtn];
     
-    self.originalBtn = [UIButton buttonWithFrame:CGRectMake(140, 194, 18, 18) Target:self Selector:@selector(originalSwitch:) Image:@"SuPhoto_unselected.png" ImageSelected:@"SuPhoto_selected.png"];
+    if ([SuPhotoCenter shareCenter].isOriginal) {
+        self.originalBtn = [UIButton buttonWithFrame:CGRectMake(140, 194, 18, 18) Target:self Selector:@selector(originalSwitch:) Image:@"SuPhoto_selected.png" ImageSelected:@"SuPhoto_unselected.png"];
+    } else {
+        self.originalBtn = [UIButton buttonWithFrame:CGRectMake(140, 194, 18, 18) Target:self Selector:@selector(originalSwitch:) Image:@"SuPhoto_unselected.png" ImageSelected:@"SuPhoto_selected.png"];
+    }
     [self.photoSheet addSubview:self.originalBtn];
     
     UIButton * originalTextBtn = [UIButton buttonWithFrame:CGRectMake(158, 193, 40, 20) title:@"原图" target:self selector:@selector(originalSwitch:)];
@@ -352,7 +356,7 @@
 
 - (void)originalSwitch:(UIButton *)sender {
     self.originalBtn.selected = !self.originalBtn.selected;
-    [SuPhotoCenter shareCenter].isOriginal = sender.selected;
+    [SuPhotoCenter shareCenter].isOriginal = self.originalBtn.selected;
 }
 
 #pragma mark - 完成

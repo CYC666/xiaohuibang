@@ -26,7 +26,7 @@
 #define kDeleteWidth 30     // 删除按钮宽度
 #define kDeleteHeight 12.5  // 删除按钮高度
 #define kTimeWidth 70      // 时间文本的宽度
-#define kLocationWidth 100  // 定位标签的宽度
+#define kLocationWidth 150  // 定位标签的宽度
 #define kProRight 46        // 点赞按钮右边距离
 #define kProWidth 30        // 点赞按钮宽度
 #define kProHeight 14       // 点赞按钮高度

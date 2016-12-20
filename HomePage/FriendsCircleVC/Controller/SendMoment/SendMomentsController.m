@@ -524,9 +524,13 @@
     // 接收传过来的地理信息
     pickerLocation.locationBlock = ^(NSString *str){
     
-        self.locationStr = str;
-        // 更改定位按钮的颜色
-        [_locationButton setImage:[UIImage imageNamed:@"icon_position_blue"] forState:UIControlStateNormal];
+        
+        if (str != nil) {
+            self.locationStr = str;
+            // 更改定位按钮的颜色
+            [_locationButton setImage:[UIImage imageNamed:@"icon_position_blue"] forState:UIControlStateNormal];
+        }
+        
     
     };
 

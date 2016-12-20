@@ -19,6 +19,7 @@
     
     UITableView *_locationTable;    // 显示地理位置的表视图
     
+    NSMutableArray *_placeMakeArray;// 储存定位
 
 }
 
@@ -30,14 +31,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    _placeMakeArray = [NSMutableArray array];
     
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-    title.text = @"你的位置";
+    title.text = @"选择你的位置";
     title.font = [UIFont systemFontOfSize:20];
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
-    
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:46/255.0 green:145/255.0 blue:253/255.0 alpha:1];
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
@@ -47,6 +50,11 @@
     [self.navigationItem setLeftBarButtonItem:leftItem];
     
     _locationC = [[CLLocationManager alloc] init];
+    if([[[UIDevice currentDevice]systemVersion]floatValue] >= 8) {
+        
+        [_locationC requestWhenInUseAuthorization];           // 请求定位服务
+        
+    }    
     _locationC.delegate = self;
     // 开始定位
     [_locationC startUpdatingLocation];
@@ -66,14 +74,23 @@
 #pragma mark - 表视图代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 1;
+    return _placeMakeArray.count + 1;
 
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    if (indexPath.row == 0) {
+        LocationCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"LocationCell" owner:nil options:nil] lastObject];
+        cell.title.text = @"不使用定位";
+        cell.detial.text = nil;
+        return cell;
+    }
+    
     LocationCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"LocationCell" owner:nil options:nil] lastObject];
-    cell.title.text = [NSString stringWithFormat:@"%@%@", _place.locality, _place.thoroughfare];
-    cell.detial.text = [NSString stringWithFormat:@"%@%@%@%@%@", _place.country, _place.administrativeArea, _place.locality, _place.thoroughfare, _place.name];
+    // 取出定位
+    MKPlacemark *place = _placeMakeArray[indexPath.row-1];
+    cell.title.text = place.name;
+    cell.detial.text = [NSString stringWithFormat:@"%@%@%@", place.administrativeArea, place.locality, place.thoroughfare];
     
     return cell;
 
@@ -85,12 +102,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        self.locationBlock(nil);
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
 
     // 传过去的数据格式
     // 地名+纬度+经度
-    CLLocationCoordinate2D coordinate2D = _location.coordinate;
-    NSString *placeStr = [NSString stringWithFormat:@"%@%@", _place.locality, _place.thoroughfare];
-    __block NSString *outStr = [NSString stringWithFormat:@"%@+%.15f+%.15f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
+    MKPlacemark *place = _placeMakeArray[indexPath.row-1];
+    CLLocationCoordinate2D coordinate2D = place.coordinate;
+    NSString *placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
+    __block NSString *outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
+    // 将数据传到发送动态界面
     self.locationBlock(outStr);
     
     // 返回
@@ -108,20 +133,64 @@
     _geocoderC = [[CLGeocoder alloc] init];
     [_geocoderC reverseGeocodeLocation:_location
                      completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+
+                         CLPlacemark *place = _placeMakeArray.firstObject;
+                         if (![place.name isEqualToString:placemarks.firstObject.name]) {
+                             [_placeMakeArray addObject:placemarks.firstObject];
+                         }
                          
-                         _place = placemarks.firstObject;
-                         
-                         // 表视图显示
-                         _locationTable = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
-                         _locationTable.delegate = self;
-                         _locationTable.dataSource = self;
-                         [self.view addSubview:_locationTable];
-                         
+
                      }];
     
+    [self searchSidePoint:_location.coordinate];
 
     // 成功定位后，关闭定位
     [_locationC stopUpdatingLocation];
+
+}
+
+// 附近兴趣点检索
+- (void)searchSidePoint:(CLLocationCoordinate2D)coor2D {
+
+    //创建一个位置信息对象，第一个参数为经纬度，第二个为纬度检索范围，单位为米，第三个为经度检索范围，单位为米
+    
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coor2D, 5000, 5000);
+    
+    //初始化一个检索请求对象
+    
+    MKLocalSearchRequest * req = [[MKLocalSearchRequest alloc] init];
+    
+    //设置检索参数
+    
+    req.region=region;
+    
+    //兴趣点关键字
+    
+    req.naturalLanguageQuery = @"所有";
+    
+    //初始化检索
+    
+    MKLocalSearch *ser = [[MKLocalSearch alloc] initWithRequest:req];
+    
+    //开始检索，结果返回在block中
+    __block NSArray *array;
+    [ser startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+        
+        //兴趣点节点数组
+        
+        array = [NSArray arrayWithArray:response.mapItems];
+        for (MKMapItem *item in array) {
+            [_placeMakeArray addObject:item.placemark];
+        }
+        
+        // 表视图显示
+        _locationTable = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
+        _locationTable.delegate = self;
+        _locationTable.dataSource = self;
+        [self.view addSubview:_locationTable];
+        
+    }];
+    
 
 }
 
@@ -143,9 +212,28 @@
 
 
 
+/*
+ 
+ //    [_locationArray addObject:locations.firstObject];
+ // 反地理编码
+ //    _geocoderC = [[CLGeocoder alloc] init];
+ //    [_geocoderC reverseGeocodeLocation:_location
+ //                     completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+ //
+ //                         _place = placemarks.firstObject;
+ //                         // [_placeMakeArray addObject:placemarks.firstObject];
+ //
+ //                         // 表视图显示
+ //                         _locationTable = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
+ //                         _locationTable.delegate = self;
+ //                         _locationTable.dataSource = self;
+ //                         [self.view addSubview:_locationTable];
+ //
+ //                     }];
+ 
 
-
-
+ 
+ */
 
 
 
