@@ -10,11 +10,16 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface LocationController () <MKMapViewDelegate> {
+@interface LocationController () <MKMapViewDelegate, CLLocationManagerDelegate> {
 
     NSString *_placeName;
     double _lat;
     double _lon;
+    
+    MKMapItem *_currentItem;
+    MKMapItem *_toItem;
+    
+    CLLocationManager *_manager;
     
 }
 
@@ -55,6 +60,13 @@
                                                                 action:@selector(cancelShow:)];
     [self.navigationItem setLeftBarButtonItem:leftItem];
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"前往"
+                                                                 style:UIBarButtonItemStylePlain
+                                                                target:self
+                                                                action:@selector(goToThere:)];
+    rightItem.enabled = NO;
+    [self.navigationItem setRightBarButtonItem:rightItem];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     // 创建地图
@@ -71,6 +83,11 @@
     [annotation setTitle:_placeName];
     [mapView addAnnotation:annotation];
     
+    // 获取当前位置
+    _manager = [[CLLocationManager alloc] init];
+    _manager.delegate = self;
+    [_manager startUpdatingLocation];
+    
     
 }
 
@@ -81,13 +98,38 @@
 
 }
 
+- (void)goToThere:(UIBarButtonItem *)item {
+
+    // 拼接路径
+    NSArray *items = [NSArray arrayWithObjects:_currentItem, _toItem, nil];
+    NSDictionary *options = @{ MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving,
+                               MKLaunchOptionsMapTypeKey: [NSNumber numberWithInteger:MKMapTypeStandard],
+                               MKLaunchOptionsShowsTrafficKey:@YES };
+    
+    // 打开苹果自带地图进行导航
+    [MKMapItem openMapsWithItems:items launchOptions:options];
+    
+
+}
+
 
 #pragma mark - 代理方法
-//- (nullable MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-//
-//    [annotation setCoordinate:CLLocationCoordinate2DMake(_lat, _lon)];
-//
-//}
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+
+    // 当前位置
+    CLLocation *currentLocation = locations.firstObject;
+    CLLocationCoordinate2D currentCoor2D = currentLocation.coordinate;
+    _currentItem = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:currentCoor2D
+                                                                                        addressDictionary:nil]];
+    // 目的地
+    CLLocationCoordinate2D toCoor2D = CLLocationCoordinate2DMake(_lat, _lon);
+    _toItem = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:toCoor2D
+                                                                                   addressDictionary:nil]];
+    
+    // 停止更新地理位置
+    [manager stopUpdatingLocation];
+
+}
 
 
 
