@@ -111,7 +111,7 @@
 
     // 传过去的数据格式
     // 地名+纬度+经度
-    MKPlacemark *place = _placeMakeArray[indexPath.row-1];
+    MKPlacemark *place = _placeMakeArray[indexPath.row];
     CLLocationCoordinate2D coordinate2D = place.coordinate;
     NSString *placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
     __block NSString *outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];

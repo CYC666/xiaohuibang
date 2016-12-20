@@ -35,6 +35,7 @@
 #define CommentReloadTableView @"CommentReloadTableView"                    // 评论后刷新表视图通知
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
+#define HideCommentView @"HideCommentView"                                  // 接收隐藏评论点赞框的通知
 
 
 @interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate, CCommentProDelegate>
@@ -54,6 +55,10 @@
                                              selector:@selector(hideCellInputView:)
                                                  name:HideCellInputView
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideCommentView:)
+                                                 name:HideCommentView
+                                               object:nil];
     
 }
 
@@ -68,12 +73,24 @@
         _contentLabel.numberOfLines = 0;
         _contentLabel.delegate = self;
         _contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+        // 添加长按手势，将文本复制到剪切板
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                action:@selector(copyText:)];
+        [_contentLabel addGestureRecognizer:longPress];
         [self.contentView addSubview:_contentLabel];
     }
     return _contentLabel;
 
 }
 
+- (void)copyText:(UILongPressGestureRecognizer *)gesture {
+    if (gesture.state ==UIGestureRecognizerStateBegan) {
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        [pasteboard setString:_contentLabel.text];
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
+    }
+}
 
 
 
@@ -427,6 +444,7 @@
                                                    state:_isLike];
         _commentPro.delegate = self;
         [[UIApplication sharedApplication].keyWindow addSubview:_commentPro];
+        
         // 发送通知，允许表视图滑动的时候发送通知让输入框隐藏
         [[NSNotificationCenter defaultCenter] postNotificationName:AllowTableViewPostHideInputViewNotification object:nil];
     }
@@ -444,10 +462,8 @@
 #pragma mark - CCommentProDelegate代理方法，点赞评论
 - (void)comTouch {
     
-    if (_commentPro != nil) {
-        [_commentPro lose];
-        _commentPro = nil;
-    }
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
     // 创建输入框
     _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
@@ -470,10 +486,8 @@
 
 - (void)proTouch {
     
-    if (_commentPro != nil) {
-        [_commentPro lose];
-        _commentPro = nil;
-    }
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
 
     NSDictionary *param = @{
                             @"user_id":[USER_D objectForKey:@"user_id"],
@@ -503,6 +517,9 @@
 
 #pragma mark - 删除按钮
 - (void)deleteAction:(UIButton *)button {
+    
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除此条目？"
                                                                    message:@"删除后不可恢复"
@@ -615,23 +632,28 @@
         [_inputView.input endEditing:YES];
     }
     
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+    
+    
+    
+}
+- (void)hideCommentView:(NSNotification *)notification {
+
     // 隐藏
     if (_commentPro != nil) {
         [_commentPro lose];
         _commentPro = nil;
     }
-    
-    
-    
+
 }
+
 
 #pragma mark - 点击头像、昵称，跳转到个人动态界面
 - (void)jumpToPersonAboutController:(UITapGestureRecognizer *)tap {
     
-    if (_commentPro != nil) {
-        [_commentPro lose];
-        _commentPro = nil;
-    }
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
     // 收起键盘
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -655,10 +677,8 @@
 }
 - (void)jumpToPersonAboutControllerWithData:(CButton *)button {
     
-    if (_commentPro != nil) {
-        [_commentPro lose];
-        _commentPro = nil;
-    }
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
     // 收起键盘
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -674,6 +694,7 @@
 #pragma mark - 移除通知
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:HideCellInputView object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:HideCommentView object:nil];
 }
 
 #pragma mark - 获取某视图所在的导航控制器
@@ -689,6 +710,8 @@
 
 #pragma mark - 点击动态图片查看大图
 - (void)cImageViewTouch:(CImageView *)cImageView {
+    
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
     CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                                imageArray:_seeLayout.seeModel.about_img
@@ -740,14 +763,15 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
-    if (_commentPro != nil) {
-        [_commentPro lose];
-        _commentPro = nil;
-    }
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
 }
 
 - (void)locationTapAction:(UITapGestureRecognizer *)tap {
+    
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
 
     LocationController *locationController = [[LocationController alloc] initWithLocationString:_seeLayout.seeModel.place];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:locationController];

@@ -26,7 +26,7 @@
 #define kDeleteWidth 30     // 删除按钮宽度
 #define kDeleteHeight 12.5  // 删除按钮高度
 #define kTimeWidth 70      // 时间文本的宽度
-#define kLocationWidth 150  // 定位标签的宽度
+#define kLocationWidth 250  // 定位标签的宽度
 #define kProRight 46        // 点赞按钮右边距离
 #define kProWidth 30        // 点赞按钮宽度
 #define kProHeight 14       // 点赞按钮高度
@@ -99,7 +99,7 @@
     
     // 当动态携带一张图片时
     if (self.seeModel.about_img.count == 1) {
-        CGRect rect = CGRectMake(kNicknameX, self.viewHeight,
+        CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 10,
                                  (kScreenWidth - kNicknameX - 20),
                                  (kScreenWidth - kNicknameX - 20));
         NSValue *rectValue = [NSValue valueWithCGRect:rect];
@@ -109,23 +109,28 @@
     } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
         for (int i = 0; i < self.seeModel.about_img.count; i++) {
             CGRect rect = CGRectMake( kNicknameX + (kImageSize + 5) * (i % 3),
-                                     self.viewHeight + (kImageSize + 5) * (i / 3), kImageSize, kImageSize);
+                                     self.viewHeight + 10 + (kImageSize + 5) * (i / 3), kImageSize, kImageSize);
             NSValue *rectValue = [NSValue valueWithCGRect:rect];
             [self.imageFrameArr addObject:rectValue];
         }
         
         // 最后确定单元格高度
-        self.viewHeight += (kImageSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + kSpace;
+        self.viewHeight += (kImageSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + 10;
+    }
+    
+    // 定位标签
+    if (_seeModel.place != nil) {
+        self.locationLabelFrame = CGRectMake(kNicknameX, self.viewHeight + 11, kLocationWidth, kDeleteHeight);
+        self.viewHeight += (kDeleteHeight + 10);
     }
     
     // 删除按钮
     if ([_seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
         self.deleteButtonFrame = CGRectMake(kNicknameX, self.viewHeight + 11, kDeleteWidth, kDeleteHeight);
         self.timeLabelFrame = CGRectMake(kNicknameX + kDeleteWidth + 12, self.viewHeight + 11, kTimeWidth, kDeleteHeight);
-        self.locationLabelFrame = CGRectMake(kNicknameX + kDeleteWidth + 12 + kTimeWidth, self.viewHeight + 11, kLocationWidth, kDeleteHeight);
+        
     } else {
         self.timeLabelFrame = CGRectMake(kNicknameX, self.viewHeight + 11, kTimeWidth, kDeleteHeight);
-        self.locationLabelFrame = CGRectMake(kNicknameX + kTimeWidth, self.viewHeight + 11 , kLocationWidth, kDeleteHeight);
     }
     
     // 将原始时间戳，转换成过去时间

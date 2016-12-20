@@ -30,6 +30,7 @@
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"                          // 点赞刷新表视图通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
+
 @interface SeeTableView () <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 
     UIImageView *_imageView;    // 头视图的背景图
@@ -230,7 +231,9 @@
 #pragma mark - 点击我的头像，跳转到我的动态界面
 - (void)jumpToMyAbout:(UITapGestureRecognizer *)tap {
     
+    // 隐藏输入框和点赞框
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
+    
     
     // 收起键盘
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -303,8 +306,9 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
     if (_allowPostHideInoutView == YES) {
-        // 发送通知，让输入框隐藏
+        // 发送通知，让输入框隐藏,收起点赞框
         [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
+        
         // 关闭允许
         _allowPostHideInoutView = NO;
     }
