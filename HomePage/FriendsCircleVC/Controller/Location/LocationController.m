@@ -114,15 +114,31 @@
 }
 
 - (void)goToThere:(UIBarButtonItem *)item {
-
-    // 拼接路径
-    NSArray *items = [NSArray arrayWithObjects:_currentItem, _toItem, nil];
-    NSDictionary *options = @{ MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeTransit,
-                               MKLaunchOptionsMapTypeKey: [NSNumber numberWithInteger:MKMapTypeStandard],
-                               MKLaunchOptionsShowsTrafficKey:@YES };
     
-    // 打开苹果自带地图进行导航
-    [MKMapItem openMapsWithItems:items launchOptions:options];
+    // 提示可选导航工具
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择导航方式"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"苹果地图"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           // 拼接路径
+                                                           NSArray *items = [NSArray arrayWithObjects:_currentItem, _toItem, nil];
+                                                           NSDictionary *options = @{ MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeTransit,
+                                                                                      MKLaunchOptionsMapTypeKey: [NSNumber numberWithInteger:MKMapTypeStandard],
+                                                                                      MKLaunchOptionsShowsTrafficKey:@YES };
+                                                           
+                                                           // 打开苹果自带地图进行导航
+                                                           [MKMapItem openMapsWithItems:items launchOptions:options];
+                                                       }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    
+    [alert addAction:sureAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
+    
     
 
 }

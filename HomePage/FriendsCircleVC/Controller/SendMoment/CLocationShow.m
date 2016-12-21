@@ -74,21 +74,14 @@
 #pragma mark - 表视图代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return _placeMakeArray.count + 1;
+    return _placeMakeArray.count;
 
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (indexPath.row == 0) {
-        LocationCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"LocationCell" owner:nil options:nil] lastObject];
-        cell.title.text = @"不使用定位";
-        cell.detial.text = nil;
-        return cell;
-    }
     
     LocationCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"LocationCell" owner:nil options:nil] lastObject];
     // 取出定位
-    MKPlacemark *place = _placeMakeArray[indexPath.row-1];
+    MKPlacemark *place = _placeMakeArray[indexPath.row];
     cell.title.text = place.name;
     cell.detial.text = [NSString stringWithFormat:@"%@%@%@", place.administrativeArea, place.locality, place.thoroughfare];
     
@@ -102,19 +95,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.row == 0) {
-        self.locationBlock(nil);
-        [self dismissViewControllerAnimated:YES completion:nil];
-        return;
-    }
 
     // 传过去的数据格式
     // 地名+纬度+经度
-    MKPlacemark *place = _placeMakeArray[indexPath.row];
-    CLLocationCoordinate2D coordinate2D = place.coordinate;
-    NSString *placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
-    __block NSString *outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
+    NSString *placeStr;
+    __block NSString *outStr;
+    if (indexPath.row == 0) {
+        placeStr = [NSString stringWithFormat:@"%@%@", _place.locality, _place.name];
+        outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, _place.location.coordinate.latitude, _place.location.coordinate.longitude];
+    } else {
+        MKPlacemark *place = _placeMakeArray[indexPath.row];
+        CLLocationCoordinate2D coordinate2D = place.coordinate;
+        placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
+        outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
+    }
     // 将数据传到发送动态界面
     self.locationBlock(outStr);
     
@@ -124,16 +118,18 @@
 }
 
 #pragma mark - 定位
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
 
     // 接收定位信息
     _location = locations.firstObject;
+    
     
     // 反地理编码
     _geocoderC = [[CLGeocoder alloc] init];
     [_geocoderC reverseGeocodeLocation:_location
                      completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
 
+                         _place = placemarks.firstObject;
                          CLPlacemark *place = _placeMakeArray.firstObject;
                          if (![place.name isEqualToString:placemarks.firstObject.name]) {
                              [_placeMakeArray addObject:placemarks.firstObject];
@@ -154,7 +150,7 @@
 
     //创建一个位置信息对象，第一个参数为经纬度，第二个为纬度检索范围，单位为米，第三个为经度检索范围，单位为米
     
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coor2D, 5000, 5000);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coor2D, 100, 100);
     
     //初始化一个检索请求对象
     
@@ -166,7 +162,7 @@
     
     //兴趣点关键字
     
-    req.naturalLanguageQuery = @"所有";
+    req.naturalLanguageQuery = @"all";
     
     //初始化检索
     

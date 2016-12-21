@@ -430,14 +430,26 @@
 
 #pragma mark - 打开摄像头
 - (void)openSystemCamare {
+    
+    FromCameraController *fromCamera = [[FromCameraController alloc] init];
+    [self presentViewController:fromCamera animated:YES completion:nil];
+    
+    fromCamera.imageBlock = ^(UIImage *image) {
+    
+        // 接收image
+        [self.willPushPhotoArr addObject:image];
+        self.imageWillPush.image = image;
+        self.imageWillPush.imageNum += 1;;
+    
+    };
 
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePickerController.delegate = self;
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-    
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+//    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+//    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+//    imagePickerController.delegate = self;
+//    
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+//    
+//    [self presentViewController:imagePickerController animated:YES completion:nil];
     
 
 }

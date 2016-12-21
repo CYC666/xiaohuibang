@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -32,7 +32,7 @@
                         <constraint firstAttribute="height" constant="80" id="c70-7c-J2q"/>
                     </constraints>
                 </imageView>
-                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alpha50.png" translatesAutoresizingMaskIntoConstraints="NO" id="shn-aV-VLj">
+                <imageView alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alpha50.png" translatesAutoresizingMaskIntoConstraints="NO" id="shn-aV-VLj">
                     <rect key="frame" x="0.0" y="503" width="375" height="164"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="164" id="mrh-ND-FX4"/>
@@ -45,22 +45,12 @@
                         <action selector="takeButtonClick:" destination="-1" eventType="touchUpInside" id="CGr-LW-zip"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nav-bar.png" translatesAutoresizingMaskIntoConstraints="NO" id="t4p-rJ-NS5">
+                <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nav-bar.png" translatesAutoresizingMaskIntoConstraints="NO" id="t4p-rJ-NS5">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="kIt-SV-8fs"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hee-Hf-TmY">
-                    <rect key="frame" x="10" y="25" width="35" height="33"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="取消">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="cancelButton:" destination="-1" eventType="touchUpInside" id="FIA-8V-DX1"/>
-                    </connections>
-                </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="point.png" translatesAutoresizingMaskIntoConstraints="NO" id="oBV-9c-Up7">
                     <rect key="frame" x="184" y="512" width="7" height="7"/>
                 </imageView>
@@ -77,7 +67,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLn-Fg-o3I">
-                    <rect key="frame" x="55" y="586" width="26" height="31"/>
+                    <rect key="frame" x="333" y="27" width="26" height="31"/>
                     <state key="normal" image="icon_flash_close.png"/>
                     <connections>
                         <action selector="openFlash:" destination="-1" eventType="touchUpInside" id="dNF-iG-mjO"/>
@@ -90,31 +80,40 @@
                         <action selector="toggleButtonClick:" destination="-1" eventType="touchUpInside" id="dnc-Gx-6fL"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hee-Hf-TmY">
+                    <rect key="frame" x="49" y="591" width="31" height="27"/>
+                    <state key="normal" image="icon_back_new.png">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="cancelButton:" destination="-1" eventType="touchUpInside" id="FIA-8V-DX1"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="oBV-9c-Up7" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3M9-D8-MC6"/>
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="86Z-HY-Pud"/>
-                <constraint firstAttribute="bottom" secondItem="wLn-Fg-o3I" secondAttribute="bottom" constant="50" id="8gt-ft-Zyt"/>
                 <constraint firstItem="xsN-nt-la3" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9Da-w3-9Q7"/>
                 <constraint firstAttribute="bottom" secondItem="dCo-rh-hxX" secondAttribute="bottom" constant="50" id="9hP-Za-Thz"/>
+                <constraint firstItem="wLn-Fg-o3I" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="AkU-VR-MDL"/>
                 <constraint firstAttribute="bottom" secondItem="shn-aV-VLj" secondAttribute="bottom" id="EwI-vC-1t8"/>
                 <constraint firstItem="gvq-G3-Ikh" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="FKI-pb-hTe"/>
+                <constraint firstAttribute="trailing" secondItem="wLn-Fg-o3I" secondAttribute="trailing" constant="16" id="Gsp-xI-4EI"/>
                 <constraint firstItem="OR9-R3-kEB" firstAttribute="leading" secondItem="vXU-gK-s5X" secondAttribute="trailing" constant="8" id="JUL-Ed-3ap"/>
+                <constraint firstAttribute="bottom" secondItem="hee-Hf-TmY" secondAttribute="bottom" constant="49" id="KZf-Ey-4id"/>
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VOq-7s-frw"/>
                 <constraint firstItem="gvq-G3-Ikh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Y0P-ru-SSt"/>
                 <constraint firstAttribute="trailing" secondItem="t4p-rJ-NS5" secondAttribute="trailing" id="YYx-NM-nJM"/>
                 <constraint firstAttribute="bottom" secondItem="xsN-nt-la3" secondAttribute="bottom" constant="20" id="bhY-6g-jG5"/>
                 <constraint firstItem="OR9-R3-kEB" firstAttribute="top" secondItem="oBV-9c-Up7" secondAttribute="bottom" constant="8" id="dBj-DO-BeY"/>
-                <constraint firstItem="wLn-Fg-o3I" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="55" id="eZc-vB-QKF"/>
                 <constraint firstAttribute="trailing" secondItem="shn-aV-VLj" secondAttribute="trailing" id="gtV-fN-siF"/>
                 <constraint firstItem="shn-aV-VLj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hnR-AC-Xpp"/>
-                <constraint firstItem="hee-Hf-TmY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="i6G-EG-9c1"/>
                 <constraint firstAttribute="trailing" secondItem="dCo-rh-hxX" secondAttribute="trailing" constant="55" id="lul-sC-pwU"/>
                 <constraint firstItem="vXU-gK-s5X" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="mAJ-rV-Syq"/>
                 <constraint firstItem="vXU-gK-s5X" firstAttribute="top" secondItem="oBV-9c-Up7" secondAttribute="bottom" constant="8" id="oB4-nA-huA"/>
-                <constraint firstItem="hee-Hf-TmY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="sYP-it-d24"/>
                 <constraint firstItem="xsN-nt-la3" firstAttribute="top" secondItem="oBV-9c-Up7" secondAttribute="bottom" constant="40" id="tuo-q3-ECd"/>
+                <constraint firstItem="hee-Hf-TmY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="49" id="yQQ-ER-Otx"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <point key="canvasLocation" x="34.5" y="54.5"/>
@@ -122,6 +121,7 @@
     </objects>
     <resources>
         <image name="alpha50.png" width="375" height="162"/>
+        <image name="icon_back_new.png" width="31" height="27"/>
         <image name="icon_flash_close.png" width="26" height="31"/>
         <image name="icon_focus.png" width="109" height="109"/>
         <image name="icon_press.png" width="88" height="88"/>

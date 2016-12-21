@@ -169,24 +169,35 @@
                      }];
     
     float buttonHeight = (alertHeight - 10)/3.0;
-    NSArray *titleArr = @[@"拍照", @"摄像", @"取消"];
+    NSArray *titleArr = @[@"拍摄", @"从手机相册选择", @"取消"];
     for (int i = 0; i < titleArr.count; i++) {
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.titleLabel.font = [UIFont systemFontOfSize:15];
         [button setTitle:titleArr[i] forState:UIControlStateNormal];
         [button setBackgroundColor:[UIColor whiteColor]];
         [button setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1]] forState:UIControlStateHighlighted];
         [button setTitleColor:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1]
                      forState:UIControlStateNormal];
         if (i == 0) {
-            button.frame = CGRectMake(0, 0, kScreenWidth, buttonHeight);
+            button.frame = CGRectMake(0, 0, kScreenWidth, buttonHeight+10);
         } else if (i == 1) {
-            button.frame = CGRectMake(0, buttonHeight + 1, kScreenWidth, buttonHeight);
+            button.frame = CGRectMake(0, buttonHeight + 10 + 1, kScreenWidth, buttonHeight-5);
         } else {
-            button.frame = CGRectMake(0, alertHeight - buttonHeight, kScreenWidth, buttonHeight);
+            button.frame = CGRectMake(0, alertHeight - buttonHeight + 5, kScreenWidth, buttonHeight-5);
         }
         [alertView addSubview:button];
+        if (i == 0) {
+            button.titleLabel.font = [UIFont systemFontOfSize:19];
+            [button setTitleEdgeInsets:UIEdgeInsetsMake(-15, 0, 0, 0)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, button.frame.size.width, button.frame.size.height-20)];
+            label.text = @"照片或视频";
+            label.font = [UIFont systemFontOfSize:12];
+            label.textColor = [UIColor lightGrayColor];
+            label.textAlignment = NSTextAlignmentCenter;
+            [alertView addSubview:label];
+        } else {
+            button.titleLabel.font = [UIFont systemFontOfSize:15];
+        }
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -207,11 +218,10 @@
 // alert按钮响应
 - (void)buttonAction:(UIButton *)button {
 
-    if ([button.titleLabel.text isEqualToString:@"拍照"]) {
-        // 通过摄像头
-        [self presentViewController:[[FromCamera alloc] initWithType:Picture]
-                           animated:YES
-                         completion:nil];
+    if ([button.titleLabel.text isEqualToString:@"拍摄"]) {
+        
+        
+        
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
@@ -220,11 +230,8 @@
                              [button.superview.superview removeFromSuperview];
                          }];
 
-    } else if ([button.titleLabel.text isEqualToString:@"摄像"]) {
-        // 通过摄像头
-        [self presentViewController:[[FromCamera alloc] initWithType:Movie]
-                           animated:YES
-                         completion:nil];
+    } else if ([button.titleLabel.text isEqualToString:@"从手机相册选择"]) {
+        
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{

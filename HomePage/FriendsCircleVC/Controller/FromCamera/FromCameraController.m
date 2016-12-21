@@ -66,7 +66,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         _captureSession.sessionPreset=AVCaptureSessionPresetHigh;
     }
     // 获得输入设备
-    AVCaptureDevice *captureDevice=[self getCameraDeviceWithPosition:AVCaptureDevicePositionBack];//取得后置摄像头
+    AVCaptureDevice *captureDevice = [self getCameraDeviceWithPosition:AVCaptureDevicePositionBack];//取得后置摄像头
     if (!captureDevice) {
         NSLog(@"取得后置摄像头时出现问题.");
         return;
@@ -100,7 +100,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     CALayer *layer = self.viewContainer.layer;
     layer.masksToBounds = YES;
     
-    _captureVideoPreviewLayer.frame = layer.bounds;
+    _captureVideoPreviewLayer.frame = [UIScreen mainScreen].bounds;
     _captureVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;//填充模式
     //将视频预览层添加到界面中
     [layer insertSublayer:_captureVideoPreviewLayer below:self.focusCursor.layer];
@@ -281,13 +281,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-
 
 
 
@@ -338,19 +331,14 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
         if (imageDataSampleBuffer) {
             NSData *imageData=[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-            UIImage *image=[UIImage imageWithData:imageData];
-            // 保存照片
-            // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-            //            ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc]init];
-            //            [assetsLibrary writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
+            __block UIImage *image=[UIImage imageWithData:imageData];
             
-            // dismiss当前控制器，并发送通知跳转到发送动态界面
-            [self dismissViewControllerAnimated:YES
-                                     completion:^{
-                                         // 发送通知，跳转到发动态界面,将选好的图片发送过去
-                         [[NSNotificationCenter defaultCenter] postNotificationName:openSendCommentControllerNotification
-                                                                             object:image];
-                                     }];
+            // 显示预览
+            
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+            self.imageBlock(image);
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
         }
         
     }];
@@ -388,7 +376,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 #pragma mark - 轻扫切换摄像跟拍照
 - (void)swipeRightAction:(UISwipeGestureRecognizer *)swipe {
-
+    // 拍照
+    
     [UIView animateWithDuration:.35
                      animations:^{
                          _picLabel.transform = CGAffineTransformIdentity;
@@ -401,6 +390,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 }
 
 - (void)swipeLeftAction:(UISwipeGestureRecognizer *)swipe {
+    // 摄像
     
     [UIView animateWithDuration:.35
                      animations:^{
