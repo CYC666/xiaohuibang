@@ -38,6 +38,9 @@
 		042836EF1E0A4CAD005C8A87 /* icon_back_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042836EC1E0A4CAD005C8A87 /* icon_back_new@2x.png */; };
 		042836F01E0A4CAD005C8A87 /* icon_back_new@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042836ED1E0A4CAD005C8A87 /* icon_back_new@3x.png */; };
 		042836F31E0A601C005C8A87 /* CBottomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 042836F21E0A601C005C8A87 /* CBottomAlert.m */; };
+		0428373A1E0AB05A005C8A87 /* BottomLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 042837351E0AB05A005C8A87 /* BottomLayer.m */; };
+		0428373B1E0AB05A005C8A87 /* CSwitchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 042837371E0AB05A005C8A87 /* CSwitchButton.m */; };
+		0428373C1E0AB05B005C8A87 /* TopLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 042837391E0AB05A005C8A87 /* TopLayer.m */; };
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
@@ -523,6 +526,12 @@
 		042836ED1E0A4CAD005C8A87 /* icon_back_new@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_back_new@3x.png"; sourceTree = "<group>"; };
 		042836F11E0A601C005C8A87 /* CBottomAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBottomAlert.h; sourceTree = "<group>"; };
 		042836F21E0A601C005C8A87 /* CBottomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBottomAlert.m; sourceTree = "<group>"; };
+		042837341E0AB05A005C8A87 /* BottomLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomLayer.h; sourceTree = "<group>"; };
+		042837351E0AB05A005C8A87 /* BottomLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomLayer.m; sourceTree = "<group>"; };
+		042837361E0AB05A005C8A87 /* CSwitchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSwitchButton.h; sourceTree = "<group>"; };
+		042837371E0AB05A005C8A87 /* CSwitchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSwitchButton.m; sourceTree = "<group>"; };
+		042837381E0AB05A005C8A87 /* TopLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopLayer.h; sourceTree = "<group>"; };
+		042837391E0AB05A005C8A87 /* TopLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopLayer.m; sourceTree = "<group>"; };
 		044818111DE6BAED003B1F6C /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
 		044818121DE6BAED003B1F6C /* CButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CButton.m; sourceTree = "<group>"; };
 		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
@@ -1179,6 +1188,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		042837331E0AB03B005C8A87 /* CSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				042837341E0AB05A005C8A87 /* BottomLayer.h */,
+				042837351E0AB05A005C8A87 /* BottomLayer.m */,
+				042837361E0AB05A005C8A87 /* CSwitchButton.h */,
+				042837371E0AB05A005C8A87 /* CSwitchButton.m */,
+				042837381E0AB05A005C8A87 /* TopLayer.h */,
+				042837391E0AB05A005C8A87 /* TopLayer.m */,
+			);
+			path = CSwitch;
+			sourceTree = "<group>";
+		};
 		044BE9051DFAB036004B6DCE /* CCommentPro */ = {
 			isa = PBXGroup;
 			children = (
@@ -2135,6 +2157,7 @@
 		F3F478AD1DDFE3C500E21E97 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				042837331E0AB03B005C8A87 /* CSwitch */,
 				04FB5FB81E03D9BD00228FD9 /* RegexKitLite */,
 				044BE9051DFAB036004B6DCE /* CCommentPro */,
 				0485C2F81DF54A7100D19FA7 /* SuPhotoPicker */,
@@ -2765,6 +2788,7 @@
 				F3EBC45C1D9A03DC00E93C02 /* NSString+Extension.m in Sources */,
 				F3E3E94F1D9B68BB00E69300 /* PasswordViewController.m in Sources */,
 				F348D6171DBF4A150034D0C2 /* RCDPrivateSettingsCell.m in Sources */,
+				0428373B1E0AB05A005C8A87 /* CSwitchButton.m in Sources */,
 				04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */,
 				044BE82C1DFA42F8004B6DCE /* CScrollImage.m in Sources */,
 				F30804231DA5F78E00859781 /* SetMessageToInformViewController.m in Sources */,
@@ -2864,6 +2888,7 @@
 				F39AFE871DAF6BA20045C323 /* AddFridensDataViewController.m in Sources */,
 				F36DEC491DBB125400AEFE62 /* AFHttpTool.m in Sources */,
 				F35C03571DC3593B003D9613 /* RCDGroupMembersTableViewController.m in Sources */,
+				0428373A1E0AB05A005C8A87 /* BottomLayer.m in Sources */,
 				F32E4D101D98D49B0034BBB8 /* AppDelegate.m in Sources */,
 				F3E3E9611D9B6D0600E69300 /* ForgetSendCodeViewController.m in Sources */,
 				F3E3E9571D9B68BB00E69300 /* SetHeadNameViewController.m in Sources */,
@@ -2875,6 +2900,7 @@
 				F32E4D0D1D98D49B0034BBB8 /* main.m in Sources */,
 				F39494821DB089DF00BE3E51 /* AddressBookTableViewCell.m in Sources */,
 				F39AFE8D1DAF90430045C323 /* FriendsValidationViewController.m in Sources */,
+				0428373C1E0AB05B005C8A87 /* TopLayer.m in Sources */,
 				04FB5FBD1E03D9BD00228FD9 /* RegexKitLite.m in Sources */,
 				F34FE69D1DBB7DF90054C5AD /* RCDUserInfo.m in Sources */,
 				F3E3E9531D9B68BB00E69300 /* RegistViewController.m in Sources */,

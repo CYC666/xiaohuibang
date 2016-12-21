@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FromCameraController">
             <connections>
+                <outlet property="cancelButton" destination="hee-Hf-TmY" id="uDx-X9-dP7"/>
+                <outlet property="changeCameraButton" destination="dCo-rh-hxX" id="GXD-1C-2fX"/>
+                <outlet property="changeFlashButton" destination="wLn-Fg-o3I" id="ENF-Xw-Aay"/>
                 <outlet property="flashOnButton" destination="wLn-Fg-o3I" id="oO9-hp-gtB"/>
                 <outlet property="focusCursor" destination="gvq-G3-Ikh" id="Gk4-Lz-Lcr"/>
-                <outlet property="movLabel" destination="OR9-R3-kEB" id="G5u-69-JBO"/>
-                <outlet property="picLabel" destination="vXU-gK-s5X" id="1hX-5B-pWv"/>
-                <outlet property="takeButton" destination="xsN-nt-la3" id="keM-WZ-kiu"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewContainer" destination="i5M-Pr-FkT" id="SoB-xo-aXM"/>
             </connections>
@@ -38,34 +38,12 @@
                         <constraint firstAttribute="height" constant="164" id="mrh-ND-FX4"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsN-nt-la3">
-                    <rect key="frame" x="143" y="559" width="88" height="88"/>
-                    <state key="normal" image="icon_press.png"/>
-                    <connections>
-                        <action selector="takeButtonClick:" destination="-1" eventType="touchUpInside" id="CGr-LW-zip"/>
-                    </connections>
-                </button>
                 <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nav-bar.png" translatesAutoresizingMaskIntoConstraints="NO" id="t4p-rJ-NS5">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="kIt-SV-8fs"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="point.png" translatesAutoresizingMaskIntoConstraints="NO" id="oBV-9c-Up7">
-                    <rect key="frame" x="184" y="512" width="7" height="7"/>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="拍照" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXU-gK-s5X">
-                    <rect key="frame" x="170" y="527" width="35" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.11372549019607843" green="0.63137254901960782" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="摄像" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OR9-R3-kEB">
-                    <rect key="frame" x="213" y="527" width="35" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wLn-Fg-o3I">
                     <rect key="frame" x="333" y="27" width="26" height="31"/>
                     <state key="normal" image="icon_flash_close.png"/>
@@ -92,27 +70,19 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="oBV-9c-Up7" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3M9-D8-MC6"/>
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="86Z-HY-Pud"/>
-                <constraint firstItem="xsN-nt-la3" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9Da-w3-9Q7"/>
                 <constraint firstAttribute="bottom" secondItem="dCo-rh-hxX" secondAttribute="bottom" constant="50" id="9hP-Za-Thz"/>
                 <constraint firstItem="wLn-Fg-o3I" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="AkU-VR-MDL"/>
                 <constraint firstAttribute="bottom" secondItem="shn-aV-VLj" secondAttribute="bottom" id="EwI-vC-1t8"/>
                 <constraint firstItem="gvq-G3-Ikh" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="FKI-pb-hTe"/>
                 <constraint firstAttribute="trailing" secondItem="wLn-Fg-o3I" secondAttribute="trailing" constant="16" id="Gsp-xI-4EI"/>
-                <constraint firstItem="OR9-R3-kEB" firstAttribute="leading" secondItem="vXU-gK-s5X" secondAttribute="trailing" constant="8" id="JUL-Ed-3ap"/>
                 <constraint firstAttribute="bottom" secondItem="hee-Hf-TmY" secondAttribute="bottom" constant="49" id="KZf-Ey-4id"/>
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VOq-7s-frw"/>
                 <constraint firstItem="gvq-G3-Ikh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Y0P-ru-SSt"/>
                 <constraint firstAttribute="trailing" secondItem="t4p-rJ-NS5" secondAttribute="trailing" id="YYx-NM-nJM"/>
-                <constraint firstAttribute="bottom" secondItem="xsN-nt-la3" secondAttribute="bottom" constant="20" id="bhY-6g-jG5"/>
-                <constraint firstItem="OR9-R3-kEB" firstAttribute="top" secondItem="oBV-9c-Up7" secondAttribute="bottom" constant="8" id="dBj-DO-BeY"/>
                 <constraint firstAttribute="trailing" secondItem="shn-aV-VLj" secondAttribute="trailing" id="gtV-fN-siF"/>
                 <constraint firstItem="shn-aV-VLj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hnR-AC-Xpp"/>
                 <constraint firstAttribute="trailing" secondItem="dCo-rh-hxX" secondAttribute="trailing" constant="55" id="lul-sC-pwU"/>
-                <constraint firstItem="vXU-gK-s5X" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="mAJ-rV-Syq"/>
-                <constraint firstItem="vXU-gK-s5X" firstAttribute="top" secondItem="oBV-9c-Up7" secondAttribute="bottom" constant="8" id="oB4-nA-huA"/>
-                <constraint firstItem="xsN-nt-la3" firstAttribute="top" secondItem="oBV-9c-Up7" secondAttribute="bottom" constant="40" id="tuo-q3-ECd"/>
                 <constraint firstItem="hee-Hf-TmY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="49" id="yQQ-ER-Otx"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -124,9 +94,7 @@
         <image name="icon_back_new.png" width="31" height="27"/>
         <image name="icon_flash_close.png" width="26" height="31"/>
         <image name="icon_focus.png" width="109" height="109"/>
-        <image name="icon_press.png" width="88" height="88"/>
         <image name="icon_switchcamera.png" width="29" height="29"/>
         <image name="nav-bar.png" width="375" height="64"/>
-        <image name="point.png" width="7" height="7"/>
     </resources>
 </document>

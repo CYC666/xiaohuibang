@@ -15,27 +15,31 @@
 
 #import "FromCameraController.h"
 #import "SendMomentsController.h"
+#import "CSwitchButton.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #define openSendCommentControllerNotification @"openSendCommentControllerNotification"  // 发送打开发送动态界面的通知
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
+
 
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 @interface FromCameraController () {
     SystemSoundID soundID;                                                          //系统声音标识符
 }
-@property (weak, nonatomic) IBOutlet UILabel *picLabel;                             // 拍照标签
-@property (weak, nonatomic) IBOutlet UILabel *movLabel;                             // 摄像标签
 
 @property (strong,nonatomic) AVCaptureSession *captureSession;                      //负责输入和输出设备之间的数据传递
 @property (strong,nonatomic) AVCaptureDeviceInput *captureDeviceInput;              //负责从AVCaptureDevice获得输入数据
 @property (strong,nonatomic) AVCaptureStillImageOutput *captureStillImageOutput;    //照片输出流
 @property (strong,nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;  //相机拍摄预览图层
 @property (weak, nonatomic) IBOutlet UIView *viewContainer;
-@property (weak, nonatomic) IBOutlet UIButton *takeButton;                          //拍照按钮
 @property (weak, nonatomic) IBOutlet UIButton *flashOnButton;                       //打开闪光灯按钮
 @property (weak, nonatomic) IBOutlet UIImageView *focusCursor;                      //聚焦光标
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIButton *changeCameraButton;
+@property (weak, nonatomic) IBOutlet UIButton *changeFlashButton;
 
 @end
 
@@ -44,17 +48,56 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                                     action:@selector(swipeRightAction:)];
-    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    swipeRight.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:swipeRight];
+    CSwitchButton *cameraSwitch = [[CSwitchButton alloc] initWithFrame:CGRectMake((kScreenWidth - 75)/2.0, kScreenHeight - (63 + 75/2.0), 75, 75)];
+    [self.view addSubview:cameraSwitch];
+    // 拍照
+    cameraSwitch.pictureBlock = ^() {
     
-    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                                    action:@selector(swipeLeftAction:)];
-    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-    swipeLeft.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:swipeLeft];
+        NSLog(@"开始拍照");
+    
+    };
+    
+    // 摄像开始
+    cameraSwitch.startMovieBlock = ^() {
+    
+        NSLog(@"开始摄像");
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _cancelButton.alpha = 0;
+                             _changeFlashButton.alpha = 0;
+                             _changeCameraButton.alpha = 0;
+                         }];
+        
+    
+    };
+    
+    // 结束摄像
+    cameraSwitch.endMovieBlock = ^(float time) {
+    
+        NSLog(@"摄像结束");
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _cancelButton.alpha = 1;
+                             _changeFlashButton.alpha = 1;
+                             _changeCameraButton.alpha = 1;
+                         }];
+    
+    };
+    
+    cameraSwitch.cancelMovieBlock = ^() {
+    
+        NSLog(@"摄像取消");
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             _cancelButton.alpha = 1;
+                             _changeFlashButton.alpha = 1;
+                             _changeCameraButton.alpha = 1;
+                         }];
+    
+    };
+    
+    
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -321,28 +364,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
 }
 
-// 拍照
-- (IBAction)takeButtonClick:(UIButton *)sender {
-    
-    [self soundPlay];
-    //根据设备输出获得连接
-    AVCaptureConnection *captureConnection=[self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
-    //根据连接取得设备输出的数据
-    [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-        if (imageDataSampleBuffer) {
-            NSData *imageData=[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-            __block UIImage *image=[UIImage imageWithData:imageData];
-            
-            // 显示预览
-            
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-            self.imageBlock(image);
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-        }
-        
-    }];
-}
+
 
 // 切换前后摄像头
 - (IBAction)toggleButtonClick:(UIButton *)sender {
@@ -374,39 +396,82 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 }
 
 
-#pragma mark - 轻扫切换摄像跟拍照
-- (void)swipeRightAction:(UISwipeGestureRecognizer *)swipe {
-    // 拍照
-    
-    [UIView animateWithDuration:.35
-                     animations:^{
-                         _picLabel.transform = CGAffineTransformIdentity;
-                         _movLabel.transform = CGAffineTransformIdentity;
-                     } completion:^(BOOL finished) {
-                         _picLabel.textColor = [UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1];
-                         _movLabel.textColor = [UIColor whiteColor];
-                     }];
-
-}
-
-- (void)swipeLeftAction:(UISwipeGestureRecognizer *)swipe {
-    // 摄像
-    
-    [UIView animateWithDuration:.35
-                     animations:^{
-                         _picLabel.transform = CGAffineTransformMakeTranslation(-40, 0);
-                         _movLabel.transform = CGAffineTransformMakeTranslation(-40, 0);
-                     } completion:^(BOOL finished) {
-                         _picLabel.textColor = [UIColor whiteColor];
-                         _movLabel.textColor = [UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1];
-                     }];
-    
-}
 
 
 
 
 
+/*
+ 
+ // 拍照
+ - (IBAction)takeButtonClick:(UIButton *)sender {
+ 
+ [self soundPlay];
+ //根据设备输出获得连接
+ AVCaptureConnection *captureConnection=[self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+ //根据连接取得设备输出的数据
+ [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+ if (imageDataSampleBuffer) {
+ NSData *imageData=[AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+ __block UIImage *image=[UIImage imageWithData:imageData];
+ 
+ // 显示预览
+ 
+ UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+ self.imageBlock(image);
+ [self dismissViewControllerAnimated:YES completion:nil];
+ 
+ }
+ 
+ }];
+ }
+ 
+ #pragma mark - 轻扫切换摄像跟拍照
+ - (void)swipeRightAction:(UISwipeGestureRecognizer *)swipe {
+ // 拍照
+ 
+ [UIView animateWithDuration:.35
+ animations:^{
+ _picLabel.transform = CGAffineTransformIdentity;
+ _movLabel.transform = CGAffineTransformIdentity;
+ } completion:^(BOOL finished) {
+ _picLabel.textColor = [UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1];
+ _movLabel.textColor = [UIColor whiteColor];
+ }];
+ 
+ }
+ 
+ - (void)swipeLeftAction:(UISwipeGestureRecognizer *)swipe {
+ // 摄像
+ 
+ [UIView animateWithDuration:.35
+ animations:^{
+ _picLabel.transform = CGAffineTransformMakeTranslation(-40, 0);
+ _movLabel.transform = CGAffineTransformMakeTranslation(-40, 0);
+ } completion:^(BOOL finished) {
+ _picLabel.textColor = [UIColor whiteColor];
+ _movLabel.textColor = [UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1];
+ }];
+ 
+ }
+ 
+ @property (weak, nonatomic) IBOutlet UILabel *picLabel;                             // 拍照标签
+ @property (weak, nonatomic) IBOutlet UILabel *movLabel;                             // 摄像标签
+@property (weak, nonatomic) IBOutlet UIButton *takeButton;                          //拍照按钮
+ 
+ UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+ action:@selector(swipeRightAction:)];
+ swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+ swipeRight.numberOfTouchesRequired = 1;
+ [self.view addGestureRecognizer:swipeRight];
+ 
+ UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+ action:@selector(swipeLeftAction:)];
+ swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+ swipeLeft.numberOfTouchesRequired = 1;
+ [self.view addGestureRecognizer:swipeLeft];
+ 
+ */
 
 
 
