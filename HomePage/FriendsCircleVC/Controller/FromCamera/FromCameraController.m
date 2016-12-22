@@ -35,6 +35,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (strong,nonatomic) AVCaptureStillImageOutput *captureStillImageOutput;    //照片输出流
 @property (strong,nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;  //相机拍摄预览图层
 @property (weak, nonatomic) IBOutlet UIView *viewContainer;
+@property (weak, nonatomic) IBOutlet UIView *tapGestureView;                        // 接收点击手势的图层
 @property (weak, nonatomic) IBOutlet UIButton *flashOnButton;                       //打开闪光灯按钮
 @property (weak, nonatomic) IBOutlet UIImageView *focusCursor;                      //聚焦光标
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
@@ -54,6 +55,22 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     cameraSwitch.pictureBlock = ^() {
     
         NSLog(@"开始拍照");
+//        AVCaptureConnection *captureConnection=[self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+//        [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+//            if (imageDataSampleBuffer) {
+//                NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+//                __block UIImage *image = [UIImage imageWithData:imageData];
+//                
+//                // 显示预览
+//                
+//                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+//                self.imageBlock(image);
+//                [self dismissViewControllerAnimated:YES completion:nil];
+//                
+//            }
+//            
+//        }];
+        
     
     };
     
@@ -287,8 +304,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 // 添加点按手势，点按时聚焦
 -(void)addGenstureRecognizer{
-    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapScreen:)];
-    [self.viewContainer addGestureRecognizer:tapGesture];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapScreen:)];
+    [self.tapGestureView addGestureRecognizer:tapGesture];
 }
 // 聚焦
 -(void)tapScreen:(UITapGestureRecognizer *)tapGesture{
@@ -394,7 +411,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [self.captureSession commitConfiguration];
     
 }
-
+         
+@end
 
 
 
@@ -488,4 +506,4 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 }
 */
 
-@end
+

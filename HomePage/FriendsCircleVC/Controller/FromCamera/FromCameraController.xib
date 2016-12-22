@@ -16,6 +16,7 @@
                 <outlet property="changeFlashButton" destination="wLn-Fg-o3I" id="ENF-Xw-Aay"/>
                 <outlet property="flashOnButton" destination="wLn-Fg-o3I" id="oO9-hp-gtB"/>
                 <outlet property="focusCursor" destination="gvq-G3-Ikh" id="Gk4-Lz-Lcr"/>
+                <outlet property="tapGestureView" destination="8M0-W8-kul" id="M7T-cj-1aS"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewContainer" destination="i5M-Pr-FkT" id="SoB-xo-aXM"/>
             </connections>
@@ -67,12 +68,18 @@
                         <action selector="cancelButton:" destination="-1" eventType="touchUpInside" id="FIA-8V-DX1"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8M0-W8-kul">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="515"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="86Z-HY-Pud"/>
+                <constraint firstAttribute="trailing" secondItem="8M0-W8-kul" secondAttribute="trailing" id="9fq-eT-hPw"/>
                 <constraint firstAttribute="bottom" secondItem="dCo-rh-hxX" secondAttribute="bottom" constant="50" id="9hP-Za-Thz"/>
                 <constraint firstItem="wLn-Fg-o3I" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="AkU-VR-MDL"/>
+                <constraint firstItem="8M0-W8-kul" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BL2-Vb-Lka"/>
                 <constraint firstAttribute="bottom" secondItem="shn-aV-VLj" secondAttribute="bottom" id="EwI-vC-1t8"/>
                 <constraint firstItem="gvq-G3-Ikh" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="FKI-pb-hTe"/>
                 <constraint firstAttribute="trailing" secondItem="wLn-Fg-o3I" secondAttribute="trailing" constant="16" id="Gsp-xI-4EI"/>
@@ -80,9 +87,11 @@
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VOq-7s-frw"/>
                 <constraint firstItem="gvq-G3-Ikh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Y0P-ru-SSt"/>
                 <constraint firstAttribute="trailing" secondItem="t4p-rJ-NS5" secondAttribute="trailing" id="YYx-NM-nJM"/>
+                <constraint firstItem="8M0-W8-kul" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ZC2-bg-5gv"/>
                 <constraint firstAttribute="trailing" secondItem="shn-aV-VLj" secondAttribute="trailing" id="gtV-fN-siF"/>
                 <constraint firstItem="shn-aV-VLj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hnR-AC-Xpp"/>
                 <constraint firstAttribute="trailing" secondItem="dCo-rh-hxX" secondAttribute="trailing" constant="55" id="lul-sC-pwU"/>
+                <constraint firstItem="dCo-rh-hxX" firstAttribute="top" secondItem="8M0-W8-kul" secondAttribute="bottom" constant="73" id="shV-hx-U09"/>
                 <constraint firstItem="hee-Hf-TmY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="49" id="yQQ-ER-Otx"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
