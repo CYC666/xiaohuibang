@@ -41,10 +41,53 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *changeCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *changeFlashButton;
+@property (strong, nonatomic) UIImageView *imageShow;                               // 显示拍好的照片
+@property (strong, nonatomic) UIButton *redoButton;                                 // 重做按钮
+@property (strong, nonatomic) UIButton *sureButton;                                 // 确定按钮
+@property (strong, nonatomic) UIImage *imageOK;                                     // 暂存的image
+
 
 @end
 
 @implementation FromCameraController
+
+- (UIImageView *)imageShow {
+
+    if (_imageShow == nil) {
+        _imageShow = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        [self.view addSubview:_imageShow];
+    }
+    return _imageShow;
+
+}
+
+- (UIButton *)redoButton {
+
+    if (_redoButton == nil) {
+        _redoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _redoButton.frame = CGRectMake((kScreenWidth - 64)/2, kScreenHeight - 64 - 50, 64, 64);
+        [_redoButton setImage:[UIImage imageNamed:@"icon_redo"] forState:UIControlStateNormal];
+        _redoButton.alpha = 0;
+        [_redoButton addTarget:self action:@selector(redoAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_redoButton];
+    }
+    return _redoButton;
+
+}
+
+- (UIButton *)sureButton {
+
+    if (_sureButton == nil) {
+        _sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _sureButton.frame = CGRectMake((kScreenWidth - 64)/2, kScreenHeight - 64 - 50, 64, 64);
+        [_sureButton setImage:[UIImage imageNamed:@"icon_done"] forState:UIControlStateNormal];
+        _sureButton.alpha = 0;
+        [_sureButton addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_sureButton];
+    }
+    return _sureButton;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,22 +97,25 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     // 拍照
     cameraSwitch.pictureBlock = ^() {
     
-        NSLog(@"开始拍照");
-//        AVCaptureConnection *captureConnection=[self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
-//        [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-//            if (imageDataSampleBuffer) {
-//                NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-//                __block UIImage *image = [UIImage imageWithData:imageData];
-//                
-//                // 显示预览
-//                
-//                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-//                self.imageBlock(image);
-//                [self dismissViewControllerAnimated:YES completion:nil];
-//                
-//            }
-//            
-//        }];
+        AVCaptureConnection *captureConnection = [self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+        [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+            if (imageDataSampleBuffer) {
+                NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                _imageOK = [UIImage imageWithData:imageData];
+                
+                // 显示预览
+                self.imageShow.image = _imageOK;
+                self.redoButton.alpha = 1;
+                self.sureButton.alpha = 1;
+                [UIView animateWithDuration:.35
+                                 animations:^{
+                                     self.redoButton.transform = CGAffineTransformMakeTranslation(-100, 0);
+                                     self.sureButton.transform = CGAffineTransformMakeTranslation(100, 0);
+                                 }];
+                
+            }
+            
+        }];
         
     
     };
@@ -77,7 +123,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     // 摄像开始
     cameraSwitch.startMovieBlock = ^() {
     
-        NSLog(@"开始摄像");
         [UIView animateWithDuration:.35
                          animations:^{
                              _cancelButton.alpha = 0;
@@ -115,6 +160,34 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     
     
+}
+
+#pragma mark - 拍照成功后的重做、确定按钮响应
+- (void)redoAction:(UIButton *)button {
+    
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         self.redoButton.transform = CGAffineTransformIdentity;
+                         self.sureButton.transform = CGAffineTransformIdentity;
+                     } completion:^(BOOL finished) {
+                         [self.imageShow removeFromSuperview];
+                         [self.redoButton removeFromSuperview];
+                         [self.sureButton removeFromSuperview];
+                         self.imageShow = nil;
+                         self.redoButton = nil;
+                         self.sureButton = nil;
+                     }];
+
+}
+- (void)doneAction:(UIButton *)button {
+
+    // 保存并返回image
+    __block UIImage *image = _imageOK;
+    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+    self.imageBlock(image);
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -364,7 +437,19 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 #pragma mark - 按钮响应
 // 取消
 - (IBAction)cancelButton:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         sender.transform = CGAffineTransformMakeScale(1.5, 1.5);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:.2
+                                          animations:^{
+                                              sender.transform = CGAffineTransformIdentity;
+                                          } completion:^(BOOL finished) {
+                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                          }];
+                     }];
+    
 }
 
 // 打开闪光灯
@@ -385,15 +470,16 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 // 切换前后摄像头
 - (IBAction)toggleButtonClick:(UIButton *)sender {
-    AVCaptureDevice *currentDevice=[self.captureDeviceInput device];
-    AVCaptureDevicePosition currentPosition=[currentDevice position];
+    
+    AVCaptureDevice *currentDevice = [self.captureDeviceInput device];
+    AVCaptureDevicePosition currentPosition = [currentDevice position];
     [self removeNotificationFromCaptureDevice:currentDevice];
     AVCaptureDevice *toChangeDevice;
-    AVCaptureDevicePosition toChangePosition=AVCaptureDevicePositionFront;
-    if (currentPosition==AVCaptureDevicePositionUnspecified||currentPosition==AVCaptureDevicePositionFront) {
+    AVCaptureDevicePosition toChangePosition = AVCaptureDevicePositionFront;
+    if (currentPosition == AVCaptureDevicePositionUnspecified || currentPosition == AVCaptureDevicePositionFront) {
         toChangePosition=AVCaptureDevicePositionBack;
     }
-    toChangeDevice=[self getCameraDeviceWithPosition:toChangePosition];
+    toChangeDevice = [self getCameraDeviceWithPosition:toChangePosition];
     [self addNotificationToCaptureDevice:toChangeDevice];
     //获得要调整的设备输入对象
     AVCaptureDeviceInput *toChangeDeviceInput=[[AVCaptureDeviceInput alloc]initWithDevice:toChangeDevice error:nil];
@@ -405,7 +491,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     //添加新的输入对象
     if ([self.captureSession canAddInput:toChangeDeviceInput]) {
         [self.captureSession addInput:toChangeDeviceInput];
-        self.captureDeviceInput=toChangeDeviceInput;
+        self.captureDeviceInput = toChangeDeviceInput;
     }
     //提交会话配置
     [self.captureSession commitConfiguration];
