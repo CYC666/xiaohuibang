@@ -47,6 +47,9 @@
 		042837461E0B69A6005C8A87 /* icon_redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 042837401E0B69A6005C8A87 /* icon_redo.png */; };
 		042837471E0B69A6005C8A87 /* icon_redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042837411E0B69A6005C8A87 /* icon_redo@2x.png */; };
 		042837481E0B69A6005C8A87 /* icon_redo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042837421E0B69A6005C8A87 /* icon_redo@3x.png */; };
+		042837981E0BCB95005C8A87 /* holderLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = 042837951E0BCB95005C8A87 /* holderLabel.png */; };
+		042837991E0BCB95005C8A87 /* holderLabel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042837961E0BCB95005C8A87 /* holderLabel@2x.png */; };
+		0428379A1E0BCB95005C8A87 /* holderLabel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042837971E0BCB95005C8A87 /* holderLabel@3x.png */; };
 		044818131DE6BAED003B1F6C /* CButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818121DE6BAED003B1F6C /* CButton.m */; };
 		044818171DE6E929003B1F6C /* CYCOWN.m in Sources */ = {isa = PBXBuildFile; fileRef = 044818151DE6E929003B1F6C /* CYCOWN.m */; };
 		044818181DE6E929003B1F6C /* CYCOWN.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044818161DE6E929003B1F6C /* CYCOWN.xib */; };
@@ -544,6 +547,9 @@
 		042837401E0B69A6005C8A87 /* icon_redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_redo.png; sourceTree = "<group>"; };
 		042837411E0B69A6005C8A87 /* icon_redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_redo@2x.png"; sourceTree = "<group>"; };
 		042837421E0B69A6005C8A87 /* icon_redo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_redo@3x.png"; sourceTree = "<group>"; };
+		042837951E0BCB95005C8A87 /* holderLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = holderLabel.png; sourceTree = "<group>"; };
+		042837961E0BCB95005C8A87 /* holderLabel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "holderLabel@2x.png"; sourceTree = "<group>"; };
+		042837971E0BCB95005C8A87 /* holderLabel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "holderLabel@3x.png"; sourceTree = "<group>"; };
 		044818111DE6BAED003B1F6C /* CButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CButton.h; sourceTree = "<group>"; };
 		044818121DE6BAED003B1F6C /* CButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CButton.m; sourceTree = "<group>"; };
 		044818141DE6E929003B1F6C /* CYCOWN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCOWN.h; sourceTree = "<group>"; };
@@ -2233,6 +2239,9 @@
 		F3F478B81DDFE3C500E21E97 /* MyDocuments */ = {
 			isa = PBXGroup;
 			children = (
+				042837951E0BCB95005C8A87 /* holderLabel.png */,
+				042837961E0BCB95005C8A87 /* holderLabel@2x.png */,
+				042837971E0BCB95005C8A87 /* holderLabel@3x.png */,
 				0428373D1E0B69A6005C8A87 /* icon_done.png */,
 				0428373E1E0B69A6005C8A87 /* icon_done@2x.png */,
 				0428373F1E0B69A6005C8A87 /* icon_done@3x.png */,
@@ -2488,6 +2497,7 @@
 				F33F898F1D9E4EA600FB0F70 /* icon_about@2x.png in Resources */,
 				F30947741DD33ED800638827 /* icon_camera@3x.png in Resources */,
 				F30947541DD33EC200638827 /* icon_flash_open@2x.png in Resources */,
+				042837981E0BCB95005C8A87 /* holderLabel.png in Resources */,
 				F30947551DD33EC200638827 /* icon_flash_open@3x.png in Resources */,
 				F3E3E95D1D9B6A1500E69300 /* ForgetViewController.xib in Resources */,
 				F39FD7051DDDB5BF00D3724C /* white_location_icon.png in Resources */,
@@ -2624,6 +2634,7 @@
 				0485C3361DF54A7100D19FA7 /* SuPhotoPreviewer.xib in Resources */,
 				F3703BBA1DBDFD38000508B1 /* AB5C9E0319D66CB8A938884D6D960D34.png in Resources */,
 				F30947881DD3409500638827 /* alpha50@2x.png in Resources */,
+				042837991E0BCB95005C8A87 /* holderLabel@2x.png in Resources */,
 				F3F478CE1DDFE3C500E21E97 /* FromCameraController.xib in Resources */,
 				F306DE841DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib in Resources */,
 				F39FD7621DDDBA9F00D3724C /* pic_loading@3x.png in Resources */,
@@ -2636,6 +2647,7 @@
 				F39FD6EE1DDDB43300D3724C /* icon_position_beginer.png in Resources */,
 				F31B2A471DA49E6C00330636 /* 矩形 2.png in Resources */,
 				F39FD6F41DDDB43300D3724C /* icon_send_beginer.png in Resources */,
+				0428379A1E0BCB95005C8A87 /* holderLabel@3x.png in Resources */,
 				F33F89911D9E4EA600FB0F70 /* icon_man@2x.png in Resources */,
 				F317F3FA1DA7500800DB5F70 /* icon_mute@2x.png in Resources */,
 				F39FD70B1DDDB64500D3724C /* location_share_button.png in Resources */,

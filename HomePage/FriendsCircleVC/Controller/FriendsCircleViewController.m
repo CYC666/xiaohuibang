@@ -220,6 +220,24 @@
 
     if ([button.titleLabel.text isEqualToString:@"拍摄"]) {
         
+        FromCameraController *fromCamera = [[FromCameraController alloc] init];
+        [self presentViewController:fromCamera animated:YES completion:nil];
+        
+        fromCamera.imageBlock = ^(id pagram) {
+            
+            if ([pagram isKindOfClass:[UIImage class]]) {
+                UIImage *image = (UIImage *)pagram;
+                
+            } else if ([pagram isKindOfClass:[NSURL class]]) {
+                
+                NSURL *url = (NSURL *)pagram;
+                
+            }
+            
+            
+            
+        };
+
         
         
         // 移除alert

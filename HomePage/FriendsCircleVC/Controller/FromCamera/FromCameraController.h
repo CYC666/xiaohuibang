@@ -14,6 +14,5 @@
 @property (assign, nonatomic) BOOL isFlash;         // 是否打开闪光灯
 
 @property (strong, nonatomic) void(^imageBlock)();  // 传递image
-@property (strong, nonatomic) void(^movieBlock)();  // 传递movie
 
 @end

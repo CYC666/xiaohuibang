@@ -52,6 +52,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (strong, nonatomic) NSURL *movieUrlOK;                                    // 暂存视频的URL
 @property (assign, nonatomic) float audioTime;                                      // 时长
 @property (assign, nonatomic) BOOL isPicture;                                       // 标志是拍照
+@property (weak, nonatomic) IBOutlet UIImageView *holderImage;
 
 
 @end
@@ -111,10 +112,17 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // 隐藏轻击拍照提示和聚焦框
+    [self performSelector:@selector(hideHolderLabel) withObject:nil afterDelay:4];
+    
     CSwitchButton *cameraSwitch = [[CSwitchButton alloc] initWithFrame:CGRectMake((kScreenWidth - 75)/2.0, kScreenHeight - (63 + 75/2.0), 75, 75)];
     [self.view addSubview:cameraSwitch];
+    
+    
     // 拍照
     cameraSwitch.pictureBlock = ^() {
+        
+        
     
         AVCaptureConnection *captureConnection = [self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
         [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
@@ -139,8 +147,12 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     };
     
+    
+    
     // 摄像开始
     cameraSwitch.startMovieBlock = ^() {
+        
+        
         
         _isPicture = YES;
         
@@ -199,6 +211,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     if (_audioTime > 0.5) {
         
+        float distence = kScreenWidth/2 - 75;
         // 预览视频，要或不要
         self.moviePlayer.player = [[AVPlayer alloc] initWithURL:outputFileURL];
         [self.moviePlayer.player play];
@@ -206,8 +219,8 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         self.sureButton.alpha = 1;
         [UIView animateWithDuration:.35
                          animations:^{
-                             self.redoButton.transform = CGAffineTransformMakeTranslation(-100, 0);
-                             self.sureButton.transform = CGAffineTransformMakeTranslation(100, 0);
+                             self.redoButton.transform = CGAffineTransformMakeTranslation(-distence, 0);
+                             self.sureButton.transform = CGAffineTransformMakeTranslation(distence, 0);
                          }];
         _movieUrlOK = outputFileURL;
         
@@ -248,7 +261,9 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         self.imageBlock(image);
     } else {
-        // __block NSURL *url = _movieUrlOK;
+         __block NSURL *url = _movieUrlOK;
+        self.imageBlock(url);
+        
         ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc] init];
         [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:_movieUrlOK completionBlock:^(NSURL *assetURL, NSError *error) {
         
@@ -263,6 +278,17 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     
     [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+#pragma mark - 轻击拍照提示隐藏
+- (void)hideHolderLabel {
+
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         _holderImage.alpha = 0;
+                         _focusCursor.alpha = 0;
+                     }];
 
 }
 

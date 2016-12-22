@@ -16,6 +16,7 @@
                 <outlet property="changeFlashButton" destination="wLn-Fg-o3I" id="ENF-Xw-Aay"/>
                 <outlet property="flashOnButton" destination="wLn-Fg-o3I" id="oO9-hp-gtB"/>
                 <outlet property="focusCursor" destination="gvq-G3-Ikh" id="Gk4-Lz-Lcr"/>
+                <outlet property="holderImage" destination="YoZ-BE-VbW" id="w6B-fU-sio"/>
                 <outlet property="tapGestureView" destination="8M0-W8-kul" id="M7T-cj-1aS"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewContainer" destination="i5M-Pr-FkT" id="SoB-xo-aXM"/>
@@ -70,10 +71,19 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8M0-W8-kul">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="515"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="holderLabel.png" translatesAutoresizingMaskIntoConstraints="NO" id="YoZ-BE-VbW">
+                            <rect key="frame" x="108" y="483" width="158" height="32"/>
+                        </imageView>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="YoZ-BE-VbW" firstAttribute="centerX" secondItem="8M0-W8-kul" secondAttribute="centerX" id="0xH-2C-dg4"/>
+                        <constraint firstAttribute="bottom" secondItem="YoZ-BE-VbW" secondAttribute="bottom" id="Y0a-h5-IQx"/>
+                    </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="86Z-HY-Pud"/>
                 <constraint firstAttribute="trailing" secondItem="8M0-W8-kul" secondAttribute="trailing" id="9fq-eT-hPw"/>
@@ -100,6 +110,7 @@
     </objects>
     <resources>
         <image name="alpha50.png" width="375" height="162"/>
+        <image name="holderLabel.png" width="158" height="32"/>
         <image name="icon_back_new.png" width="31" height="27"/>
         <image name="icon_flash_close.png" width="26" height="31"/>
         <image name="icon_focus.png" width="109" height="109"/>

@@ -434,22 +434,24 @@
     FromCameraController *fromCamera = [[FromCameraController alloc] init];
     [self presentViewController:fromCamera animated:YES completion:nil];
     
-    fromCamera.imageBlock = ^(UIImage *image) {
+    fromCamera.imageBlock = ^(id pagram) {
     
-        // 接收image
-        [self.willPushPhotoArr addObject:image];
-        self.imageWillPush.image = image;
-        self.imageWillPush.imageNum += 1;;
+        if ([pagram isKindOfClass:[UIImage class]]) {
+            UIImage *image = (UIImage *)pagram;
+            // 接收image
+            [self.willPushPhotoArr addObject:image];
+            self.imageWillPush.image = image;
+            self.imageWillPush.imageNum += 1;
+        } else if ([pagram isKindOfClass:[NSURL class]]) {
+        
+            NSURL *url = (NSURL *)pagram;
+        
+        }
+        
+        
     
     };
 
-//    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-//    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-//    imagePickerController.delegate = self;
-//    
-//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-//    
-//    [self presentViewController:imagePickerController animated:YES completion:nil];
     
 
 }
@@ -663,7 +665,14 @@
  //        }];
  //        [task resume];
 
- 
+ //    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+ //    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+ //    imagePickerController.delegate = self;
+ //
+ //    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+ //
+ //    [self presentViewController:imagePickerController animated:YES completion:nil];
+
  
  
  */
