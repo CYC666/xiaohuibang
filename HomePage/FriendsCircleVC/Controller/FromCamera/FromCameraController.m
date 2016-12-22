@@ -193,7 +193,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     // 初始化会话
-    _captureSession=[[AVCaptureSession alloc]init];
+    _captureSession = [[AVCaptureSession alloc] init];
     // 设置分辨率
     if ([_captureSession canSetSessionPreset:AVCaptureSessionPresetHigh]) {
         _captureSession.sessionPreset=AVCaptureSessionPresetHigh;
