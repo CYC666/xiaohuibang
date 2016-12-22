@@ -27,6 +27,7 @@
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
+#define kImageSize 80                                           // 图片大小
 
 
 @interface SendMomentsController () <UITextViewDelegate, UIScrollViewDelegate,
@@ -43,6 +44,11 @@
 
 }
 @property (strong, nonatomic) CImageView *imageWillPush;    // 显示即将上传的图片
+@property (assign, nonatomic) SendType type;                // 发送的类型
+
+@property (strong, nonatomic) NSMutableArray *imageArray;   // 储存即将上传的图片
+@property (strong, nonatomic) NSURL *movieUrl;              // 储存即将上传的视频
+@property (assign, nonatomic) float firstCellHeight;        // 第一个cell的高度
 
 
 @end
@@ -61,21 +67,41 @@
     
     
 }
+#pragma mark - 初始化方法
+- (instancetype)initWithText {
 
-- (instancetype)initWithImage:(UIImage *)image {
-
-    self = [super init];
-    if (self != nil) {
-        
-        self.imageWillPush.image = image;
-        _imageWillPush.imageNum = 1;
-        
-         [self.willPushPhotoArr addObject:image];
-        
+    if (self = [super init]) {
+        _type = CYC_TEXT;
+        _firstCellHeight = kScreenHeight*.3;
     }
     return self;
 
 }
+- (instancetype)initWithImageArray:(NSArray *)imageArray {
+
+    if (self = [super init]) {
+        _type = CYC_IMAGE;
+        _firstCellHeight = kScreenWidth*1.5 + (imageArray.count / 4 + 1)*90;
+        [self.imageArray addObjectsFromArray:imageArray];
+    }
+    return self;
+
+}
+- (instancetype)initWithMovie:(NSURL *)movieUrl {
+
+    if (self = [super init]) {
+        _firstCellHeight = kScreenHeight*.32;
+        _type = CYC_MOVIE;
+        self.movieUrl = movieUrl;
+    }
+    return self;
+
+}
+
+
+
+
+
 
 - (void)viewDidAppear:(BOOL)animated {
 
@@ -119,6 +145,16 @@
 
 }
 
+- (NSMutableArray *)imageArray {
+
+    if (_imageArray == nil) {
+        _imageArray = [NSMutableArray arrayWithCapacity:9];
+    }
+    return _imageArray;
+
+}
+
+
 
 #pragma mark - 设置导航栏
 - (void)_setNavigationBar {
@@ -152,9 +188,17 @@
 
 #pragma mark - 创建子视图
 - (void)_createSubView {
+    
+    if (_type == CYC_TEXT) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.48+15)
+                                                  style:UITableViewStyleGrouped];
 
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.48)
-                                              style:UITableViewStylePlain];
+    } else if (_type == CYC_IMAGE) {
+    
+    } else if (_type == CYC_MOVIE) {
+    
+    }
+
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.scrollEnabled = NO;
@@ -281,9 +325,12 @@
 }
 
 #pragma mark - 表视图代理方法
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 4;
+    return 2;
 
 }
 
@@ -291,43 +338,32 @@
 
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                                    reuseIdentifier:@"cellID"];
-    if (indexPath.row == 0) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.section == 0 && indexPath.row == 0) {
         [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         
-        _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth - 62.5, kScreenHeight*.3)];
+        _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, _firstCellHeight)];
         _textView.text = @"记录我的生活";
         _textView.font = [UIFont systemFontOfSize:17];
         _textView.textColor = [UIColor lightGrayColor];
         _textView.delegate = self;
         [cell.contentView addSubview:_textView];
-    } else if (indexPath.row == 1) {
+    } else if (indexPath.section == 0 && indexPath.row == 1) {
         [cell setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
+        cell.imageView.image = [UIImage imageNamed:@"icon_location"];
+        cell.textLabel.text = @"所在位置";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         cell.imageView.image = [UIImage imageNamed:@"icon_open"];
         cell.textLabel.text = @"谁可以看";
         cell.detailTextLabel.text = @"公开";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else if (indexPath.row == 2) {
+    } else if (indexPath.section == 1 && indexPath.row == 1) {
         [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         cell.imageView.image = [UIImage imageNamed:@"icon_@"];
         cell.textLabel.text = @"提醒谁看";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else if (indexPath.row == 3) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
-        NSArray *array = @[@"icon_emoj", @"icon_album", @"icon_camera_b", @"icon_position"];
-        float buttonWidth = kScreenWidth/4;
-        for (int i = 0; i < 4; i++) {
-            UIImage *image = [UIImage imageNamed:array[i]];
-            float imageHeight = image.size.height;
-            float imageWidth = image.size.width;
-            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth*i + (buttonWidth - imageWidth)/2.0, (kScreenHeight*.06 - imageHeight)/2.0, imageWidth, imageHeight)];
-            button.tag = 989 + i;
-            [button addTarget:self action:@selector(moreOptionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-            [button setImage:image forState:UIControlStateNormal];
-            [cell.contentView addSubview:button];
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-        }
     }
     
     return cell;
@@ -335,8 +371,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.row == 0) {
-        return kScreenHeight*.3;
+    if (indexPath.row == 0 && indexPath.section == 0) {
+        return _firstCellHeight;
     } else {
         return kScreenHeight*.06;
     }
@@ -344,11 +380,26 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.row == 1 || indexPath.row == 2) {
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return;
+    } else if (indexPath.section == 0 && indexPath.row == 1) {
+        [self openLocation];
+    } else {
         [SVProgressHUD dismiss];
         [SVProgressHUD showErrorWithStatus:@"此功能还没开放呢"];
     }
     
+    
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.0001;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return 15;
+    } else {
+        return 0.0001;
+    }
 }
 
 
@@ -538,11 +589,18 @@
     // 接收传过来的地理信息
     pickerLocation.locationBlock = ^(NSString *str){
     
-        
-        if (str != nil) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+        UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
+        if (str.length > 0) {
             self.locationStr = str;
+            NSArray *array = [str componentsSeparatedByString:@"+"];
             // 更改定位按钮的颜色
-            [_locationButton setImage:[UIImage imageNamed:@"icon_position_blue"] forState:UIControlStateNormal];
+            // [_locationButton setImage:[UIImage imageNamed:@"icon_position_blue"] forState:UIControlStateNormal];
+            cell.textLabel.text = [array firstObject];
+            cell.imageView.image = [UIImage imageNamed:@"icon_location_selected"];
+        } else {
+            cell.textLabel.text = @"不使用定位";
+            cell.imageView.image = [UIImage imageNamed:@"icon_location"];
         }
         
     
@@ -570,10 +628,6 @@
 
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 /*
 
@@ -673,7 +727,42 @@
  //
  //    [self presentViewController:imagePickerController animated:YES completion:nil];
 
+ - (instancetype)initWithImage:(UIImage *)image {
  
+ self = [super init];
+ if (self != nil) {
+ 
+ self.imageWillPush.image = image;
+ _imageWillPush.imageNum = 1;
+ 
+ [self.willPushPhotoArr addObject:image];
+ 
+ }
+ return self;
+ 
+ }
+
+ // 传入一张图片以初始化
+ - (instancetype)initWithImage:(UIImage *)image;
+ 
+ //    else if (indexPath.row == 4) {
+ //        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+ //        cell.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
+ //        NSArray *array = @[@"icon_emoj", @"icon_album", @"icon_camera_b", @"icon_position"];
+ //        float buttonWidth = kScreenWidth/4;
+ //        for (int i = 0; i < 4; i++) {
+ //            UIImage *image = [UIImage imageNamed:array[i]];
+ //            float imageHeight = image.size.height;
+ //            float imageWidth = image.size.width;
+ //            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth*i + (buttonWidth - imageWidth)/2.0, (kScreenHeight*.06 - imageHeight)/2.0, imageWidth, imageHeight)];
+ //            button.tag = 989 + i;
+ //            [button addTarget:self action:@selector(moreOptionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+ //            [button setImage:image forState:UIControlStateNormal];
+ //            [cell.contentView addSubview:button];
+ //            [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+ //        }
+ //    }
+
  
  */
 

@@ -12,7 +12,7 @@
 
 
 // 返回的block，传递数据
-@property (copy, nonatomic) void(^locationBlock)(NSString *);
+@property (copy, nonatomic) void(^locationBlock)();
 
 
 @end

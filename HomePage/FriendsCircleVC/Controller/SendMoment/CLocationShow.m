@@ -48,7 +48,12 @@
                                                                 target:self
                                                                 action:@selector(cancelPicker:)];
     [self.navigationItem setLeftBarButtonItem:leftItem];
-    
+    UIBarButtonItem *rigthItem = [[UIBarButtonItem alloc] initWithTitle:@"不使用定位"
+                                                                 style:UIBarButtonItemStylePlain
+                                                                target:self
+                                                                action:@selector(nilLocation:)];
+    [self.navigationItem setRightBarButtonItem:rigthItem];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     _locationC = [[CLLocationManager alloc] init];
     if([[[UIDevice currentDevice]systemVersion]floatValue] >= 8) {
         
@@ -66,6 +71,14 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
+}
+
+// 不使用定位
+- (void)nilLocation:(UIBarButtonItem *)item {
+
+    self.locationBlock(@"");
+    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 

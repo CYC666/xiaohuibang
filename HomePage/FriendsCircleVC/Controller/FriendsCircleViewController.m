@@ -274,7 +274,7 @@
 - (void)jumpToSendAbout:(UILongPressGestureRecognizer *)longPress {
 
     // push到编辑界面
-    SendMomentsController *momentsController = [[SendMomentsController alloc] init];
+    SendMomentsController *momentsController = [[SendMomentsController alloc] initWithText];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:momentsController];
     nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
     [self presentViewController:nav animated:YES completion:nil];
@@ -440,10 +440,10 @@
 #pragma mark - 接受到打开发送动态界面的通知
 - (void)receiveOpenSendCommentControllerNotification:(NSNotification *)notification {
     
-    SendMomentsController *sendController = [[SendMomentsController alloc] initWithImage:notification.object];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:sendController];
-    nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
-    [self presentViewController:nav animated:YES completion:nil];
+//    SendMomentsController *sendController = [[SendMomentsController alloc] initWithImage:notification.object];
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:sendController];
+//    nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+//    [self presentViewController:nav animated:YES completion:nil];
 
 }
 
