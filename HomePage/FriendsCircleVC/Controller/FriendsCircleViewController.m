@@ -227,9 +227,14 @@
             
             if ([pagram isKindOfClass:[UIImage class]]) {
                 UIImage *image = (UIImage *)pagram;
+                SendMomentsController *sendController = [[SendMomentsController alloc] initWithImageArray:[NSArray arrayWithObject:image]];
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:sendController];
+                nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+                [self presentViewController:nav animated:YES completion:nil];
+                
+                
                 
             } else if ([pagram isKindOfClass:[NSURL class]]) {
-                
                 NSURL *url = (NSURL *)pagram;
                 
             }

@@ -122,7 +122,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     // 拍照
     cameraSwitch.pictureBlock = ^() {
         
-        
+        _isPicture = YES;
     
         AVCaptureConnection *captureConnection = [self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
         [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
@@ -154,7 +154,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         
         
         
-        _isPicture = YES;
         
         //根据设备输出获得连接
         AVCaptureConnection *captureConnection = [self.captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
@@ -254,30 +253,28 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
 }
 - (void)doneAction:(UIButton *)button {
+    
+    //这里要先dismiss，不然传数据过去后，那边的present会被撤销
+    [self dismissViewControllerAnimated:YES completion:nil];
 
     if (_isPicture == YES) {
         // 保存并返回image
+        UIImageWriteToSavedPhotosAlbum(_imageOK, nil, nil, nil);
         __block UIImage *image = _imageOK;
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         self.imageBlock(image);
     } else {
-         __block NSURL *url = _movieUrlOK;
-        self.imageBlock(url);
-        
         ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc] init];
         [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:_movieUrlOK completionBlock:^(NSURL *assetURL, NSError *error) {
-        
+            
             if (error) {
                 NSLog(@"保存失败");
             }
-        
+            
         }];
-
-        
+         __block NSURL *url = _movieUrlOK;
+        self.imageBlock(url);
+    
     }
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 
