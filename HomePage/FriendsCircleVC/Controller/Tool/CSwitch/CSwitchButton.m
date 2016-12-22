@@ -47,7 +47,6 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     _touchTime = 0;
-    _startMovieBlock();
     _timer = [NSTimer scheduledTimerWithTimeInterval:.02
                                              repeats:YES
                                                block:^(NSTimer * _Nonnull timer) {
@@ -55,6 +54,7 @@
                                                    
                                                    // 正在摄像
                                                    if (_touchTime > 0.5) {
+                                                       _startMovieBlock();
                                                        [UIView animateWithDuration:.35
                                                                         animations:^{
                                                                             self.transform = CGAffineTransformMakeScale(1.3, 1.3);
@@ -79,7 +79,6 @@
     if (_touchTime < 0.5) {
         // 触发拍照
         _pictureBlock();
-        _cancelMovieBlock();
     } else {
         // 结束摄像
         __block float time = _touchTime;

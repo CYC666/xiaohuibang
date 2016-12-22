@@ -14,6 +14,5 @@
 @property (copy, nonatomic) void(^pictureBlock)();              // 拍照
 @property (copy, nonatomic) void(^startMovieBlock)();           // 开始摄像
 @property (copy, nonatomic) void(^endMovieBlock)(float);        // 结束摄像
-@property (copy, nonatomic) void(^cancelMovieBlock)();          // 取消摄像
 
 @end

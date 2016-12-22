@@ -16,6 +16,7 @@
 #import "FromCameraController.h"
 #import "SendMomentsController.h"
 #import "CSwitchButton.h"
+#import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
@@ -26,25 +27,31 @@
 
 typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 
-@interface FromCameraController () {
-    SystemSoundID soundID;                                                          //系统声音标识符
+@interface FromCameraController () <AVCaptureFileOutputRecordingDelegate> {
+    SystemSoundID soundID;                                                          // 系统声音标识符
 }
 
-@property (strong,nonatomic) AVCaptureSession *captureSession;                      //负责输入和输出设备之间的数据传递
-@property (strong,nonatomic) AVCaptureDeviceInput *captureDeviceInput;              //负责从AVCaptureDevice获得输入数据
-@property (strong,nonatomic) AVCaptureStillImageOutput *captureStillImageOutput;    //照片输出流
-@property (strong,nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;  //相机拍摄预览图层
+@property (strong,nonatomic) AVCaptureSession *captureSession;                      // 负责输入和输出设备之间的数据传递
+@property (strong,nonatomic) AVCaptureDeviceInput *captureDeviceInput;              // 负责从AVCaptureDevice获得输入数据
+@property (strong,nonatomic) AVCaptureDeviceInput *audioCaptureDeviceInput;         // 音频输入数据
+@property (strong,nonatomic) AVCaptureStillImageOutput *captureStillImageOutput;    // 照片输出流
+@property (strong,nonatomic) AVCaptureMovieFileOutput *captureMovieFileOutput;      // 视频输出流
+@property (strong,nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;  // 相机拍摄预览图层
 @property (weak, nonatomic) IBOutlet UIView *viewContainer;
 @property (weak, nonatomic) IBOutlet UIView *tapGestureView;                        // 接收点击手势的图层
-@property (weak, nonatomic) IBOutlet UIButton *flashOnButton;                       //打开闪光灯按钮
-@property (weak, nonatomic) IBOutlet UIImageView *focusCursor;                      //聚焦光标
+@property (weak, nonatomic) IBOutlet UIButton *flashOnButton;                       // 打开闪光灯按钮
+@property (weak, nonatomic) IBOutlet UIImageView *focusCursor;                      // 聚焦光标
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *changeCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton *changeFlashButton;
 @property (strong, nonatomic) UIImageView *imageShow;                               // 显示拍好的照片
+@property (strong, nonatomic) AVPlayerViewController *moviePlayer;                  // 显示拍好的视频
 @property (strong, nonatomic) UIButton *redoButton;                                 // 重做按钮
 @property (strong, nonatomic) UIButton *sureButton;                                 // 确定按钮
 @property (strong, nonatomic) UIImage *imageOK;                                     // 暂存的image
+@property (strong, nonatomic) NSURL *movieUrlOK;                                    // 暂存视频的URL
+@property (assign, nonatomic) float audioTime;                                      // 时长
+@property (assign, nonatomic) BOOL isPicture;                                       // 标志是拍照
 
 
 @end
@@ -58,6 +65,18 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         [self.view addSubview:_imageShow];
     }
     return _imageShow;
+
+}
+
+- (AVPlayerViewController *)moviePlayer {
+
+    if (_moviePlayer == nil) {
+        _moviePlayer = [[AVPlayerViewController alloc] init];
+        _moviePlayer.showsPlaybackControls = NO;
+        _moviePlayer.view.frame = [UIScreen mainScreen].bounds;
+        [self.view addSubview:_moviePlayer.view];
+    }
+    return _moviePlayer;
 
 }
 
@@ -122,6 +141,22 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     // 摄像开始
     cameraSwitch.startMovieBlock = ^() {
+        
+        _isPicture = YES;
+        
+        //根据设备输出获得连接
+        AVCaptureConnection *captureConnection = [self.captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
+        //根据连接取得设备输出的数据
+        if (![self.captureMovieFileOutput isRecording]) {
+            //预览图层和视频方向保持一致
+            captureConnection.videoOrientation = [self.captureVideoPreviewLayer connection].videoOrientation;
+            NSString *outputFielPath = [NSTemporaryDirectory() stringByAppendingString:@"myMovie.mov"];
+            NSLog(@"save path is :%@",outputFielPath);
+            NSURL *fileUrl = [NSURL fileURLWithPath:outputFielPath];
+            [self.captureMovieFileOutput startRecordingToOutputFileURL:fileUrl recordingDelegate:self];
+        }
+        
+        
     
         [UIView animateWithDuration:.35
                          animations:^{
@@ -135,8 +170,13 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     // 结束摄像
     cameraSwitch.endMovieBlock = ^(float time) {
+        
+        _isPicture = NO;
+        
+        _audioTime = time;
+        
+        [self.captureMovieFileOutput stopRecording];//停止录制
     
-        NSLog(@"摄像结束");
         [UIView animateWithDuration:.35
                          animations:^{
                              _cancelButton.alpha = 1;
@@ -146,19 +186,34 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     
     };
     
-    cameraSwitch.cancelMovieBlock = ^() {
     
-        NSLog(@"摄像取消");
+    
+}
+
+#pragma mark - 视频输出代理方法
+-(void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections{
+    
+}
+
+-(void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error{
+    
+    if (_audioTime > 0.5) {
+        
+        // 预览视频，要或不要
+        self.moviePlayer.player = [[AVPlayer alloc] initWithURL:outputFileURL];
+        [self.moviePlayer.player play];
+        self.redoButton.alpha = 1;
+        self.sureButton.alpha = 1;
         [UIView animateWithDuration:.35
                          animations:^{
-                             _cancelButton.alpha = 1;
-                             _changeFlashButton.alpha = 1;
-                             _changeCameraButton.alpha = 1;
+                             self.redoButton.transform = CGAffineTransformMakeTranslation(-100, 0);
+                             self.sureButton.transform = CGAffineTransformMakeTranslation(100, 0);
                          }];
-    
-    };
-    
-    
+        _movieUrlOK = outputFileURL;
+        
+    } else {
+        // 舍弃视频
+    }
     
 }
 
@@ -170,10 +225,16 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
                          self.redoButton.transform = CGAffineTransformIdentity;
                          self.sureButton.transform = CGAffineTransformIdentity;
                      } completion:^(BOOL finished) {
-                         [self.imageShow removeFromSuperview];
+                         if (_imageShow != nil) {
+                             [_imageShow removeFromSuperview];
+                             _imageShow = nil;
+                         }
+                         if (_moviePlayer != nil) {
+                             [_moviePlayer.view removeFromSuperview];
+                             _moviePlayer = nil;
+                         }
                          [self.redoButton removeFromSuperview];
                          [self.sureButton removeFromSuperview];
-                         self.imageShow = nil;
                          self.redoButton = nil;
                          self.sureButton = nil;
                      }];
@@ -181,10 +242,25 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 }
 - (void)doneAction:(UIButton *)button {
 
-    // 保存并返回image
-    __block UIImage *image = _imageOK;
-    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-    self.imageBlock(image);
+    if (_isPicture == YES) {
+        // 保存并返回image
+        __block UIImage *image = _imageOK;
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+        self.imageBlock(image);
+    } else {
+        // __block NSURL *url = _movieUrlOK;
+        ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc] init];
+        [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:_movieUrlOK completionBlock:^(NSURL *assetURL, NSError *error) {
+        
+            if (error) {
+                NSLog(@"保存失败");
+            }
+        
+        }];
+
+        
+    }
+    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 
@@ -204,6 +280,12 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         NSLog(@"取得后置摄像头时出现问题.");
         return;
     }
+    
+    
+    
+    
+// 拍照的设置
+    
     
     NSError *error=nil;
     // 根据输入设备初始化设备输入对象，用于获得输入数据
@@ -226,6 +308,40 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     if ([_captureSession canAddOutput:_captureStillImageOutput]) {
         [_captureSession addOutput:_captureStillImageOutput];
     }
+    
+    
+    
+// 摄像的设置
+    
+    // 添加一个麦克风输入设备
+    AVCaptureDevice *audioCaptureDevice = [[AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio] firstObject];
+    NSError *audioError;
+    _audioCaptureDeviceInput = [[AVCaptureDeviceInput alloc] initWithDevice:audioCaptureDevice error:&audioError];
+    if (audioError) {
+        NSLog(@"取得设备输入对象时出错，错误原因：%@",error.localizedDescription);
+        return;
+    }
+    //初始化设备输出对象，用于获得输出数据
+    _captureMovieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+    //将设备输入添加到会话中
+    if ([_captureSession canAddInput:_audioCaptureDeviceInput]) {
+        [_captureSession addInput:_audioCaptureDeviceInput];
+        AVCaptureConnection *captureConnection = [_captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
+        if ([captureConnection isVideoStabilizationSupported]) {
+            captureConnection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeAuto;
+        }
+    }
+    //将设备输出添加到会话中
+    if ([_captureSession canAddOutput:_captureMovieFileOutput]) {
+        [_captureSession addOutput:_captureMovieFileOutput];
+    }
+    
+    
+    
+    
+    
+    
+    
     
     //创建视频预览层，用于实时展示摄像头状态
     _captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
