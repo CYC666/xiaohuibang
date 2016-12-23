@@ -21,6 +21,7 @@
 #import "SuPhotoCenter.h"
 #import "NSString+CEmojChange.h"
 #import "CLocationShow.h"
+#import "LGPhoto.h"
 
 #define reloadSeeDate @"reloadSeeDate"                          // 刷新动态数据的通知
 
@@ -39,7 +40,8 @@
 @interface SendMomentsController () <UITextViewDelegate, UIScrollViewDelegate,
                                     UITableViewDelegate, UITableViewDataSource,
                         UIImagePickerControllerDelegate, UINavigationControllerDelegate,
-                                    RCEmojiViewDelegate, CImageViewDelegate> {
+                                    RCEmojiViewDelegate, CImageViewDelegate,
+                    LGPhotoPickerViewControllerDelegate> {
 
     UITableView *_tableView;
     UITextView *_textView;              // 输入框
@@ -328,27 +330,33 @@
             if (_imageArray.count == 9) {
                 // 没有+
                 for (int i = 0; i < _imageArray.count; i++) {
-                    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15 + (kImageSize + 10)*(i%4),
+                    CImageView *imageView = [[CImageView alloc] initWithFrame:CGRectMake(15 + (kImageSize + 10)*(i%4),
                                                                                            kTextViewHeightB + 10 + (kImageSize + 10)*(i/4),
                                                                                            kImageSize, kImageSize)];
                     imageView.image = _imageArray[i];
                     imageView.contentMode = UIViewContentModeScaleAspectFill;
                     imageView.clipsToBounds = YES;
+                    imageView.imageID = [NSString stringWithFormat:@"%d", i];
+                    imageView.delegate = self;
                     [cell.contentView addSubview:imageView];
                 }
             } else {
                 // 有+
                 for (int i = 0; i < _imageArray.count+1; i++) {
-                    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15 + (kImageSize + 10)*(i%4),
+                    CImageView *imageView = [[CImageView alloc] initWithFrame:CGRectMake(15 + (kImageSize + 10)*(i%4),
                                                                                            kTextViewHeightB + 10 + (kImageSize + 10)*(i/4),
                                                                                            kImageSize, kImageSize)];
+                    // 特别的，+ 的ID是10
                     if (i == _imageArray.count) {
                         imageView.image = [UIImage imageNamed:@"icon_add-pic"];
+                        imageView.imageID = [NSString stringWithFormat:@"%d", 10];
                     } else {
                         imageView.image = _imageArray[i];
+                        imageView.imageID = [NSString stringWithFormat:@"%d", i];
                     }
                     imageView.contentMode = UIViewContentModeScaleAspectFill;
                     imageView.clipsToBounds = YES;
+                    imageView.delegate = self;
                     [cell.contentView addSubview:imageView];
                 }
             }
@@ -519,14 +527,35 @@
 
 #pragma mark - 点击了图片预览，跳转查看已经选着的image
 - (void)cImageViewTouch:(CImageView *)cImageView {
-
-//    SuPhotoPreviewer * previewer = [[SuPhotoPreviewer alloc]init];
-//    previewer.isPreviewSelectedPhotos = YES;
-//    [self.navigationController pushViewController:previewer animated:YES];
+    
+    if ([cImageView.imageID isEqualToString:@"10"]) {
+        // 添加照片
+        // 打开相册
+        LGPhotoPickerViewController *pickerVc = [[LGPhotoPickerViewController alloc] initWithShowType:LGShowImageTypeImagePicker];
+        pickerVc.status = PickerViewShowStatusCameraRoll;
+        pickerVc.maxCount = 9 - _imageArray.count;   // 最多能选9张图片
+        pickerVc.delegate = self;
+        [pickerVc showPickerVc:self];
+        
+    } else {
+        // 查看照片
+    }
     
 }
 
+#pragma mark - 选取照片成功后回调
+- (void)pickerViewControllerDoneAsstes:(NSArray *)assets isOriginal:(BOOL)original {
 
+    for (LGPhotoAssets *photo in assets) {
+        //原图
+        [_imageArray addObject:photo.originImage];
+    }
+    // 重新计算高度
+    _firstCellHeight = kTextViewHeightB + (_imageArray.count / 4 + 1)*(kImageSize + 10) + 10;
+    _tableView.frame = CGRectMake(0, 0, kScreenWidth, _firstCellHeight + kNormalCellHeight*3 + kSpace);
+    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+
+}
 
 
 
