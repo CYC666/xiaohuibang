@@ -22,7 +22,6 @@
 #import "CCommentPro.h"
 #import "LocationController.h"
 
-
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height              // 屏高

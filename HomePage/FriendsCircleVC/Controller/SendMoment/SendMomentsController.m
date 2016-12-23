@@ -286,16 +286,6 @@
         textView.text = @"";
     }
     
-    // 开始编辑文字输入框的时候就把表情面板隐藏掉
-    if (_emojiInputView != nil) {
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             _emojiInputView.alpha = 0;
-                         } completion:^(BOOL finished) {
-                             [_emojiInputView removeFromSuperview];
-                         }];
-        _emojiInputView = nil;
-    }
     return YES;
 
 }
@@ -348,6 +338,15 @@
         _textView.textColor = [UIColor lightGrayColor];
         _textView.delegate = self;
         [cell.contentView addSubview:_textView];
+        
+        if (_type == CYC_IMAGE) {
+            for (int i = 0; i < _imageArray.count; i++) {
+                
+            }
+        } else if (_type == CYC_MOVIE) {
+            
+        }
+        
     } else if (indexPath.section == 0 && indexPath.row == 1) {
         [cell setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
         cell.imageView.image = [UIImage imageNamed:@"icon_location"];
@@ -403,60 +402,8 @@
 }
 
 
-#pragma mark - 输入框下面按钮的点击响应
-- (void)moreOptionButtonAction:(UIButton *)button {
 
-    NSInteger num = button.tag - 989;
-    if (num == 0) {
-        // 打开表情输入
-        [self openEmojiInput];
-    } else if (num == 1) {
-        // 打开系统相册
-        [self openSystemPicture];
-    } else if (num == 2) {
-//        [self presentViewController:[[FromCameraController alloc] init]
-//                           animated:YES
-//                         completion:nil];
-        // 打开摄像头
-        [self openSystemCamare];
-    } else if (num == 3) {
-        _locationButton = button;
-        [self openLocation];
-    }
 
-}
-
-#pragma mark - 打开表情输入
-- (void)openEmojiInput {
-
-    if (_emojiInputView == nil) {
-        [_textView endEditing:YES];
-        _emojiInputView = [[RCEmojiBoardView alloc] initWithFrame:CGRectMake(0,
-                                                                             kScreenHeight*.48,
-                                                                             kScreenWidth,
-                                                                             223)];
-        // 设置表情的协议代理方法
-        _emojiInputView.delegate = self;
-        _emojiInputView.alpha = 0;
-        [_emojiInputView enableSendButton:YES];
-        [_backgroundView addSubview:_emojiInputView];
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             _emojiInputView.alpha = 1;
-                         }];
-        
-    } else {
-        // 如果不从父视图移除的话，会内存泄露，不断创建_emojiInputView
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             _emojiInputView.alpha = 0;
-                         } completion:^(BOOL finished) {
-                             [_emojiInputView removeFromSuperview];
-                         }];
-        _emojiInputView = nil;
-    }
-
-}
 
 #pragma mark - 打开系统相册选区照片
 - (void)openSystemPicture {
@@ -494,7 +441,6 @@
             self.imageWillPush.image = image;
             self.imageWillPush.imageNum += 1;
         } else if ([pagram isKindOfClass:[NSURL class]]) {
-        
             NSURL *url = (NSURL *)pagram;
         
         }
@@ -536,45 +482,6 @@
 
 }
 
-#pragma mark - RCEmojiViewDelegate表情输入框代理方法
-/*!
- 点击表情的回调
- 
- @param emojiView 表情输入的View
- @param string    点击的表情对应的字符串编码
- */
-- (void)didTouchEmojiView:(RCEmojiBoardView *)emojiView touchedEmoji:(NSString *)string{
-
-    if ([_textView.text isEqualToString:@"记录我的生活"]) {
-        _textView.text = @"";
-    }
-    
-    // 表情输入板的删除按钮，没有相应的协议方法，只能根据输入的是否未空，来判断当前输入的是否未删除按钮
-    // 删除按钮不做任何操作,因为有些表情是2bit，有的是1bit
-    if (string != nil) {
-        // 将表情转换成字符串
-        // NSString *str = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        _textView.text = [_textView.text stringByAppendingString:string];
-    }
-    
-    // 表情 》》》字符串
-    // NSString *stri = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    // 字符串 》》》表情
-    // NSString *str = [stri stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-}
-
-- (void)didSendButtonEvent:(RCEmojiBoardView *)emojiView sendButton:(UIButton *)sendButton {
-    
-    // 当点击发送按钮时，将表情面板隐藏
-    [UIView animateWithDuration:.35
-                     animations:^{
-                         emojiView.alpha = 0;
-                     } completion:^(BOOL finished) {
-                         [emojiView removeFromSuperview];
-                     }];
-    emojiView = nil;
-}
 
 
 #pragma mark - 打开定位界面
@@ -763,6 +670,114 @@
  //        }
  //    }
 
+ 
+ #pragma mark - 输入框下面按钮的点击响应
+ - (void)moreOptionButtonAction:(UIButton *)button {
+ 
+ NSInteger num = button.tag - 989;
+ if (num == 0) {
+ // 打开表情输入
+ [self openEmojiInput];
+ } else if (num == 1) {
+ // 打开系统相册
+ [self openSystemPicture];
+ } else if (num == 2) {
+ //        [self presentViewController:[[FromCameraController alloc] init]
+ //                           animated:YES
+ //                         completion:nil];
+ // 打开摄像头
+ [self openSystemCamare];
+ } else if (num == 3) {
+ _locationButton = button;
+ [self openLocation];
+ }
+ 
+ }
+ 
+ #pragma mark - RCEmojiViewDelegate表情输入框代理方法
+ 
+ 点击表情的回调
+ 
+ @param emojiView 表情输入的View
+ @param string    点击的表情对应的字符串编码
+ 
+- (void)didTouchEmojiView:(RCEmojiBoardView *)emojiView touchedEmoji:(NSString *)string{
+    
+    if ([_textView.text isEqualToString:@"记录我的生活"]) {
+        _textView.text = @"";
+    }
+    
+    // 表情输入板的删除按钮，没有相应的协议方法，只能根据输入的是否未空，来判断当前输入的是否未删除按钮
+    // 删除按钮不做任何操作,因为有些表情是2bit，有的是1bit
+    if (string != nil) {
+        // 将表情转换成字符串
+        // NSString *str = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        _textView.text = [_textView.text stringByAppendingString:string];
+    }
+    
+    // 表情 》》》字符串
+    // NSString *stri = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    // 字符串 》》》表情
+    // NSString *str = [stri stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+}
+
+- (void)didSendButtonEvent:(RCEmojiBoardView *)emojiView sendButton:(UIButton *)sendButton {
+    
+    // 当点击发送按钮时，将表情面板隐藏
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         emojiView.alpha = 0;
+                     } completion:^(BOOL finished) {
+                         [emojiView removeFromSuperview];
+                     }];
+    emojiView = nil;
+}
+ 
+ #pragma mark - 打开表情输入
+ - (void)openEmojiInput {
+ 
+ if (_emojiInputView == nil) {
+ [_textView endEditing:YES];
+ _emojiInputView = [[RCEmojiBoardView alloc] initWithFrame:CGRectMake(0,
+ kScreenHeight*.48,
+ kScreenWidth,
+ 223)];
+ // 设置表情的协议代理方法
+ _emojiInputView.delegate = self;
+ _emojiInputView.alpha = 0;
+ [_emojiInputView enableSendButton:YES];
+ [_backgroundView addSubview:_emojiInputView];
+ [UIView animateWithDuration:.35
+ animations:^{
+ _emojiInputView.alpha = 1;
+ }];
+ 
+ } else {
+ // 如果不从父视图移除的话，会内存泄露，不断创建_emojiInputView
+ [UIView animateWithDuration:.35
+ animations:^{
+ _emojiInputView.alpha = 0;
+ } completion:^(BOOL finished) {
+ [_emojiInputView removeFromSuperview];
+ }];
+ _emojiInputView = nil;
+ }
+ 
+ }
+
+ //    // 开始编辑文字输入框的时候就把表情面板隐藏掉
+ //    if (_emojiInputView != nil) {
+ //        [UIView animateWithDuration:.35
+ //                         animations:^{
+ //                             _emojiInputView.alpha = 0;
+ //                         } completion:^(BOOL finished) {
+ //                             [_emojiInputView removeFromSuperview];
+ //                         }];
+ //        _emojiInputView = nil;
+ //    }
+
+ 
  
  */
 

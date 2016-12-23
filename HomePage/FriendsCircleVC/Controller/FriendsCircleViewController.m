@@ -18,6 +18,7 @@
 #import "FromCamera.h"
 #import <UIImageView+WebCache.h>
 #import <FMDB.h>
+#import "LGPhoto.h"
 
 
 
@@ -32,7 +33,7 @@
 #define reloadSeeDate @"reloadSeeDate"                                                  // 刷新动态数据的通知
 #define HideCommentView @"HideCommentView"                                              // 发送隐藏评论点赞框的通知
 
-@interface FriendsCircleViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface FriendsCircleViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate,     LGPhotoPickerViewControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *seeModelList;      // 储存动态的数组
 @property (assign, nonatomic) NSInteger dataTag;                 // 标志上拉加载下拉刷新
@@ -236,7 +237,10 @@
                 
             } else if ([pagram isKindOfClass:[NSURL class]]) {
                 NSURL *url = (NSURL *)pagram;
-                
+                SendMomentsController *sendController = [[SendMomentsController alloc] initWithMovie:url];
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:sendController];
+                nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+                [self presentViewController:nav animated:YES completion:nil];
             }
             
             
@@ -255,6 +259,13 @@
 
     } else if ([button.titleLabel.text isEqualToString:@"从手机相册选择"]) {
         
+        // 打开相册
+        LGPhotoPickerViewController *pickerVc = [[LGPhotoPickerViewController alloc] initWithShowType:LGShowImageTypeImagePicker];
+        pickerVc.status = PickerViewShowStatusCameraRoll;
+        pickerVc.maxCount = 9;   // 最多能选9张图片
+        pickerVc.delegate = self;
+        [pickerVc showPickerVc:self];
+        
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
@@ -263,19 +274,36 @@
                              [button.superview.superview removeFromSuperview];
                          }];
         
-    } else {
-        // 移除alert
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
-                         } completion:^(BOOL finished) {
-                             [button.superview.superview removeFromSuperview];
-                         }];
     }
+}
+
+#pragma mark - 跳转到发图片动态界面
+- (void)pickerViewControllerDoneAsstes:(NSArray *)assets isOriginal:(BOOL)original {
+
+    NSMutableArray *originImage = [NSMutableArray array];
+    
+    for (LGPhotoAssets *photo in assets) {
+        //原图
+        [originImage addObject:photo.originImage];
+    }
+    
+    // 延迟一点时间，让所有模态控制器都消失了，再弹出发送动态的模态控制器
+    [self performSelector:@selector(presentToSendCotroller:) withObject:originImage afterDelay:1];
+    
+}
+
+- (void)presentToSendCotroller:(NSArray *)array {
+
+    // 跳转
+    SendMomentsController *sendController = [[SendMomentsController alloc] initWithImageArray:array];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:sendController];
+    nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+    [self presentViewController:nav animated:YES completion:nil];
+
 
 }
 
-#pragma mark - 跳转到发送动态界面
+#pragma mark - 跳转到发送纯文本动态界面
 - (void)jumpToSendAbout:(UILongPressGestureRecognizer *)longPress {
 
     // push到编辑界面
