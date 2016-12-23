@@ -67,6 +67,7 @@
 @property (strong, nonatomic) AVPlayerItem *playerItem;
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) CPlayerLayer *playerLayer;
+@property (assign, nonatomic) BOOL isPlayerFull;            // 标志视频播放是否全屏
 
 
 
@@ -342,7 +343,7 @@
                                                    reuseIdentifier:@"cellID"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.section == 0 && indexPath.row == 0) {
-        [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
         
         if (_type == CYC_TEXT) {
             _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kTextViewHeightA)];
@@ -393,6 +394,13 @@
             }
             
         } else if (_type == CYC_MOVIE) {
+            // 把分割线移到另一边，重新创作
+            [cell setSeparatorInset:UIEdgeInsetsMake(0, 600, 0, 0)];
+            CALayer *lineLayer = [[CALayer alloc] init];
+            lineLayer.frame = CGRectMake(15, _firstCellHeight-0.5, 600, 0.5);
+            lineLayer.backgroundColor = [UIColor lightGrayColor].CGColor;
+            [cell.contentView.layer addSublayer:lineLayer];
+            
             self.playerItem = [AVPlayerItem playerItemWithURL:_movieUrl];
             self.player = [[AVPlayer alloc] initWithPlayerItem:_playerItem];
             self.playerLayer = [[CPlayerLayer alloc] initWithFrame:CGRectMake(15, kTextViewHeightB + 10,
@@ -400,15 +408,45 @@
             self.playerLayer.player = _player;
             [cell.contentView addSubview:_playerLayer];
             [_player play];
+            // 点击了播放器
+            __weak SendMomentsController *weakSelf = self;
+            self.playerLayer.touchPlayer = ^() {
+                
+                [[UIApplication sharedApplication].keyWindow endEditing:YES];
+                
+                // 如果已经全屏，那么缩小
+                if (weakSelf.isPlayerFull) {
+                    [UIView animateWithDuration:.35
+                                     animations:^{
+                                         
+                                         weakSelf.playerLayer.frame = CGRectMake(15, kTextViewHeightB + 10,
+                                                                                 kImageSize, kImageSize);
+                                         [cell.contentView addSubview:weakSelf.playerLayer];
+                                     }];
+                } else {
+                // 如果还未全屏，那么全屏显示
+                    [UIView animateWithDuration:.35
+                                     animations:^{
+                                         weakSelf.playerLayer.frame = [UIScreen mainScreen].bounds;
+                                         [[UIApplication sharedApplication].keyWindow addSubview:weakSelf.playerLayer];
+                                     }];
+                }
+                
+                _isPlayerFull = !_isPlayerFull;
+                
+                
+                
+            };
+            
         }
         
     } else if (indexPath.section == 0 && indexPath.row == 1) {
-        [cell setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         cell.imageView.image = [UIImage imageNamed:@"icon_location"];
         cell.textLabel.text = @"所在位置";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else if (indexPath.section == 1 && indexPath.row == 0) {
-        [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
         cell.imageView.image = [UIImage imageNamed:@"icon_open"];
         cell.textLabel.text = @"谁可以看";
         cell.detailTextLabel.text = @"公开";
@@ -528,6 +566,8 @@
 
 #pragma mark - 点击了图片预览，跳转查看已经选着的image
 - (void)cImageViewTouch:(CImageView *)cImageView {
+    
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
     
     if ([cImageView.imageID isEqualToString:@"10"]) {
         // 添加照片

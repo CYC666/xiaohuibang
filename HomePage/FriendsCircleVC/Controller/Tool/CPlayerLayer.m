@@ -23,7 +23,11 @@
     [(AVPlayerLayer *)[self layer] setPlayer:player];
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
+    self.touchPlayer();
+
+}
 
 
 

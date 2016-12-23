@@ -14,5 +14,6 @@
 @interface CPlayerLayer : UIView
 
 @property (strong, nonatomic) AVPlayer *player;
+@property (copy, nonatomic) void(^touchPlayer)();       // 点击事件
 
 @end
