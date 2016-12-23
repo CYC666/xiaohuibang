@@ -17,7 +17,7 @@ typedef enum : NSUInteger {
 @interface SendMomentsController : UIViewController
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;          // 背景滑动视图
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;            // 背景父视图
-@property (strong, nonatomic) NSMutableArray *willPushPhotoArr;         // 储存选中的image
+
 @property (copy, nonatomic) NSString *locationStr;                      // 储存了地理信息的字符串
 
 
@@ -31,3 +31,11 @@ typedef enum : NSUInteger {
 - (instancetype)initWithMovie:(NSURL *)movieUrl;
 
 @end
+
+
+
+/*
+ 
+ @property (strong, nonatomic) NSMutableArray *willPushPhotoArr;         // 储存选中的image
+ 
+ */

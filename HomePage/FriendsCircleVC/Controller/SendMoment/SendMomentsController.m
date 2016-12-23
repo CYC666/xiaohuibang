@@ -22,13 +22,15 @@
 #import "NSString+CEmojChange.h"
 #import "CLocationShow.h"
 
-#define reloadSeeDate @"reloadSeeDate"                                                  // 刷新动态数据的通知
+#define reloadSeeDate @"reloadSeeDate"                          // 刷新动态数据的通知
 
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
-#define kImageSize 80                                           // 图片大小
-#define kNormalCellHeight kScreenHeight*.06                     // 其他单元格高度
+#define kImageSize (kScreenWidth - 15 - 10 - 10 - 10 - 15)/4    // 图片大小
+#define kTextViewHeightA 200                                    // 纯文字动态下的输入框高度
+#define kTextViewHeightB 100                                    // 非纯文字动态下的输入框高度
+#define kNormalCellHeight 40                                    // 其他单元格高度
 #define kSpace 15                                               // 组之间的高度
 
 
@@ -47,7 +49,7 @@
 
 
 }
-@property (strong, nonatomic) CImageView *imageWillPush;    // 显示即将上传的图片
+
 @property (assign, nonatomic) SendType type;                // 发送的类型
 
 @property (strong, nonatomic) NSMutableArray *imageArray;   // 储存即将上传的图片
@@ -66,9 +68,6 @@
     [self _createSubView];
     [self _setNavigationBar];
     
-    // 首次创建，重置图片筛选
-    [SuPhotoCenter shareCenter].reset = YES;
-    
     
 }
 #pragma mark - 初始化方法
@@ -76,7 +75,7 @@
 
     if (self = [super init]) {
         _type = CYC_TEXT;
-        _firstCellHeight = kScreenHeight*.3;
+        _firstCellHeight = kTextViewHeightA;
     }
     return self;
 
@@ -85,7 +84,7 @@
 
     if (self = [super init]) {
         _type = CYC_IMAGE;
-        _firstCellHeight = kScreenHeight*.15 + (imageArray.count / 4 + 1)*(kImageSize + 10);
+        _firstCellHeight = kTextViewHeightB + (imageArray.count / 4 + 1)*(kImageSize + 10) + 10;
         [self.imageArray addObjectsFromArray:imageArray];
     }
     return self;
@@ -94,7 +93,7 @@
 - (instancetype)initWithMovie:(NSURL *)movieUrl {
 
     if (self = [super init]) {
-        _firstCellHeight = kScreenHeight*.32;
+        _firstCellHeight = kTextViewHeightB + kImageSize + 20;
         _type = CYC_MOVIE;
         self.movieUrl = movieUrl;
     }
@@ -113,42 +112,13 @@
     
     _scrollView.delegate = self;
     
-    // 把选中的图显示到最顶层
-    [_textView.superview insertSubview:_imageWillPush belowSubview:_textView];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
 
-    
-    
-}
 
 
 
 #pragma mark - 懒加载
-- (CImageView *)imageWillPush {
-
-    if (_imageWillPush == nil) {
-        _imageWillPush = [[CImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 40 - 8, 19.5, 40, 40)];
-        _imageWillPush.contentMode = UIViewContentModeScaleAspectFill;
-        _imageWillPush.clipsToBounds = YES;
-        _imageWillPush.delegate = self;
-        // 将提示的图片添加到输入框的父视图，而不是添加到输入框（添加到输入框的话，输入框字数过多，图片会被顶出屏幕）
-        [_textView.superview addSubview:_imageWillPush];
-    }
-    return _imageWillPush;
-
-}
-
-- (NSMutableArray *)willPushPhotoArr {
-
-    if (_willPushPhotoArr == nil) {
-        _willPushPhotoArr = [NSMutableArray array];
-    }
-    return _willPushPhotoArr;
-
-}
-
 - (NSMutableArray *)imageArray {
 
     if (_imageArray == nil) {
@@ -208,9 +178,25 @@
     
     // 先隐藏键盘，再dismiss
     [_textView endEditing:YES];
-    [self dismissViewControllerAnimated:YES completion:^{
-        // 缓存动态编辑的状态
-    }];
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定退出此次编辑？"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           [self dismissViewControllerAnimated:YES completion:^{
+                                                               // 缓存动态编辑的状态
+                                                           }];
+                                                       }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    
+    [alert addAction:cancelAction];
+    [alert addAction:sureAction];
+    [self presentViewController:alert animated:YES completion:nil];
+    
     
 }
 // 发布按钮
@@ -233,16 +219,16 @@
 
     // 发表动态
     NSMutableArray *imageDataArr = [NSMutableArray array];
-    for (int i = 0; i < _willPushPhotoArr.count; i++) {
-        [imageDataArr addObject:UIImageJPEGRepresentation(_willPushPhotoArr[i], 1)];
+    for (int i = 0; i < _imageArray.count; i++) {
+        [imageDataArr addObject:UIImageJPEGRepresentation(_imageArray[i], 1)];
     }
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : content,
-                             @"file" : _willPushPhotoArr.count == 0 ? @"" : _willPushPhotoArr,
+                             @"file" : _imageArray.count == 0 ? @"" : _imageArray,
                              @"place" : _locationStr == nil ? @"" : _locationStr};
 
     
-    if (_willPushPhotoArr.count != 0) {
+    if (_imageArray.count != 0) {
         [CNetTool postAboutWithParameters:params
                                      data:imageDataArr
                                   success:^(id response) {
@@ -315,9 +301,7 @@
     return 2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return 2;
-
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -329,9 +313,9 @@
         [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         
         if (_type == CYC_TEXT) {
-            _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, _firstCellHeight)];
+            _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kTextViewHeightA)];
         } else {
-            _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, _firstCellHeight - (kImageSize + 10*2))];
+            _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kTextViewHeightB)];
         }
         _textView.text = @"记录我的生活";
         _textView.font = [UIFont systemFontOfSize:17];
@@ -339,10 +323,36 @@
         _textView.delegate = self;
         [cell.contentView addSubview:_textView];
         
+        // 选取的图片或视频预览
         if (_type == CYC_IMAGE) {
-            for (int i = 0; i < _imageArray.count; i++) {
-                
+            if (_imageArray.count == 9) {
+                // 没有+
+                for (int i = 0; i < _imageArray.count; i++) {
+                    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15 + (kImageSize + 10)*(i%4),
+                                                                                           kTextViewHeightB + 10 + (kImageSize + 10)*(i/4),
+                                                                                           kImageSize, kImageSize)];
+                    imageView.image = _imageArray[i];
+                    imageView.contentMode = UIViewContentModeScaleAspectFill;
+                    imageView.clipsToBounds = YES;
+                    [cell.contentView addSubview:imageView];
+                }
+            } else {
+                // 有+
+                for (int i = 0; i < _imageArray.count+1; i++) {
+                    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15 + (kImageSize + 10)*(i%4),
+                                                                                           kTextViewHeightB + 10 + (kImageSize + 10)*(i/4),
+                                                                                           kImageSize, kImageSize)];
+                    if (i == _imageArray.count) {
+                        imageView.image = [UIImage imageNamed:@"icon_add-pic"];
+                    } else {
+                        imageView.image = _imageArray[i];
+                    }
+                    imageView.contentMode = UIViewContentModeScaleAspectFill;
+                    imageView.clipsToBounds = YES;
+                    [cell.contentView addSubview:imageView];
+                }
             }
+            
         } else if (_type == CYC_MOVIE) {
             
         }
@@ -417,10 +427,7 @@
     picker.preViewCount = 20;
     //现在在界面上
     [picker showInSender:self handle:^(NSArray<UIImage *> *photos) {
-        //完成选择后的操作
-        self.willPushPhotoArr = [NSMutableArray arrayWithArray:photos];
-        self.imageWillPush.image = photos.firstObject;
-        self.imageWillPush.imageNum = photos.count;
+        
     }];
     
     
@@ -437,9 +444,7 @@
         if ([pagram isKindOfClass:[UIImage class]]) {
             UIImage *image = (UIImage *)pagram;
             // 接收image
-            [self.willPushPhotoArr addObject:image];
-            self.imageWillPush.image = image;
-            self.imageWillPush.imageNum += 1;
+            
         } else if ([pagram isKindOfClass:[NSURL class]]) {
             NSURL *url = (NSURL *)pagram;
         
@@ -462,10 +467,7 @@
         
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         
-        self.imageWillPush.image = image;
-        _imageWillPush.imageNum = 1;
         
-        [self.willPushPhotoArr addObject:image];
     }
     
     [picker dismissViewControllerAnimated:YES completion:^{
@@ -777,7 +779,46 @@
  //        _emojiInputView = nil;
  //    }
 
+ - (CImageView *)imageWillPush {
  
+ if (_imageWillPush == nil) {
+ _imageWillPush = [[CImageView alloc] initWithFrame:CGRectMake(kScreenWidth - 40 - 8, 19.5, 40, 40)];
+ _imageWillPush.contentMode = UIViewContentModeScaleAspectFill;
+ _imageWillPush.clipsToBounds = YES;
+ _imageWillPush.delegate = self;
+ // 将提示的图片添加到输入框的父视图，而不是添加到输入框（添加到输入框的话，输入框字数过多，图片会被顶出屏幕）
+ [_textView.superview addSubview:_imageWillPush];
+ }
+ return _imageWillPush;
+ 
+ }
+
+ // 首次创建，重置图片筛选
+ [SuPhotoCenter shareCenter].reset = YES;
+ 
+ @property (strong, nonatomic) CImageView *imageWillPush;    // 显示即将上传的图片
+ //完成选择后的操作
+ self.willPushPhotoArr = [NSMutableArray arrayWithArray:photos];
+ self.imageWillPush.image = photos.firstObject;
+ self.imageWillPush.imageNum = photos.count;
+ 
+ [self.willPushPhotoArr addObject:image];
+ self.imageWillPush.image = image;
+ self.imageWillPush.imageNum += 1;
+ 
+ self.imageWillPush.image = image;
+ _imageWillPush.imageNum = 1;
+ 
+ [self.willPushPhotoArr addObject:image];
+ 
+ - (NSMutableArray *)willPushPhotoArr {
+ 
+ if (_willPushPhotoArr == nil) {
+ _willPushPhotoArr = [NSMutableArray array];
+ }
+ return _willPushPhotoArr;
+ 
+ }
  
  */
 
