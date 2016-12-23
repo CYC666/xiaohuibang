@@ -207,6 +207,7 @@
 		04AA38FC1DE3F8EF00CADF74 /* PersonSeeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */; };
 		04AA38FD1DE3F8EF00CADF74 /* PersonSeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */; };
 		04AA38FF1DE4248000CADF74 /* backgroundPicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */; };
+		04BDB1871E0D451500E2A050 /* CPlayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BDB1861E0D451500E2A050 /* CPlayerLayer.m */; };
 		04FB5FB71E03D99800228FD9 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FB5FB61E03D99800228FD9 /* libicucore.tbd */; };
 		04FB5FBC1E03D9BD00228FD9 /* RegexKitLite.html in Resources */ = {isa = PBXBuildFile; fileRef = 04FB5FBA1E03D9BD00228FD9 /* RegexKitLite.html */; };
 		04FB5FBD1E03D9BD00228FD9 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FB5FBB1E03D9BD00228FD9 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -837,6 +838,8 @@
 		04AA38FA1DE3F8EF00CADF74 /* PersonSeeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonSeeCell.m; sourceTree = "<group>"; };
 		04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonSeeCell.xib; sourceTree = "<group>"; };
 		04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundPicture.jpg; sourceTree = "<group>"; };
+		04BDB1851E0D451500E2A050 /* CPlayerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerLayer.h; sourceTree = "<group>"; };
+		04BDB1861E0D451500E2A050 /* CPlayerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPlayerLayer.m; sourceTree = "<group>"; };
 		04FB5FB61E03D99800228FD9 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		04FB5FB91E03D9BD00228FD9 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		04FB5FBA1E03D9BD00228FD9 /* RegexKitLite.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RegexKitLite.html; sourceTree = "<group>"; };
@@ -2563,6 +2566,8 @@
 				046FB0341E028A5C008030D1 /* CFMDBManager.m */,
 				042836F11E0A601C005C8A87 /* CBottomAlert.h */,
 				042836F21E0A601C005C8A87 /* CBottomAlert.m */,
+				04BDB1851E0D451500E2A050 /* CPlayerLayer.h */,
+				04BDB1861E0D451500E2A050 /* CPlayerLayer.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -3213,6 +3218,7 @@
 				F35B23F51DAE31E6009EFE77 /* SearchListViewController.m in Sources */,
 				048DCC141E07D9DF008ADDCB /* LocationController.m in Sources */,
 				04348F8A1E0CC8E200E604B5 /* LGPhotoPickerCollectionViewCell.m in Sources */,
+				04BDB1871E0D451500E2A050 /* CPlayerLayer.m in Sources */,
 				F3A0E0271DB75A2200E9F12C /* MLLetterIndexNavigationView.m in Sources */,
 				F3A0E02A1DB761B300E9F12C /* GroupOfNewsViewController.m in Sources */,
 				0485C2F41DF2750000D19FA7 /* CImageView.m in Sources */,

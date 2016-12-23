@@ -22,6 +22,9 @@
 #import "NSString+CEmojChange.h"
 #import "CLocationShow.h"
 #import "LGPhoto.h"
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import "CPlayerLayer.h"
 
 #define reloadSeeDate @"reloadSeeDate"                          // 刷新动态数据的通知
 
@@ -54,12 +57,19 @@
 }
 
 @property (assign, nonatomic) SendType type;                // 发送的类型
-@property (strong, nonatomic) NSMutableArray *photoArray;   // 用于显示的图片组，是经过转化后的图片
-
+@property (strong, nonatomic) NSMutableArray *photoArray;   // 用于显示的图片组，是经过转化后的图片(点击显示大图)
 
 @property (strong, nonatomic) NSMutableArray *imageArray;   // 储存即将上传的图片
 @property (strong, nonatomic) NSURL *movieUrl;              // 储存即将上传的视频
 @property (assign, nonatomic) float firstCellHeight;        // 第一个cell的高度
+
+// 用于显示视频
+@property (strong, nonatomic) AVPlayerItem *playerItem;
+@property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) CPlayerLayer *playerLayer;
+
+
+
 
 
 @end
@@ -213,6 +223,7 @@
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
                                                            style:UIAlertActionStyleDefault
                                                          handler:nil];
+    [sureAction setValue:[UIColor redColor] forKey:@"_titleTextColor"];
     
     [alert addAction:cancelAction];
     [alert addAction:sureAction];
@@ -377,11 +388,18 @@
                     imageView.clipsToBounds = YES;
                     imageView.delegate = self;
                     [cell.contentView addSubview:imageView];
+                    
                 }
             }
             
         } else if (_type == CYC_MOVIE) {
-            
+            self.playerItem = [AVPlayerItem playerItemWithURL:_movieUrl];
+            self.player = [[AVPlayer alloc] initWithPlayerItem:_playerItem];
+            self.playerLayer = [[CPlayerLayer alloc] initWithFrame:CGRectMake(15, kTextViewHeightB + 10,
+                                                                              kImageSize, kImageSize)];
+            self.playerLayer.player = _player;
+            [cell.contentView addSubview:_playerLayer];
+            [_player play];
         }
         
     } else if (indexPath.section == 0 && indexPath.row == 1) {
@@ -541,7 +559,7 @@
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
                                                                style:UIAlertActionStyleDefault
                                                              handler:nil];
-        
+        [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
         [alert addAction:sureAction];
         [alert addAction:otherAction];
         [alert addAction:cancelAction];
