@@ -41,7 +41,8 @@
                                     UITableViewDelegate, UITableViewDataSource,
                         UIImagePickerControllerDelegate, UINavigationControllerDelegate,
                                     RCEmojiViewDelegate, CImageViewDelegate,
-                    LGPhotoPickerViewControllerDelegate> {
+                    LGPhotoPickerViewControllerDelegate, LGPhotoPickerBrowserViewControllerDelegate,
+           LGPhotoPickerBrowserViewControllerDataSource> {
 
     UITableView *_tableView;
     UITextView *_textView;              // 输入框
@@ -53,6 +54,8 @@
 }
 
 @property (assign, nonatomic) SendType type;                // 发送的类型
+@property (strong, nonatomic) NSMutableArray *photoArray;   // 用于显示的图片组，是经过转化后的图片
+
 
 @property (strong, nonatomic) NSMutableArray *imageArray;   // 储存即将上传的图片
 @property (strong, nonatomic) NSURL *movieUrl;              // 储存即将上传的视频
@@ -118,7 +121,18 @@
 
 
 
+#pragma mark - 转化图片，用于浏览
+- (void)transformImage {
 
+    self.photoArray = [NSMutableArray array];
+    // 封装图片
+    for (int i = 0; i < _imageArray.count; i++) {
+        LGPhotoPickerBrowserPhoto *photo = [[LGPhotoPickerBrowserPhoto alloc] init];
+        photo.photoImage = _imageArray[i];
+        [self.photoArray addObject:photo];
+    }
+
+}
 
 #pragma mark - 懒加载
 - (NSMutableArray *)imageArray {
@@ -533,14 +547,39 @@
         // 打开相册
         LGPhotoPickerViewController *pickerVc = [[LGPhotoPickerViewController alloc] initWithShowType:LGShowImageTypeImagePicker];
         pickerVc.status = PickerViewShowStatusCameraRoll;
-        pickerVc.maxCount = 9 - _imageArray.count;   // 最多能选9张图片
+        pickerVc.maxCount = 9 - _imageArray.count;   // 最多能选的图片数量
         pickerVc.delegate = self;
         [pickerVc showPickerVc:self];
         
     } else {
         // 查看照片
+        
+        // 转换图片
+        [self transformImage];
+        
+        // 开启图片浏览器
+        LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
+        BroswerVC.delegate = self;
+        BroswerVC.dataSource = self;
+        BroswerVC.showType = LGShowImageTypeImageBroswer;
+        [self presentViewController:BroswerVC animated:YES completion:nil];
+        // 前往实现代理方法，传递图片
+        
     }
     
+}
+
+#pragma mark - 图片浏览器代理方法
+- (NSInteger)photoBrowser:(LGPhotoPickerBrowserViewController *)photoBrowser numberOfItemsInSection:(NSUInteger)section {
+
+    return self.photoArray.count;
+
+}
+
+- (id<LGPhotoPickerBrowserPhoto>)photoBrowser:(LGPhotoPickerBrowserViewController *)pickerBrowser photoAtIndexPath:(NSIndexPath *)indexPath {
+
+    return [self.photoArray objectAtIndex:indexPath.item];
+
 }
 
 #pragma mark - 选取照片成功后回调
