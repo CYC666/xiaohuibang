@@ -122,15 +122,20 @@
 
 
 #pragma mark - 转化图片，用于浏览
-- (void)transformImage {
+- (void)transformImage:(NSInteger)index {
 
+    // 修改成只看一张
     self.photoArray = [NSMutableArray array];
-    // 封装图片
-    for (int i = 0; i < _imageArray.count; i++) {
-        LGPhotoPickerBrowserPhoto *photo = [[LGPhotoPickerBrowserPhoto alloc] init];
-        photo.photoImage = _imageArray[i];
-        [self.photoArray addObject:photo];
-    }
+    LGPhotoPickerBrowserPhoto *photo = [[LGPhotoPickerBrowserPhoto alloc] init];
+    photo.photoImage = _imageArray[index];
+    [self.photoArray addObject:photo];
+    
+//    // 封装图片
+//    for (int i = 0; i < _imageArray.count; i++) {
+//        LGPhotoPickerBrowserPhoto *photo = [[LGPhotoPickerBrowserPhoto alloc] init];
+//        photo.photoImage = _imageArray[i];
+//        [self.photoArray addObject:photo];
+//    }
 
 }
 
@@ -437,48 +442,9 @@
 
 
 
-#pragma mark - 打开系统相册选区照片
-- (void)openSystemPicture {
-    
-    // 收起键盘
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
-    SuPhotoPicker * picker = [[SuPhotoPicker alloc]init];
-    //最大选择图片的数量以及最大快速预览图片的数量，默认为20
-    picker.selectedCount = 9;
-    picker.preViewCount = 20;
-    //现在在界面上
-    [picker showInSender:self handle:^(NSArray<UIImage *> *photos) {
-        
-    }];
-    
-    
-}
 
-#pragma mark - 打开摄像头
-- (void)openSystemCamare {
-    
-    FromCameraController *fromCamera = [[FromCameraController alloc] init];
-    [self presentViewController:fromCamera animated:YES completion:nil];
-    
-    fromCamera.imageBlock = ^(id pagram) {
-    
-        if ([pagram isKindOfClass:[UIImage class]]) {
-            UIImage *image = (UIImage *)pagram;
-            // 接收image
-            
-        } else if ([pagram isKindOfClass:[NSURL class]]) {
-            NSURL *url = (NSURL *)pagram;
-        
-        }
-        
-        
-    
-    };
 
-    
-
-}
 
 #pragma mark - imagePicker代理方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
@@ -488,7 +454,10 @@
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+        [_imageArray insertObject:image atIndex:0];
         
+        // 刷新
+        [self reloadImageData];
         
     }
     
@@ -544,18 +513,46 @@
     
     if ([cImageView.imageID isEqualToString:@"10"]) {
         // 添加照片
-        // 打开相册
-        LGPhotoPickerViewController *pickerVc = [[LGPhotoPickerViewController alloc] initWithShowType:LGShowImageTypeImagePicker];
-        pickerVc.status = PickerViewShowStatusCameraRoll;
-        pickerVc.maxCount = 9 - _imageArray.count;   // 最多能选的图片数量
-        pickerVc.delegate = self;
-        [pickerVc showPickerVc:self];
+        
+        // 提示从系统相册添加还是来自摄像头
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"从哪里获取图片?"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"拍照"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+                                                               [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+                                                               UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+                                                               imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                                               imagePickerController.delegate = self;
+                                                               [self presentViewController:imagePickerController animated:YES completion:nil];
+
+                                                           }];
+        UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"从手机相册选择"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * _Nonnull action) {
+                                                                 // 打开相册
+                                                                 LGPhotoPickerViewController *pickerVc = [[LGPhotoPickerViewController alloc] initWithShowType:LGShowImageTypeImagePicker];
+                                                                 pickerVc.status = PickerViewShowStatusCameraRoll;
+                                                                 pickerVc.maxCount = 9 - _imageArray.count;   // 最多能选的图片数量
+                                                                 pickerVc.delegate = self;
+                                                                 [pickerVc showPickerVc:self];
+                                                             }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+        
+        [alert addAction:sureAction];
+        [alert addAction:otherAction];
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
         
     } else {
         // 查看照片
         
         // 转换图片
-        [self transformImage];
+        NSInteger index = [cImageView.imageID integerValue];
+        [self transformImage:index];
         
         // 开启图片浏览器
         LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
@@ -675,11 +672,7 @@
  
  }
  
- //    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
- //    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
- //    imagePickerController.delegate = self;
- //    [self presentViewController:imagePickerController animated:YES completion:nil];
-
+ 
  //    //关闭,返回
  //    [picker dismissViewControllerAnimated:YES completion:^{
  //        [SVProgressHUD dismiss];
@@ -905,6 +898,51 @@
  return _willPushPhotoArr;
  
  }
+ 
+ #pragma mark - 打开系统相册选区照片
+ - (void)openSystemPicture {
+ 
+ // 收起键盘
+ [[UIApplication sharedApplication].keyWindow endEditing:YES];
+ 
+ SuPhotoPicker * picker = [[SuPhotoPicker alloc]init];
+ //最大选择图片的数量以及最大快速预览图片的数量，默认为20
+ picker.selectedCount = 9;
+ picker.preViewCount = 20;
+ //现在在界面上
+ [picker showInSender:self handle:^(NSArray<UIImage *> *photos) {
+ 
+ }];
+ 
+ 
+ }
+ 
+ 
+ #pragma mark - 打开摄像头
+ - (void)openSystemCamare {
+ 
+ FromCameraController *fromCamera = [[FromCameraController alloc] init];
+ [self presentViewController:fromCamera animated:YES completion:nil];
+ 
+ fromCamera.imageBlock = ^(id pagram) {
+ 
+ if ([pagram isKindOfClass:[UIImage class]]) {
+ UIImage *image = (UIImage *)pagram;
+ // 接收image
+ 
+ } else if ([pagram isKindOfClass:[NSURL class]]) {
+ NSURL *url = (NSURL *)pagram;
+ 
+ }
+ 
+ 
+ 
+ };
+ 
+ 
+ 
+ }
+ 
  
  */
 
