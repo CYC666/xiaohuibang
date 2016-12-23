@@ -398,9 +398,13 @@
             [cell setSeparatorInset:UIEdgeInsetsMake(0, 600, 0, 0)];
             CALayer *lineLayer = [[CALayer alloc] init];
             lineLayer.frame = CGRectMake(15, _firstCellHeight-0.5, 600, 0.5);
-            lineLayer.backgroundColor = [UIColor lightGrayColor].CGColor;
+            lineLayer.backgroundColor = [UIColor colorWithRed:179/255.0
+                                                        green:179/255.0
+                                                         blue:179/255.0
+                                                        alpha:1].CGColor;
             [cell.contentView.layer addSublayer:lineLayer];
             
+            // 创建视频预览层
             self.playerItem = [AVPlayerItem playerItemWithURL:_movieUrl];
             self.player = [[AVPlayer alloc] initWithPlayerItem:_playerItem];
             self.playerLayer = [[CPlayerLayer alloc] initWithFrame:CGRectMake(15, kTextViewHeightB + 10,
@@ -433,10 +437,12 @@
                 }
                 
                 _isPlayerFull = !_isPlayerFull;
-                
-                
-                
             };
+            // 添加视频播放结束通知
+            [[NSNotificationCenter defaultCenter]addObserver:self
+                                                    selector:@selector(moviePlayDidEnd:)
+                                                        name:AVPlayerItemDidPlayToEndTimeNotification
+                                                      object:_playerItem];
             
         }
         
@@ -497,7 +503,14 @@
 
 
 
-
+#pragma mark - 监听视频预览结束
+- (void)moviePlayDidEnd:(NSNotification *)notification {
+    
+    __weak typeof(self) weakSelf = self;
+    [self.playerLayer.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
+        [weakSelf.player play];
+    }];
+}
 
 
 
