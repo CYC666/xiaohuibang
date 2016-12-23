@@ -28,6 +28,10 @@
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kImageSize 80                                           // 图片大小
+#define kNormalCellHeight kScreenHeight*.06                     // 其他单元格高度
+#define kSpace 15                                               // 组之间的高度
+
+
 
 
 @interface SendMomentsController () <UITextViewDelegate, UIScrollViewDelegate,
@@ -81,7 +85,7 @@
 
     if (self = [super init]) {
         _type = CYC_IMAGE;
-        _firstCellHeight = kScreenWidth*1.5 + (imageArray.count / 4 + 1)*90;
+        _firstCellHeight = kScreenHeight*.15 + (imageArray.count / 4 + 1)*(kImageSize + 10);
         [self.imageArray addObjectsFromArray:imageArray];
     }
     return self;
@@ -188,17 +192,9 @@
 
 #pragma mark - 创建子视图
 - (void)_createSubView {
-    
-    if (_type == CYC_TEXT) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.48+15)
-                                                  style:UITableViewStyleGrouped];
-
-    } else if (_type == CYC_IMAGE) {
-    
-    } else if (_type == CYC_MOVIE) {
-    
-    }
-
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth,
+                                                               _firstCellHeight + kNormalCellHeight*3 + kSpace)
+                                              style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.scrollEnabled = NO;
@@ -342,7 +338,11 @@
     if (indexPath.section == 0 && indexPath.row == 0) {
         [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         
-        _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, _firstCellHeight)];
+        if (_type == CYC_TEXT) {
+            _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, _firstCellHeight)];
+        } else {
+            _textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, _firstCellHeight - (kImageSize + 10*2))];
+        }
         _textView.text = @"记录我的生活";
         _textView.font = [UIFont systemFontOfSize:17];
         _textView.textColor = [UIColor lightGrayColor];
