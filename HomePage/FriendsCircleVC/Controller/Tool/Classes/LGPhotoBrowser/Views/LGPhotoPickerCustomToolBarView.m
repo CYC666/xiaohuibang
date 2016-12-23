@@ -88,7 +88,7 @@
     }
     
     //发送按钮
-    NSString *rightBtnName = @"发送";
+    NSString *rightBtnName = @"确定";
     self.sendBtn = [[UIBarButtonItem alloc] initWithTitle:[NSString stringWithFormat:@"%@ (%ld)",rightBtnName,(long)count] style:UIBarButtonItemStyleBordered target:self action:@selector(sendAction)];
     self.sendBtn.tintColor = [UIColor colorWithRed:0x45 green:0x9a blue:0x00 alpha:1];
     

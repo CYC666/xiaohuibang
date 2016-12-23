@@ -568,6 +568,16 @@
     }
     
 }
+- (void)cImageViewLongTouch:(CImageView *)cImageView {
+    // 长按图片，那就删除
+    NSInteger number = [cImageView.imageID integerValue];
+    if (number != 10) {
+        [_imageArray removeObjectAtIndex:number];
+        [self reloadImageData];
+    }
+    
+    
+}
 
 #pragma mark - 图片浏览器代理方法
 - (NSInteger)photoBrowser:(LGPhotoPickerBrowserViewController *)photoBrowser numberOfItemsInSection:(NSUInteger)section {
@@ -589,6 +599,14 @@
         //原图
         [_imageArray addObject:photo.originImage];
     }
+    // 刷新表视图
+    [self reloadImageData];
+
+}
+
+#pragma mark - 根据图片的增删，刷新表视图
+- (void)reloadImageData {
+
     // 重新计算高度
     _firstCellHeight = kTextViewHeightB + (_imageArray.count / 4 + 1)*(kImageSize + 10) + 10;
     _tableView.frame = CGRectMake(0, 0, kScreenWidth, _firstCellHeight + kNormalCellHeight*3 + kSpace);

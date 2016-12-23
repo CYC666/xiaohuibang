@@ -15,7 +15,10 @@
 
 @protocol CImageViewDelegate <NSObject>
 
+
+@optional
 - (void)cImageViewTouch:(CImageView *)cImageView;
+- (void)cImageViewLongTouch:(CImageView *)cImageView;
 
 @end
 

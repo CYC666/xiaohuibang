@@ -411,7 +411,7 @@ static NSString *const _identifier = @"toolBarThumbCollectionViewCell";
     NSInteger count = self.selectAssets.count;
     self.sendBtn.enabled = (count > 0);
     self.previewBtn.enabled = (count > 0);
-    NSString *title = [NSString stringWithFormat:@"发送(%ld)",(long)count];
+    NSString *title = [NSString stringWithFormat:@"确定(%ld)",(long)count];
     [self.sendBtn setTitle:title forState:UIControlStateNormal];
 }
 
