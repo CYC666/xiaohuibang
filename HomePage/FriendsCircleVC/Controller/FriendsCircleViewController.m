@@ -306,11 +306,13 @@
 #pragma mark - 跳转到发送纯文本动态界面
 - (void)jumpToSendAbout:(UILongPressGestureRecognizer *)longPress {
 
-    // push到编辑界面
-    SendMomentsController *momentsController = [[SendMomentsController alloc] initWithText];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:momentsController];
-    nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
-    [self presentViewController:nav animated:YES completion:nil];
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        // push到编辑界面
+        SendMomentsController *momentsController = [[SendMomentsController alloc] initWithText];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:momentsController];
+        nav.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 
 }
 

@@ -21,6 +21,7 @@
 #import "CScrollImage.h"
 #import "CCommentPro.h"
 #import "LocationController.h"
+#import "CBottomAlert.h"
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -214,7 +215,7 @@
     UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToPersonAboutController:)];
     [_headImageView addGestureRecognizer:headTap];
     // 给头像添加长按手势，跳转到弹出设置权限
-    UILongPressGestureRecognizer *headLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(setUserJurisdiction)];
+    UILongPressGestureRecognizer *headLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(setUserJurisdiction:)];
     [_headImageView addGestureRecognizer:headLongPress];
     
     // 设置昵称
@@ -693,7 +694,21 @@
 }
 
 #pragma mark - 长按头像弹出设置权限
-- (void)setUserJurisdiction {
+- (void)setUserJurisdiction:(UILongPressGestureRecognizer *)longPress {
+    
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        CBottomAlert *bottomAlert = [[CBottomAlert alloc] initWtihTitleArray:@[@"设置朋友圈权限", @"投诉"]];
+        [bottomAlert show];
+        bottomAlert.block = ^(NSString *title) {
+            
+            if ([title isEqualToString:@"设置朋友圈权限"]) {
+                // 跳转设置权限
+            } else {
+                // 跳转tous
+            }
+            
+        };
+    }
 
     
 

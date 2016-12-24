@@ -10,9 +10,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^CBottomAlertBlock)(NSString *);
+
+
 @interface CBottomAlert : UIView
 
-- (instancetype)initWithTitle:(NSArray *)titleArray;
+@property (copy, nonatomic) CBottomAlertBlock block;// 按钮回调
+
+- (instancetype)initWtihTitleArray:(NSArray *)titleArray;
+
+- (void)show;
+- (void)dismiss;
+
 
 
 @end
