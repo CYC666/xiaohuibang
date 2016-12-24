@@ -208,6 +208,7 @@
 		04AA38FD1DE3F8EF00CADF74 /* PersonSeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FB1DE3F8EF00CADF74 /* PersonSeeCell.xib */; };
 		04AA38FF1DE4248000CADF74 /* backgroundPicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */; };
 		04BDB1871E0D451500E2A050 /* CPlayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BDB1861E0D451500E2A050 /* CPlayerLayer.m */; };
+		04DF235F1E0E310B00F9FE4E /* UserJurisdictionSetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DF235E1E0E310B00F9FE4E /* UserJurisdictionSetController.m */; };
 		04FB5FB71E03D99800228FD9 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FB5FB61E03D99800228FD9 /* libicucore.tbd */; };
 		04FB5FBC1E03D9BD00228FD9 /* RegexKitLite.html in Resources */ = {isa = PBXBuildFile; fileRef = 04FB5FBA1E03D9BD00228FD9 /* RegexKitLite.html */; };
 		04FB5FBD1E03D9BD00228FD9 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FB5FBB1E03D9BD00228FD9 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -840,6 +841,8 @@
 		04AA38FE1DE4248000CADF74 /* backgroundPicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundPicture.jpg; sourceTree = "<group>"; };
 		04BDB1851E0D451500E2A050 /* CPlayerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPlayerLayer.h; sourceTree = "<group>"; };
 		04BDB1861E0D451500E2A050 /* CPlayerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPlayerLayer.m; sourceTree = "<group>"; };
+		04DF235D1E0E310B00F9FE4E /* UserJurisdictionSetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserJurisdictionSetController.h; sourceTree = "<group>"; };
+		04DF235E1E0E310B00F9FE4E /* UserJurisdictionSetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserJurisdictionSetController.m; sourceTree = "<group>"; };
 		04FB5FB61E03D99800228FD9 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		04FB5FB91E03D9BD00228FD9 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		04FB5FBA1E03D9BD00228FD9 /* RegexKitLite.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RegexKitLite.html; sourceTree = "<group>"; };
@@ -1728,6 +1731,15 @@
 			path = PersonAbout;
 			sourceTree = "<group>";
 		};
+		04DF235C1E0E30D300F9FE4E /* UserJurisdictionSet */ = {
+			isa = PBXGroup;
+			children = (
+				04DF235D1E0E310B00F9FE4E /* UserJurisdictionSetController.h */,
+				04DF235E1E0E310B00F9FE4E /* UserJurisdictionSetController.m */,
+			);
+			path = UserJurisdictionSet;
+			sourceTree = "<group>";
+		};
 		04FB5FB81E03D9BD00228FD9 /* RegexKitLite */ = {
 			isa = PBXGroup;
 			children = (
@@ -2480,6 +2492,7 @@
 			children = (
 				F3F4789D1DDFE3C500E21E97 /* FriendsCircleViewController.h */,
 				F3F4789E1DDFE3C500E21E97 /* FriendsCircleViewController.m */,
+				04DF235C1E0E30D300F9FE4E /* UserJurisdictionSet */,
 				F3F4789F1DDFE3C500E21E97 /* FromCamera */,
 				F3F478A31DDFE3C500E21E97 /* FromSystem */,
 				F3F478A71DDFE3C500E21E97 /* SendMoment */,
@@ -3309,6 +3322,7 @@
 				04348F7B1E0CC8E200E604B5 /* LGPhotoPickerBrowserPhoto.m in Sources */,
 				F3703B9D1DBDECAB000508B1 /* DefaultPortraitView.m in Sources */,
 				0485C32B1DF54A7100D19FA7 /* NSString+SU.m in Sources */,
+				04DF235F1E0E310B00F9FE4E /* UserJurisdictionSetController.m in Sources */,
 				04AA38EF1DE3EFBB00CADF74 /* PersonSeeTableView.m in Sources */,
 				F3E3E93C1D9B68A100E69300 /* LoginTwoViewController.m in Sources */,
 				0485C33F1DF54A7100D19FA7 /* SuPhotoCenter.m in Sources */,

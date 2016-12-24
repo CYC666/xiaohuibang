@@ -22,6 +22,7 @@
 #import "CCommentPro.h"
 #import "LocationController.h"
 #import "CBottomAlert.h"
+#import "UserJurisdictionSetController.h"
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -697,17 +698,26 @@
 - (void)setUserJurisdiction:(UILongPressGestureRecognizer *)longPress {
     
     if (longPress.state == UIGestureRecognizerStateBegan) {
-        CBottomAlert *bottomAlert = [[CBottomAlert alloc] initWtihTitleArray:@[@"设置朋友圈权限", @"投诉"]];
-        [bottomAlert show];
-        bottomAlert.block = ^(NSString *title) {
-            
-            if ([title isEqualToString:@"设置朋友圈权限"]) {
-                // 跳转设置权限
-            } else {
-                // 跳转tous
-            }
-            
-        };
+        // 如果不是本人
+        if (![_seeLayout.seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
+            CBottomAlert *bottomAlert = [[CBottomAlert alloc] initWtihTitleArray:@[@"设置朋友圈权限", @"投诉"]];
+            [bottomAlert show];
+            bottomAlert.block = ^(NSString *title) {
+                
+                if ([title isEqualToString:@"设置朋友圈权限"]) {
+                    // 跳转设置权限
+                    UserJurisdictionSetController *controller = [[UserJurisdictionSetController alloc] initWithUserID:_seeLayout.seeModel.user_id];
+                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+                    nav.navigationBar.barTintColor = [UIColor blackColor];
+                    [[self viewController] presentViewController:nav animated:YES completion:nil];
+                    
+                } else {
+                    // 跳转投诉
+                }
+                
+            };
+        }
+        
     }
 
     

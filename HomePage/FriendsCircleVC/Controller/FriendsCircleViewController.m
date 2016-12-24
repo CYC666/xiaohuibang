@@ -63,6 +63,7 @@
     self.view.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
     title.text = @"邦友圈";
+    title.font = [UIFont boldSystemFontOfSize:19];
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
