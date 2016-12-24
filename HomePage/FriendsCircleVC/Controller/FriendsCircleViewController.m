@@ -147,7 +147,7 @@
 
 
 
-#pragma mark - 发布动态
+#pragma mark - 导航栏发布动态按钮
 - (void)sendMomentsAction:(UIButton *)button {
     
     UIView *virtualView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];

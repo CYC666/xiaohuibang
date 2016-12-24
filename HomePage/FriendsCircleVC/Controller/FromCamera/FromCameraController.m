@@ -317,6 +317,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         NSLog(@"取得设备输入对象时出错，错误原因：%@", error.localizedDescription);
         return;
     }
+    
     //初始化设备输出对象，用于获得输出数据
     _captureStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
     NSDictionary *outputSettings = @{AVVideoCodecKey:AVVideoCodecJPEG};
@@ -523,16 +524,16 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 -(void)tapScreen:(UITapGestureRecognizer *)tapGesture{
     CGPoint point= [tapGesture locationInView:self.viewContainer];
     // 将UI坐标转化为摄像头坐标
-    CGPoint cameraPoint= [self.captureVideoPreviewLayer captureDevicePointOfInterestForPoint:point];
+    CGPoint cameraPoint = [self.captureVideoPreviewLayer captureDevicePointOfInterestForPoint:point];
     [self setFocusCursorWithPoint:point];
     [self focusWithMode:AVCaptureFocusModeAutoFocus exposureMode:AVCaptureExposureModeAutoExpose atPoint:cameraPoint];
 }
 
 // 设置聚焦光标位置
 -(void)setFocusCursorWithPoint:(CGPoint)point{
-    self.focusCursor.center=point;
-    self.focusCursor.transform=CGAffineTransformMakeScale(1.5, 1.5);
-    self.focusCursor.alpha=1.0;
+    self.focusCursor.center = point;
+    self.focusCursor.transform = CGAffineTransformMakeScale(1.3, 1.3);
+    self.focusCursor.alpha = 1.0;
     [UIView animateWithDuration:1.0 animations:^{
         self.focusCursor.transform=CGAffineTransformIdentity;
     } completion:^(BOOL finished) {

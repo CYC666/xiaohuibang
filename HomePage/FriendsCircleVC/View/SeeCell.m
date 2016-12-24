@@ -210,9 +210,12 @@
     // 说说的头像
     [_headImageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.head_img]
                       placeholderImage:[UIImage imageNamed:@"pic_loading"]];
-    // 给头像添加点击手势
+    // 给头像添加点击手势，跳转到个人动态界面
     UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToPersonAboutController:)];
     [_headImageView addGestureRecognizer:headTap];
+    // 给头像添加长按手势，跳转到弹出设置权限
+    UILongPressGestureRecognizer *headLongPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(setUserJurisdiction)];
+    [_headImageView addGestureRecognizer:headLongPress];
     
     // 设置昵称
     _nickNameLabel.text = _seeLayout.seeModel.nickname;
@@ -687,6 +690,13 @@
     PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:button.user_id];
     controller.hidesBottomBarWhenPushed = YES;
     [nav pushViewController:controller animated:YES];
+}
+
+#pragma mark - 长按头像弹出设置权限
+- (void)setUserJurisdiction {
+
+    
+
 }
 
 

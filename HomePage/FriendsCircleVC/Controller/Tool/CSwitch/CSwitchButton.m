@@ -74,6 +74,16 @@
 }
 
 
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+
+    // 让顶部layer跟随手指移动
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    _topLayer.center = point;
+
+}
+
+
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     if (_touchTime < 0.5) {
@@ -94,6 +104,7 @@
                      animations:^{
                          self.transform = CGAffineTransformIdentity;
                          _topLayer.transform = CGAffineTransformMakeScale(0.8, 0.8);
+                         _topLayer.center = CGPointMake(self.bounds.size.height/2.0, self.bounds.size.height/2.0);
                      }];
     
 }

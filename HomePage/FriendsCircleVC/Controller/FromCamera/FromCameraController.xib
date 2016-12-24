@@ -70,10 +70,10 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8M0-W8-kul">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="515"/>
+                    <rect key="frame" x="0.0" y="80" width="375" height="435"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="holderLabel.png" translatesAutoresizingMaskIntoConstraints="NO" id="YoZ-BE-VbW">
-                            <rect key="frame" x="108" y="483" width="158" height="32"/>
+                            <rect key="frame" x="108" y="403" width="158" height="32"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -97,7 +97,7 @@
                 <constraint firstItem="t4p-rJ-NS5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VOq-7s-frw"/>
                 <constraint firstItem="gvq-G3-Ikh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Y0P-ru-SSt"/>
                 <constraint firstAttribute="trailing" secondItem="t4p-rJ-NS5" secondAttribute="trailing" id="YYx-NM-nJM"/>
-                <constraint firstItem="8M0-W8-kul" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ZC2-bg-5gv"/>
+                <constraint firstItem="8M0-W8-kul" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="ZC2-bg-5gv"/>
                 <constraint firstAttribute="trailing" secondItem="shn-aV-VLj" secondAttribute="trailing" id="gtV-fN-siF"/>
                 <constraint firstItem="shn-aV-VLj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hnR-AC-Xpp"/>
                 <constraint firstAttribute="trailing" secondItem="dCo-rh-hxX" secondAttribute="trailing" constant="55" id="lul-sC-pwU"/>

@@ -8,6 +8,12 @@
 
 #import "CPlayerLayer.h"
 
+@interface CPlayerLayer ()
+
+// @property (assign, nonatomic) float touchTime;
+
+@end
+
 @implementation CPlayerLayer
 
 
@@ -23,7 +29,7 @@
     [(AVPlayerLayer *)[self layer] setPlayer:player];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
     self.touchPlayer();
 
