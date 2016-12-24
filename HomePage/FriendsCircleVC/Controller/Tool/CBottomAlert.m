@@ -11,7 +11,7 @@
 #define CWIDTH [UIScreen mainScreen].bounds.size.width
 #define CHEIGHT [UIScreen mainScreen].bounds.size.height
 #define CBUTTONHEIGHT 40
-#define CSPACE 15
+#define CSPACE 5
 
 
 @interface CBottomAlert ()
@@ -19,7 +19,6 @@
 @property (strong, nonatomic) NSArray *titleArray;
 @property (strong, nonatomic) UIButton *backgroundButton;
 @property (strong, nonatomic) UIView *bottomView;
-
 
 @end
 

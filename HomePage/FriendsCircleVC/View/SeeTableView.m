@@ -14,6 +14,7 @@
 #import <UIImageView+WebCache.h>
 #import "PersonAboutController.h"
 #import "CYCOWN.h"
+#import "CBottomAlert.h"
 
 #define kSpace 12.3             // 控件之间的Y空隙
 #define kContentX 66.0          // 正文的开始X
@@ -154,7 +155,6 @@
     // 添加手势，更改图片
     _imageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *changeTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeHeaderImage:)];
-    changeTap.numberOfTapsRequired = 2;
     [_imageView addGestureRecognizer:changeTap];
     
     // 遮住背景图片和第一条分割线的白视图
@@ -206,12 +206,26 @@
 
 #pragma mark - 更换背景图片
 - (void)changeHeaderImage:(UITapGestureRecognizer *)tap {
+    
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    // 隐藏输入框和点赞框
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
 
-    UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
-    pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    pickerController.allowsEditing = YES;
-    pickerController.delegate = self;
-    [[self viewController] presentViewController:pickerController animated:YES completion:nil];
+    CBottomAlert *alert = [[CBottomAlert alloc] initWtihTitleArray:@[@"更换相册封面"]];
+    [alert show];
+    alert.block = ^(NSString *title) {
+    
+        if ([title isEqualToString:@"更换相册封面"]) {
+            UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+            pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            pickerController.allowsEditing = YES;
+            pickerController.delegate = self;
+            [[self viewController] presentViewController:pickerController animated:YES completion:nil];
+        }
+    
+    };
+    
+    
 
 }
 
