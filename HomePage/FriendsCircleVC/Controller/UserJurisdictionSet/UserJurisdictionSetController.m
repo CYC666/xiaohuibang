@@ -93,6 +93,7 @@
     } else {
         [letItSeeSwitch setOn:YES];
     }
+    [letItSeeSwitch addTarget:self action:@selector(letItSeeSwitchAction:) forControlEvents:UIControlEventValueChanged];
     [letItSeeView addSubview:letItSeeSwitch];
     
     NSString *letItSeeText = @"打开后，你在邦友圈发的照片，他（她）将无法看到。";
@@ -128,6 +129,7 @@
     } else {
         [seeItSwitch setOn:YES];
     }
+    [seeItSwitch addTarget:self action:@selector(seeItSwitchAction:) forControlEvents:UIControlEventValueChanged];
     [seeItView addSubview:seeItSwitch];
     
     NSString *seeItText = @"打开后，他（她）在邦友圈发的照片将不会出现在你的邦友圈里。";
@@ -155,6 +157,30 @@
     
 }
 
+
+#pragma mark - 不让他看我的动态开关响应
+- (void)letItSeeSwitchAction:(UISwitch *)swt {
+
+
+    if (swt.isOn) {
+        _letItSee = YES;
+    } else {
+        _letItSee = NO;
+    }
+
+}
+
+
+#pragma mark - 不看他的动态开关响应
+- (void)seeItSwitchAction:(UISwitch *)swt {
+    
+    if (swt.isOn) {
+        _seeIt = YES;
+    } else {
+        _seeIt = NO;
+    }
+    
+}
 
 
 
