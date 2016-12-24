@@ -90,8 +90,15 @@
     if (_personSeeModelLayout.personSeeModel.about_img.count != 0) {
         
         for (int i = 0; i < _personSeeModelLayout.imageFrameArr.count; i++) {
+            
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_personSeeModelLayout.imageFrameArr[i] CGRectValue]];
-            [imageView sd_setImageWithURL:_personSeeModelLayout.personSeeModel.thumb_img[i]];
+            NSString *urlStr = _personSeeModelLayout.personSeeModel.thumb_img[i];
+            if ([urlStr characterAtIndex:0] == 'h') {
+                [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]];
+            } else {
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]];
+            }
+            
             imageView.contentMode = UIViewContentModeScaleAspectFill;
             imageView.clipsToBounds = YES;
             [self.contentView addSubview:imageView];

@@ -80,9 +80,17 @@
         
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:_imageArr[i]]
-                     placeholderImage:nil
-                              options:SDWebImageProgressiveDownload];
+        NSString *urlStr = _imageArr[i];
+        if ([urlStr characterAtIndex:0] == 'h') {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
+                         placeholderImage:nil
+                                  options:SDWebImageProgressiveDownload];
+        } else {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]
+                         placeholderImage:nil
+                                  options:SDWebImageProgressiveDownload];
+        }
+        
         
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.userInteractionEnabled = YES;

@@ -265,7 +265,13 @@
         for (int i = 0; i < self.seeLayout.seeModel.about_img.count; i++) {
             // 创建图片显示
             CImageView *imageView = [[CImageView alloc] initWithFrame:[_seeLayout.imgFrameArr[i] CGRectValue]];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img[i]]];
+            NSString *urlStr = _seeLayout.seeModel.thumb_img[i];
+            if ([urlStr characterAtIndex:0] == 'h') {
+                [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img[i]]];
+            } else {
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", _seeLayout.seeModel.thumb_img[i]]]];
+            }
+            
             imageView.delegate = self;
             imageView.imagePage = i;
             if (self.seeLayout.seeModel.about_img.count == 1) {

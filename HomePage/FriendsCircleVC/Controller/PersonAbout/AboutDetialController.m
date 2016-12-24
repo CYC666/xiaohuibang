@@ -241,7 +241,12 @@
     // 图片
     for (int i = 0; i < _detialLayout.seeModel.about_img.count; i++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_detialLayout.imageFrameArr[i] CGRectValue]];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:_detialLayout.seeModel.thumb_img[i]]];
+        NSString *urlStr = _detialLayout.seeModel.thumb_img[i];
+        if ([urlStr characterAtIndex:0] == 'h') {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]];
+        } else {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]];
+        }
         if (_detialLayout.seeModel.about_img.count == 1) {
             imageView.contentMode = UIViewContentModeScaleAspectFit;
         } else {
