@@ -86,6 +86,12 @@
     
     
 }
+
+- (void)dealloc {
+
+    
+
+}
 #pragma mark - 初始化方法
 - (instancetype)initWithText {
 
@@ -219,6 +225,8 @@
                                                        handler:^(UIAlertAction * _Nonnull action) {
                                                            [self dismissViewControllerAnimated:YES completion:^{
                                                                // 缓存动态编辑的状态
+                                                               
+                                                               
                                                            }];
                                                        }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
@@ -405,24 +413,23 @@
             [cell.contentView.layer addSublayer:lineLayer];
             
             // 创建视频预览层
-            self.playerItem = [AVPlayerItem playerItemWithURL:_movieUrl];
-            self.player = [[AVPlayer alloc] initWithPlayerItem:_playerItem];
+            AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:_movieUrl];
+            AVPlayer *player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
             self.playerLayer = [[CPlayerLayer alloc] initWithFrame:CGRectMake(15, kTextViewHeightB + 10,
                                                                               kImageSize, kImageSize)];
-            self.playerLayer.player = _player;
+            self.playerLayer.player = player;
             [cell.contentView addSubview:_playerLayer];
-            [_player play];
+            [player play];
             // 点击了播放器
-            __weak SendMomentsController *weakSelf = self;
+            __block BOOL isPlayInFull = NO;
+            __weak typeof(self) weakSelf = self;
             self.playerLayer.touchPlayer = ^() {
                 
                 [[UIApplication sharedApplication].keyWindow endEditing:YES];
-                
                 // 如果已经全屏，那么缩小
-                if (weakSelf.isPlayerFull) {
+                if (isPlayInFull) {
                     [UIView animateWithDuration:.35
                                      animations:^{
-                                         
                                          weakSelf.playerLayer.frame = CGRectMake(15, kTextViewHeightB + 10,
                                                                                  kImageSize, kImageSize);
                                          [cell.contentView addSubview:weakSelf.playerLayer];
@@ -436,13 +443,13 @@
                                      }];
                 }
                 
-                _isPlayerFull = !_isPlayerFull;
+                isPlayInFull = !isPlayInFull;
             };
             // 添加视频播放结束通知
-            [[NSNotificationCenter defaultCenter]addObserver:self
-                                                    selector:@selector(moviePlayDidEnd:)
-                                                        name:AVPlayerItemDidPlayToEndTimeNotification
-                                                      object:_playerItem];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(moviePlayDidEnd:)
+                                                         name:AVPlayerItemDidPlayToEndTimeNotification
+                                                       object:playerItem];
             
         }
         
@@ -508,7 +515,7 @@
     
     __weak typeof(self) weakSelf = self;
     [self.playerLayer.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
-        [weakSelf.player play];
+        [weakSelf.playerLayer.player play];
     }];
 }
 
@@ -556,7 +563,7 @@
     [self presentViewController:nav animated:YES completion:nil];
     
     // 接收传过来的地理信息
-    pickerLocation.locationBlock = ^(NSString *str){
+    pickerLocation.locationBlock = ^(NSString *str) {
     
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
         UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];

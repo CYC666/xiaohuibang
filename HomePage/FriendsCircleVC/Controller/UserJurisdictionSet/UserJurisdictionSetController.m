@@ -67,8 +67,8 @@
 #pragma mark - 创建子视图
 - (void)_creatSubviews {
 
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight-64);
     scrollView.backgroundColor = [UIColor clearColor];
     scrollView.alwaysBounceVertical = YES;
     scrollView.showsVerticalScrollIndicator = NO;
