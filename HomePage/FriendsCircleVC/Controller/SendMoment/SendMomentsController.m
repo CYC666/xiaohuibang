@@ -417,6 +417,7 @@
             // 创建视频预览层
             AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:_movieUrl];
             AVPlayer *player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+            player.volume = 0;
             self.playerLayer = [[CPlayerLayer alloc] initWithFrame:CGRectMake(15, kTextViewHeightB + 10,
                                                                               kImageSize, kImageSize)];
             self.playerLayer.player = player;
@@ -434,6 +435,7 @@
                                      animations:^{
                                          weakSelf.playerLayer.frame = CGRectMake(15, kTextViewHeightB + 10,
                                                                                  kImageSize, kImageSize);
+                                         weakSelf.playerLayer.player.volume = 0;
                                          [cell.contentView addSubview:weakSelf.playerLayer];
                                      }];
                 } else {
@@ -441,6 +443,7 @@
                     [UIView animateWithDuration:.35
                                      animations:^{
                                          weakSelf.playerLayer.frame = [UIScreen mainScreen].bounds;
+                                         weakSelf.playerLayer.player.volume = 1.0;
                                          [[UIApplication sharedApplication].keyWindow addSubview:weakSelf.playerLayer];
                                      }];
                 }
