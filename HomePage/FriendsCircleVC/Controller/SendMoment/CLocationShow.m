@@ -25,6 +25,8 @@
     UITableView *_locationTable;    // 显示地理位置的表视图
     
     NSMutableArray *_placeMakeArray;// 储存定位
+    
+    CALayer *_grayLayer;             // 点击搜索框，顶部显示的灰色图层
 
 }
 
@@ -244,33 +246,51 @@
 
 #pragma mark - 点击搜索框做动画
 - (void)touchSearchBarAnimate {
-
+    
+    // 状态栏颜色
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    // 添加灰色背景图层
+    _grayLayer = [[CALayer alloc] init];
+    _grayLayer.frame = CGRectMake(0, -20, kScreenWidth, 20);
+    _grayLayer.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1].CGColor;
+    [self.view.layer addSublayer:_grayLayer];
+    // 其他动画
     [UIView animateWithDuration:.35
                      animations:^{
                          self.navigationController.navigationBar.translucent = YES;
                          self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0, -64);
-                         _locationTable.transform = CGAffineTransformMakeTranslation(0, 20);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:.35
+                                          animations:^{
+                                              _grayLayer.frame = CGRectMake(0, 0, kScreenWidth, 20);
+                                              _locationTable.transform = CGAffineTransformMakeTranslation(0, 20);
+                                          }];
                      }];
+    
 
 }
 
 - (void)touchSearchBarCancelAnimate {
 
+    // 状态栏颜色
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    [self.view bringSubviewToFront:_locationTable];
+    // 其他动画
     [UIView animateWithDuration:.35
                      animations:^{
                          self.navigationController.navigationBar.translucent = NO;
                          self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
                          _locationTable.transform = CGAffineTransformIdentity;
+                     } completion:^(BOOL finished) {
+                         // 去掉灰色显示层
+                         [_grayLayer removeFromSuperlayer];
+                         _grayLayer = nil;
                      }];
+    
 
 }
 
-#pragma mark - 修改状态栏样式
-//- (UIStatusBarStyle)preferredStatusBarStyle {
-//
-//    return UIStatusBarStyleLightContent;
-//
-//}
+
 
 
 
