@@ -106,4 +106,8 @@
 - (UIView *)getParsentView:(UIView *)view;
 - (id)getParsentViewController:(UIView *)view;
 
+// 初始化方法,传入初始显示页面
+- (instancetype)initWithCurrentPage:(NSInteger)page;
+
+
 @end

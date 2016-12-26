@@ -139,6 +139,15 @@ typedef NS_ENUM(NSInteger, DraggingDirect) {
 
 #pragma mark - Life cycle
 
+- (instancetype)initWithCurrentPage:(NSInteger)page {
+    
+    if (self = [super init]) {
+        _currentPage = page;
+    }
+    return self;
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -150,7 +159,7 @@ typedef NS_ENUM(NSInteger, DraggingDirect) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    // [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.navigationController.navigationBarHidden = YES;
     [self reloadData];
     [self updateXGToolbar];
@@ -167,7 +176,7 @@ typedef NS_ENUM(NSInteger, DraggingDirect) {
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    // [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     self.navigationController.navigationBarHidden = NO;
     self.scrollToEndFlag = 0;

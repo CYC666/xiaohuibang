@@ -107,7 +107,7 @@
     if (_timeLabel == nil) {
         _timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _timeLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
-        _timeLabel.font = [UIFont systemFontOfSize:13];
+        _timeLabel.font = [UIFont systemFontOfSize:11];
         [self.contentView addSubview:_timeLabel];
     }
     return _timeLabel;
@@ -140,7 +140,7 @@
         [_deleteButton setTitleColor:[UIColor colorWithRed:220/225.0 green:42/255.0 blue:63/255.0 alpha:1]
                             forState:UIControlStateNormal];
         [_deleteButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
-        _deleteButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        _deleteButton.titleLabel.font = [UIFont systemFontOfSize:11];
         [_deleteButton addTarget:self action:@selector(deleteAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_deleteButton];
     }
@@ -760,15 +760,16 @@
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
     
     self.photoArray = [self prepareForPhotoBroswerWithURL:_seeLayout.seeModel.about_img];
+    // LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] initWithCurrentPage:cImageView.imagePage];
     LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
     BroswerVC.delegate = self;
     BroswerVC.dataSource = self;
     BroswerVC.showType = LGShowImageTypeImageURL;
     [[self viewController] presentViewController:BroswerVC animated:YES completion:nil];
     
-    //    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
-//                                                               imageArray:_seeLayout.seeModel.about_img
-//                                                              currentPage:cImageView.imagePage];
+//    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
+//                                                           imageArray:_seeLayout.seeModel.about_img
+//                                                          currentPage:cImageView.imagePage];
 //    showBigScrollView.alpha = 0;
 //    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
 //    [UIView animateWithDuration:.35

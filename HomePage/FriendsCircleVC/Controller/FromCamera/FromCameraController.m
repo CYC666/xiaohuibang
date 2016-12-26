@@ -118,32 +118,11 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     CSwitchButton *cameraSwitch = [[CSwitchButton alloc] initWithFrame:CGRectMake((kScreenWidth - 75)/2.0, kScreenHeight - (63 + 75/2.0), 75, 75)];
     [self.view addSubview:cameraSwitch];
     
-    
+    __weak FromCameraController *weakSelf = self;
     // 拍照
     cameraSwitch.pictureBlock = ^() {
         
-        _isPicture = YES;
-    
-        AVCaptureConnection *captureConnection = [self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
-        [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-            if (imageDataSampleBuffer) {
-                NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                _imageOK = [UIImage imageWithData:imageData];
-                
-                // 显示预览
-                self.imageShow.image = _imageOK;
-                self.redoButton.alpha = 1;
-                self.sureButton.alpha = 1;
-                [UIView animateWithDuration:.35
-                                 animations:^{
-                                     self.redoButton.transform = CGAffineTransformMakeTranslation(-100, 0);
-                                     self.sureButton.transform = CGAffineTransformMakeTranslation(100, 0);
-                                 }];
-                
-            }
-            
-        }];
-        
+        [weakSelf takePhoto];
     
     };
     
@@ -152,52 +131,91 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     // 摄像开始
     cameraSwitch.startMovieBlock = ^() {
         
+        [weakSelf takeMocieBegin];
         
-        
-        
-        //根据设备输出获得连接
-        AVCaptureConnection *captureConnection = [self.captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
-        //根据连接取得设备输出的数据
-        if (![self.captureMovieFileOutput isRecording]) {
-            //预览图层和视频方向保持一致
-            captureConnection.videoOrientation = [self.captureVideoPreviewLayer connection].videoOrientation;
-            NSString *outputFielPath = [NSTemporaryDirectory() stringByAppendingString:@"myMovie.mov"];
-            NSLog(@"save path is :%@",outputFielPath);
-            NSURL *fileUrl = [NSURL fileURLWithPath:outputFielPath];
-            [self.captureMovieFileOutput startRecordingToOutputFileURL:fileUrl recordingDelegate:self];
-        }
-        
-        
-    
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             _cancelButton.alpha = 0;
-                             _changeFlashButton.alpha = 0;
-                             _changeCameraButton.alpha = 0;
-                         }];
-        
-    
     };
     
     // 结束摄像
     cameraSwitch.endMovieBlock = ^(float time) {
         
-        _isPicture = NO;
-        
-        _audioTime = time;
-        
-        [self.captureMovieFileOutput stopRecording];//停止录制
-    
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             _cancelButton.alpha = 1;
-                             _changeFlashButton.alpha = 1;
-                             _changeCameraButton.alpha = 1;
-                         }];
+        [weakSelf takeMovieEnd:time];
     
     };
     
     
+    
+}
+
+#pragma mark - 拍照
+- (void)takePhoto {
+
+    _isPicture = YES;
+    
+    AVCaptureConnection *captureConnection = [self.captureStillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+    [self.captureStillImageOutput captureStillImageAsynchronouslyFromConnection:captureConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+        if (imageDataSampleBuffer) {
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+            _imageOK = [UIImage imageWithData:imageData];
+            
+            // 显示预览
+            self.imageShow.image = _imageOK;
+            self.redoButton.alpha = 1;
+            self.sureButton.alpha = 1;
+            [UIView animateWithDuration:.35
+                             animations:^{
+                                 self.redoButton.transform = CGAffineTransformMakeTranslation(-100, 0);
+                                 self.sureButton.transform = CGAffineTransformMakeTranslation(100, 0);
+                             }];
+            
+        }
+        
+    }];
+
+}
+
+#pragma mark - 摄像
+// 开始
+- (void)takeMocieBegin {
+    
+    //根据设备输出获得连接
+    AVCaptureConnection *captureConnection = [self.captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
+    //根据连接取得设备输出的数据
+    if (![self.captureMovieFileOutput isRecording]) {
+        //预览图层和视频方向保持一致
+        captureConnection.videoOrientation = [self.captureVideoPreviewLayer connection].videoOrientation;
+        NSString *outputFielPath = [NSTemporaryDirectory() stringByAppendingString:@"myMovie.mov"];
+        NSLog(@"save path is :%@",outputFielPath);
+        NSURL *fileUrl = [NSURL fileURLWithPath:outputFielPath];
+        [self.captureMovieFileOutput startRecordingToOutputFileURL:fileUrl recordingDelegate:self];
+    }
+
+
+
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         _cancelButton.alpha = 0;
+                         _changeFlashButton.alpha = 0;
+                         _changeCameraButton.alpha = 0;
+                     }];
+    
+
+    
+}
+// 结束
+- (void)takeMovieEnd:(float)time {
+
+    _isPicture = NO;
+
+    _audioTime = time;
+
+    [self.captureMovieFileOutput stopRecording];//停止录制
+
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         _cancelButton.alpha = 1;
+                         _changeFlashButton.alpha = 1;
+                         _changeCameraButton.alpha = 1;
+                     }];
     
 }
 

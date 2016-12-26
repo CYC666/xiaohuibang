@@ -89,7 +89,9 @@
 
 - (void)dealloc {
 
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:nil];
 
 }
 #pragma mark - 初始化方法
@@ -449,7 +451,7 @@
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(moviePlayDidEnd:)
                                                          name:AVPlayerItemDidPlayToEndTimeNotification
-                                                       object:playerItem];
+                                                       object:nil];
             
         }
         
