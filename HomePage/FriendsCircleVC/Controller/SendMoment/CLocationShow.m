@@ -96,7 +96,7 @@
     // 取出定位
     MKPlacemark *place = _placeMakeArray[indexPath.row];
     cell.title.text = place.name;
-    cell.detial.text = [NSString stringWithFormat:@"%@%@%@", place.administrativeArea, place.locality, place.thoroughfare];
+    cell.detial.text = [NSString stringWithFormat:@"%@%@", place.locality, place.thoroughfare];
     
     return cell;
 
@@ -113,15 +113,19 @@
     // 地名+纬度+经度
     NSString *placeStr;
     __block NSString *outStr;
-    if (indexPath.row == 0) {
-        placeStr = [NSString stringWithFormat:@"%@%@", _place.locality, _place.name];
-        outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, _place.location.coordinate.latitude, _place.location.coordinate.longitude];
-    } else {
-        MKPlacemark *place = _placeMakeArray[indexPath.row];
-        CLLocationCoordinate2D coordinate2D = place.coordinate;
-        placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
-        outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
-    }
+//    if (indexPath.row == 0) {
+//        placeStr = [NSString stringWithFormat:@"%@%@", _place.locality, _place.name];
+//        outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, _place.location.coordinate.latitude, _place.location.coordinate.longitude];
+//    } else {
+//        MKPlacemark *place = _placeMakeArray[indexPath.row];
+//        CLLocationCoordinate2D coordinate2D = place.coordinate;
+//        placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
+//        outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
+//    }
+    MKPlacemark *place = _placeMakeArray[indexPath.row];
+    CLLocationCoordinate2D coordinate2D = place.coordinate;
+    placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
+    outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
     // 将数据传到发送动态界面
     self.locationBlock(outStr);
     
@@ -131,6 +135,51 @@
 }
 
 #pragma mark - 定位
+//- (void)locationManager:(CLLocationManager *)manager
+//    didUpdateToLocation:(CLLocation *)newLocation
+//           fromLocation:(CLLocation *)oldLocation{
+//
+//    // 获取当前所在的城市名
+//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+//    //根据经纬度反向地理编译出地址信息
+//    [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *array, NSError *error) {
+//        
+//         if (array.count > 0) {
+//             CLPlacemark *placemark = [array objectAtIndex:0];
+//             [_placeMakeArray addObject:placemark];
+//             
+//             // 表视图显示
+//             _locationTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
+//             _locationTable.delegate = self;
+//             _locationTable.dataSource = self;
+//             [self.view addSubview:_locationTable];
+////             
+////             //将获得的所有信息显示到label上
+////             //             self.location.text = placemark.name;
+////             //获取城市
+////             NSString *city = placemark.locality;
+////             if (!city) {
+////                 //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
+////                 city = placemark.administrativeArea;
+////             }
+////             
+////             
+////             NSString *reString = [NSString stringWithFormat:@"%@/%@/%@",placemark.administrativeArea,placemark.locality,placemark.subLocality];
+////             
+////             
+//             
+//             
+//         } else if (error == nil && [array count] == 0) {
+//             NSLog(@"定位请求失败");
+//         } else if (error != nil) {
+//             NSLog(@"定位错误信息 = %@", error);
+//         }
+//     }];
+//    
+//    //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
+//    [manager stopUpdatingLocation];
+//
+//}
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
 
     // 接收定位信息
@@ -143,10 +192,12 @@
                      completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
 
                          _place = placemarks.firstObject;
-                         CLPlacemark *place = _placeMakeArray.firstObject;
-                         if (![place.name isEqualToString:placemarks.firstObject.name]) {
-                             [_placeMakeArray addObject:placemarks.firstObject];
-                         }
+                         MKPlacemark *placeMark = [[MKPlacemark alloc] initWithPlacemark:placemarks.firstObject];
+                         [_placeMakeArray addObject:placeMark];
+//                         CLPlacemark *place = _placeMakeArray.firstObject;
+//                         if (![place.name isEqualToString:placemarks.firstObject.name]) {
+//                             [_placeMakeArray addObject:placemarks.firstObject];
+//                         }
                          
 
                      }];
@@ -192,8 +243,17 @@
             [_placeMakeArray addObject:item.placemark];
         }
         
+        // 去重复
+        NSMutableDictionary *placeDic = [NSMutableDictionary dictionary];
+        for (MKMapItem *item in _placeMakeArray) {
+            [placeDic setObject:item forKey:item.name];
+        }
+        [_placeMakeArray removeAllObjects];
+        [_placeMakeArray addObjectsFromArray:[placeDic allValues]];
+        
         // 表视图显示
-        _locationTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
+        _locationTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 64)
+                                                      style:UITableViewStylePlain];
         _locationTable.delegate = self;
         _locationTable.dataSource = self;
         [self.view addSubview:_locationTable];
