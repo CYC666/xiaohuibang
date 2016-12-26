@@ -23,6 +23,7 @@
 #import "LocationController.h"
 #import "CBottomAlert.h"
 #import "UserJurisdictionSetController.h"
+#import "LGPhoto.h"
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -39,7 +40,9 @@
 #define HideCommentView @"HideCommentView"                                  // 接收隐藏评论点赞框的通知
 
 
-@interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate, CCommentProDelegate>
+@interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate, CCommentProDelegate, LGPhotoPickerBrowserViewControllerDelegate, LGPhotoPickerBrowserViewControllerDataSource>
+
+@property (strong, nonatomic) NSArray *photoArray;  // 记录当前动态的图片数组，用于查看大图
 
 
 
@@ -752,21 +755,30 @@
 #pragma mark - 点击动态图片查看大图
 - (void)cImageViewTouch:(CImageView *)cImageView {
     
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
-
-    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
-                                                               imageArray:_seeLayout.seeModel.about_img
-                                                              currentPage:cImageView.imagePage];
-    showBigScrollView.alpha = 0;
-    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
-    [UIView animateWithDuration:.35
-                     animations:^{
-                         showBigScrollView.alpha = 1;
-                     }];
-    // 添加手势，点击退出查看大图
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     
-    [showBigScrollView addGestureRecognizer:tap];
+    self.photoArray = [self prepareForPhotoBroswerWithURL:_seeLayout.seeModel.about_img];
+    LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
+    BroswerVC.delegate = self;
+    BroswerVC.dataSource = self;
+    BroswerVC.showType = LGShowImageTypeImageURL;
+    [[self viewController] presentViewController:BroswerVC animated:YES completion:nil];
+    
+    //    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
+//                                                               imageArray:_seeLayout.seeModel.about_img
+//                                                              currentPage:cImageView.imagePage];
+//    showBigScrollView.alpha = 0;
+//    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
+//    [UIView animateWithDuration:.35
+//                     animations:^{
+//                         showBigScrollView.alpha = 1;
+//                     }];
+//    // 添加手势，点击退出查看大图
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+//    
+//    [showBigScrollView addGestureRecognizer:tap];
 }
 
 - (void)tapAction:(UITapGestureRecognizer *)tap {
@@ -825,7 +837,36 @@
 
 }
 
+#pragma mark - 初始化网络大图url
+- (NSArray *)prepareForPhotoBroswerWithURL:(NSArray *)array {
 
+    NSMutableArray *photoArray = [NSMutableArray array];
+    for (int i = 0; i < array.count; i++) {
+        LGPhotoPickerBrowserPhoto *photo = [[LGPhotoPickerBrowserPhoto alloc] init];
+        NSString *urlStr = array[i];
+        if ([urlStr characterAtIndex:0] == 'h') {
+            photo.photoURL = [NSURL URLWithString:urlStr];
+        } else {
+            photo.photoURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]];
+        }
+        [photoArray addObject:photo];
+    }
+    return photoArray;
+
+}
+
+#pragma mark - 查看大图控制器代理方法
+- (NSInteger)photoBrowser:(LGPhotoPickerBrowserViewController *)photoBrowser numberOfItemsInSection:(NSUInteger)section {
+
+    return _photoArray.count;
+
+}
+
+- (id<LGPhotoPickerBrowserPhoto>)photoBrowser:(LGPhotoPickerBrowserViewController *)pickerBrowser photoAtIndexPath:(NSIndexPath *)indexPath {
+
+    return _photoArray[indexPath.item];
+
+}
 
 
 /*
