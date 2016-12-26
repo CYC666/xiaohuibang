@@ -33,6 +33,7 @@
 		04095F521DE28755009AD2EC /* icon_keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4C1DE28755009AD2EC /* icon_keyboard.png */; };
 		04095F531DE28755009AD2EC /* icon_keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */; };
 		04095F541DE28755009AD2EC /* icon_keyboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */; };
+		04119A5E1E113608001CE6CE /* LocationSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 04119A5D1E113608001CE6CE /* LocationSearchBar.m */; };
 		041205001DF1143C00238117 /* SearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041204FF1DF1143C00238117 /* SearchTableView.m */; };
 		042836EE1E0A4CAD005C8A87 /* icon_back_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 042836EB1E0A4CAD005C8A87 /* icon_back_new.png */; };
 		042836EF1E0A4CAD005C8A87 /* icon_back_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042836EC1E0A4CAD005C8A87 /* icon_back_new@2x.png */; };
@@ -592,6 +593,8 @@
 		04095F4C1DE28755009AD2EC /* icon_keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_keyboard.png; sourceTree = "<group>"; };
 		04095F4D1DE28755009AD2EC /* icon_keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@2x.png"; sourceTree = "<group>"; };
 		04095F4E1DE28755009AD2EC /* icon_keyboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_keyboard@3x.png"; sourceTree = "<group>"; };
+		04119A5C1E113608001CE6CE /* LocationSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchBar.h; sourceTree = "<group>"; };
+		04119A5D1E113608001CE6CE /* LocationSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchBar.m; sourceTree = "<group>"; };
 		041204FE1DF1143C00238117 /* SearchTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableView.h; sourceTree = "<group>"; };
 		041204FF1DF1143C00238117 /* SearchTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableView.m; sourceTree = "<group>"; };
 		042836EB1E0A4CAD005C8A87 /* icon_back_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_back_new.png; sourceTree = "<group>"; };
@@ -2536,6 +2539,8 @@
 				048DCC061E078AD6008ADDCB /* LocationCell.h */,
 				048DCC071E078AD6008ADDCB /* LocationCell.m */,
 				048DCC081E078AD6008ADDCB /* LocationCell.xib */,
+				04119A5C1E113608001CE6CE /* LocationSearchBar.h */,
+				04119A5D1E113608001CE6CE /* LocationSearchBar.m */,
 			);
 			path = SendMoment;
 			sourceTree = "<group>";
@@ -3331,6 +3336,7 @@
 				0485C32F1DF54A7100D19FA7 /* UIView+SuAnimation.m in Sources */,
 				F36DEC4F1DBB53F700AEFE62 /* RCDHttpTool.m in Sources */,
 				F3E3E95C1D9B6A1500E69300 /* ForgetViewController.m in Sources */,
+				04119A5E1E113608001CE6CE /* LocationSearchBar.m in Sources */,
 				04348F9F1E0CC8E200E604B5 /* ZLCamera.m in Sources */,
 				F36DEC4C1DBB511B00AEFE62 /* RCDRCIMDataSource.m in Sources */,
 				04348FA11E0CC8E200E604B5 /* ZLCameraView.m in Sources */,

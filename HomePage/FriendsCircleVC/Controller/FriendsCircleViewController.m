@@ -151,12 +151,24 @@
 #pragma mark - 导航栏发布动态按钮
 - (void)sendMomentsAction:(UIButton *)button {
     
+    // 做缩小动画
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    [UIView animateWithDuration:.2
+                     animations:^{
+                         self.view.transform = CGAffineTransformMakeScale(0.85, 0.85);
+                         self.navigationController.navigationBar.alpha = 0;
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:.1
+                                          animations:^{
+                                              self.view.transform = CGAffineTransformMakeScale(.9, .9);
+                                          }];
+                     }];
+    
     UIView *virtualView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     virtualView.backgroundColor = [UIColor colorWithWhite:0 alpha:.3];
     [self.view.window addSubview:virtualView];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     [virtualView addGestureRecognizer:tap];
-    
 
     // 创建选项view，提供功能选着
     float alertHeight = kScreenHeight*.25;
@@ -209,8 +221,11 @@
 // alert背景点击手势，移除alert
 - (void)tapAction:(UITapGestureRecognizer *)tap {
 
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     [UIView animateWithDuration:.35
                      animations:^{
+                         self.navigationController.navigationBar.alpha = 1;
+                         self.view.transform = CGAffineTransformIdentity;
                          [tap.view viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
                      } completion:^(BOOL finished) {
                          [tap.view removeFromSuperview];
@@ -250,10 +265,14 @@
 
         
         
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
                              [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
+                             self.navigationController.navigationBar.alpha = 1;
+                             self.view.transform = CGAffineTransformIdentity;
+                             self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
@@ -267,14 +286,31 @@
         pickerVc.delegate = self;
         [pickerVc showPickerVc:self];
         
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
         // 移除alert
         [UIView animateWithDuration:.35
                          animations:^{
                              [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
+                             self.navigationController.navigationBar.alpha = 1;
+                             self.view.transform = CGAffineTransformIdentity;
+                             self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
                          } completion:^(BOOL finished) {
                              [button.superview.superview removeFromSuperview];
                          }];
         
+    } else {
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+        // 移除alert
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             [button.superview.superview viewWithTag:1001].transform = CGAffineTransformMakeTranslation(0, kScreenHeight*.25);
+                             self.navigationController.navigationBar.alpha = 1;
+                             self.view.transform = CGAffineTransformIdentity;
+                             self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+                         } completion:^(BOOL finished) {
+                             [button.superview.superview removeFromSuperview];
+                         }];
     }
 }
 

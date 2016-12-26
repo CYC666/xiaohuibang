@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="395" height="87"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="395" height="87"/>
+                <rect key="frame" x="0.0" y="0.0" width="395" height="86"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eLO-2W-u1q">
@@ -30,7 +30,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MXl-Qw-dvq">
-                        <rect key="frame" x="8" y="38" width="300" height="15"/>
+                        <rect key="frame" x="8" y="33" width="300" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="300" id="A6e-bU-s2H"/>
                             <constraint firstAttribute="height" constant="15" id="Wlw-HJ-Otd"/>
@@ -42,7 +42,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="MXl-Qw-dvq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="7LR-bD-4AO"/>
-                    <constraint firstItem="MXl-Qw-dvq" firstAttribute="top" secondItem="eLO-2W-u1q" secondAttribute="bottom" constant="10" id="KNe-sz-jiQ"/>
+                    <constraint firstItem="MXl-Qw-dvq" firstAttribute="top" secondItem="eLO-2W-u1q" secondAttribute="bottom" constant="5" id="KNe-sz-jiQ"/>
                     <constraint firstItem="eLO-2W-u1q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="NcT-Bh-4Ap"/>
                     <constraint firstItem="eLO-2W-u1q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="tMR-b3-y0o"/>
                 </constraints>

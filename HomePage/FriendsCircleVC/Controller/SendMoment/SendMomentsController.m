@@ -256,8 +256,8 @@
     }
     
     // 调用自定义类目的方法处理表情问题,讲表情转成字符串
-    NSString *content = [_textView.text changeToString];
-    
+    // NSString *content = [_textView.text changeToString];
+    NSString *content = [NSString stringWithUTF8String:[_textView.text UTF8String]];
 
 
     // 发表动态
@@ -329,6 +329,7 @@
         textView.textColor = [UIColor blackColor];
     }
     
+    NSLog(@"%@", textView.text);
     
 }
 
