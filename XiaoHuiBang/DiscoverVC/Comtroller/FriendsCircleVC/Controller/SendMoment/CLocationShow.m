@@ -49,7 +49,7 @@
     title.textColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
     self.navigationItem.titleView = title;
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:46/255.0 green:145/255.0 blue:253/255.0 alpha:1];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
     
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"取消"
                                                                  style:UIBarButtonItemStylePlain
@@ -162,7 +162,9 @@
     [self touchSearchBarCancelAnimate];
     
     // 返回
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.navigationController.navigationBar.translucent = NO;
+    }];
 
 }
 
@@ -235,7 +237,7 @@
         
         // 表视图显示
         _locationTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 64)
-                                                      style:UITableViewStyleGrouped];
+                                                      style:UITableViewStylePlain];
         _locationTable.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
         _locationTable.delegate = self;
         _locationTable.dataSource = self;
@@ -251,6 +253,7 @@
     
     // 状态栏颜色
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    
     // 添加灰色背景图层
     _grayLayer = [[CALayer alloc] init];
     _grayLayer.frame = CGRectMake(0, -20, kScreenWidth, 20);
@@ -272,9 +275,6 @@
                                               }];
                                           }];
                      }];
-    // 暂时让表视图不能滑动
-    _locationTable.scrollEnabled = NO;
-
 }
 
 - (void)touchSearchBarCancelAnimate {
@@ -293,13 +293,14 @@
                          [_grayLayer removeFromSuperlayer];
                          _grayLayer = nil;
                      }];
-    // 恢复滑动视图的滑动
-    _locationTable.scrollEnabled = YES;
     
 
 }
 
 - (void)touchSearchReturnAnimate:(NSString *)text {
+    
+    // 收起键盘,会使得输入框复原，效果不好
+    // [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
     //创建一个位置信息对象，第一个参数为经纬度，第二个为纬度检索范围，单位为米，第三个为经度检索范围，单位为米
     

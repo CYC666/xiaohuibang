@@ -126,7 +126,8 @@
 - (PersonSeeTableView *)seeTableView {
 
     if (_seeTableView == nil) {
-        _seeTableView = [[PersonSeeTableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
+        _seeTableView = [[PersonSeeTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64)
+                                                            style:UITableViewStyleGrouped];
         _seeTableView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:_seeTableView];
     }

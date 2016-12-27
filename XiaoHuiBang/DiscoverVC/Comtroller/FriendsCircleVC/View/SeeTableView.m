@@ -273,38 +273,7 @@
 
 }
 
-#pragma mark - 滑动表视图隐藏标签栏，或者隐藏输入框
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-    UITabBarController *tabbarController = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    
-    if (_lastOffset < scrollView.contentOffset.y) {
-        
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             tabbarController.tabBar.transform = CGAffineTransformMakeTranslation(0, 49);
-                         }];
-        
-    } else {
-    
-        [UIView animateWithDuration:.35
-                         animations:^{
-                             tabbarController.tabBar.transform = CGAffineTransformMakeTranslation(0, 0);
-                         }];
-    
-    }
-    
-    if (scrollView.contentOffset.y == 0) {
-        tabbarController.tabBar.transform = CGAffineTransformMakeTranslation(0, 0);
-    }
-    
-    _lastOffset = scrollView.contentOffset.y;
-    
-    // 不能在这里发送通知，会持续发送很多
-    // [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
-    
-    
-}
 
 #pragma mark - 开始拖动的时候，隐藏输入框 或者点击了表视图，发送通知隐藏输入框
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -609,6 +578,41 @@
  //    _selfHeadImage = selfHeadImage;
  //
  //}
+ 
+ 
+ 
+ #pragma mark - 滑动表视图隐藏标签栏，或者隐藏输入框
+ - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+ 
+ UITabBarController *tabbarController = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+ 
+ if (_lastOffset < scrollView.contentOffset.y) {
+ 
+ [UIView animateWithDuration:.35
+ animations:^{
+ tabbarController.tabBar.transform = CGAffineTransformMakeTranslation(0, 49);
+ }];
+ 
+ } else {
+ 
+ [UIView animateWithDuration:.35
+ animations:^{
+ tabbarController.tabBar.transform = CGAffineTransformMakeTranslation(0, 0);
+ }];
+ 
+ }
+ 
+ if (scrollView.contentOffset.y == 0) {
+ tabbarController.tabBar.transform = CGAffineTransformMakeTranslation(0, 0);
+ }
+ 
+ _lastOffset = scrollView.contentOffset.y;
+ 
+ // 不能在这里发送通知，会持续发送很多
+ // [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
+ 
+ 
+ }
  
  
  
