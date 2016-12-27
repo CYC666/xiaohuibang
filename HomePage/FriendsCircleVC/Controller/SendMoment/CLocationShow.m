@@ -27,6 +27,7 @@
     NSMutableArray *_placeMakeArray;// 储存定位
     
     CALayer *_grayLayer;             // 点击搜索框，顶部显示的灰色图层
+    UIButton *_grayButton;           // 点击搜索框，中部显示的灰色按钮
 
 }
 
@@ -125,9 +126,9 @@
     
     };
     // 搜索点击return，进行搜索
-    searchBar.searchBarReturnBlock = ^() {
+    searchBar.searchBarReturnBlock = ^(NSString *text) {
     
-        
+        [weakSelf touchSearchReturnAnimate:text];
         
     };
     // 点击了取消按钮
@@ -158,6 +159,7 @@
     outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
     // 将数据传到发送动态界面
     self.locationBlock(outStr);
+    [self touchSearchBarCancelAnimate];
     
     // 返回
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -264,9 +266,14 @@
                                           animations:^{
                                               _grayLayer.frame = CGRectMake(0, 0, kScreenWidth, 20);
                                               _locationTable.transform = CGAffineTransformMakeTranslation(0, 20);
+                                          } completion:^(BOOL finished) {
+                                              [UIView animateWithDuration:.35 animations:^{
+                                                  // _grayButton.alpha = 1;
+                                              }];
                                           }];
                      }];
-    
+    // 暂时让表视图不能滑动
+    _locationTable.scrollEnabled = NO;
 
 }
 
@@ -286,11 +293,60 @@
                          [_grayLayer removeFromSuperlayer];
                          _grayLayer = nil;
                      }];
+    // 恢复滑动视图的滑动
+    _locationTable.scrollEnabled = YES;
     
 
 }
 
+- (void)touchSearchReturnAnimate:(NSString *)text {
 
+    //创建一个位置信息对象，第一个参数为经纬度，第二个为纬度检索范围，单位为米，第三个为经度检索范围，单位为米
+    
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(_place.location.coordinate, 100, 100);
+    
+    //初始化一个检索请求对象
+    
+    MKLocalSearchRequest * req = [[MKLocalSearchRequest alloc] init];
+    
+    //设置检索参数
+    
+    req.region = region;
+    
+    //兴趣点关键字
+    
+    req.naturalLanguageQuery = text;
+    
+    //初始化检索
+    
+    MKLocalSearch *ser = [[MKLocalSearch alloc] initWithRequest:req];
+    
+    //开始检索，结果返回在block中
+    __block NSArray *array;
+    [ser startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+        
+        //兴趣点节点数组
+        
+        array = [NSArray arrayWithArray:response.mapItems];
+        [_placeMakeArray removeAllObjects];
+        for (MKMapItem *item in array) {
+            [_placeMakeArray addObject:item.placemark];
+        }
+        
+        // 去重复
+        NSMutableDictionary *placeDic = [NSMutableDictionary dictionary];
+        for (MKMapItem *item in _placeMakeArray) {
+            [placeDic setObject:item forKey:item.name];
+        }
+        [_placeMakeArray removeAllObjects];
+        [_placeMakeArray addObjectsFromArray:[placeDic allValues]];
+        
+        // 表视图显示
+        [_locationTable reloadData];
+        
+    }];
+
+}
 
 
 
@@ -390,7 +446,14 @@
  //    }
 
  
- 
+ //    // 天海灰色遮罩层按钮
+ //    _grayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+ //    _grayButton.frame = CGRectMake(0, 65, kScreenWidth, kScreenHeight - 65);
+ //    _grayButton.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+ //    _grayButton.alpha = 0;
+ //    [_grayButton addTarget:self action:@selector(grayButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+ //    [self.view addSubview:_grayButton];
+
  
  
  

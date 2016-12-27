@@ -71,6 +71,7 @@
     _searchField.backgroundColor = [UIColor clearColor];
     _searchField.textAlignment = NSTextAlignmentLeft;
     _searchField.tintColor = [UIColor blueColor];
+    _searchField.returnKeyType = UIReturnKeySearch;
     _searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _searchField.delegate = self;
     [self addSubview:_searchField];
@@ -112,7 +113,8 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 
-    self.searchBarReturnBlock();
+    __block NSString *text = textField.text;
+    self.searchBarReturnBlock(text);
     
     return YES;
     
@@ -123,14 +125,14 @@
     
     _searchField.text = nil;
     [_searchField endEditing:YES];
-    [self returnAction];
+    [self cancelAction];
     self.searchBarCancelBlock();
 
 }
 
 #pragma mark - 还原动画
 
-- (void)returnAction {
+- (void)cancelAction {
 
     _cancelButton.alpha = 0;
     [UIView animateWithDuration:.35
@@ -143,7 +145,6 @@
                      }];
 
 }
-
 
 
 

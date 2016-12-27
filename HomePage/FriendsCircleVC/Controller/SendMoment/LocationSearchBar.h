@@ -21,5 +21,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
+- (void)cancelAction;
+
 
 @end
