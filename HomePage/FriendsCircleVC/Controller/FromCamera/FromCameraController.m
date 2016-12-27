@@ -47,6 +47,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
 @property (strong, nonatomic) UIImageView *imageShow;                               // 显示拍好的照片
 @property (strong, nonatomic) AVPlayerViewController *moviePlayer;                  // 显示拍好的视频
 @property (strong, nonatomic) UIButton *redoButton;                                 // 重做按钮
+@property (strong, nonatomic) UIButton *saveButton;                                 // 保存按钮
 @property (strong, nonatomic) UIButton *sureButton;                                 // 确定按钮
 @property (strong, nonatomic) UIImage *imageOK;                                     // 暂存的image
 @property (strong, nonatomic) NSURL *movieUrlOK;                                    // 暂存视频的URL
@@ -93,6 +94,19 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     }
     return _redoButton;
 
+}
+- (UIButton *)saveButton {
+    
+    if (_saveButton == nil) {
+        _saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _saveButton.frame = CGRectMake((kScreenWidth - 64)/2, kScreenHeight - 64 - 50, 64, 64);
+        [_saveButton setImage:[UIImage imageNamed:@"icon_download"] forState:UIControlStateNormal];
+        _saveButton.alpha = 0;
+        [_saveButton addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_saveButton];
+    }
+    return _saveButton;
+    
 }
 
 - (UIButton *)sureButton {
@@ -160,10 +174,12 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
             // 显示预览
             self.imageShow.image = _imageOK;
             self.redoButton.alpha = 1;
+            self.saveButton.alpha = 0;
             self.sureButton.alpha = 1;
             [UIView animateWithDuration:.35
                              animations:^{
                                  self.redoButton.transform = CGAffineTransformMakeTranslation(-100, 0);
+                                 self.saveButton.alpha = 1;
                                  self.sureButton.transform = CGAffineTransformMakeTranslation(100, 0);
                              }];
             
@@ -233,10 +249,12 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         self.moviePlayer.player = [[AVPlayer alloc] initWithURL:outputFileURL];
         [self.moviePlayer.player play];
         self.redoButton.alpha = 1;
+        self.saveButton.alpha = 0;
         self.sureButton.alpha = 1;
         [UIView animateWithDuration:.35
                          animations:^{
                              self.redoButton.transform = CGAffineTransformMakeTranslation(-distence, 0);
+                             self.saveButton.alpha = 1;
                              self.sureButton.transform = CGAffineTransformMakeTranslation(distence, 0);
                          }];
         _movieUrlOK = outputFileURL;
@@ -253,6 +271,7 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [UIView animateWithDuration:.35
                      animations:^{
                          self.redoButton.transform = CGAffineTransformIdentity;
+                         self.saveButton.alpha = 0;
                          self.sureButton.transform = CGAffineTransformIdentity;
                      } completion:^(BOOL finished) {
                          if (_imageShow != nil) {
@@ -264,8 +283,10 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
                              _moviePlayer = nil;
                          }
                          [self.redoButton removeFromSuperview];
+                         [self.saveButton removeFromSuperview];
                          [self.sureButton removeFromSuperview];
                          self.redoButton = nil;
+                         self.saveButton = nil;
                          self.sureButton = nil;
                      }];
 
@@ -281,18 +302,28 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
         __block UIImage *image = _imageOK;
         self.imageBlock(image);
     } else {
-        ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc] init];
-        [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:_movieUrlOK completionBlock:^(NSURL *assetURL, NSError *error) {
-            
-            if (error) {
-                NSLog(@"保存失败");
-            }
-            
-        }];
-         __block NSURL *url = _movieUrlOK;
+        __block NSURL *url = _movieUrlOK;
         self.imageBlock(url);
     
     }
+
+}
+- (void)saveAction:(UIButton *)button {
+
+    if (_isPicture == YES) {
+        // 保存图片
+        UIImageWriteToSavedPhotosAlbum(_imageOK, nil, nil, nil);
+    } else {
+        // 保存视频
+        ALAssetsLibrary *assetsLibrary=[[ALAssetsLibrary alloc] init];
+        [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:_movieUrlOK completionBlock:^(NSURL *assetURL, NSError *error) {
+            
+        }];
+
+    }
+    [SVProgressHUD dismiss];
+    [SVProgressHUD showSuccessWithStatus:@"已保存"];
+    button.enabled = NO;
 
 }
 

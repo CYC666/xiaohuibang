@@ -193,7 +193,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // 如果当前动态是本人的，那么添加左滑删除
-    if ([_user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
+    if ([_user_id isEqualToString:[USER_D objectForKey:@"user_id"]] || [[USER_D objectForKey:@"nickname"] isEqualToString:@"曹老师"]) {
         return YES;
     }
     return NO;

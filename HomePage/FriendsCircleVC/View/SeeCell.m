@@ -88,8 +88,13 @@
 
 }
 
+#pragma mark - 长按动态文本，复制、收藏
 - (void)copyText:(UILongPressGestureRecognizer *)gesture {
     if (gesture.state ==UIGestureRecognizerStateBegan) {
+        
+        // 弹出可选选项
+        CGPoint point = [gesture locationInView:[UIApplication sharedApplication].keyWindow];
+        
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         [pasteboard setString:_contentLabel.text];
         [SVProgressHUD dismiss];
