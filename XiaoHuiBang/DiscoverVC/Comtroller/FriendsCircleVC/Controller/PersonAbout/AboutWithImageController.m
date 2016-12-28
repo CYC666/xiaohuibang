@@ -167,8 +167,8 @@
 
     // 设置图片
     CScrollImage *cScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
-                                                       imageArray:_seeModel.about_img
-                                                      currentPage:0];
+                                                         imageArray:_seeModel.about_img
+                                                        currentPage:0];
     [self.view addSubview:cScrollView];
     //  添加手势，点击隐藏、显示导航栏、标签栏(但是打开之后，视图会有上下偏移)
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];

@@ -93,7 +93,7 @@
     if (gesture.state ==UIGestureRecognizerStateBegan) {
         
         // 弹出可选选项
-        CGPoint point = [gesture locationInView:[UIApplication sharedApplication].keyWindow];
+        
         
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         [pasteboard setString:_contentLabel.text];
@@ -237,9 +237,10 @@
     self.contentLabel.cLabelBlock = ^(NSArray *arr){
     
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
-                                                                           message:nil
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
         for (int i = 0; i < arr.count; i++) {
+            
             NSString *str = arr[i];
             NSString *title;
             NSURL *url;

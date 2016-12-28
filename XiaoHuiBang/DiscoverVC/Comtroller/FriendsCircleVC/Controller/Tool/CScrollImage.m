@@ -51,8 +51,8 @@
 
 - (void)_creatSubviews {
 
-    CGRect rect = self.frame;
-    _background = [[UIScrollView alloc] initWithFrame:self.frame];
+    CGRect rect = CGRectMake(-10, 0, kScreenWidth + 20, kScreenHeight);
+    _background = [[UIScrollView alloc] initWithFrame:rect];
     _background.contentSize = CGSizeMake(rect.size.width * _imageArr.count, rect.size.height);
     _background.alwaysBounceHorizontal = YES;
     _background.contentOffset = CGPointMake(rect.size.width * _currentPage, 0);
@@ -66,7 +66,7 @@
         
         // 把图片放在单独的滑动视图之上，就不会影响底下的主滑动视图了
         
-        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.frame.size.width * i, 0, self.frame.size.width, self.frame.size.height)];
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(rect.size.width * i, 0, rect.size.width, rect.size.height)];
         scrollView.delegate = self;
         scrollView.minimumZoomScale = 1;
         scrollView.maximumZoomScale = 3;
@@ -79,7 +79,7 @@
         [scrollView addGestureRecognizer:doubleTap];
         
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width, self.frame.size.height)];
         NSString *urlStr = _imageArr[i];
         if ([urlStr characterAtIndex:0] == 'h') {
             [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
@@ -157,7 +157,7 @@
     
     NSInteger lastPage = _currentPage;
     // 结束减速时调用，也就是停止瞬间
-    _currentPage = _background.contentOffset.x / scrollView.frame.size.width;
+    _currentPage = _background.contentOffset.x / (scrollView.frame.size.width + 20);
     
     // 当滑动到其他页面时才做处理
     if (lastPage != _currentPage) {
