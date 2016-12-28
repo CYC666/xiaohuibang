@@ -19,6 +19,7 @@
 @interface CScrollImage () <UIScrollViewDelegate> {
     
     NSArray *_imageArr;
+    NSArray *_thumbArr;
     NSInteger _currentPage;
     UIScrollView *_background;  // 底部滑动视图
     UIPageControl *_pageControl;// 分页控制小点点
@@ -33,11 +34,12 @@
 @implementation CScrollImage
 
 
-- (instancetype)initWithFrame:(CGRect)frame imageArray:(NSArray *)array currentPage:(NSInteger)page {
+- (instancetype)initWithFrame:(CGRect)frame imageArray:(NSArray *)array thumbArray:(NSArray *)thumbArray currentPage:(NSInteger)page {
 
     self = [super initWithFrame:frame];
     if (self != nil) {
         _imageArr = array;
+        _thumbArr = thumbArray;
         _currentPage = page;
         _allowHide = YES;
         
@@ -81,14 +83,36 @@
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width, self.frame.size.height)];
         NSString *urlStr = _imageArr[i];
+        NSString *thumbStr = _thumbArr[i];
+        __block UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth + 20, 20)];
+        [scrollView addSubview:progress];
         if ([urlStr characterAtIndex:0] == 'h') {
+//            [imageView sd_setImageWithURL:[NSURL URLWithString:thumbStr]
+//                         placeholderImage:nil
+//                                  options:SDWebImageRetryFailed];
             [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
                          placeholderImage:nil
-                                  options:SDWebImageProgressiveDownload];
+                                  options:SDWebImageRetryFailed
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                     progress.progress = (double)receivedSize / expectedSize;
+                                 } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                     [progress removeFromSuperview];
+                                     progress = nil;
+                                 }];
+            
         } else {
+//            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", thumbStr]]
+//                         placeholderImage:nil
+//                                  options:SDWebImageRetryFailed];
             [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]
                          placeholderImage:nil
-                                  options:SDWebImageProgressiveDownload];
+                                  options:SDWebImageRetryFailed
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                     progress.progress = (double)receivedSize / expectedSize;
+                                 } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                     [progress removeFromSuperview];
+                                     progress = nil;
+                                 }];
         }
         
         
@@ -157,7 +181,7 @@
     
     NSInteger lastPage = _currentPage;
     // 结束减速时调用，也就是停止瞬间
-    _currentPage = _background.contentOffset.x / (scrollView.frame.size.width + 20);
+    _currentPage = _background.contentOffset.x / _background.frame.size.width;
     
     // 当滑动到其他页面时才做处理
     if (lastPage != _currentPage) {
