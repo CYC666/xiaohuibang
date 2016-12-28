@@ -93,12 +93,34 @@
     if (gesture.state ==UIGestureRecognizerStateBegan) {
         
         // 弹出可选选项
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"复制"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+                                                               UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                                                               [pasteboard setString:_contentLabel.text];
+                                                               [SVProgressHUD dismiss];
+                                                               [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
+                                                           }];
+        UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+                                                               
+                                                               [SVProgressHUD dismiss];
+                                                               [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
+                                                           }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+        [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
         
+        [alert addAction:copyAction];
+        [alert addAction:collectAction];
+        [alert addAction:cancelAction];
+        [[self viewController] presentViewController:alert animated:YES completion:nil];
         
-        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        [pasteboard setString:_contentLabel.text];
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
     }
 }
 
@@ -765,27 +787,28 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
     
-    self.photoArray = [self prepareForPhotoBroswerWithURL:_seeLayout.seeModel.about_img];
-    // LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] initWithCurrentPage:cImageView.imagePage];
-    LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
-    BroswerVC.delegate = self;
-    BroswerVC.dataSource = self;
-    BroswerVC.showType = LGShowImageTypeImageURL;
-    [[self viewController] presentViewController:BroswerVC animated:YES completion:nil];
+//    self.photoArray = [self prepareForPhotoBroswerWithURL:_seeLayout.seeModel.about_img];
+//    // LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] initWithCurrentPage:cImageView.imagePage];
+//    LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
+//    BroswerVC.delegate = self;
+//    BroswerVC.dataSource = self;
+//    BroswerVC.showType = LGShowImageTypeImageURL;
+//    [[self viewController] presentViewController:BroswerVC animated:YES completion:nil];
     
-//    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
-//                                                           imageArray:_seeLayout.seeModel.about_img
-//                                                          currentPage:cImageView.imagePage];
-//    showBigScrollView.alpha = 0;
-//    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
-//    [UIView animateWithDuration:.35
-//                     animations:^{
-//                         showBigScrollView.alpha = 1;
-//                     }];
-//    // 添加手势，点击退出查看大图
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-//    
-//    [showBigScrollView addGestureRecognizer:tap];
+    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                           imageArray:_seeLayout.seeModel.about_img
+                                                               thumbArray:_seeLayout.seeModel.thumb_img
+                                                          currentPage:cImageView.imagePage];
+    showBigScrollView.alpha = 0;
+    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         showBigScrollView.alpha = 1;
+                     }];
+    // 添加手势，点击退出查看大图
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    
+    [showBigScrollView addGestureRecognizer:tap];
 }
 
 - (void)tapAction:(UITapGestureRecognizer *)tap {

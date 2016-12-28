@@ -39,7 +39,6 @@
     self = [super initWithFrame:frame];
     if (self != nil) {
         _imageArr = array;
-        _thumbArr = thumbArray;
         _currentPage = page;
         _allowHide = YES;
         
@@ -83,13 +82,9 @@
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width, self.frame.size.height)];
         NSString *urlStr = _imageArr[i];
-        NSString *thumbStr = _thumbArr[i];
-        __block UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth + 20, 20)];
+        __block UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 63, kScreenWidth + 20, 20)];
         [scrollView addSubview:progress];
         if ([urlStr characterAtIndex:0] == 'h') {
-//            [imageView sd_setImageWithURL:[NSURL URLWithString:thumbStr]
-//                         placeholderImage:nil
-//                                  options:SDWebImageRetryFailed];
             [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
                          placeholderImage:nil
                                   options:SDWebImageRetryFailed
@@ -101,9 +96,6 @@
                                  }];
             
         } else {
-//            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", thumbStr]]
-//                         placeholderImage:nil
-//                                  options:SDWebImageRetryFailed];
             [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]
                          placeholderImage:nil
                                   options:SDWebImageRetryFailed
