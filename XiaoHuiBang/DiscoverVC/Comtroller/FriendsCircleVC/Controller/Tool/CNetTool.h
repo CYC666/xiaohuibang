@@ -65,8 +65,16 @@
                           success:(void (^)(id response))success
                           failure:(void (^)(NSError *err))failure;
 
+// 收藏文本
++ (void)collectWithParameters:(id)parameters
+                      success:(void (^)(id response))success
+                      failure:(void (^)(NSError *err))failure;
 
-
+// 收藏图片
++ (void)collectImageWithParameters:(id)parameters
+                              data:(NSData *)imageData
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure;
 
 
 

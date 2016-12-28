@@ -209,7 +209,53 @@
 }
 
 
+// 收藏文本
++ (void)collectWithParameters:(id)parameters
+                      success:(void (^)(id response))success
+                      failure:(void (^)(NSError *err))failure {
 
+    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/collection/coll_add";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:parameters
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              success(responseObject);
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              failure(error);
+          }];
+
+}
+
+// 收藏图片
++ (void)collectImageWithParameters:(id)parameters
+                              data:(NSData *)imageData
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure {
+
+    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/collection/coll_add";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+           
+           NSData *data = imageData;
+           // 上传的参数名
+           NSString * name = [NSString stringWithFormat:@"CYCimageData"];
+           // 上传filename
+           NSString * fileName = [NSString stringWithFormat:@"%@.jpg", name];
+           [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpg"];
+           
+       } progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              success(responseObject);
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              failure(error);
+          }];
+
+
+}
 
 
 

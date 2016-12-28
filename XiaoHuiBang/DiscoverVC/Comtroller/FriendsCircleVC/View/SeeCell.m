@@ -108,8 +108,19 @@
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * _Nonnull action) {
                                                                
-                                                               [SVProgressHUD dismiss];
-                                                               [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
+                                                               // 收藏
+                                                               NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                                                                        @"from_id":_seeLayout.seeModel.user_id,
+                                                                                        @"content":_contentLabel.text,
+                                                                                        @"type":@1,
+                                                                                        @"source":@3};
+                                                               [CNetTool collectWithParameters:params
+                                                                                       success:^(id response) {
+                                                                                           [SVProgressHUD dismiss];
+                                                                                           [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
+                                                                                       } failure:^(NSError *err) {
+                                                                                           
+                                                                                       }];
                                                            }];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
                                                                style:UIAlertActionStyleDefault
@@ -299,8 +310,10 @@
             NSString *urlStr = _seeLayout.seeModel.thumb_img[i];
             if ([urlStr characterAtIndex:0] == 'h') {
                 [imageView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.thumb_img[i]]];
+                imageView.imageUrl = _seeLayout.seeModel.about_img[i];
             } else {
                 [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", _seeLayout.seeModel.thumb_img[i]]]];
+                imageView.imageUrl = [NSString stringWithFormat:@"https://%@", _seeLayout.seeModel.about_img[i]];
             }
             
             imageView.delegate = self;
@@ -809,6 +822,39 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     
     [showBigScrollView addGestureRecognizer:tap];
+}
+
+#pragma mark - 长按提示收藏
+- (void)cImageViewLongTouch:(CImageView *)cImageView {
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否收藏此图片？"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           
+                                                           // 收藏图片
+                                                           NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                                                                    @"from_id":_seeLayout.seeModel.user_id,
+                                                                                    @"content":cImageView.imageUrl,
+                                                                                    @"type":@2,
+                                                                                    @"source":@3};
+                                                           [CNetTool collectWithParameters:params
+                                                                                   success:^(id response) {
+                                                                                         [SVProgressHUD dismiss];
+                                                                                         [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+                                                                                   } failure:^(NSError *err) {
+                                                                                        
+                                                                                    }];
+                                                       }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    
+    [alert addAction:sureAction];
+    [alert addAction:cancelAction];
+    [[self viewController] presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)tapAction:(UITapGestureRecognizer *)tap {

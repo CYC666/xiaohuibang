@@ -38,5 +38,8 @@
 // 滑动视图点击的页数
 @property (assign, nonatomic) NSInteger imagePage;  // 当前页数
 
+// 图片的路径
+@property (copy, nonatomic) NSString *imageUrl;     // 网络路径
+
 
 @end
