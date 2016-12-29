@@ -11,6 +11,7 @@
 @interface DiscoverCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *title;
+@property (weak, nonatomic) IBOutlet UIImageView *leftImage;
 
 
 @end

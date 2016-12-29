@@ -12,6 +12,7 @@
 		0410D2781E14B08F00253224 /* icon_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 0410D2751E14B08F00253224 /* icon_play.png */; };
 		0410D2791E14B08F00253224 /* icon_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0410D2761E14B08F00253224 /* icon_play@2x.png */; };
 		0410D27A1E14B08F00253224 /* icon_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0410D2771E14B08F00253224 /* icon_play@3x.png */; };
+		0410D27D1E14EED200253224 /* CWebPlayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0410D27C1E14EED200253224 /* CWebPlayerLayer.m */; };
 		042BD7D21E1244C900746B1A /* FriendsCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042BD66B1E1244C800746B1A /* FriendsCircleViewController.m */; };
 		042BD7D31E1244C900746B1A /* FromCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 042BD66E1E1244C800746B1A /* FromCamera.m */; };
 		042BD7D41E1244C900746B1A /* FromCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042BD6701E1244C800746B1A /* FromCameraController.m */; };
@@ -581,6 +582,8 @@
 		0410D2751E14B08F00253224 /* icon_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_play.png; sourceTree = "<group>"; };
 		0410D2761E14B08F00253224 /* icon_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_play@2x.png"; sourceTree = "<group>"; };
 		0410D2771E14B08F00253224 /* icon_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_play@3x.png"; sourceTree = "<group>"; };
+		0410D27B1E14EED200253224 /* CWebPlayerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWebPlayerLayer.h; sourceTree = "<group>"; };
+		0410D27C1E14EED200253224 /* CWebPlayerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWebPlayerLayer.m; sourceTree = "<group>"; };
 		042BD66A1E1244C800746B1A /* FriendsCircleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsCircleViewController.h; sourceTree = "<group>"; };
 		042BD66B1E1244C800746B1A /* FriendsCircleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsCircleViewController.m; sourceTree = "<group>"; };
 		042BD66D1E1244C800746B1A /* FromCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FromCamera.h; sourceTree = "<group>"; };
@@ -1541,6 +1544,8 @@
 				042BD7651E1244C900746B1A /* UIScrollView+PullUpRefresh.m */,
 				0410D2721E14AE9200253224 /* CMovieImageView.h */,
 				0410D2731E14AE9200253224 /* CMovieImageView.m */,
+				0410D27B1E14EED200253224 /* CWebPlayerLayer.h */,
+				0410D27C1E14EED200253224 /* CWebPlayerLayer.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -3353,6 +3358,7 @@
 				F3703B941DBDE62E000508B1 /* RCDataBaseManager.m in Sources */,
 				F394949C1DB0C99100BE3E51 /* SDContactsTableViewCell.m in Sources */,
 				042BD8321E1244C900746B1A /* ZLCamera.m in Sources */,
+				0410D27D1E14EED200253224 /* CWebPlayerLayer.m in Sources */,
 				F358E4581DDB0EBE00DA4124 /* RCDTestMessageCell.m in Sources */,
 				F33F89C11D9E728D00FB0F70 /* UserSexViewController.m in Sources */,
 				042BD8311E1244C900746B1A /* LGCameraImageView.m in Sources */,

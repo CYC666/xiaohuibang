@@ -60,7 +60,7 @@
 
 #pragma mark - 表视图代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -77,6 +77,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (indexPath.section == 0) {
         cell.title.text = @"邦友圈";
+        cell.leftImage.image = [UIImage imageNamed:@"icon_moments_unselected"];
     } else if (indexPath.section == 1) {
         cell.title.text = @"扫一扫";
     } else if (indexPath.section == 2) {
