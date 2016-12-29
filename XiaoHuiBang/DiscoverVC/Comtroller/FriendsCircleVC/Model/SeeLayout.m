@@ -56,25 +56,37 @@
     //  更新单元格的高度(不加空隙，挤一点好看)
     self.cellHeight += CGRectGetHeight(self.seeFrame);
     
-    // 当动态携带一张图片时
-    if (self.seeModel.about_img.count == 1) {
-        CGRect rect = CGRectMake(kContentX, self.cellHeight,
-                                 (kScreenWidth - kContentX - kContentX),
-                                 (kScreenWidth - kContentX - kContentX));
-        NSValue *rectValue = [NSValue valueWithCGRect:rect];
-        [self.imgFrameArr addObject:rectValue];
-        self.cellHeight += (kScreenWidth - kContentX - kContentX) + kSpace;
-    // 当动态携带多张图片时
-    } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
-        for (int i = 0; i < self.seeModel.about_img.count; i++) {
-            CGRect rect = CGRectMake( kContentX + (kImgSize + 3) * (i % 3),
-                                     self.cellHeight + (kImgSize + 3) * (i / 3), kImgSize, kImgSize);
+    // 当携带图片
+    if ([self.seeModel.type isEqualToString:@"2"]) {
+        // 当动态携带一张图片时
+        if (self.seeModel.about_img.count == 1) {
+            CGRect rect = CGRectMake(kContentX, self.cellHeight,
+                                     (kScreenWidth - kContentX - kContentX),
+                                     (kScreenWidth - kContentX - kContentX));
             NSValue *rectValue = [NSValue valueWithCGRect:rect];
             [self.imgFrameArr addObject:rectValue];
+            self.cellHeight += (kScreenWidth - kContentX - kContentX) + kSpace;
+            // 当动态携带多张图片时
+        } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
+            for (int i = 0; i < self.seeModel.about_img.count; i++) {
+                CGRect rect = CGRectMake( kContentX + (kImgSize + 3) * (i % 3),
+                                         self.cellHeight + (kImgSize + 3) * (i / 3), kImgSize, kImgSize);
+                NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                [self.imgFrameArr addObject:rectValue];
+            }
+            
+            // 最后确定单元格高度
+            self.cellHeight += (kImgSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + kSpace;
         }
-        
-        // 最后确定单元格高度
-        self.cellHeight += (kImgSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + kSpace;
+    }
+    
+    // 当携带视频
+    if ([self.seeModel.type isEqualToString:@"3"]) {
+        self.movieFrame = CGRectMake(kContentX, self.cellHeight,
+                                     (kScreenWidth - kContentX - kContentX),
+                                     (kScreenWidth - kContentX - kContentX));
+        // 修改单元格高度
+        self.cellHeight += (kScreenWidth - kContentX - kContentX) + kSpace;
     }
     
     // 定位标签

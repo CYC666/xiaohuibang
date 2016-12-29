@@ -24,6 +24,9 @@
 #import "CBottomAlert.h"
 #import "UserJurisdictionSetController.h"
 #import "LGPhoto.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
+#import "CPlayerLayer.h"
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -40,7 +43,7 @@
 #define HideCommentView @"HideCommentView"                                  // 接收隐藏评论点赞框的通知
 
 
-@interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate, CCommentProDelegate, LGPhotoPickerBrowserViewControllerDelegate, LGPhotoPickerBrowserViewControllerDataSource>
+@interface SeeCell () <UITextViewDelegate, CLabelDeletage, CImageViewDelegate, CCommentProDelegate, LGPhotoPickerBrowserViewControllerDelegate, LGPhotoPickerBrowserViewControllerDataSource, CMovieImageViewDelegate>
 
 @property (strong, nonatomic) NSArray *photoArray;  // 记录当前动态的图片数组，用于查看大图
 
@@ -168,6 +171,9 @@
     return _locationLabel;
 
 }
+
+// 视频缩略图
+
 
 // 删除按钮
 - (UIButton *)deleteButton {
@@ -303,7 +309,7 @@
     };
     
     // 设置动态图片的frame,加载缩略图
-    if (self.seeLayout.seeModel.about_img.count != 0) {
+    if ([self.seeLayout.seeModel.type isEqualToString:@"2"]) {
         for (int i = 0; i < self.seeLayout.seeModel.about_img.count; i++) {
             // 创建图片显示
             CImageView *imageView = [[CImageView alloc] initWithFrame:[_seeLayout.imgFrameArr[i] CGRectValue]];
@@ -325,13 +331,16 @@
             }
             imageView.clipsToBounds = YES;
             [self.contentView addSubview:imageView];
-            
         }
-        
-        
     }
     
-    
+    // 设置视频的缩略图
+    if ([self.seeLayout.seeModel.type isEqualToString:@"3"]) {
+        _movieThumbView = [[CMovieImageView alloc] initWithFrame:_seeLayout.movieFrame];
+        [_movieThumbView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.movieThumb]];
+        _movieThumbView.delegate = self;
+        [self.contentView addSubview:_movieThumbView];
+    }
     
     // 当微博是自己的时候，显示删除按钮
     if (_seeLayout.seeModel.user_id == [USER_D objectForKey:@"user_id"]) {
@@ -823,6 +832,26 @@
     [showBigScrollView addGestureRecognizer:tap];
 }
 
+#pragma mark - 点击视频缩略图查看视频
+- (void)touchMovieImageViewEnd {
+
+    NSURL *url = [NSURL URLWithString:_seeLayout.seeModel.movie];
+    AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:url];
+    AVPlayer *player = [[AVPlayer alloc] initWithPlayerItem:item];
+    CPlayerLayer *playerLayer = [[CPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    playerLayer.player = player;
+    [player play];
+    [[UIApplication sharedApplication].keyWindow addSubview:playerLayer];
+    
+    // 点击了视频
+    playerLayer.touchPlayer = ^() {
+    
+        
+    
+    };
+
+}
+
 #pragma mark - 长按提示收藏
 - (void)cImageViewLongTouch:(CImageView *)cImageView {
 
@@ -887,6 +916,7 @@
     NSLog(@"%@", cLabel.text);
 
 }
+
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

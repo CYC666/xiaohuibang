@@ -546,8 +546,21 @@
         seeModel.head_img = dic[@"head_img"];
         seeModel.content = dic[@"content"];
         seeModel.place = dic[@"place"];
-        seeModel.about_img = dic[@"about_img"];
-        seeModel.thumb_img = dic[@"thumb_img"];
+        seeModel.type = dic[@"type"];
+        // 纯文本
+        if ([dic[@"type"] isEqualToString:@"1"]) {
+            
+        }
+        // 带图片
+        else if ([dic[@"type"] isEqualToString:@"2"]) {
+            seeModel.about_img = dic[@"about_img"];
+            seeModel.thumb_img = dic[@"thumb_img"];
+        }
+        // 带视频
+        else if ([dic[@"type"] isEqualToString:@"3"]) {
+            seeModel.movieThumb = dic[@"thumb_img"];
+            seeModel.movie = dic[@"about_img"];
+        }
         seeModel.create_time = dic[@"create_time"];
         
         NSMutableArray *praiseTempArr = [NSMutableArray array];

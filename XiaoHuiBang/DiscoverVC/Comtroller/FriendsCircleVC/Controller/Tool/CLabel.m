@@ -39,10 +39,7 @@
                                                block:^(NSTimer * _Nonnull timer) {
                                                    _touchTime += 0.1;
                                                    if (_touchTime > 1) {
-                                                       // 长按了
-                                                       if ([_delegate respondsToSelector:@selector(cLabelLongTouch:)]) {
-                                                           [_delegate cLabelLongTouch:self];
-                                                       }
+                                                       [_delegate cLabelLongTouch:self];
                                                        [_timer invalidate];
                                                        _touchTime = 0;
                                                    }

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		04028F311DEC2D0E0000CE45 /* icon_app.png in Resources */ = {isa = PBXBuildFile; fileRef = 04028F301DEC2D0E0000CE45 /* icon_app.png */; };
+		0410D2741E14AE9200253224 /* CMovieImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0410D2731E14AE9200253224 /* CMovieImageView.m */; };
+		0410D2781E14B08F00253224 /* icon_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 0410D2751E14B08F00253224 /* icon_play.png */; };
+		0410D2791E14B08F00253224 /* icon_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0410D2761E14B08F00253224 /* icon_play@2x.png */; };
+		0410D27A1E14B08F00253224 /* icon_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0410D2771E14B08F00253224 /* icon_play@3x.png */; };
 		042BD7D21E1244C900746B1A /* FriendsCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042BD66B1E1244C800746B1A /* FriendsCircleViewController.m */; };
 		042BD7D31E1244C900746B1A /* FromCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 042BD66E1E1244C800746B1A /* FromCamera.m */; };
 		042BD7D41E1244C900746B1A /* FromCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042BD6701E1244C800746B1A /* FromCameraController.m */; };
@@ -572,6 +576,11 @@
 
 /* Begin PBXFileReference section */
 		04028F301DEC2D0E0000CE45 /* icon_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_app.png; sourceTree = "<group>"; };
+		0410D2721E14AE9200253224 /* CMovieImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMovieImageView.h; sourceTree = "<group>"; };
+		0410D2731E14AE9200253224 /* CMovieImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMovieImageView.m; sourceTree = "<group>"; };
+		0410D2751E14B08F00253224 /* icon_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_play.png; sourceTree = "<group>"; };
+		0410D2761E14B08F00253224 /* icon_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_play@2x.png"; sourceTree = "<group>"; };
+		0410D2771E14B08F00253224 /* icon_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_play@3x.png"; sourceTree = "<group>"; };
 		042BD66A1E1244C800746B1A /* FriendsCircleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsCircleViewController.h; sourceTree = "<group>"; };
 		042BD66B1E1244C800746B1A /* FriendsCircleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsCircleViewController.m; sourceTree = "<group>"; };
 		042BD66D1E1244C800746B1A /* FromCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FromCamera.h; sourceTree = "<group>"; };
@@ -1530,6 +1539,8 @@
 				042BD7631E1244C900746B1A /* UIScrollView+PullDownRefresh.m */,
 				042BD7641E1244C900746B1A /* UIScrollView+PullUpRefresh.h */,
 				042BD7651E1244C900746B1A /* UIScrollView+PullUpRefresh.m */,
+				0410D2721E14AE9200253224 /* CMovieImageView.h */,
+				0410D2731E14AE9200253224 /* CMovieImageView.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1923,6 +1934,9 @@
 		042BD76E1E1244C900746B1A /* MyDocuments */ = {
 			isa = PBXGroup;
 			children = (
+				0410D2751E14B08F00253224 /* icon_play.png */,
+				0410D2761E14B08F00253224 /* icon_play@2x.png */,
+				0410D2771E14B08F00253224 /* icon_play@3x.png */,
 				042BD76F1E1244C900746B1A /* backgroundPicture.jpg */,
 				042BD7701E1244C900746B1A /* holderLabel.png */,
 				042BD7711E1244C900746B1A /* holderLabel@2x.png */,
@@ -2912,6 +2926,7 @@
 				042BD7EF1E1244C900746B1A /* icon_like_nor_highlight.png in Resources */,
 				F309477C1DD33ED800638827 /* point@2x.png in Resources */,
 				F30947531DD33EC200638827 /* icon_flash_close@3x.png in Resources */,
+				0410D27A1E14B08F00253224 /* icon_play@3x.png in Resources */,
 				042BD8A71E1244C900746B1A /* loading@2x.gif in Resources */,
 				F33F89841D9E4B9000FB0F70 /* PersonageTableViewCell.xib in Resources */,
 				042BD89E1E1244C900746B1A /* icon_redo@2x.png in Resources */,
@@ -3062,6 +3077,7 @@
 				042BD86A1E1244C900746B1A /* icon_back_new.png in Resources */,
 				F38626A21DDC08ED001F8B0B /* up.png in Resources */,
 				042BD8871E1244C900746B1A /* icon_go@3x.png in Resources */,
+				0410D2791E14B08F00253224 /* icon_play@2x.png in Resources */,
 				F3A0E0211DB757A000E9F12C /* CellNotSelected@2x.png in Resources */,
 				F35DB80D1DA6310400AF5A31 /* app icon@2x.png in Resources */,
 				F39FD7011DDDB51A00D3724C /* big_arrow.png in Resources */,
@@ -3096,6 +3112,7 @@
 				F3703BBA1DBDFD38000508B1 /* AB5C9E0319D66CB8A938884D6D960D34.png in Resources */,
 				F30947881DD3409500638827 /* alpha50@2x.png in Resources */,
 				F306DE841DD096360034BA65 /* UsersToTheirOwnGroupViewController.xib in Resources */,
+				0410D2781E14B08F00253224 /* icon_play.png in Resources */,
 				042BD7FD1E1244C900746B1A /* icon_liked_magnify@3x.png in Resources */,
 				042BD8061E1244C900746B1A /* checkbox_pic@3x.png in Resources */,
 				F39FD7621DDDBA9F00D3724C /* pic_loading@3x.png in Resources */,
@@ -3343,6 +3360,7 @@
 				042BD8221E1244C900746B1A /* LGPhotoPickerBrowserPhotoView.m in Sources */,
 				042BD8591E1244C900746B1A /* SuPhotoManager.m in Sources */,
 				042BD84E1E1244C900746B1A /* SuPhotoPreviewer.m in Sources */,
+				0410D2741E14AE9200253224 /* CMovieImageView.m in Sources */,
 				F3ACCB3F1DC9C1F2002355AC /* StitchingImage.m in Sources */,
 				F31B2A971DA4E6EA00330636 /* ChangePswViewController.m in Sources */,
 				042BD8231E1244C900746B1A /* LGPhotoPickerCustomToolBarView.m in Sources */,

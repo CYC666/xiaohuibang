@@ -11,6 +11,7 @@
 #import "InputView.h"
 #import "CCommentPro.h"
 #import "CLabel.h"
+#import "CMovieImageView.h"
 
 
 @interface SeeCell : UITableViewCell
@@ -21,8 +22,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headImageView;        // 头像
 @property (weak, nonatomic) IBOutlet UILabel *nickNameLabel;            // 昵称
 
-@property (strong, nonatomic) CLabel *contentLabel;                    // 动态内容视图
+@property (strong, nonatomic) CLabel *contentLabel;                     // 动态内容视图
 @property (strong, nonatomic) UIImageView *aboutImageView;              // 动态的图片视图
+
+@property (strong, nonatomic) CMovieImageView *movieThumbView;              // 视频的缩略图
 
 @property (strong, nonatomic) UIButton *deleteButton;                   // 删除按钮
 @property (strong, nonatomic) UILabel *timeLabel;                       // 显示发布动态的时间Label
