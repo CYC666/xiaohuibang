@@ -27,6 +27,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 #import "CPlayerLayer.h"
+#import "CWebPlayerLayer.h"
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -835,6 +836,10 @@
 
 #pragma mark - 点击视频缩略图查看视频
 - (void)touchMovieImageViewEnd {
+    
+    CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                                 withUrl:[NSURL URLWithString:_seeLayout.seeModel.movie]];
+    [[UIApplication sharedApplication].keyWindow addSubview:playerView];
     
     
 //    
