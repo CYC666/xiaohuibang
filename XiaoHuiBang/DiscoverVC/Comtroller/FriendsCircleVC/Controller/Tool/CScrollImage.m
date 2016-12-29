@@ -34,7 +34,7 @@
 @implementation CScrollImage
 
 
-- (instancetype)initWithFrame:(CGRect)frame imageArray:(NSArray *)array thumbArray:(NSArray *)thumbArray currentPage:(NSInteger)page {
+- (instancetype)initWithFrame:(CGRect)frame imageArray:(NSArray *)array currentPage:(NSInteger)page {
 
     self = [super initWithFrame:frame];
     if (self != nil) {
@@ -66,7 +66,7 @@
     for (int i = 0; i < _imageArr.count; i++) {
         
         // 把图片放在单独的滑动视图之上，就不会影响底下的主滑动视图了
-        
+        __weak typeof(self) weakSelf = self;
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(rect.size.width * i, 0, rect.size.width, rect.size.height)];
         scrollView.delegate = self;
         scrollView.minimumZoomScale = 1;
@@ -93,6 +93,7 @@
                                  } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                      [progress removeFromSuperview];
                                      progress = nil;
+                                     // [weakSelf setImageView:imageView withImage:image];
                                  }];
             
         } else {
@@ -104,6 +105,7 @@
                                  } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                      [progress removeFromSuperview];
                                      progress = nil;
+                                     // [weakSelf setImageView:imageView withImage:image];
                                  }];
         }
         
@@ -191,7 +193,6 @@
 #pragma mark - 保存图片
 - (void)saveAction:(UILongPressGestureRecognizer *)longPress {
     
-    
     // 长按手势会调用两次（开始、结束）
     if (longPress.state == UIGestureRecognizerStateBegan) {
         UIImageWriteToSavedPhotosAlbum([(UIImageView *)(longPress.view) image], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
@@ -211,7 +212,14 @@
 }
 
 
+#pragma mark - 设置图片
+- (void)setImageView:(UIImageView *)imageView withImage:(UIImage *)image {
 
+    // CGSize size = image.size;
+    imageView.image = nil;
+    imageView.image = image;
+
+}
 
 
 

@@ -810,7 +810,6 @@
     
     CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                            imageArray:_seeLayout.seeModel.about_img
-                                                               thumbArray:_seeLayout.seeModel.thumb_img
                                                           currentPage:cImageView.imagePage];
     showBigScrollView.alpha = 0;
     [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];

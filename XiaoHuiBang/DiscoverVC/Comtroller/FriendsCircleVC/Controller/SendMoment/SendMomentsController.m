@@ -25,6 +25,7 @@
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "CPlayerLayer.h"
+#import "CScrollImage.h"
 
 #define reloadSeeDate @"reloadSeeDate"                          // 刷新动态数据的通知
 
@@ -267,7 +268,7 @@
     }
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : content,
-                             @"file" : _imageArray.count == 0 ? @"" : _imageArray,
+                             @"file" : @"",
                              @"place" : _locationStr == nil ? @"" : _locationStr};
 
     
@@ -283,6 +284,20 @@
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showErrorWithStatus:@"发送失败"];
                                   }];
+    } else if (_movieUrl != nil) {
+        
+        // 跳转上传
+        [self duceMovieData];
+        
+//        [CNetTool postAboutWithParameters:params
+//                                movieData:[NSData dataWithContentsOfURL:_movieUrl]
+//                                  success:^(id response) {
+//                                      [SVProgressHUD dismiss];
+//                                      [SVProgressHUD showSuccessWithStatus:@"发送视频成功"];
+//                                  } failure:^(NSError *err) {
+//                                      [SVProgressHUD dismiss];
+//                                      [SVProgressHUD showErrorWithStatus:@"发送失败"];
+//                                  }];
     } else {
     
         [CNetTool postAboutWithParameters:params
@@ -632,7 +647,8 @@
         [self presentViewController:alert animated:YES completion:nil];
         
     } else {
-        // 查看照片
+        
+        
         
         // 转换图片
         NSInteger index = [cImageView.imageID integerValue];
@@ -696,10 +712,110 @@
 }
 
 
+#pragma mark - 上传视频，视频处理
+- (void)duceMovieData {
+    
+    // 视频转换成MP4格式
+    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:_movieUrl  options:nil];
+    NSDateFormatter* formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@"yyyyMMddHHmmss"];
+    NSString *fileName = [NSString stringWithFormat:@"output-%@.mp4",[formater stringFromDate:[NSDate date]]];
+    NSString *outfilePath = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", fileName];
+    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    __weak typeof(self) weakSelf = self;
+    if ([compatiblePresets containsObject:AVAssetExportPresetMediumQuality]) {
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset presetName:AVAssetExportPresetMediumQuality];
+        exportSession.outputURL = [NSURL fileURLWithPath:outfilePath];
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            if ([exportSession status] == AVAssetExportSessionStatusCompleted) {
+                NSURL *filePathURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@", outfilePath]];
+                [self uploadMovieAboutWithUrl:filePathURL fileName:outfilePath];
+            }else{
+                
+            }
+        }];
+    }
+    
+    
+    
+    
+//    
+//    AFHTTPRequestSerializer *ser=[[AFHTTPRequestSerializer alloc] init];
+//    NSMutableURLRequest *request =
+//    [ser multipartFormRequestWithMethod:@"POST"
+//                              URLString:@"http://115.28.6.7/rongyun.php/Home/about/about_publish"
+//                             parameters:params
+//              constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//                  [formData appendPartWithFileURL:filePathURL name:@"file" fileName:fileName mimeType:@"application/octet-stream" error:nil];
+//              } error:nil];
+//    //@"image/png"   @"application/octet-stream"  mimeType thank you!
+//    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+//        if (error) {
+//            [SVProgressHUD dismiss];
+//            [SVProgressHUD showErrorWithStatus:@"失败"];
+//        } else {
+//            [SVProgressHUD dismiss];
+//            [SVProgressHUD showSuccessWithStatus:@"成功"];
+//        }
+//        
+//    }];
+//    [uploadTask resume];
 
+}
 
+#pragma mark - 开始上传
+- (void)uploadMovieAboutWithUrl:(NSURL *)url fileName:(NSString *)name {
 
+    // 开始上传
+    NSString *content = [NSString stringWithUTF8String:[_textView.text UTF8String]];
+    NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                             @"content" : content,
+                             @"video" : @"",
+                             @"place" : _locationStr == nil ? @"" : _locationStr};
+    
+    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_publish";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+           [formData appendPartWithFileURL:url name:@"video" fileName:name mimeType:@"application/octet-stream" error:nil];
+       } progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              [SVProgressHUD dismiss];
+              [SVProgressHUD showSuccessWithStatus:@"成功"];
+              // 删除沙盒视频
+              [self removeSandMovie];
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              [SVProgressHUD dismiss];
+              [SVProgressHUD showErrorWithStatus:@"失败"];
+          }];
 
+}
+
+#pragma mark - 删除沙盒视频
+- (void)removeSandMovie {
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSArray *contents = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
+    NSEnumerator *e = [contents objectEnumerator];
+    NSString *filename;
+    while ((filename = [e nextObject])) {
+        if ([filename isEqualToString:@"tmp.PNG"]) {
+            [fileManager removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:filename] error:NULL];
+            continue;
+        }
+        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"mp4"]||
+            [[[filename pathExtension] lowercaseString] isEqualToString:@"mov"]||
+            [[[filename pathExtension] lowercaseString] isEqualToString:@"png"]) {
+            [fileManager removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:filename] error:NULL];
+        }
+    }
+
+}
 
 
 

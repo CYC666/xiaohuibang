@@ -13,6 +13,8 @@
 @interface CLabel ()
 
 @property (strong, nonatomic) UIColor *cColor;  // 记录初始颜色,以便触摸结束后还能显示原始颜色
+@property (strong, nonatomic) NSTimer *timer;
+@property (assign, nonatomic) float touchTime;
 
 @end
 
@@ -32,6 +34,20 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
+    _timer = [NSTimer scheduledTimerWithTimeInterval:.1
+                                             repeats:YES
+                                               block:^(NSTimer * _Nonnull timer) {
+                                                   _touchTime += 0.1;
+                                                   if (_touchTime > 1) {
+                                                       // 长按了
+                                                       if ([_delegate respondsToSelector:@selector(cLabelLongTouch:)]) {
+                                                           [_delegate cLabelLongTouch:self];
+                                                       }
+                                                       [_timer invalidate];
+                                                       _touchTime = 0;
+                                                   }
+                                               }];
+    
     // 如果是富文本，那就不要设定颜色了，不然颜色会改变
     if (self.attributedText == nil) {
         self.cColor = self.textColor;

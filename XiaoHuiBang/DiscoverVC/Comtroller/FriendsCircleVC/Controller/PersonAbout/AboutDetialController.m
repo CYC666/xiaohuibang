@@ -701,18 +701,62 @@
 
 #pragma mark - 点击小头像调用的代理方法
 - (void)cImageViewTouch:(CImageView *)cImageView {
-
+    
     // 跳转到该用户的个人动态界面
     PersonAboutController *personController = [[PersonAboutController alloc] initWithUserID:cImageView.imageID];
     [self.navigationController pushViewController:personController animated:YES];
 
+    
+
 }
+
 
 #pragma mark - 点击动态的内容响应代理方法
 - (void)cLabelTouch:(CLabel *)cLabel {
 
     // 在这里可以做回复功能
     NSLog(@"%@", cLabel.text);
+
+}
+- (void)cLabelLongTouch:(CLabel *)cLabel {
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
+                                                                       message:nil
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"拷贝"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                                                           [pasteboard setString:cLabel.text];
+                                                           [SVProgressHUD dismiss];
+                                                           [SVProgressHUD showSuccessWithStatus:@"已复制"];
+                                                       }];
+    UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           // 收藏
+                                                           NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                                                                    @"from_id":_detialLayout.seeModel.user_id,
+                                                                                    @"content":cLabel.text,
+                                                                                    @"type":@1,
+                                                                                    @"source":@3};
+                                                           [CNetTool collectWithParameters:params
+                                                                                   success:^(id response) {
+                                                                                       [SVProgressHUD dismiss];
+                                                                                       [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+                                                                                   } failure:^(NSError *err) {
+                                                                                       
+                                                                                   }];
+                                                       }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
+    
+    [alert addAction:copyAction];
+    [alert addAction:collectAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
 
 }
 

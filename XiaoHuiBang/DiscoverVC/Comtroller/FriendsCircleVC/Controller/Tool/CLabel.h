@@ -17,6 +17,7 @@ typedef void(^CLableBlock)(NSArray *);
 @protocol CLabelDeletage <NSObject>
 
 - (void)cLabelTouch:(CLabel *)cLabel;
+- (void)cLabelLongTouch:(CLabel *)cLabel;
 
 @end
 

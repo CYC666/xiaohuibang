@@ -297,8 +297,6 @@ typedef void(^PropertyChangeBlock)(AVCaptureDevice *captureDevice);
     [self dismissViewControllerAnimated:YES completion:nil];
 
     if (_isPicture == YES) {
-        // 保存并返回image
-        UIImageWriteToSavedPhotosAlbum(_imageOK, nil, nil, nil);
         __block UIImage *image = _imageOK;
         self.imageBlock(image);
     } else {

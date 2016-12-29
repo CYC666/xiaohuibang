@@ -33,7 +33,7 @@
 @property (copy, nonatomic) NSString *imageID;
 
 // 发表多图动态界面
-@property (assign, nonatomic) NSInteger imageNum;   // 图片量
+@property (assign, nonatomic) NSInteger imageNum;   // 图片量(一旦设置，此imageView就会显示数量)
 
 // 滑动视图点击的页数
 @property (assign, nonatomic) NSInteger imagePage;  // 当前页数

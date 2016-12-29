@@ -22,7 +22,7 @@
                         success:(void (^)(id response))success
                         failure:(void (^)(NSError *err))failure;
 
-// 发表动态(不含图片)
+// 发表动态(纯文字)
 + (void)postAboutWithParameters:(id)parameters
                         success:(void (^)(id response))success
                         failure:(void (^)(NSError *err))failure;
@@ -30,6 +30,12 @@
 // 发表动态(含图片)
 + (void)postAboutWithParameters:(id)parameters
                            data:(NSMutableArray *)dataArr
+                        success:(void (^)(id response))success
+                        failure:(void (^)(NSError *err))failure;
+
+// 发表动态(含视频)
++ (void)postAboutWithParameters:(id)parameters
+                      movieData:(NSData *)movieData
                         success:(void (^)(id response))success
                         failure:(void (^)(NSError *err))failure;
 
@@ -65,16 +71,11 @@
                           success:(void (^)(id response))success
                           failure:(void (^)(NSError *err))failure;
 
-// 收藏文本
+// 收藏
 + (void)collectWithParameters:(id)parameters
                       success:(void (^)(id response))success
                       failure:(void (^)(NSError *err))failure;
 
-// 收藏图片
-+ (void)collectImageWithParameters:(id)parameters
-                              data:(NSData *)imageData
-                           success:(void (^)(id response))success
-                           failure:(void (^)(NSError *err))failure;
 
 
 
