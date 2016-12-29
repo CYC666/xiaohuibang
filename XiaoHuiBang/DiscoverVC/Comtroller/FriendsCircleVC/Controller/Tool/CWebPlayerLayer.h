@@ -10,8 +10,8 @@
 
 @interface CWebPlayerLayer : UIView
 
-@property (strong, nonatomic) NSURL *movieUrl;
+@property (strong, nonatomic) NSString *movieUrlStr;
 
-- (instancetype)initWithFrame:(CGRect)frame withUrl:(NSURL *)url;
+- (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr;
 
 @end

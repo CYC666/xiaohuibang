@@ -23,10 +23,10 @@
 
 @implementation CWebPlayerLayer
 
-- (instancetype)initWithFrame:(CGRect)frame withUrl:(NSURL *)url {
+- (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr {
 
     if (self = [super initWithFrame:frame]) {
-        self.movieUrl = url;
+        self.movieUrlStr = urlStr;
     }
     return self;
     
@@ -45,21 +45,28 @@
 }
 
 
-- (void)setMovieUrl:(NSURL *)movieUrl {
+// 设置url的时候，开始下载视频
+- (void)setMovieUrlStr:(NSString *)movieUrlStr {
 
+    _movieUrlStr = movieUrlStr;
     __weak typeof(self) weakSelf = self;
     _manager = [AFHTTPSessionManager manager];
+    NSURL *movieUrl = [NSURL URLWithString:movieUrlStr];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:movieUrl];
     NSURLSessionDownloadTask *task = [_manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.progressView.progress = (double)downloadProgress.fractionCompleted;
         });
     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-        
-        NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/a.mp4"];
+        NSMutableString *mUrlStr = [NSMutableString stringWithString:movieUrlStr];
+        // 去除字段     http://www.xfzone.cn/Public/about/2016-12-29/
+        // 只留下      586492e6b6a4e.mp4
+        [mUrlStr replaceCharactersInRange:NSMakeRange(0, 45) withString:@""];
+        NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@", mUrlStr]];
         return [NSURL fileURLWithPath:filePath];
         
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        // 这里应该保存视频
         weakSelf.progressView.alpha = 0;
         if (!error) {
             [weakSelf playeMovie:filePath];

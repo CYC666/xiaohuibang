@@ -838,65 +838,30 @@
 - (void)touchMovieImageViewEnd {
     
     CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
-                                                                 withUrl:[NSURL URLWithString:_seeLayout.seeModel.movie]];
+                                                                 withUrl:_seeLayout.seeModel.movie];
+    // 添加单击手势，退出播放视频
+    UITapGestureRecognizer *movieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endPlayMovie:)];
+    [playerView addGestureRecognizer:movieTap];
     [[UIApplication sharedApplication].keyWindow addSubview:playerView];
     
     
-//    
-//    __weak typeof(self) weakSelf = self;
-//    // 创建播放器
-//    NSURL *url = [NSURL URLWithString:_seeLayout.seeModel.movie];
-//    AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:url];
-//    AVPlayer *player = [[AVPlayer alloc] initWithPlayerItem:item];
-//    _playerLayer = [[CPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds];
-//    _playerLayer.player = player;
-//    _playerLayer.alpha = 0;
-//    [[UIApplication sharedApplication].keyWindow addSubview:_playerLayer];
-//    // 添加动画
-//    [UIView animateWithDuration:.35
-//                     animations:^{
-//                         weakSelf.playerLayer.alpha = 1;
-//                     } completion:^(BOOL finished) {
-//                         [player play];
-//                     }];
-//    
-//    // 点击了视频
-//    _playerLayer.touchPlayer = ^() {
-//    
-//        [UIView animateWithDuration:.35
-//                         animations:^{
-//                             weakSelf.playerLayer.alpha = 0;
-//                         } completion:^(BOOL finished) {
-//                             [weakSelf.playerLayer removeFromSuperview];
-//                             weakSelf.playerLayer = nil;
-//                         }];
-//        
-//    
-//    };
 
 }
 
-#pragma mark - 下载视频
-- (NSURL *)downloadMovie {
+#pragma mark - 单击视频，退出播放
+- (void)endPlayMovie:(UITapGestureRecognizer *)tap {
 
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString  *fullPath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, @"test.mp4"];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSURL *url = [NSURL URLWithString:_seeLayout.seeModel.movie];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSURLSessionDownloadTask *task =
-    [manager downloadTaskWithRequest:request
-                            progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                                return [NSURL fileURLWithPath:fullPath];
-                            }
-                   completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                       
-                   }];
-    [task resume];
-    return nil;
-
+    __block CWebPlayerLayer *playerView = (CWebPlayerLayer *)tap.view;
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         playerView.alpha = 0;
+                     } completion:^(BOOL finished) {
+                         [playerView removeFromSuperview];
+                         playerView = nil;
+                     }];
+    
 }
+
 
 #pragma mark - 长按提示收藏
 - (void)cImageViewLongTouch:(CImageView *)cImageView {
@@ -1272,6 +1237,62 @@ return _commentsListView;
  //
  //    [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
  //
+ 
+ //
+ //    __weak typeof(self) weakSelf = self;
+ //    // 创建播放器
+ //    NSURL *url = [NSURL URLWithString:_seeLayout.seeModel.movie];
+ //    AVPlayerItem *item = [[AVPlayerItem alloc] initWithURL:url];
+ //    AVPlayer *player = [[AVPlayer alloc] initWithPlayerItem:item];
+ //    _playerLayer = [[CPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds];
+ //    _playerLayer.player = player;
+ //    _playerLayer.alpha = 0;
+ //    [[UIApplication sharedApplication].keyWindow addSubview:_playerLayer];
+ //    // 添加动画
+ //    [UIView animateWithDuration:.35
+ //                     animations:^{
+ //                         weakSelf.playerLayer.alpha = 1;
+ //                     } completion:^(BOOL finished) {
+ //                         [player play];
+ //                     }];
+ //
+ //    // 点击了视频
+ //    _playerLayer.touchPlayer = ^() {
+ //
+ //        [UIView animateWithDuration:.35
+ //                         animations:^{
+ //                             weakSelf.playerLayer.alpha = 0;
+ //                         } completion:^(BOOL finished) {
+ //                             [weakSelf.playerLayer removeFromSuperview];
+ //                             weakSelf.playerLayer = nil;
+ //                         }];
+ //        
+ //    
+ //    };
+
+ 
+ #pragma mark - 下载视频
+ - (NSURL *)downloadMovie {
+ 
+ NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+ NSString *documentsDirectory = [paths objectAtIndex:0];
+ NSString  *fullPath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, @"test.mp4"];
+ AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+ NSURL *url = [NSURL URLWithString:_seeLayout.seeModel.movie];
+ NSURLRequest *request = [NSURLRequest requestWithURL:url];
+ NSURLSessionDownloadTask *task =
+ [manager downloadTaskWithRequest:request
+ progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+ return [NSURL fileURLWithPath:fullPath];
+ }
+ completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+ 
+ }];
+ [task resume];
+ return nil;
+ 
+ }
+ 
  
  
 */
