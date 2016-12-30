@@ -34,14 +34,14 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
+    __weak typeof(self) weakSelf = self;
     _timer = [NSTimer scheduledTimerWithTimeInterval:.1
                                              repeats:YES
                                                block:^(NSTimer * _Nonnull timer) {
-                                                   _touchTime += 0.1;
-                                                   if (_touchTime > 1) {
-                                                       [_delegate cLabelLongTouch:self];
-                                                       [_timer invalidate];
-                                                       _touchTime = 0;
+                                                   weakSelf.touchTime += 0.1;
+                                                   if (weakSelf.touchTime > 1) {
+                                                       [weakSelf.delegate cLabelLongTouch:self];
+                                                       [weakSelf.timer invalidate];
                                                    }
                                                }];
     
@@ -59,8 +59,10 @@
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
-    // 执行代理方法,传递数据
-    [_delegate cLabelTouch:self];
+    if (_touchTime < 1) {
+        // 执行代理方法,传递数据
+        [_delegate cLabelTouch:self];
+    }
     
     // 查询是否存在电话、网址,如果有，那就执行block，并返回存住这些电话、网址的数组
     NSMutableArray *resultArr = [NSMutableArray array];

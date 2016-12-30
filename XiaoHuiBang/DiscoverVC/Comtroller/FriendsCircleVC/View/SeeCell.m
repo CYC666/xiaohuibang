@@ -83,10 +83,10 @@
         _contentLabel.numberOfLines = 0;
         _contentLabel.delegate = self;
         _contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
-        // 添加长按手势，将文本复制到剪切板
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                                action:@selector(copyText:)];
-        [_contentLabel addGestureRecognizer:longPress];
+//        // 添加长按手势，将文本复制到剪切板
+//        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+//                                                                                                action:@selector(copyText:)];
+//        [_contentLabel addGestureRecognizer:longPress];
         [self.contentView addSubview:_contentLabel];
     }
     return _contentLabel;
@@ -94,51 +94,51 @@
 }
 
 #pragma mark - 长按动态文本，复制、收藏
-- (void)copyText:(UILongPressGestureRecognizer *)gesture {
-    if (gesture.state ==UIGestureRecognizerStateBegan) {
-        
-        // 弹出可选选项
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"复制"
-                                                             style:UIAlertActionStyleDefault
-                                                           handler:^(UIAlertAction * _Nonnull action) {
-                                                               UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                                                               [pasteboard setString:_contentLabel.text];
-                                                               [SVProgressHUD dismiss];
-                                                               [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
-                                                           }];
-        UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
-                                                             style:UIAlertActionStyleDefault
-                                                           handler:^(UIAlertAction * _Nonnull action) {
-                                                               
-                                                               // 收藏
-                                                               NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
-                                                                                        @"from_id":_seeLayout.seeModel.user_id,
-                                                                                        @"content":_contentLabel.text,
-                                                                                        @"type":@1,
-                                                                                        @"source":@3};
-                                                               [CNetTool collectWithParameters:params
-                                                                                       success:^(id response) {
-                                                                                           [SVProgressHUD dismiss];
-                                                                                           [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
-                                                                                       } failure:^(NSError *err) {
-                                                                                           
-                                                                                       }];
-                                                           }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
-                                                               style:UIAlertActionStyleDefault
-                                                             handler:nil];
-        [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
-        
-        [alert addAction:copyAction];
-        [alert addAction:collectAction];
-        [alert addAction:cancelAction];
-        [[self viewController] presentViewController:alert animated:YES completion:nil];
-        
-    }
-}
+//- (void)copyText:(UILongPressGestureRecognizer *)gesture {
+//    if (gesture.state ==UIGestureRecognizerStateBegan) {
+//        
+//        // 弹出可选选项
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
+//                                                                       message:nil
+//                                                                preferredStyle:UIAlertControllerStyleActionSheet];
+//        UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"复制"
+//                                                             style:UIAlertActionStyleDefault
+//                                                           handler:^(UIAlertAction * _Nonnull action) {
+//                                                               UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+//                                                               [pasteboard setString:_contentLabel.text];
+//                                                               [SVProgressHUD dismiss];
+//                                                               [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
+//                                                           }];
+//        UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
+//                                                             style:UIAlertActionStyleDefault
+//                                                           handler:^(UIAlertAction * _Nonnull action) {
+//                                                               
+//                                                               // 收藏
+//                                                               NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+//                                                                                        @"from_id":_seeLayout.seeModel.user_id,
+//                                                                                        @"content":_contentLabel.text,
+//                                                                                        @"type":@1,
+//                                                                                        @"source":@3};
+//                                                               [CNetTool collectWithParameters:params
+//                                                                                       success:^(id response) {
+//                                                                                           [SVProgressHUD dismiss];
+//                                                                                           [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
+//                                                                                       } failure:^(NSError *err) {
+//                                                                                           
+//                                                                                       }];
+//                                                           }];
+//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+//                                                               style:UIAlertActionStyleDefault
+//                                                             handler:nil];
+//        [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
+//        
+//        [alert addAction:copyAction];
+//        [alert addAction:collectAction];
+//        [alert addAction:cancelAction];
+//        [[self viewController] presentViewController:alert animated:YES completion:nil];
+//        
+//    }
+//}
 
 
 
@@ -921,15 +921,60 @@
 
 
 
-#pragma maek - 点击评论响应代理方法，在这里可以做回复评论
+#pragma mark - 点击评论响应代理方法，在这里可以做回复评论
 - (void)cLabelTouch:(CLabel *)cLabel {
 
     NSLog(@"%@", cLabel.text);
 
 }
 
+#pragma mark - 长按文本提示收藏或复制
+- (void)cLabelLongTouch:(CLabel *)cLabel {
+    
+    // 弹出可选选项
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"复制"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                           UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                                                           [pasteboard setString:_contentLabel.text];
+                                                           [SVProgressHUD dismiss];
+                                                           [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
+                                                       }];
+    UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * _Nonnull action) {
+                                                              
+                                                              // 收藏
+                                                              NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                                                                       @"from_id":_seeLayout.seeModel.user_id,
+                                                                                       @"content":_contentLabel.text,
+                                                                                       @"type":@1,
+                                                                                       @"source":@3};
+                                                              [CNetTool collectWithParameters:params
+                                                                                      success:^(id response) {
+                                                                                          [SVProgressHUD dismiss];
+                                                                                          [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
+                                                                                      } failure:^(NSError *err) {
+                                                                                          
+                                                                                      }];
+                                                          }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
+    
+    [alert addAction:copyAction];
+    [alert addAction:collectAction];
+    [alert addAction:cancelAction];
+    [[self viewController] presentViewController:alert animated:YES completion:nil];
+
+}
 
 
+#pragma mark - 点击单元格收起键盘和点赞
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     // 发送通知，收起评论框（对任何单元格有效）
@@ -940,6 +985,7 @@
     
 }
 
+#pragma mark - 点击地址跳转到地图
 - (void)locationTapAction:(UITapGestureRecognizer *)tap {
     
     // 发送通知，收起评论框（对任何单元格有效）
