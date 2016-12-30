@@ -86,8 +86,8 @@
     // 年份,传到tableView
     [self.delegate getYearToTableView:_personSeeModelLayout.timeTextYear];
     
-    // 设置图片（如果有的话）
-    if (_personSeeModelLayout.personSeeModel.about_img.count != 0) {
+    // 如果是图片动态
+    if ([_personSeeModelLayout.personSeeModel.type isEqualToString:@"2"]) {
         
         for (int i = 0; i < _personSeeModelLayout.imageFrameArr.count; i++) {
             
@@ -102,7 +102,24 @@
             imageView.contentMode = UIViewContentModeScaleAspectFill;
             imageView.clipsToBounds = YES;
             [self.contentView addSubview:imageView];
+            
         }
+    } else if ([_personSeeModelLayout.personSeeModel.type isEqualToString:@"3"]) {
+    
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:_personSeeModelLayout.movieThumbFrame];
+        NSString *urlStr = _personSeeModelLayout.personSeeModel.movieThumb;
+        if ([urlStr characterAtIndex:0] == 'h') {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]];
+        } else {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]];
+        }
+        
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
+        [self.contentView addSubview:imageView];
+        UIImageView *playImage = [[UIImageView alloc] initWithFrame:CGRectMake((imageView.bounds.size.width - 40)/2.0, (imageView.bounds.size.width - 40)/2.0, 40, 40)];
+        playImage.image = [UIImage imageNamed:@"icon_play"];
+        [imageView addSubview:playImage];
     }
     
     if (_hideBackgroundColor == NO) {

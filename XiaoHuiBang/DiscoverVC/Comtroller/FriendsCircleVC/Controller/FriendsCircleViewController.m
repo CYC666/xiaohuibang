@@ -558,8 +558,8 @@
         }
         // 带视频
         else if ([dic[@"type"] isEqualToString:@"3"]) {
-            seeModel.movieThumb = dic[@"thumb_img"];
-            seeModel.movie = dic[@"about_img"];
+            seeModel.movieThumb = dic[@"jt"];
+            seeModel.movie = dic[@"video"];
         }
         seeModel.create_time = dic[@"create_time"];
         

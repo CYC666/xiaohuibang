@@ -348,10 +348,17 @@
         model.about_id = dic[@"id"];
         model.user_id = dic[@"user_id"];
         model.content = dic[@"content"];
-        model.about_img = dic[@"about_img"];
         model.place = dic[@"place"];
         model.create_time = dic[@"create_time"];
-        model.thumb_img = dic[@"thumb_img"];
+        model.type = dic[@"type"];
+        if ([dic[@"type"] isEqualToString:@"2"]) {
+            model.about_img = dic[@"about_img"];
+            model.thumb_img = dic[@"thumb_img"];
+        } else if ([dic[@"type"] isEqualToString:@"3"]) {
+            model.movieThumb = dic[@"jt"];
+            model.movie = dic[@"video"];
+        }
+        
         
         PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
         
@@ -477,9 +484,16 @@
                                             model.user_id = dic[@"user_id"];
                                             model.content = dic[@"content"];
                                             model.place = dic[@"place"];
-                                            model.about_img = dic[@"about_img"];
                                             model.create_time = dic[@"create_time"];
-                                            model.thumb_img = dic[@"thumb_img"];
+                                            model.type = dic[@"type"];
+                                            if ([dic[@"type"] isEqualToString:@"2"]) {
+                                                model.about_img = dic[@"about_img"];
+                                                model.thumb_img = dic[@"thumb_img"];
+                                            } else if ([dic[@"type"] isEqualToString:@"3"]) {
+                                                model.movie = dic[@"video"];
+                                                model.movieThumb = dic[@"jt"];
+                                            }
+                                            
                                             PersonSeeLayout *layout = [[PersonSeeLayout alloc] init];
                                             // 要将isFirst放在设置model之前，不然使用无法使用isFirst来确定是否创建时间标签
                                             layout.isFirst = YES;

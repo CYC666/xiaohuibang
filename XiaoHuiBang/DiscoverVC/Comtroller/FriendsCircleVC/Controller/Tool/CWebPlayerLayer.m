@@ -37,7 +37,7 @@
 
     if (_progressView == nil) {
         self.backgroundColor = [UIColor blackColor];
-        _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 2)];
+        _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, .5)];
         [self addSubview:_progressView];
     }
     return _progressView;
@@ -47,32 +47,40 @@
 
 // 设置url的时候，开始下载视频
 - (void)setMovieUrlStr:(NSString *)movieUrlStr {
-
-    _movieUrlStr = movieUrlStr;
-    __weak typeof(self) weakSelf = self;
-    _manager = [AFHTTPSessionManager manager];
-    NSURL *movieUrl = [NSURL URLWithString:movieUrlStr];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:movieUrl];
-    NSURLSessionDownloadTask *task = [_manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            self.progressView.progress = (double)downloadProgress.fractionCompleted;
-        });
-    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-        NSMutableString *mUrlStr = [NSMutableString stringWithString:movieUrlStr];
-        // 去除字段     http://www.xfzone.cn/Public/about/2016-12-29/
-        // 只留下      586492e6b6a4e.mp4
-        [mUrlStr replaceCharactersInRange:NSMakeRange(0, 45) withString:@""];
-        NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@", mUrlStr]];
-        return [NSURL fileURLWithPath:filePath];
-        
-    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-        // 这里应该保存视频
-        weakSelf.progressView.alpha = 0;
-        if (!error) {
-            [weakSelf playeMovie:filePath];
-        }
-    }];
-    [task resume];
+    
+    // 判断本地是否已经有了视频
+    // 有则播放，无则下载，下载完后保存到本地
+    NSMutableString *mString = [NSMutableString stringWithString:movieUrlStr];
+    [mString replaceCharactersInRange:NSMakeRange(0, 45) withString:@""];
+    __block NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@", mString]];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:path]) {
+        // 存在视频，直接播放
+        [self playeMovie:[NSURL URLWithString:path]];
+    } else {
+        _movieUrlStr = movieUrlStr;
+        __weak typeof(self) weakSelf = self;
+        _manager = [AFHTTPSessionManager manager];
+        NSURL *movieUrl = [NSURL URLWithString:movieUrlStr];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:movieUrl];
+        NSURLSessionDownloadTask *task = [_manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                self.progressView.progress = (double)downloadProgress.fractionCompleted;
+            });
+        } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+            
+            return [NSURL fileURLWithPath:path];
+            
+        } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+            // 这里应该保存视频
+            NSLog(@"%@", path);
+            weakSelf.progressView.alpha = 0;
+            if (!error) {
+                [weakSelf playeMovie:filePath];
+            }
+        }];
+        [task resume];
+    }
 }
 
 #pragma mark - 播放

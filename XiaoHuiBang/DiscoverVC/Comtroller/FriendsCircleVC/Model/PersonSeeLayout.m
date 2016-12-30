@@ -57,7 +57,7 @@
     // 如果有照片
     // Y起点
     float startY;
-    if (personSeeModel.about_img.count != 0) {
+    if ([personSeeModel.type isEqualToString:@"2"]) {
         
         // 当cell是一组的开头时，添加垂直位移
         if (_isFirst == YES) {
@@ -130,7 +130,40 @@
         }
         
         
-    // 如果没有照片
+    // 如果是视频
+    } else if ([personSeeModel.type isEqualToString:@"3"]) {
+        // 当cell是一组的开头时，添加垂直位移
+        if (_isFirst == YES) {
+            startY = kIsFirstSize + kEdge;
+            _cellHeight = kCellHeight + kIsFirstSize;
+        } else {
+            startY = kEdge;
+            _cellHeight = kCellHeight;
+        }
+        _movieThumbFrame = CGRectMake(kTimeWidth, startY, kImgSize, kImgSize);
+        
+        // 文字底部的颜色区
+        _backgroundColorFrame = CGRectZero;
+        
+        // 文本
+        NSString *string = _personSeeModel.content;
+        CGRect rect = [string boundingRectWithSize:CGSizeMake(kScreenWidth - (kTimeWidth + kImgSize + 11.9 + kSpace), 99999)
+                                           options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kTimeFontSize]}
+                                           context:nil];
+        
+        if (rect.size.height > kImgSize) {
+            _contentFrame = CGRectMake(kTimeWidth + kImgSize + 11.9,
+                                       startY,
+                                       kScreenWidth - (kTimeWidth + kImgSize + 11.9 + kSpace),
+                                       kImgSize);
+        } else {
+            _contentFrame = CGRectMake(kTimeWidth + kImgSize + 11.9,
+                                       startY,
+                                       kScreenWidth - (kTimeWidth + kImgSize + 11.9 + kSpace),
+                                       rect.size.height);
+        }
+        
     } else {
         NSString *string = _personSeeModel.content;
         CGRect rect = [string boundingRectWithSize:CGSizeMake(kScreenWidth - kTimeWidth - kSpace - 10, 99999)
