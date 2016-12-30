@@ -15,7 +15,7 @@
 @interface LocationController : UIViewController
 
 
-- (instancetype)initWithLocationString:(NSString *)string;
+- (instancetype)initWithLocationString:(NSString *)string lat:(NSString *)lat lon:(NSString *)lon;
 
 
 @end

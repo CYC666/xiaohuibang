@@ -17,7 +17,9 @@
 @property (copy, nonatomic) NSString *about_id;     // 动态id
 @property (copy, nonatomic) NSString *user_id;      // 用户id
 @property (copy, nonatomic) NSString *content;      // 动态内容
-@property (copy, nonatomic) NSString *place;        // 地理位置信息
+@property (copy, nonatomic) NSString *address;      // 地理位置信息
+@property (copy, nonatomic) NSString *lat;          // 纬度
+@property (copy, nonatomic) NSString *lon;          // 经度
 @property (copy, nonatomic) NSString *type;         // 动态类型
 @property (strong, nonatomic) NSMutableArray *about_img;    // 动态图片
 @property (strong, nonatomic) NSMutableArray *thumb_img;    // 缩略图

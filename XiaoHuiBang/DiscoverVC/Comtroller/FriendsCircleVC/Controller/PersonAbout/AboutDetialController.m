@@ -63,7 +63,9 @@
                                             seeModel.nickname = dic[@"nickname"];
                                             seeModel.head_img = dic[@"head_img"];
                                             seeModel.content = dic[@"content"];
-                                            seeModel.place = dic[@"place"];
+                                            seeModel.address = dic[@"address"];
+                                            seeModel.lat = dic[@"lat"];
+                                            seeModel.lon = dic[@"lon"];
                                             seeModel.about_img = dic[@"about_img"];
                                             seeModel.thumb_img = dic[@"thumb_img"];
                                             seeModel.create_time = dic[@"create_time"];
@@ -275,7 +277,7 @@
     [scrollView addSubview:timeLabel];
     
     // 位置标签
-    if (_detialLayout.seeModel.place != nil) {
+    if (_detialLayout.seeModel.address != nil) {
         UILabel *locationLabel = [[UILabel alloc] initWithFrame:_detialLayout.locationLabelFrame];
         locationLabel.text = _detialLayout.locationText;
         locationLabel.textColor = [UIColor colorWithRed:35/255.0 green:97/255.0 blue:185/255.0 alpha:1];
@@ -558,7 +560,9 @@
                                          seeModel.nickname = dic[@"nickname"];
                                          seeModel.head_img = dic[@"head_img"];
                                          seeModel.content = dic[@"content"];
-                                         seeModel.place = dic[@"place"];
+                                         seeModel.address = dic[@"address"];
+                                         seeModel.lat = dic[@"lat"];
+                                         seeModel.lon = dic[@"lon"];
                                          seeModel.about_img = dic[@"about_img"];
                                          seeModel.thumb_img = dic[@"thumb_img"];
                                          seeModel.create_time = dic[@"create_time"];
@@ -763,7 +767,9 @@
 #pragma mark - 跳转到地图界面
 - (void)locationTapAction:(UITapGestureRecognizer *)tap {
     
-    LocationController *locationController = [[LocationController alloc] initWithLocationString:_detialLayout.seeModel.place];
+    LocationController *locationController = [[LocationController alloc] initWithLocationString:_detialLayout.seeModel.address
+                                                                                            lat:_detialLayout.seeModel.lat
+                                                                                            lon:_detialLayout.seeModel.lon];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:locationController];
     nav.navigationBar.barTintColor = [UIColor blackColor];
     nav.navigationBar.translucent = NO;

@@ -348,7 +348,9 @@
         model.about_id = dic[@"id"];
         model.user_id = dic[@"user_id"];
         model.content = dic[@"content"];
-        model.place = dic[@"place"];
+        model.address = dic[@"address"];
+        model.lat = dic[@"lat"];
+        model.lon = dic[@"lon"];
         model.create_time = dic[@"create_time"];
         model.type = dic[@"type"];
         if ([dic[@"type"] isEqualToString:@"2"]) {
@@ -483,7 +485,9 @@
                                             model.about_id = dic[@"id"];
                                             model.user_id = dic[@"user_id"];
                                             model.content = dic[@"content"];
-                                            model.place = dic[@"place"];
+                                            model.address = dic[@"address"];
+                                            model.lat = dic[@"lat"];
+                                            model.lon = dic[@"lon"];
                                             model.create_time = dic[@"create_time"];
                                             model.type = dic[@"type"];
                                             if ([dic[@"type"] isEqualToString:@"2"]) {

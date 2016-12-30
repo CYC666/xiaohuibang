@@ -269,7 +269,9 @@
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : content,
                              @"file" : @"",
-                             @"place" : _locationStr == nil ? @"" : _locationStr};
+                             @"address" : self.address,
+                             @"lat" : self.lat,
+                             @"lon" : self.lon};
 
     
     if (_imageArray.count != 0) {
@@ -286,18 +288,9 @@
                                   }];
     } else if (_movieUrl != nil) {
         
-        // 跳转上传
+        // 跳转视频上传
         [self duceMovieData];
         
-//        [CNetTool postAboutWithParameters:params
-//                                movieData:[NSData dataWithContentsOfURL:_movieUrl]
-//                                  success:^(id response) {
-//                                      [SVProgressHUD dismiss];
-//                                      [SVProgressHUD showSuccessWithStatus:@"发送视频成功"];
-//                                  } failure:^(NSError *err) {
-//                                      [SVProgressHUD dismiss];
-//                                      [SVProgressHUD showErrorWithStatus:@"发送失败"];
-//                                  }];
     } else {
     
         [CNetTool postAboutWithParameters:params
@@ -584,18 +577,20 @@
     [self presentViewController:nav animated:YES completion:nil];
     
     // 接收传过来的地理信息
-    pickerLocation.locationBlock = ^(NSString *str) {
+    pickerLocation.locationBlock = ^(NSMutableDictionary *dic) {
     
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
         UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
-        if (str.length > 0) {
-            self.locationStr = str;
-            NSArray *array = [str componentsSeparatedByString:@"+"];
-            // 更改定位按钮的颜色
-            // [_locationButton setImage:[UIImage imageNamed:@"icon_position_blue"] forState:UIControlStateNormal];
-            cell.textLabel.text = [array firstObject];
+        if ([dic objectForKey:@"address"] != nil) {
+            self.address = [dic objectForKey:@"address"];
+            self.lat = [dic objectForKey:@"lat"];
+            self.lon = [dic objectForKey:@"lon"];
+            cell.textLabel.text = [dic objectForKey:@"address"];
             cell.imageView.image = [UIImage imageNamed:@"icon_location_selected"];
         } else {
+            self.address = nil;
+            self.lat = nil;
+            self.lon = nil;
             cell.textLabel.text = @"不使用定位";
             cell.imageView.image = [UIImage imageNamed:@"icon_location"];
         }
@@ -745,8 +740,10 @@
     NSString *content = [NSString stringWithUTF8String:[_textView.text UTF8String]];
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"content" : content,
-                             @"video" : @"",
-                             @"place" : _locationStr == nil ? @"" : _locationStr};
+                             @"file" : @"",
+                             @"address" : self.address,
+                             @"lat" : self.lat,
+                             @"lon" : self.lon};
     
     NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_publish";
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];

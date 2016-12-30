@@ -20,6 +20,11 @@ typedef enum : NSUInteger {
 
 @property (copy, nonatomic) NSString *locationStr;                      // 储存了地理信息的字符串
 
+// 地址
+@property (copy, nonatomic) NSString *address;
+@property (copy, nonatomic) NSString *lat;
+@property (copy, nonatomic) NSString *lon;
+
 
 // 只发送文字
 - (instancetype)initWithText;

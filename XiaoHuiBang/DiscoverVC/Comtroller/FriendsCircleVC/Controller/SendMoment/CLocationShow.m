@@ -150,15 +150,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // 传过去的数据格式
-    // 地名+纬度+经度
-    NSString *placeStr;
-    __block NSString *outStr;
+    // @{@"address":@"", @"lat":@"", @"lon":@""}
     MKPlacemark *place = _placeMakeArray[indexPath.row];
     CLLocationCoordinate2D coordinate2D = place.coordinate;
-    placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
-    outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
+    NSString *placeStr = [NSString stringWithFormat:@"%@%@", place.locality, place.name];
+    // outStr = [NSString stringWithFormat:@"%@+%.8f+%.8f", placeStr, coordinate2D.latitude, coordinate2D.longitude];
     // 将数据传到发送动态界面
-    self.locationBlock(outStr);
+    __block NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:placeStr forKey:@"address"];
+    [params setObject:[NSString stringWithFormat:@"%.8f", coordinate2D.latitude] forKey:@"lat"];
+    [params setObject:[NSString stringWithFormat:@"%.8f", coordinate2D.longitude] forKey:@"lon"];
+    self.locationBlock(params);
     [self touchSearchBarCancelAnimate];
     
     // 返回

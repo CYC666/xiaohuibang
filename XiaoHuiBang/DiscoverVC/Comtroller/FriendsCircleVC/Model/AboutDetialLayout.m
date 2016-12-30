@@ -119,7 +119,7 @@
     }
     
     // 定位标签
-    if (_seeModel.place != nil) {
+    if (_seeModel.address != nil) {
         self.locationLabelFrame = CGRectMake(kNicknameX, self.viewHeight + 11, kLocationWidth, kDeleteHeight);
         self.viewHeight += (kDeleteHeight + 10);
     }
@@ -150,9 +150,8 @@
     }
     
     // 转换定位信息
-    if (self.seeModel.place != nil) {
-        NSArray *locationArray = [self.seeModel.place componentsSeparatedByString:@"+"];
-        NSMutableString *mStr = [NSMutableString stringWithString:locationArray[0]];
+    if (self.seeModel.address != nil) {
+        NSMutableString *mStr = [NSMutableString stringWithString:self.seeModel.address];
         // 将"市"字更改为@" · "
         [mStr replaceOccurrencesOfString:@"市" withString:@" · " options:NSCaseInsensitiveSearch range:NSMakeRange(0, mStr.length)];
         self.locationText = [mStr copy];

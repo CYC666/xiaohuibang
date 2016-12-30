@@ -545,7 +545,9 @@
         seeModel.nickname = dic[@"nickname"];
         seeModel.head_img = dic[@"head_img"];
         seeModel.content = dic[@"content"];
-        seeModel.place = dic[@"place"];
+        seeModel.address = dic[@"address"];
+        seeModel.lat = dic[@"lat"];
+        seeModel.lon = dic[@"lon"];
         seeModel.type = dic[@"type"];
         // 纯文本
         if ([dic[@"type"] isEqualToString:@"1"]) {

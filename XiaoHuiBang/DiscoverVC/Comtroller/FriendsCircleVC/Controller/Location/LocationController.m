@@ -31,16 +31,13 @@
 @implementation LocationController
 
 
-- (instancetype)initWithLocationString:(NSString *)string {
+- (instancetype)initWithLocationString:(NSString *)string lat:(NSString *)lat lon:(NSString *)lon {
 
     self = [super init];
     if (self != nil) {
-        NSArray *array = [string componentsSeparatedByString:@"+"];
-        if (array.count == 3) {
-            _placeName = array[0];
-            _lat = [array[1] doubleValue];
-            _lon = [array[2] doubleValue];
-        }
+        _placeName = string;
+        _lat = [lat floatValue];
+        _lon = [lon floatValue];
     }
     return self;
 
