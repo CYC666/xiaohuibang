@@ -1127,6 +1127,7 @@
  
  
  // 删除本地视频
+ NSFileManager *fileManager = [NSFileManager defaultManager];
  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
  NSString *documentsDirectory = [paths objectAtIndex:0];
  NSArray *contents = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];

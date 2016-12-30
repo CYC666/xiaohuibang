@@ -60,12 +60,10 @@
     if ([self.seeModel.type isEqualToString:@"2"]) {
         // 当动态携带一张图片时
         if (self.seeModel.about_img.count == 1) {
-            CGRect rect = CGRectMake(kContentX, self.cellHeight,
-                                     (kScreenWidth - kContentX - kContentX),
-                                     (kScreenWidth - kContentX - kContentX));
+            CGRect rect = CGRectMake(kContentX, self.cellHeight, 104, 180);
             NSValue *rectValue = [NSValue valueWithCGRect:rect];
             [self.imgFrameArr addObject:rectValue];
-            self.cellHeight += (kScreenWidth - kContentX - kContentX) + kSpace;
+            self.cellHeight += (180 + kSpace);
             // 当动态携带多张图片时
         } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
             for (int i = 0; i < self.seeModel.about_img.count; i++) {
@@ -82,11 +80,9 @@
     
     // 当携带视频
     if ([self.seeModel.type isEqualToString:@"3"]) {
-        self.movieFrame = CGRectMake(kContentX, self.cellHeight,
-                                     (kScreenWidth - kContentX - kContentX),
-                                     (kScreenWidth - kContentX - kContentX));
+        self.movieFrame = CGRectMake(kContentX, self.cellHeight, 104, 180);
         // 修改单元格高度
-        self.cellHeight += (kScreenWidth - kContentX - kContentX) + kSpace;
+        self.cellHeight += (180 + kSpace);
     }
     
     // 定位标签
