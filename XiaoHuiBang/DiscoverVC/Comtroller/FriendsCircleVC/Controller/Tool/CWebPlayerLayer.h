@@ -11,6 +11,7 @@
 @interface CWebPlayerLayer : UIView
 
 @property (strong, nonatomic) NSString *movieUrlStr;
+@property (assign, nonatomic) BOOL isCycle;             // 是否循环播放
 
 - (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr;
 

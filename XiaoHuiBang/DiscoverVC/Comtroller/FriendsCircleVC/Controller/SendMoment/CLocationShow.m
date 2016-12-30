@@ -84,7 +84,7 @@
 // 不使用定位
 - (void)nilLocation:(UIBarButtonItem *)item {
 
-    self.locationBlock(@"");
+    self.locationBlock(@{});
     [self dismissViewControllerAnimated:YES completion:nil];
 
 }

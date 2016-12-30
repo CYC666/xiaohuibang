@@ -23,6 +23,8 @@
 
 @implementation CWebPlayerLayer
 
+
+
 - (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr {
 
     if (self = [super initWithFrame:frame]) {
@@ -44,9 +46,23 @@
 
 }
 
+- (void)setIsCycle:(BOOL)isCycle {
+
+    _isCycle = isCycle;
+    if (_isCycle) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(moviePlayDidEnd:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:_playerItem];
+    }
+
+}
+
 
 // 设置url的时候，开始下载视频
 - (void)setMovieUrlStr:(NSString *)movieUrlStr {
+    
+    _movieUrlStr = movieUrlStr;
     
     // 判断本地是否已经有了视频
     // 有则播放，无则下载，下载完后保存到本地
@@ -98,10 +114,24 @@
 
 }
 
+#pragma mark - 循环播放
+- (void)moviePlayDidEnd:(NSNotification *)notification {
+    
+    __weak typeof(self) weakSelf = self;
+    [self.playerLayer.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
+        [weakSelf.player play];
+    }];
+}
 
 
+#pragma mark - 销毁
+- (void)dealloc {
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:_playerItem];
 
+}
 
 
 

@@ -168,8 +168,8 @@
 
     PersonSeeLayout *modelLayout = _seeLayoutList[indexPath.row];
     
-    // 如果没有图片
-    if (modelLayout.personSeeModel.about_img.count == 0) {
+    // 纯文本
+    if ([modelLayout.personSeeModel.type isEqualToString:@"1"]) {
     
         AboutDetialController *controller = [[AboutDetialController alloc] initWithUserID:modelLayout.personSeeModel.user_id
                                                                                         aboutID:modelLayout.personSeeModel.about_id];
@@ -177,7 +177,7 @@
         
         [selfNav pushViewController:controller animated:YES];
         
-    // 有图片
+    // 带图片或视频
     } else {
     
         AboutWithImageController *controller = [[AboutWithImageController alloc] initWithUserID:modelLayout.personSeeModel.user_id

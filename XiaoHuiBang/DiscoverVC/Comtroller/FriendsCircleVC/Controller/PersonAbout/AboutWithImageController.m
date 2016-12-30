@@ -19,6 +19,8 @@
 #import <UIImageView+WebCache.h>
 #import "CScrollImage.h"
 #import "NSString+CEmojChange.h"
+#import "CWebPlayerLayer.h"
+
 
 
 
@@ -63,8 +65,15 @@
                                              self.seeModel.nickname = dic[@"nickname"];
                                              self.seeModel.head_img = dic[@"head_img"];
                                              self.seeModel.content = dic[@"content"];
-                                             self.seeModel.about_img = dic[@"about_img"];
-                                             self.seeModel.thumb_img = dic[@"thumb_img"];
+                                             self.seeModel.type = dic[@"type"];
+                                             if ([dic[@"type"] isEqualToString:@"2"]) {
+                                                 self.seeModel.about_img = dic[@"about_img"];
+                                                 self.seeModel.thumb_img = dic[@"thumb_img"];
+                                             } else if ([dic[@"type"] isEqualToString:@"3"]) {
+                                                 self.seeModel.movie = dic[@"video"];
+                                                 self.seeModel.movieThumb = dic[@"jt"];
+                                             }
+                                             
                                              self.seeModel.create_time = dic[@"create_time"];
                                              NSMutableArray *praiseTempArr = [NSMutableArray array];
                                              for (NSDictionary *praiseDic in dic[@"praise"]) {
@@ -165,20 +174,25 @@
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
 
-    // 设置图片
-    CScrollImage *cScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
-                                                         imageArray:_seeModel.about_img
-                                                        currentPage:0];
-    [self.view addSubview:cScrollView];
-    //  添加手势，点击隐藏、显示导航栏、标签栏(但是打开之后，视图会有上下偏移)
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-    [cScrollView addGestureRecognizer:tap];
-//     [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img]];
-//    [self.aboutImageView sd_setImageWithURL:[NSURL URLWithString:_seeModel.about_img.firstObject]
-//                           placeholderImage:nil
-//                                    options:SDWebImageProgressiveDownload
-//                                   progress:nil
-//                                  completed:nil];
+    if ([_seeModel.type isEqualToString:@"2"]) {
+        // 设置图片
+        CScrollImage *cScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                             imageArray:_seeModel.about_img
+                                                            currentPage:0];
+        [self.view addSubview:cScrollView];
+        //  添加手势，点击隐藏、显示导航栏、标签栏(但是打开之后，视图会有上下偏移)
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+        [cScrollView addGestureRecognizer:tap];
+    } else if ([_seeModel.type isEqualToString:@"3"]) {
+    
+        CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                                     withUrl:_seeModel.movie];
+        // 设置循环播放
+        playerView.isCycle = YES;
+        [self.view addSubview:playerView];
+        
+    }
+    
     
     // 创建底部的按钮栏
     _tabView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 49, kScreenWidth, 49)];
