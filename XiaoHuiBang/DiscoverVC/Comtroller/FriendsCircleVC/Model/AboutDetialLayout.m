@@ -85,7 +85,7 @@
     // 昵称
     self.nicknameFrame = CGRectMake(kNicknameX, kHeadImageY, kNicknameWidth, kNicknameHeight);
     
-    // 处理文本携带图片的情况
+    // 处理文本携带表情的情况
     self.seeModel.content = [self.seeModel.content changeToEmoj];
     
     // 动态文本
@@ -97,26 +97,32 @@
     
     self.viewHeight = kContentY + textRect.size.height;
     
-    // 当动态携带一张图片时
-    if (self.seeModel.about_img.count == 1) {
-        CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 10,
-                                 (kScreenWidth - kNicknameX - 20),
-                                 (kScreenWidth - kNicknameX - 20));
-        NSValue *rectValue = [NSValue valueWithCGRect:rect];
-        [self.imageFrameArr addObject:rectValue];
-        self.viewHeight += (kScreenWidth - kNicknameX - 20) + kSpace;
-        // 当动态携带多张图片时
-    } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
-        for (int i = 0; i < self.seeModel.about_img.count; i++) {
-            CGRect rect = CGRectMake( kNicknameX + (kImageSize + 5) * (i % 3),
-                                     self.viewHeight + 10 + (kImageSize + 5) * (i / 3), kImageSize, kImageSize);
+    // 携带图片
+    if ([_seeModel.type isEqualToString:@"2"]) {
+        // 当动态携带一张图片时
+        if (self.seeModel.about_img.count == 1) {
+            CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 10, 104, 180);
             NSValue *rectValue = [NSValue valueWithCGRect:rect];
             [self.imageFrameArr addObject:rectValue];
+            self.viewHeight += (180 + kSpace);
+            // 当动态携带多张图片时
+        } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
+            for (int i = 0; i < self.seeModel.about_img.count; i++) {
+                CGRect rect = CGRectMake( kNicknameX + (kImageSize + 5) * (i % 3),
+                                         self.viewHeight + 10 + (kImageSize + 5) * (i / 3), kImageSize, kImageSize);
+                NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                [self.imageFrameArr addObject:rectValue];
+            }
+            
+            // 最后确定单元格高度
+            self.viewHeight += (kImageSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + 10;
         }
-        
-        // 最后确定单元格高度
-        self.viewHeight += (kImageSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + 10;
+    } else if ([_seeModel.type isEqualToString:@"3"]) {
+        self.movieFrame = CGRectMake(kNicknameX, self.viewHeight + 10, 104, 180);
+        self.viewHeight += (180 + kSpace);
     }
+    
+    
     
     // 定位标签
     if (_seeModel.address != nil) {

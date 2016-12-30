@@ -787,6 +787,8 @@
     
     CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                                  withUrl:_seeLayout.seeModel.movie];
+    // 循环播放
+    playerView.isCycle = YES;
     // 添加单击手势，退出播放视频
     UITapGestureRecognizer *movieTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endPlayMovie:)];
     [playerView addGestureRecognizer:movieTap];

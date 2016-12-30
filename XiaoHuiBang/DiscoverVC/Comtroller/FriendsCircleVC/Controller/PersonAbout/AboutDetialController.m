@@ -22,6 +22,7 @@
 #import <UIImageView+WebCache.h>
 #import "NSString+CEmojChange.h"
 #import "LocationController.h"
+#import "CWebPlayerLayer.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -38,6 +39,7 @@
 @property (assign, nonatomic) BOOL isLike;                      // 是否已经点赞
 @property (copy, nonatomic) NSString *user_id;
 @property (copy, nonatomic) NSString *about_id;
+
 
 @end
 
@@ -56,8 +58,8 @@
         [CNetTool loadOneAboutWithParameters:params
                                      success:^(id response) {
                                          if ([response[@"msg"] isEqual:@1]) {
-                                             NSDictionary *dic = response[@"data"];
-                                             SeeModel *seeModel = [[SeeModel alloc] init];
+                                            NSDictionary *dic = response[@"data"];
+                                            SeeModel *seeModel = [[SeeModel alloc] init];
                                             seeModel.about_id = dic[@"id"];
                                             seeModel.user_id = dic[@"user_id"];
                                             seeModel.nickname = dic[@"nickname"];
@@ -66,8 +68,14 @@
                                             seeModel.address = dic[@"address"];
                                             seeModel.lat = dic[@"lat"];
                                             seeModel.lon = dic[@"lon"];
-                                            seeModel.about_img = dic[@"about_img"];
-                                            seeModel.thumb_img = dic[@"thumb_img"];
+                                            seeModel.type = dic[@"type"];
+                                            if ([dic[@"type"] isEqualToString:@"2"]) {
+                                                 seeModel.about_img = dic[@"about_img"];
+                                                 seeModel.thumb_img = dic[@"thumb_img"];
+                                            } else if ([dic[@"type"] isEqualToString:@"3"]) {
+                                                 seeModel.movie = dic[@"video"];
+                                                 seeModel.movieThumb = dic[@"jt"];
+                                            }
                                             seeModel.create_time = dic[@"create_time"];
                                              NSMutableArray *praiseTempArr = [NSMutableArray array];
                                              for (NSDictionary *praiseDic in dic[@"praise"]) {
@@ -241,22 +249,31 @@
     [scrollView addSubview:contentLabel];
     
     // 图片
-    for (int i = 0; i < _detialLayout.seeModel.about_img.count; i++) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_detialLayout.imageFrameArr[i] CGRectValue]];
-        NSString *urlStr = _detialLayout.seeModel.thumb_img[i];
-        if ([urlStr characterAtIndex:0] == 'h') {
-            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]];
-        } else {
-            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]];
+    if ([_detialLayout.seeModel.type isEqualToString:@"2"]) {
+        for (int i = 0; i < _detialLayout.seeModel.about_img.count; i++) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_detialLayout.imageFrameArr[i] CGRectValue]];
+            NSString *urlStr = _detialLayout.seeModel.thumb_img[i];
+            if ([urlStr characterAtIndex:0] == 'h') {
+                [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]];
+            } else {
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]];
+            }
+            if (_detialLayout.seeModel.about_img.count == 1) {
+                imageView.contentMode = UIViewContentModeScaleAspectFit;
+            } else {
+                imageView.contentMode = UIViewContentModeScaleAspectFill;
+                imageView.clipsToBounds = YES;
+            }
+            [scrollView addSubview:imageView];
         }
-        if (_detialLayout.seeModel.about_img.count == 1) {
-            imageView.contentMode = UIViewContentModeScaleAspectFit;
-        } else {
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-            imageView.clipsToBounds = YES;
-        }
-        [scrollView addSubview:imageView];
+    } else if ([_detialLayout.seeModel.type isEqualToString:@"3"]) {
+        CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:_detialLayout.movieFrame
+                                                                     withUrl:_detialLayout.seeModel.movie];
+        playerView.isCycle = YES;
+        playerView.player.volume = 0;   // 静音
+        [scrollView addSubview:playerView];
     }
+    
     
     // 删除按钮
     if ([_detialLayout.seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
@@ -563,8 +580,14 @@
                                          seeModel.address = dic[@"address"];
                                          seeModel.lat = dic[@"lat"];
                                          seeModel.lon = dic[@"lon"];
-                                         seeModel.about_img = dic[@"about_img"];
-                                         seeModel.thumb_img = dic[@"thumb_img"];
+                                         seeModel.type = dic[@"type"];
+                                         if ([dic[@"type"] isEqualToString:@"2"]) {
+                                             seeModel.about_img = dic[@"about_img"];
+                                             seeModel.thumb_img = dic[@"thumb_img"];
+                                         } else if ([dic[@"type"] isEqualToString:@"3"]) {
+                                             seeModel.movie = dic[@"video"];
+                                             seeModel.movieThumb = dic[@"jt"];
+                                         }
                                          seeModel.create_time = dic[@"create_time"];
                                          NSMutableArray *praiseTempArr = [NSMutableArray array];
                                          for (NSDictionary *praiseDic in dic[@"praise"]) {

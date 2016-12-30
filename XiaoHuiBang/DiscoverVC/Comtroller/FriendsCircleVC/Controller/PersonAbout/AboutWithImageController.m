@@ -43,6 +43,8 @@
 @property (assign, nonatomic) NSInteger proCount;       // 点赞人数
 @property (assign, nonatomic) NSInteger commentCount;   // 评论人数
 
+@property (strong, nonatomic) CWebPlayerLayer *playerView;  // 播放器
+
 @end
 
 @implementation AboutWithImageController
@@ -185,11 +187,11 @@
         [cScrollView addGestureRecognizer:tap];
     } else if ([_seeModel.type isEqualToString:@"3"]) {
     
-        CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
+        _playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                                      withUrl:_seeModel.movie];
         // 设置循环播放
-        playerView.isCycle = YES;
-        [self.view addSubview:playerView];
+        _playerView.isCycle = YES;
+        [self.view addSubview:_playerView];
         
     }
     
@@ -418,16 +420,24 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     self.navigationController.navigationBar.translucent = YES;
+    if (_playerView != nil) {
+        [_playerView.player play];
+    }
 
 }
 
 // 当视图即将消失时，将导航栏归原样
+// 如果存在播放器，那就暂停
 - (void)viewWillDisappear:(BOOL)animated {
 
     [UIView animateWithDuration:.35
                      animations:^{
                          self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
                      }];
+    
+    if (_playerView != nil) {
+        [_playerView.player pause];
+    }
 
 }
 

@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AFNetworking.h>
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface CWebPlayerLayer : UIView
+
+@property (strong, nonatomic) AFHTTPSessionManager *manager;
+@property (strong, nonatomic) AVPlayerLayer *playerLayer;
+@property (strong, nonatomic) AVPlayerItem *playerItem;
+@property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) UIProgressView *progressView;
 
 @property (strong, nonatomic) NSString *movieUrlStr;
 @property (assign, nonatomic) BOOL isCycle;             // 是否循环播放

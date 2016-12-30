@@ -266,12 +266,21 @@
     for (int i = 0; i < _imageArray.count; i++) {
         [imageDataArr addObject:UIImageJPEGRepresentation(_imageArray[i], 1)];
     }
-    NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
-                             @"content" : content,
-                             @"file" : @"",
-                             @"address" : self.address,
-                             @"lat" : self.lat,
-                             @"lon" : self.lon};
+    
+    NSDictionary *params;
+    if (self.address == nil) {
+        params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                     @"content" : content,
+                     @"file" : @""};
+    } else {
+        params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                     @"content" : content,
+                     @"file" : @"",
+                     @"address" : self.address,
+                     @"lat" : self.lat,
+                     @"lon" : self.lon};
+    }
+    
 
     
     if (_imageArray.count != 0) {
@@ -738,12 +747,19 @@
 
     // 开始上传
     NSString *content = [NSString stringWithUTF8String:[_textView.text UTF8String]];
-    NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
-                             @"content" : content,
-                             @"file" : @"",
-                             @"address" : self.address,
-                             @"lat" : self.lat,
-                             @"lon" : self.lon};
+    NSDictionary *params;
+    if (self.address == nil) {
+        params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                   @"content" : content,
+                   @"file" : @""};
+    } else {
+        params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                   @"content" : content,
+                   @"file" : @"",
+                   @"address" : self.address,
+                   @"lat" : self.lat,
+                   @"lon" : self.lon};
+    }
     
     NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_publish";
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];

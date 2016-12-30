@@ -7,17 +7,11 @@
 //
 
 #import "CWebPlayerLayer.h"
-#import <AFNetworking.h>
-#import <AVKit/AVKit.h>
-#import <AVFoundation/AVFoundation.h>
+
 
 @interface CWebPlayerLayer ()
 
-@property (strong, nonatomic) AFHTTPSessionManager *manager;
-@property (strong, nonatomic) AVPlayerLayer *playerLayer;
-@property (strong, nonatomic) AVPlayerItem *playerItem;
-@property (strong, nonatomic) AVPlayer *player;
-@property (strong, nonatomic) UIProgressView *progressView;
+
 
 @end
 
@@ -57,7 +51,6 @@
     }
 
 }
-
 
 // 设置url的时候，开始下载视频
 - (void)setMovieUrlStr:(NSString *)movieUrlStr {
