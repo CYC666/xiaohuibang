@@ -117,7 +117,7 @@
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
         [self.contentView addSubview:imageView];
-        UIImageView *playImage = [[UIImageView alloc] initWithFrame:CGRectMake((imageView.bounds.size.width - 40)/2.0, (imageView.bounds.size.width - 40)/2.0, 40, 40)];
+        UIImageView *playImage = [[UIImageView alloc] initWithFrame:CGRectMake((imageView.bounds.size.width - 35)/2.0, (imageView.bounds.size.width - 35)/2.0, 35, 35)];
         playImage.image = [UIImage imageNamed:@"icon_play"];
         [imageView addSubview:playImage];
     }

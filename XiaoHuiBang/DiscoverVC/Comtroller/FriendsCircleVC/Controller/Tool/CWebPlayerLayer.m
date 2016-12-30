@@ -56,7 +56,7 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
         // 存在视频，直接播放
-        [self playeMovie:[NSURL URLWithString:path]];
+        [self playeMovie:[NSURL fileURLWithPath:path]];
     } else {
         _movieUrlStr = movieUrlStr;
         __weak typeof(self) weakSelf = self;
@@ -73,8 +73,6 @@
             
         } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
             // 这里应该保存视频
-            NSLog(@"%@", path);
-            weakSelf.progressView.alpha = 0;
             if (!error) {
                 [weakSelf playeMovie:filePath];
             }
@@ -86,6 +84,7 @@
 #pragma mark - 播放
 - (void)playeMovie:(NSURL *)url {
 
+    self.progressView.alpha = 0;
     _playerItem = [[AVPlayerItem alloc] initWithURL:url];
     _player = [[AVPlayer alloc] initWithPlayerItem:_playerItem];
     _playerLayer = [[AVPlayerLayer alloc] init];
