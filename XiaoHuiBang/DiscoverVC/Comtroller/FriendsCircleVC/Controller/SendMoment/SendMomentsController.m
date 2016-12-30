@@ -736,33 +736,6 @@
             }
         }];
     }
-    
-    
-    
-    
-//    
-//    AFHTTPRequestSerializer *ser=[[AFHTTPRequestSerializer alloc] init];
-//    NSMutableURLRequest *request =
-//    [ser multipartFormRequestWithMethod:@"POST"
-//                              URLString:@"http://115.28.6.7/rongyun.php/Home/about/about_publish"
-//                             parameters:params
-//              constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//                  [formData appendPartWithFileURL:filePathURL name:@"file" fileName:fileName mimeType:@"application/octet-stream" error:nil];
-//              } error:nil];
-//    //@"image/png"   @"application/octet-stream"  mimeType thank you!
-//    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-//    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-//        if (error) {
-//            [SVProgressHUD dismiss];
-//            [SVProgressHUD showErrorWithStatus:@"失败"];
-//        } else {
-//            [SVProgressHUD dismiss];
-//            [SVProgressHUD showSuccessWithStatus:@"成功"];
-//        }
-//        
-//    }];
-//    [uploadTask resume];
-
 }
 
 #pragma mark - 开始上传
@@ -786,7 +759,7 @@
               [SVProgressHUD dismiss];
               [SVProgressHUD showSuccessWithStatus:@"成功"];
               // 删除沙盒视频
-              [self removeSandMovie];
+              [self removeSandMovie:url];
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
               [SVProgressHUD dismiss];
               [SVProgressHUD showErrorWithStatus:@"失败"];
@@ -795,25 +768,10 @@
 }
 
 #pragma mark - 删除沙盒视频
-- (void)removeSandMovie {
+- (void)removeSandMovie:(NSURL *)url {
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSArray *contents = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
-    NSEnumerator *e = [contents objectEnumerator];
-    NSString *filename;
-    while ((filename = [e nextObject])) {
-        if ([filename isEqualToString:@"tmp.PNG"]) {
-            [fileManager removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:filename] error:NULL];
-            continue;
-        }
-        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"mp4"]||
-            [[[filename pathExtension] lowercaseString] isEqualToString:@"mov"]||
-            [[[filename pathExtension] lowercaseString] isEqualToString:@"png"]) {
-            [fileManager removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:filename] error:NULL];
-        }
-    }
+    [fileManager removeItemAtURL:url error:NULL];
 
 }
 
@@ -1141,6 +1099,49 @@
  
  
  
+ }
+ 
+ 
+ //
+ //    AFHTTPRequestSerializer *ser=[[AFHTTPRequestSerializer alloc] init];
+ //    NSMutableURLRequest *request =
+ //    [ser multipartFormRequestWithMethod:@"POST"
+ //                              URLString:@"http://115.28.6.7/rongyun.php/Home/about/about_publish"
+ //                             parameters:params
+ //              constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+ //                  [formData appendPartWithFileURL:filePathURL name:@"file" fileName:fileName mimeType:@"application/octet-stream" error:nil];
+ //              } error:nil];
+ //    //@"image/png"   @"application/octet-stream"  mimeType thank you!
+ //    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+ //    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+ //        if (error) {
+ //            [SVProgressHUD dismiss];
+ //            [SVProgressHUD showErrorWithStatus:@"失败"];
+ //        } else {
+ //            [SVProgressHUD dismiss];
+ //            [SVProgressHUD showSuccessWithStatus:@"成功"];
+ //        }
+ //
+ //    }];
+ //    [uploadTask resume];
+ 
+ 
+ // 删除本地视频
+ NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+ NSString *documentsDirectory = [paths objectAtIndex:0];
+ NSArray *contents = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
+ NSEnumerator *e = [contents objectEnumerator];
+ NSString *filename;
+ while ((filename = [e nextObject])) {
+ if ([filename isEqualToString:@"tmp.PNG"]) {
+ [fileManager removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:filename] error:NULL];
+ continue;
+ }
+ if ([[[filename pathExtension] lowercaseString] isEqualToString:@"mp4"]||
+ [[[filename pathExtension] lowercaseString] isEqualToString:@"mov"]||
+ [[[filename pathExtension] lowercaseString] isEqualToString:@"png"]) {
+ [fileManager removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:filename] error:NULL];
+ }
  }
  
  

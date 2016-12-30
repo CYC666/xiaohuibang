@@ -84,7 +84,10 @@
 #pragma mark - 播放
 - (void)playeMovie:(NSURL *)url {
 
-    self.progressView.alpha = 0;
+    if (_progressView != nil) {
+        _progressView.alpha = 0;
+        _progressView = nil;
+    }
     _playerItem = [[AVPlayerItem alloc] initWithURL:url];
     _player = [[AVPlayer alloc] initWithPlayerItem:_playerItem];
     _playerLayer = [[AVPlayerLayer alloc] init];
