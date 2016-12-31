@@ -135,21 +135,22 @@
     [super viewDidAppear:animated];
 
     // 创建输入框
-    _inputView = [[UITextView alloc] initWithFrame:CGRectMake(13, kScreenHeight - 29 - 10, kScreenWidth - 13*2, 29)];
-    _inputView.layer.cornerRadius = 3;
-    _inputView.layer.borderWidth = 1;
-    _inputView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
-    _inputView.layer.borderColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1].CGColor;
-    _inputView.delegate = self;
-    _inputView.returnKeyType = UIReturnKeySend;
-    [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
+//    _inputView = [[UITextView alloc] initWithFrame:CGRectMake(13, kScreenHeight - 29 - 10 - 64, kScreenWidth - 13*2, 29)];
+//    _inputView.layer.cornerRadius = 3;
+//    _inputView.layer.borderWidth = 1;
+//    _inputView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
+//    _inputView.layer.borderColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1].CGColor;
+//    _inputView.delegate = self;
+//    _inputView.returnKeyType = UIReturnKeySend;
+//    [self.view addSubview:_inputView];
+    // [[UIApplication sharedApplication].keyWindow addSubview:_inputView];
     
-    // "发表评论"
-    _holdLabel = [[UILabel alloc] initWithFrame:CGRectMake(11.5, 7.5, 100, 13.5)];
-    _holdLabel.text = @"发表评论";
-    _holdLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
-    _holdLabel.font = [UIFont systemFontOfSize:14];
-    [_inputView addSubview:_holdLabel];
+//    // "发表评论"
+//    _holdLabel = [[UILabel alloc] initWithFrame:CGRectMake(11.5, 7.5, 100, 13.5)];
+//    _holdLabel.text = @"发表评论";
+//    _holdLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+//    _holdLabel.font = [UIFont systemFontOfSize:14];
+//    [_inputView addSubview:_holdLabel];
     
     // 显示键盘
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -464,6 +465,24 @@
         }
         
     }
+    
+    // 创建输入框
+    _inputView = [[UITextView alloc] initWithFrame:CGRectMake(13, kScreenHeight - 29 - 10 - 64, kScreenWidth - 13*2, 29)];
+    _inputView.layer.cornerRadius = 3;
+    _inputView.layer.borderWidth = 1;
+    _inputView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
+    _inputView.layer.borderColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1].CGColor;
+    _inputView.delegate = self;
+    _inputView.returnKeyType = UIReturnKeySend;
+    [self.view addSubview:_inputView];
+    
+    // "发表评论"
+    _holdLabel = [[UILabel alloc] initWithFrame:CGRectMake(11.5, 7.5, 100, 13.5)];
+    _holdLabel.text = @"发表评论";
+    _holdLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+    _holdLabel.font = [UIFont systemFontOfSize:14];
+    [_inputView addSubview:_holdLabel];
+
     
     
     
