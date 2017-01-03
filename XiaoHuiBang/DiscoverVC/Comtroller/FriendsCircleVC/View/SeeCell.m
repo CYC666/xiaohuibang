@@ -286,6 +286,7 @@
     
     // 设置视频的缩略图
     if ([self.seeLayout.seeModel.type isEqualToString:@"3"]) {
+        _movieThumbView.backgroundColor = [UIColor blackColor];
         _movieThumbView = [[CMovieImageView alloc] initWithFrame:_seeLayout.movieFrame];
         [_movieThumbView sd_setImageWithURL:[NSURL URLWithString:_seeLayout.seeModel.movieThumb]];
         _movieThumbView.delegate = self;

@@ -61,23 +61,32 @@
     if ([self.seeModel.type isEqualToString:@"2"]) {
         // 当动态携带一张图片时
         if (self.seeModel.about_img.count == 1) {
-            
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:_seeModel.about_img.firstObject]];
-            UIImage *image = [UIImage imageWithData:data];
-            CGSize size = image.size;
-            float scale = size.width / size.height;
-            // 当宽比高大
-            if (scale > 1) {
-                CGRect rect = CGRectMake(kContentX, self.cellHeight, 104*scale, 104);
-                NSValue *rectValue = [NSValue valueWithCGRect:rect];
-                [self.imgFrameArr addObject:rectValue];
-                self.cellHeight += (104 + kSpace);
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            //判断是否有缓存
+            BOOL isExist = [manager diskImageExistsForURL:[NSURL URLWithString:_seeModel.about_img.firstObject]];
+            if (isExist) {
+                UIImage *image = [[manager imageCache] imageFromDiskCacheForKey:_seeModel.about_img.firstObject];
+                CGSize size = image.size;
+                float scale = size.width / size.height;
+                // 当宽比高大
+                if (scale > 1) {
+                    CGRect rect = CGRectMake(kContentX, self.cellHeight, 104*scale, 104);
+                    NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                    [self.imgFrameArr addObject:rectValue];
+                    self.cellHeight += (104 + kSpace);
+                } else {
+                    CGRect rect = CGRectMake(kContentX, self.cellHeight, 104, 180);
+                    NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                    [self.imgFrameArr addObject:rectValue];
+                    self.cellHeight += (180 + kSpace);
+                }
             } else {
                 CGRect rect = CGRectMake(kContentX, self.cellHeight, 104, 180);
                 NSValue *rectValue = [NSValue valueWithCGRect:rect];
                 [self.imgFrameArr addObject:rectValue];
                 self.cellHeight += (180 + kSpace);
             }
+            
             
             // 当动态携带多张图片时
         } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
@@ -95,26 +104,35 @@
     
     // 当携带视频
     if ([self.seeModel.type isEqualToString:@"3"]) {
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:_seeModel.movieThumb]];
-        UIImage *image = [UIImage imageWithData:data];
-        CGSize size = image.size;
-        float scale = size.width / size.height;
-        if (scale > 1) {
-            if (scale > 2) {
-                self.movieFrame = CGRectMake(kContentX, self.cellHeight, 180, 104);
-                // 修改单元格高度
-                self.cellHeight += (104 + kSpace);
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        //判断是否有缓存
+        BOOL isExist = [manager diskImageExistsForURL:[NSURL URLWithString:_seeModel.movieThumb]];
+        if (isExist) {
+            UIImage *image = [[manager imageCache] imageFromDiskCacheForKey:_seeModel.movieThumb];
+            CGSize size = image.size;
+            float scale = size.width / size.height;
+            // 当宽 > 高
+            if (scale > 1) {
+                // 当宽 >> 高
+                if (scale > 2) {
+                    self.movieFrame = CGRectMake(kContentX, self.cellHeight, 220, 220 / scale);
+                    // 修改单元格高度
+                    self.cellHeight += (220 / scale + kSpace);
+                } else {
+                    self.movieFrame = CGRectMake(kContentX, self.cellHeight, 104*scale, 104);
+                    // 修改单元格高度
+                    self.cellHeight += (104 + kSpace);
+                }
             } else {
-                self.movieFrame = CGRectMake(kContentX, self.cellHeight, 104*scale, 104);
+                self.movieFrame = CGRectMake(kContentX, self.cellHeight, 104, 180);
                 // 修改单元格高度
-                self.cellHeight += (104 + kSpace);
+                self.cellHeight += (180 + kSpace);
             }
         } else {
             self.movieFrame = CGRectMake(kContentX, self.cellHeight, 104, 180);
             // 修改单元格高度
             self.cellHeight += (180 + kSpace);
         }
-        
     }
     
     // 定位标签
