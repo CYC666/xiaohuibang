@@ -17,10 +17,11 @@
 @property (strong, nonatomic) AVPlayerLayer *playerLayer;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
 @property (strong, nonatomic) AVPlayer *player;
-@property (strong, nonatomic) UIProgressView *progressView;
+@property (strong, nonatomic) UIProgressView *progressView;     // 下载进度条
+@property (strong, nonatomic) UIProgressView *playProgressView; // 播放进度
 
 @property (strong, nonatomic) NSString *movieUrlStr;
-@property (assign, nonatomic) BOOL isCycle;             // 是否循环播放
+@property (assign, nonatomic) BOOL isCycle;                     // 是否循环播放
 
 - (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr;
 

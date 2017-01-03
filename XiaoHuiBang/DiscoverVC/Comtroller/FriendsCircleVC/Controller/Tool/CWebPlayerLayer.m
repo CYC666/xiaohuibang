@@ -22,6 +22,7 @@
 - (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr {
 
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor blackColor];
         self.movieUrlStr = urlStr;
     }
     return self;
@@ -33,11 +34,21 @@
 
     if (_progressView == nil) {
         self.backgroundColor = [UIColor blackColor];
-        _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, .5)];
+        _progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, -0.5, self.bounds.size.width, 1)];
         [self addSubview:_progressView];
     }
     return _progressView;
 
+}
+
+- (UIProgressView *)playProgressView {
+    
+    if (_playProgressView == nil) {
+        _playProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, -0.5, self.bounds.size.width, 1)];
+        [self addSubview:_playProgressView];
+    }
+    return _progressView;
+    
 }
 
 - (void)setIsCycle:(BOOL)isCycle {
@@ -104,6 +115,8 @@
     _playerLayer.player = _player;
     [self.layer addSublayer:_playerLayer];
     [_player play];
+    
+    
 
 }
 
@@ -123,6 +136,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:AVPlayerItemDidPlayToEndTimeNotification
                                                   object:_playerItem];
+    
 
 }
 
