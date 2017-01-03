@@ -60,13 +60,13 @@
                                                                             self.transform = CGAffineTransformMakeScale(1.3, 1.3);
                                                                             _topLayer.transform = CGAffineTransformMakeScale(0.3, 0.3);
                                                                         }];
-                                                       _bottomLayer.endAngle = M_PI * 2 * ((_touchTime - 0.5)/10);
+                                                       _bottomLayer.endAngle = M_PI * 2 * ((_touchTime - 0.5)/60);
                                                    }
                                                    
-                                                   if (_touchTime > 10.5) {
+                                                   if (_touchTime > 60.5) {
                                                        // 结束
                                                        [_timer invalidate];
-                                                       
+                                                       [self touchesEnded:touches withEvent:event];
                                                    }
                                                }];
     
@@ -108,6 +108,8 @@
                      }];
     
 }
+
+
 
 
 

@@ -441,6 +441,9 @@
             self.playerLayer.player = player;
             [cell.contentView addSubview:_playerLayer];
             [player play];
+            // 添加长按手势，从相册选取视频
+            UILongPressGestureRecognizer *changeMovie = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeMovieAction:)];
+            [_playerLayer addGestureRecognizer:changeMovie];
             // 点击了播放器
             __block BOOL isPlayInFull = NO;
             __weak typeof(self) weakSelf = self;
@@ -558,10 +561,14 @@
         // 刷新
         [self reloadImageData];
         
+    } else if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+        _movieUrl = info[UIImagePickerControllerMediaURL];
+        [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }
     
     [picker dismissViewControllerAnimated:YES completion:^{
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }];
     
 }
@@ -570,10 +577,26 @@
 
     [picker dismissViewControllerAnimated:YES completion:^{
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }];
 
 }
 
+
+#pragma mark - 长按视频预览，从相册更换视频
+- (void)changeMovieAction:(UILongPressGestureRecognizer *)press {
+
+    if (press.state == UIGestureRecognizerStateBegan) {
+        UIImagePickerController *moviePicker = [[UIImagePickerController alloc] init];
+        moviePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        moviePicker.mediaTypes =  [[NSArray alloc] initWithObjects:(NSString*)kUTTypeMovie, (NSString*)kUTTypeVideo, nil];
+        moviePicker.delegate = self;
+        [self presentViewController:moviePicker animated:YES completion:^{
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        }];
+    }
+
+}
 
 
 #pragma mark - 打开定位界面
@@ -726,7 +749,6 @@
     NSString *fileName = [NSString stringWithFormat:@"output-%@.mp4",[formater stringFromDate:[NSDate date]]];
     NSString *outfilePath = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", fileName];
     NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
-    __weak typeof(self) weakSelf = self;
     if ([compatiblePresets containsObject:AVAssetExportPresetMediumQuality]) {
         AVAssetExportSession *exportSession = [[AVAssetExportSession alloc]initWithAsset:avAsset presetName:AVAssetExportPresetMediumQuality];
         exportSession.outputURL = [NSURL fileURLWithPath:outfilePath];
