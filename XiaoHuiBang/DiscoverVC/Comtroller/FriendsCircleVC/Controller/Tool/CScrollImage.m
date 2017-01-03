@@ -49,6 +49,11 @@
         // 创建子视图
         [self _creatSubviews];
         
+        // 下滑隐藏
+        UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeAction:)];
+        swipe.direction = UISwipeGestureRecognizerDirectionDown;
+        [self addGestureRecognizer:swipe];
+        
     }
     return self;
 
@@ -241,8 +246,12 @@
 }
 
 
+#pragma mark - 下滑隐藏
+- (void)swipeAction:(UISwipeGestureRecognizer *)swipe {
 
+    
 
+}
 
 
 

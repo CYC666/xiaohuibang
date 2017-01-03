@@ -11,6 +11,7 @@
 #import "DiscoverController.h"
 #import "DiscoverCell.h"
 #import "FriendsCircleViewController.h"
+#import "ColorGameController.h"
 
 
 
@@ -60,7 +61,7 @@
 
 #pragma mark - 表视图代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -79,7 +80,7 @@
         cell.title.text = @"邦友圈";
         cell.leftImage.image = [UIImage imageNamed:@"icon_moments_unselected"];
     } else if (indexPath.section == 1) {
-        cell.title.text = @"扫一扫";
+        cell.title.text = @"ColorGame";
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             cell.title.text = @"零钱";
@@ -112,6 +113,12 @@
         }
         [self.navigationController pushViewController:_friendsCycleController animated:YES];
         
+    } else if (indexPath.section == 1) {
+        ColorGameController *controller = [[ColorGameController alloc] initWithNibName:@"ColorGameController"
+                                                                                bundle:[NSBundle mainBundle]];
+        controller.hidesBottomBarWhenPushed = YES;
+        controller.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:controller animated:YES];
     }
     
     // 选中之后，让单元格处于取消选中的状态，比较好看
