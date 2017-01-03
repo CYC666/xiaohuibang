@@ -88,8 +88,9 @@
         imageView.userInteractionEnabled = YES;
         [scrollView addSubview:imageView];
         NSString *urlStr = _imageArr[i];
-        __block UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(100, 300, 100, 100)];
+        __block UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((rect.size.width - 100)/2.0, (rect.size.height - 100)/2.0, 100, 100)];
         indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        indicatorView.hidesWhenStopped = YES;
         [scrollView addSubview:indicatorView];
         [indicatorView startAnimating];
         if ([urlStr characterAtIndex:0] == 'h') {
@@ -105,6 +106,10 @@
                                      [indicatorView stopAnimating];
                                      
                                  }];
+            // 当宽 < 高时，控制滑动视图的大小,防止缩放后偏移太多
+//            CGSize imageSize = image.size;
+//            float scale = imageSize.width / imageSize.height;
+//            scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenWidth / scale);
             
         } else {
             
@@ -118,6 +123,10 @@
                                      [indicatorView stopAnimating];
                                      
                                  }];
+            // 当宽 < 高时，控制滑动视图的大小,防止缩放后偏移太多
+//            CGSize imageSize = image.size;
+//            float scale = imageSize.width / imageSize.height;
+//            scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenWidth / scale);
             
         }
         

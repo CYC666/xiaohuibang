@@ -62,10 +62,10 @@
         // 当动态携带一张图片时
         if (self.seeModel.about_img.count == 1) {
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            //判断是否有缓存
-            BOOL isExist = [manager diskImageExistsForURL:[NSURL URLWithString:_seeModel.about_img.firstObject]];
+            //判断是否有缓存(不要使用原图的路径判断，因为不点开查看大图就不会缓存原图)
+            BOOL isExist = [manager diskImageExistsForURL:[NSURL URLWithString:_seeModel.thumb_img.firstObject]];
             if (isExist) {
-                UIImage *image = [[manager imageCache] imageFromDiskCacheForKey:_seeModel.about_img.firstObject];
+                UIImage *image = [[manager imageCache] imageFromDiskCacheForKey:_seeModel.thumb_img.firstObject];
                 CGSize size = image.size;
                 float scale = size.width / size.height;
                 // 当宽比高大
@@ -75,10 +75,10 @@
                     [self.imgFrameArr addObject:rectValue];
                     self.cellHeight += (104 + kSpace);
                 } else {
-                    CGRect rect = CGRectMake(kContentX, self.cellHeight, 104, 180);
+                    CGRect rect = CGRectMake(kContentX, self.cellHeight, 104, 104 / scale);
                     NSValue *rectValue = [NSValue valueWithCGRect:rect];
                     [self.imgFrameArr addObject:rectValue];
-                    self.cellHeight += (180 + kSpace);
+                    self.cellHeight += (104 / scale + kSpace);
                 }
             } else {
                 CGRect rect = CGRectMake(kContentX, self.cellHeight, 104, 180);

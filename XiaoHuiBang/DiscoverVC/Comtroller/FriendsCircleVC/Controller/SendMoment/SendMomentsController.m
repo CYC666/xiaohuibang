@@ -219,27 +219,29 @@
     
     // 先隐藏键盘，再dismiss
     [_textView endEditing:YES];
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定退出此次编辑？"
+    if (_textView.text.length == 0 && _movieUrl == nil && _imageArray.count == 0) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定退出此次编辑？"
                                                                        message:nil
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * _Nonnull action) {
-                                                           [self dismissViewControllerAnimated:YES completion:^{
-                                                               // 缓存动态编辑的状态
-                                                               
-                                                               
+        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+                                                               [self dismissViewControllerAnimated:YES completion:^{
+                                                                   // 缓存动态编辑的状态
+                                                                   
+                                                                   
+                                                               }];
                                                            }];
-                                                       }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
-    [sureAction setValue:[UIColor redColor] forKey:@"_titleTextColor"];
-    
-    [alert addAction:cancelAction];
-    [alert addAction:sureAction];
-    [self presentViewController:alert animated:YES completion:nil];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+        [sureAction setValue:[UIColor redColor] forKey:@"_titleTextColor"];
+        
+        [alert addAction:cancelAction];
+        [alert addAction:sureAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
     
     
 }
@@ -257,8 +259,8 @@
     }
     
     // 调用自定义类目的方法处理表情问题,讲表情转成字符串
-    // NSString *content = [_textView.text changeToString];
-    NSString *content = [NSString stringWithUTF8String:[_textView.text UTF8String]];
+    NSString *content = [_textView.text changeToString];
+//    NSString *content = [NSString stringWithUTF8String:[_textView.text UTF8String]];
 
 
     // 发表动态
@@ -768,7 +770,7 @@
 - (void)uploadMovieAboutWithUrl:(NSURL *)url fileName:(NSString *)name {
 
     // 开始上传
-    NSString *content = [NSString stringWithUTF8String:[_textView.text UTF8String]];
+    NSString *content = [_textView.text changeToString];
     NSDictionary *params;
     if (self.address == nil) {
         params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
@@ -793,6 +795,9 @@
           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
               [SVProgressHUD dismiss];
               [SVProgressHUD showSuccessWithStatus:@"成功"];
+              // 成功后刷新数据
+              [[NSNotificationCenter defaultCenter] postNotificationName:reloadSeeDate
+                                                                  object:nil];
               // 删除沙盒视频
               [self removeSandMovie:url];
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

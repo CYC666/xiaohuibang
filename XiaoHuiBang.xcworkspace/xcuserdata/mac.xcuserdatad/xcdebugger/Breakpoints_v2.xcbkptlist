@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "XiaoHuiBang/DiscoverVC/Comtroller/FriendsCircleVC/Controller/Tool/CScrollImage.m"
-            timestampString = "505128682.032007"
+            timestampString = "505131854.300546"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "-_creatSubviews"
             landmarkType = "7">
          </BreakpointContent>
