@@ -84,9 +84,14 @@
         
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth, kScreenHeight)];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.userInteractionEnabled = YES;
+        [scrollView addSubview:imageView];
         NSString *urlStr = _imageArr[i];
-        __block UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 63, kScreenWidth + 20, 20)];
-        [scrollView addSubview:progress];
+        __block UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(100, 300, 100, 100)];
+        indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        [scrollView addSubview:indicatorView];
+        [indicatorView startAnimating];
         if ([urlStr characterAtIndex:0] == 'h') {
             
             UIImage *image = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:_thumbArr[i]];
@@ -94,10 +99,10 @@
                          placeholderImage:image
                                   options:SDWebImageRetryFailed
                                  progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                     progress.progress = (double)receivedSize / expectedSize;
+                                     
                                  } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                     [progress removeFromSuperview];
-                                     progress = nil;
+                                     
+                                     [indicatorView stopAnimating];
                                      
                                  }];
             
@@ -108,19 +113,16 @@
                          placeholderImage:image
                                   options:SDWebImageRetryFailed
                                  progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                     progress.progress = (double)receivedSize / expectedSize;
+                                    
                                  } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                     [progress removeFromSuperview];
-                                     progress = nil;
+                                     [indicatorView stopAnimating];
                                      
                                  }];
             
         }
         
         
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        imageView.userInteractionEnabled = YES;
-        [scrollView addSubview:imageView];
+        
         
         
         

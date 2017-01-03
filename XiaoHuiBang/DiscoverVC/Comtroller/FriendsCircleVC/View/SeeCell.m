@@ -760,27 +760,27 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
     
-    self.photoArray = [self prepareForPhotoBroswerWithURL:_seeLayout.seeModel.about_img];
-    LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
-    BroswerVC.delegate = self;
-    BroswerVC.dataSource = self;
-    BroswerVC.showType = LGShowImageTypeImageURL;
-    [[self viewController] presentViewController:BroswerVC animated:YES completion:nil];
+//    self.photoArray = [self prepareForPhotoBroswerWithURL:_seeLayout.seeModel.about_img];
+//    LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
+//    BroswerVC.delegate = self;
+//    BroswerVC.dataSource = self;
+//    BroswerVC.showType = LGShowImageTypeImageURL;
+//    [[self viewController] presentViewController:BroswerVC animated:YES completion:nil];
     
-//    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
-//                                                               imageArray:_seeLayout.seeModel.about_img
-//                                                          thumbImageArray:_seeLayout.seeModel.thumb_img
-//                                                              currentPage:cImageView.imagePage];
-//    showBigScrollView.alpha = 0;
-//    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
-//    [UIView animateWithDuration:.35
-//                     animations:^{
-//                         showBigScrollView.alpha = 1;
-//                     }];
-//    // 添加手势，点击退出查看大图
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-//    
-//    [showBigScrollView addGestureRecognizer:tap];
+    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                               imageArray:_seeLayout.seeModel.about_img
+                                                          thumbImageArray:_seeLayout.seeModel.thumb_img
+                                                              currentPage:cImageView.imagePage];
+    showBigScrollView.alpha = 0;
+    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
+    [UIView animateWithDuration:.35
+                     animations:^{
+                         showBigScrollView.alpha = 1;
+                     }];
+    // 添加手势，点击退出查看大图
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    
+    [showBigScrollView addGestureRecognizer:tap];
 }
 
 #pragma mark - 点击视频缩略图查看视频
