@@ -768,8 +768,9 @@
     [[self viewController] presentViewController:BroswerVC animated:YES completion:nil];
     
 //    CScrollImage *showBigScrollView = [[CScrollImage alloc] initWithFrame:[UIScreen mainScreen].bounds
-//                                                           imageArray:_seeLayout.seeModel.about_img
-//                                                          currentPage:cImageView.imagePage];
+//                                                               imageArray:_seeLayout.seeModel.about_img
+//                                                          thumbImageArray:_seeLayout.seeModel.thumb_img
+//                                                              currentPage:cImageView.imagePage];
 //    showBigScrollView.alpha = 0;
 //    [[UIApplication sharedApplication].keyWindow addSubview:showBigScrollView];
 //    [UIView animateWithDuration:.35

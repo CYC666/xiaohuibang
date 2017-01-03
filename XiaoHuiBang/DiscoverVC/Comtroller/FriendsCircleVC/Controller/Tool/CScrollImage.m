@@ -34,11 +34,15 @@
 @implementation CScrollImage
 
 
-- (instancetype)initWithFrame:(CGRect)frame imageArray:(NSArray *)array currentPage:(NSInteger)page {
+- (instancetype)initWithFrame:(CGRect)frame
+                   imageArray:(NSArray *)array
+              thumbImageArray:(NSArray *)thumbArray
+                  currentPage:(NSInteger)page {
 
     self = [super initWithFrame:frame];
     if (self != nil) {
         _imageArr = array;
+        _thumbArr = thumbArray;
         _currentPage = page;
         _allowHide = YES;
         
@@ -66,12 +70,11 @@
     for (int i = 0; i < _imageArr.count; i++) {
         
         // 把图片放在单独的滑动视图之上，就不会影响底下的主滑动视图了
-        __weak typeof(self) weakSelf = self;
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(rect.size.width * i, 0, rect.size.width, rect.size.height)];
         scrollView.delegate = self;
         scrollView.minimumZoomScale = 1;
         scrollView.maximumZoomScale = 3;
-        scrollView.contentSize = CGSizeMake(self.frame.size.width, self.frame.size.height);
+        scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
         [_background addSubview:scrollView];
         // 双击将图返回原样
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -80,33 +83,38 @@
         [scrollView addGestureRecognizer:doubleTap];
         
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width, self.frame.size.height)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth, kScreenHeight)];
         NSString *urlStr = _imageArr[i];
         __block UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 63, kScreenWidth + 20, 20)];
         [scrollView addSubview:progress];
         if ([urlStr characterAtIndex:0] == 'h') {
+            
+            UIImage *image = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:_thumbArr[i]];
             [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
-                         placeholderImage:nil
+                         placeholderImage:image
                                   options:SDWebImageRetryFailed
                                  progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                      progress.progress = (double)receivedSize / expectedSize;
                                  } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                      [progress removeFromSuperview];
                                      progress = nil;
-                                     // [weakSelf setImageView:imageView withImage:image];
+                                     
                                  }];
             
         } else {
+            
+            UIImage *image = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:[NSString stringWithFormat:@"https://%@", _thumbArr[i]]];
             [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]
-                         placeholderImage:nil
+                         placeholderImage:image
                                   options:SDWebImageRetryFailed
                                  progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                      progress.progress = (double)receivedSize / expectedSize;
                                  } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                      [progress removeFromSuperview];
                                      progress = nil;
-                                     // [weakSelf setImageView:imageView withImage:image];
+                                     
                                  }];
+            
         }
         
         
