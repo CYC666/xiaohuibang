@@ -13,6 +13,8 @@
 #import "FriendsCircleViewController.h"
 #import "ColorGameController.h"
 #import "ExpressHumanController.h"
+#import "XHBController.h"
+#import "ZhangYueController.h"
 
 
 
@@ -62,7 +64,7 @@
 
 #pragma mark - 表视图代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -92,7 +94,7 @@
         }
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
-            cell.title.text = @"零钱";
+            cell.title.text = @"掌阅书城";
         } else if (indexPath.row == 1) {
             cell.title.text = @"绿包";
         } else if (indexPath.row == 2) {
@@ -129,6 +131,10 @@
         [self.navigationController pushViewController:controller animated:YES];
     } else if (indexPath.section == 1 && indexPath.row == 1) {
         ExpressHumanController *controller = [[ExpressHumanController alloc] init];
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+    } else if (indexPath.section == 2 && indexPath.row == 0) {
+        ZhangYueController *controller = [[ZhangYueController alloc] init];
         controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:YES];
     }
