@@ -15,6 +15,7 @@
 #import "ExpressHumanController.h"
 #import "XHBController.h"
 #import "ZhangYueController.h"
+#import "CWebController.h"
 
 
 
@@ -96,7 +97,7 @@
         if (indexPath.row == 0) {
             cell.title.text = @"掌阅书城";
         } else if (indexPath.row == 1) {
-            cell.title.text = @"绿包";
+            cell.title.text = @"京东商城";
         } else if (indexPath.row == 2) {
             cell.title.text = @"邦富金";
         }
@@ -134,7 +135,11 @@
         controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:YES];
     } else if (indexPath.section == 2 && indexPath.row == 0) {
-        ZhangYueController *controller = [[ZhangYueController alloc] init];
+        CWebController *controller = [[CWebController alloc] initWithName:@"掌阅书城" url:@"http://m2.ireader.com/"];
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+    } else if (indexPath.section == 2 && indexPath.row == 1) {
+        CWebController *controller = [[CWebController alloc] initWithName:@"京东商城" url:@"https://wqs.jd.com/portal/wx/portal_indexV4.shtml?PTAG=17007.13.1&ptype=1"];
         controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:YES];
     }
