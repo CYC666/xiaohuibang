@@ -247,6 +247,11 @@
 		04140D001E1C081B006EB93B /* ColorGameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04140CFF1E1C081B006EB93B /* ColorGameView.m */; };
 		04140D041E1C085C006EB93B /* ColorGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04140D021E1C085C006EB93B /* ColorGameController.m */; };
 		04140D051E1C085C006EB93B /* ColorGameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04140D031E1C085C006EB93B /* ColorGameController.xib */; };
+		041B56881E1C821D00D02508 /* ExpressHumanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041B56871E1C821D00D02508 /* ExpressHumanController.m */; };
+		041B568E1E1C99FC00D02508 /* ColorGame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041B568A1E1C99FC00D02508 /* ColorGame@2x.png */; };
+		041B568F1E1C99FC00D02508 /* ColorGame@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041B568B1E1C99FC00D02508 /* ColorGame@3x.png */; };
+		041B56901E1C99FC00D02508 /* ExpressHuman@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041B568C1E1C99FC00D02508 /* ExpressHuman@2x.png */; };
+		041B56911E1C99FC00D02508 /* ExpressHuman@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041B568D1E1C99FC00D02508 /* ExpressHuman@3x.png */; };
 		04FB5FB71E03D99800228FD9 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FB5FB61E03D99800228FD9 /* libicucore.tbd */; };
 		DB7F902B3A8335807EDD4AA1 /* libPods-XiaoHuiBang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D16C0070D282AEAB61DF474D /* libPods-XiaoHuiBang.a */; };
 		F306DE831DD096360034BA65 /* UsersToTheirOwnGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F306DE811DD096360034BA65 /* UsersToTheirOwnGroupViewController.m */; };
@@ -911,6 +916,12 @@
 		04140D011E1C085C006EB93B /* ColorGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorGameController.h; sourceTree = "<group>"; };
 		04140D021E1C085C006EB93B /* ColorGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorGameController.m; sourceTree = "<group>"; };
 		04140D031E1C085C006EB93B /* ColorGameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorGameController.xib; sourceTree = "<group>"; };
+		041B56861E1C821D00D02508 /* ExpressHumanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressHumanController.h; sourceTree = "<group>"; };
+		041B56871E1C821D00D02508 /* ExpressHumanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpressHumanController.m; sourceTree = "<group>"; };
+		041B568A1E1C99FC00D02508 /* ColorGame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ColorGame@2x.png"; sourceTree = "<group>"; };
+		041B568B1E1C99FC00D02508 /* ColorGame@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ColorGame@3x.png"; sourceTree = "<group>"; };
+		041B568C1E1C99FC00D02508 /* ExpressHuman@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ExpressHuman@2x.png"; sourceTree = "<group>"; };
+		041B568D1E1C99FC00D02508 /* ExpressHuman@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ExpressHuman@3x.png"; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
 		04FB5FB61E03D99800228FD9 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
@@ -1407,6 +1418,7 @@
 				0410D2811E1516D500253224 /* DiscoverController.m */,
 				0410D2821E1516D500253224 /* FriendsCircleVC */,
 				04140CFD1E1C07E5006EB93B /* CollorGameVC */,
+				041B56851E1C81D500D02508 /* ExpressHuman */,
 			);
 			path = Comtroller;
 			sourceTree = "<group>";
@@ -2036,6 +2048,7 @@
 		0410D3F11E1516D600253224 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				041B56891E1C99F100D02508 /* DiscoverIcon */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2061,6 +2074,26 @@
 			);
 			name = CollorGameVC;
 			path = OffCollorGameVC;
+			sourceTree = "<group>";
+		};
+		041B56851E1C81D500D02508 /* ExpressHuman */ = {
+			isa = PBXGroup;
+			children = (
+				041B56861E1C821D00D02508 /* ExpressHumanController.h */,
+				041B56871E1C821D00D02508 /* ExpressHumanController.m */,
+			);
+			path = ExpressHuman;
+			sourceTree = "<group>";
+		};
+		041B56891E1C99F100D02508 /* DiscoverIcon */ = {
+			isa = PBXGroup;
+			children = (
+				041B568A1E1C99FC00D02508 /* ColorGame@2x.png */,
+				041B568B1E1C99FC00D02508 /* ColorGame@3x.png */,
+				041B568C1E1C99FC00D02508 /* ExpressHuman@2x.png */,
+				041B568D1E1C99FC00D02508 /* ExpressHuman@3x.png */,
+			);
+			path = DiscoverIcon;
 			sourceTree = "<group>";
 		};
 		636C67FCAA54B97F2A97C8C5 /* Frameworks */ = {
@@ -2996,6 +3029,7 @@
 				F30804261DA5FCFE00859781 /* logo@2x.png in Resources */,
 				F3F631F51D9A7B3100388996 /* 头像@3x.png in Resources */,
 				0410D42C1E1516D600253224 /* checkbox_pic_non.png in Resources */,
+				041B568F1E1C99FC00D02508 /* ColorGame@3x.png in Resources */,
 				0410D4161E1516D600253224 /* icon_like_nor_highlight@3x.png in Resources */,
 				0410D4981E1516D600253224 /* icon_comment_gray@2x.png in Resources */,
 				F39FD7071DDDB5D300D3724C /* location_arrow.png in Resources */,
@@ -3109,6 +3143,7 @@
 				F3EBC49A1D9A657E00E93C02 /* tx1.png in Resources */,
 				0410D4B71E1516D600253224 /* icon_location_selected@3x.png in Resources */,
 				F317F4081DA7828F00DB5F70 /* icon_add@2x.png in Resources */,
+				041B56911E1C99FC00D02508 /* ExpressHuman@3x.png in Resources */,
 				0410D4AB1E1516D600253224 /* icon_emojNew@3x.png in Resources */,
 				0410D4901E1516D600253224 /* icon_add-pic@3x.png in Resources */,
 				F334F4A81DCC5FB5002CFBBC /* pic_delete@2x.png in Resources */,
@@ -3133,6 +3168,7 @@
 				F33F899C1D9E510100FB0F70 /* icon_woman@3x.png in Resources */,
 				0410D4C11E1516D600253224 /* icon_pro_red.png in Resources */,
 				F30947601DD33ECF00638827 /* icon_focus@3x.png in Resources */,
+				041B568E1E1C99FC00D02508 /* ColorGame@2x.png in Resources */,
 				0410D4A31E1516D600253224 /* icon_done.png in Resources */,
 				0410D4C21E1516D600253224 /* icon_pro_red@2x.png in Resources */,
 				0410D4281E1516D600253224 /* btn_back_image@3x.png in Resources */,
@@ -3214,6 +3250,7 @@
 				F39FD6ED1DDDB43300D3724C /* icon_on-off@3x.png in Resources */,
 				F39494AB1DB0E27900BE3E51 /* icon_group-chat-qun@3x.png in Resources */,
 				0410D4B91E1516D600253224 /* icon_play@2x.png in Resources */,
+				041B56901E1C99FC00D02508 /* ExpressHuman@2x.png in Resources */,
 				F39FD6FC1DDDB43300D3724C /* icon_speak@3x.png in Resources */,
 				0410D41D1E1516D600253224 /* icon_liked_highlight.png in Resources */,
 				0410D43B1E1516D600253224 /* X.png in Resources */,
@@ -3354,6 +3391,7 @@
 				0410D4481E1516D600253224 /* LGPhotoPickerCustomToolBarView.m in Sources */,
 				F358E4581DDB0EBE00DA4124 /* RCDTestMessageCell.m in Sources */,
 				F33F89C11D9E728D00FB0F70 /* UserSexViewController.m in Sources */,
+				041B56881E1C821D00D02508 /* ExpressHumanController.m in Sources */,
 				F3ACCB3F1DC9C1F2002355AC /* StitchingImage.m in Sources */,
 				F31B2A971DA4E6EA00330636 /* ChangePswViewController.m in Sources */,
 				0410D44C1E1516D600253224 /* LGPhotoPickerAssetsViewController.m in Sources */,

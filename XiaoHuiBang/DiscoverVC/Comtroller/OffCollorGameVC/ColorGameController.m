@@ -28,7 +28,13 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.title = @"ColorGame";
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    title.text = @"ColorGame";
+    title.font = [UIFont boldSystemFontOfSize:19];
+    title.textAlignment = NSTextAlignmentCenter;
+    title.textColor = [UIColor whiteColor];
+    self.navigationItem.titleView = title;
+
     
     _colorView = [[ColorGameView alloc] initWithFrame:CGRectZero];
     //游戏还未开始，不能点击

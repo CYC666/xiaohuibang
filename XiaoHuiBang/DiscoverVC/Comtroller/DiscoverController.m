@@ -12,6 +12,7 @@
 #import "DiscoverCell.h"
 #import "FriendsCircleViewController.h"
 #import "ColorGameController.h"
+#import "ExpressHumanController.h"
 
 
 
@@ -67,6 +68,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 2) {
         return 3;
+    } else if (section == 1) {
+        return 2;
     } else {
         return 1;
     }
@@ -80,7 +83,13 @@
         cell.title.text = @"邦友圈";
         cell.leftImage.image = [UIImage imageNamed:@"icon_moments_unselected"];
     } else if (indexPath.section == 1) {
-        cell.title.text = @"ColorGame";
+        if (indexPath.row == 0) {
+            cell.title.text = @"ColorGame";
+            cell.leftImage.image = [UIImage imageNamed:@"ColorGame"];
+        } else {
+            cell.title.text = @"告白小人";
+            cell.leftImage.image = [UIImage imageNamed:@"ExpressHuman"];
+        }
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             cell.title.text = @"零钱";
@@ -113,11 +122,14 @@
         }
         [self.navigationController pushViewController:_friendsCycleController animated:YES];
         
-    } else if (indexPath.section == 1) {
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
         ColorGameController *controller = [[ColorGameController alloc] initWithNibName:@"ColorGameController"
                                                                                 bundle:[NSBundle mainBundle]];
         controller.hidesBottomBarWhenPushed = YES;
-        controller.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        [self.navigationController pushViewController:controller animated:YES];
+    } else if (indexPath.section == 1 && indexPath.row == 1) {
+        ExpressHumanController *controller = [[ExpressHumanController alloc] init];
+        controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:YES];
     }
     
