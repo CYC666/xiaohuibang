@@ -65,16 +65,20 @@
 
 #pragma mark - 表视图代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 2) {
-        return 3;
+    if (section == 0) {
+        return 1;
     } else if (section == 1) {
         return 2;
-    } else {
+    } else if (section == 2){
+        return 2;
+    } else if (section == 3) {
         return 1;
+    } else {
+        return 0;
     }
 }
 
@@ -96,10 +100,15 @@
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             cell.title.text = @"掌阅书城";
+            cell.leftImage.image = [UIImage imageNamed:@"icon_bookstore"];
         } else if (indexPath.row == 1) {
             cell.title.text = @"京东商城";
-        } else if (indexPath.row == 2) {
-            cell.title.text = @"邦富金";
+            cell.leftImage.image = [UIImage imageNamed:@"icon_jingdong"];
+        }
+    } else if (indexPath.section == 3) {
+        if (indexPath.row == 0) {
+            cell.title.text = @"消汇邦周年庆";
+            cell.leftImage.image = [UIImage imageNamed:@"icon_discover_news"];
         }
     }
     return cell;
@@ -125,23 +134,37 @@
         }
         [self.navigationController pushViewController:_friendsCycleController animated:YES];
         
-    } else if (indexPath.section == 1 && indexPath.row == 0) {
-        ColorGameController *controller = [[ColorGameController alloc] initWithNibName:@"ColorGameController"
-                                                                                bundle:[NSBundle mainBundle]];
-        controller.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:controller animated:YES];
-    } else if (indexPath.section == 1 && indexPath.row == 1) {
-        ExpressHumanController *controller = [[ExpressHumanController alloc] init];
-        controller.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:controller animated:YES];
-    } else if (indexPath.section == 2 && indexPath.row == 0) {
-        CWebController *controller = [[CWebController alloc] initWithName:@"掌阅书城" url:@"http://m2.ireader.com/"];
-        controller.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:controller animated:YES];
-    } else if (indexPath.section == 2 && indexPath.row == 1) {
-        CWebController *controller = [[CWebController alloc] initWithName:@"京东商城" url:@"https://wqs.jd.com/portal/wx/portal_indexV4.shtml?PTAG=17007.13.1&ptype=1"];
-        controller.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:controller animated:YES];
+    } else if (indexPath.section == 1) {
+        
+        if (indexPath.row == 0) {
+            ColorGameController *controller = [[ColorGameController alloc] initWithNibName:@"ColorGameController"
+                                                                                    bundle:[NSBundle mainBundle]];
+            controller.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:controller animated:YES];
+        } else if (indexPath.row == 1) {
+            ExpressHumanController *controller = [[ExpressHumanController alloc] init];
+            controller.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+        
+    } else if (indexPath.section == 2) {
+        
+        if (indexPath.row == 0) {
+            CWebController *controller = [[CWebController alloc] initWithName:@"掌阅书城" url:@"http://m2.ireader.com/"];
+            controller.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:controller animated:YES];
+        } else if (indexPath.row == 1) {
+            CWebController *controller = [[CWebController alloc] initWithName:@"京东商城" url:@"https://wqs.jd.com/portal/wx/portal_indexV4.shtml?PTAG=17007.13.1&ptype=1"];
+            controller.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+        
+    } else if (indexPath.section == 3) {
+        if (indexPath.row == 0) {
+            CWebController *controller = [[CWebController alloc] initWithName:@"消汇邦周年庆" url:@"http://mp.weixin.qq.com/s/cnwrifJwMBQ4uM1FP_dZ5g"];
+            controller.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
     }
     
     // 选中之后，让单元格处于取消选中的状态，比较好看
