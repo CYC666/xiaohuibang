@@ -8,7 +8,6 @@
 
 #import "FriendsCircleViewController.h"
 #import "SeeModel.h"
-#import "CRefresh.h"
 #import "CNetTool.h"
 #import "SeeLayout.h"
 #import "PraiseModel.h"
@@ -650,6 +649,7 @@
     // 必须将上拉加载下拉刷新移除
 //    self.seeTableView.showsPullToRefresh = NO;
 //    self.seeTableView.showsInfiniteScrolling = NO;
+    
     
 }
 

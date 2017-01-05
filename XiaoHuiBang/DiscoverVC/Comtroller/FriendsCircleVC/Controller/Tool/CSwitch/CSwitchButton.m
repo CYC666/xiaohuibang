@@ -19,8 +19,9 @@
     BottomLayer *_bottomLayer;  // 底部
     TopLayer *_topLayer;     // 顶部
     
-    
 }
+
+@property (strong, nonatomic) UILabel *timeCount;   // 记录录像时间
 
 @end
 
@@ -43,6 +44,19 @@
 
 }
 
+- (UILabel *)timeCount {
+
+    if (_timeCount == nil) {
+        _timeCount = [[UILabel alloc] initWithFrame:CGRectMake((self.frame.size.height - 25)/2.0, (self.frame.size.height - 25)/2.0, 25, 25)];
+        _timeCount.font = [UIFont systemFontOfSize:12];
+        _timeCount.textAlignment = NSTextAlignmentCenter;
+        _timeCount.textColor = [UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1];
+        [self addSubview:_timeCount];
+    }
+    return _timeCount;
+
+}
+
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
@@ -55,12 +69,18 @@
                                                    // 正在摄像
                                                    if (_touchTime > 0.5) {
                                                        _startMovieBlock();
+                                                       
+                                                       // 录制时间,如果放在缩放下面设置的话，会有位移偏差
+                                                       self.timeCount.text = [NSString stringWithFormat:@"%ld", (NSInteger)(_touchTime/1)];
+                                                       
                                                        [UIView animateWithDuration:.35
                                                                         animations:^{
                                                                             self.transform = CGAffineTransformMakeScale(1.3, 1.3);
                                                                             _topLayer.transform = CGAffineTransformMakeScale(0.3, 0.3);
                                                                         }];
+                                                       // 进度条
                                                        _bottomLayer.endAngle = M_PI * 2 * ((_touchTime - 0.5)/60);
+                                                       
                                                    }
                                                    
                                                    if (_touchTime > 60.5) {
@@ -77,14 +97,16 @@
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
     // 让顶部layer跟随手指移动
-    UITouch *touch = [touches anyObject];
-    CGPoint point = [touch locationInView:self];
-    _topLayer.center = point;
+//    UITouch *touch = [touches anyObject];
+//    CGPoint point = [touch locationInView:self];
+//    _topLayer.center = point;
 
 }
 
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    _timeCount.text = @"";
     
     if (_touchTime < 0.5) {
         // 触发拍照
