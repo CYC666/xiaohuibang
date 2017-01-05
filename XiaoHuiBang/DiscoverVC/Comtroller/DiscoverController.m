@@ -20,6 +20,7 @@
 
 
 
+
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
 
@@ -59,6 +60,8 @@
     _enumTable.delegate = self;
     _enumTable.dataSource = self;
     [self.view addSubview:_enumTable];
+    
+    
     
 }
 

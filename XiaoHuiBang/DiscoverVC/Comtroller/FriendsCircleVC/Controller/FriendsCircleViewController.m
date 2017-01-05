@@ -19,6 +19,7 @@
 #import <UIImageView+WebCache.h>
 #import <FMDB.h>
 #import "LGPhoto.h"
+#import "MJRefresh.h"
 
 
 
@@ -101,15 +102,34 @@
 
     // 创建一个若引用的self在block中调用方法，防止循环引用
     __weak FriendsCircleViewController *weakSelf = self;
-    [self.seeTableView addPullDownRefreshBlock:^{
+//    [self.seeTableView addPullDownRefreshBlock:^{
+//        @synchronized (weakSelf) {
+//            // 下拉刷新
+//            [weakSelf reloadSeeData];
+//        }
+//        
+//    }];
+//    
+//    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
+//        @synchronized (weakSelf) {
+//            // 上拉加载
+//            [weakSelf downloadData];
+//        }
+//    }];
+    
+    // -----------------------------------------------------
+    // 使用MJRefresh
+    self.seeTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         @synchronized (weakSelf) {
             // 下拉刷新
             [weakSelf reloadSeeData];
         }
-        
     }];
     
-    [self.seeTableView addInfiniteScrollingWithActionHandler:^{
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    self.seeTableView.mj_header.automaticallyChangeAlpha = YES;
+    
+    self.seeTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         @synchronized (weakSelf) {
             // 上拉加载
             [weakSelf downloadData];
@@ -429,13 +449,13 @@
                                       [SVProgressHUD dismiss];
                                       [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
                                       // 结束刷新
-                                      [self.seeTableView.pullToRefreshView stopAnimating];
+                                      [self.seeTableView.mj_header endRefreshing];
                                   }
                               } failure:^(NSError *err) {
                                   [SVProgressHUD dismiss];
                                   [SVProgressHUD showSuccessWithStatus:@"请求失败"];
                                   // 结束刷新
-                                  [self.seeTableView.pullToRefreshView stopAnimating];
+                                  [self.seeTableView.mj_header endRefreshing];
                               }];
     
     
@@ -468,13 +488,13 @@
                                       [SVProgressHUD showSuccessWithStatus:@"没有更多动态"];
                                       
                                       // 如果没有动态就结束加载，不然会一直加载，导致刷新过后不能加载
-                                      [self.seeTableView.infiniteScrollingView stopAnimating];
+                                      [self.seeTableView.mj_footer endRefreshing];
                                   }
                               } failure:^(NSError *err) {
                                   [SVProgressHUD dismiss];
                                   [SVProgressHUD showSuccessWithStatus:@"请求失败"];
                                   // 请求失败也要停止转动
-                                  [self.seeTableView.infiniteScrollingView stopAnimating];
+                                  [self.seeTableView.mj_footer endRefreshing];
                               }];
     
     
@@ -604,13 +624,13 @@
             self.seeTableView.seeLayoutList = self.seeModelList;
             // self.seeTableView.seeLayoutList = seeTempArr;
             // 结束刷新
-            [self.seeTableView.pullToRefreshView stopAnimating];
+            [self.seeTableView.mj_header endRefreshing];
         } else if (_dataTag == 1) {     // 加载
             [self.seeModelList addObjectsFromArray:seeTempArr];
             self.seeTableView.seeLayoutList = self.seeModelList;
             // [self.seeTableView.seeLayoutList addObjectsFromArray:seeTempArr];
             // 结束加载
-            [self.seeTableView.infiniteScrollingView stopAnimating];
+            [self.seeTableView.mj_footer endRefreshing];
         }
         
         [self.seeTableView reloadData];
@@ -628,8 +648,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NotigicationOfSelfTranslucent object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:reloadSeeDate object:nil];
     // 必须将上拉加载下拉刷新移除
-    self.seeTableView.showsPullToRefresh = NO;
-    self.seeTableView.showsInfiniteScrolling = NO;
+//    self.seeTableView.showsPullToRefresh = NO;
+//    self.seeTableView.showsInfiniteScrolling = NO;
     
 }
 
