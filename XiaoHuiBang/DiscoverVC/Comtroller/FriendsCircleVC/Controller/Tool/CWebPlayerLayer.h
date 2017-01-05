@@ -19,7 +19,9 @@
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) UIImageView *thumbView;
 @property (strong, nonatomic) UIProgressView *progressView;     // 下载进度条
+@property (strong, nonatomic) UIActivityIndicatorView *activityView;    // 小菊花
 @property (strong, nonatomic) UIProgressView *playProgressView; // 播放进度
+
 
 @property (copy, nonatomic) NSString *movieUrlStr;
 @property (copy, nonatomic) NSString *movieThumb;

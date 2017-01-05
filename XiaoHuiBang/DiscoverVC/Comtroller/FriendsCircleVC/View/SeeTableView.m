@@ -211,8 +211,10 @@
     // 隐藏输入框和点赞框
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
 
-    CBottomAlert *alert = [[CBottomAlert alloc] initWtihTitleArray:@[@"更换相册封面"]];
+    CBottomAlert *alert = [[CBottomAlert alloc] initWtihTitleArray:@[ @"更换相册封面"]];
     [alert show];
+    
+    __weak typeof(self) weakSelf = self;
     alert.block = ^(NSString *title) {
     
         if ([title isEqualToString:@"更换相册封面"]) {
@@ -220,7 +222,7 @@
             pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             pickerController.allowsEditing = YES;
             pickerController.delegate = self;
-            [[self viewController] presentViewController:pickerController animated:YES completion:nil];
+            [[weakSelf viewController] presentViewController:pickerController animated:YES completion:nil];
         }
     
     };

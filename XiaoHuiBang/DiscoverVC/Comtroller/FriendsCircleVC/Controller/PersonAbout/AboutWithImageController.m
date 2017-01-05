@@ -183,7 +183,7 @@
                                                         thumbImageArray:_seeModel.thumb_img
                                                             currentPage:0];
         [self.view addSubview:cScrollView];
-        //  添加手势，点击隐藏、显示导航栏、标签栏(但是打开之后，视图会有上下偏移)
+        //  添加手势，点击隐藏、显示导航栏、标签栏(但是打开之后，视图会有上下偏移)(导航栏是否透明，会导致bounds的大小，从而引起视图的大小偏移)
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
         [cScrollView addGestureRecognizer:tap];
     } else if ([_seeModel.type isEqualToString:@"3"]) {
@@ -432,10 +432,10 @@
 // 如果存在播放器，那就暂停
 - (void)viewWillDisappear:(BOOL)animated {
 
-    [UIView animateWithDuration:.35
-                     animations:^{
-                         self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
-                     }];
+//    [UIView animateWithDuration:.35
+//                     animations:^{
+//                         self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+//                     }];
     
     if (_playerView != nil) {
         [_playerView.player pause];

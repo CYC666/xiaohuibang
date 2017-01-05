@@ -75,7 +75,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return 2;
+        return 3;
     } else if (section == 2){
         return 2;
     } else if (section == 3) {
@@ -96,8 +96,11 @@
         if (indexPath.row == 0) {
             cell.title.text = @"ColorGame";
             cell.leftImage.image = [UIImage imageNamed:@"ColorGame"];
-        } else {
+        } else if (indexPath.row == 1) {
             cell.title.text = @"告白小人";
+            cell.leftImage.image = [UIImage imageNamed:@"ExpressHuman"];
+        } else if (indexPath.row == 2) {
+            cell.title.text = @"玩游戏";
             cell.leftImage.image = [UIImage imageNamed:@"ExpressHuman"];
         }
     } else if (indexPath.section == 2) {
@@ -148,6 +151,13 @@
             ExpressHumanController *controller = [[ExpressHumanController alloc] init];
             controller.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:controller animated:YES];
+        } else if (indexPath.row == 2) {
+            CWebController *controller = [[CWebController alloc] initWithModelName:@"玩游戏" url:@"http://www.meiriq.com/list/302da1ab"];
+            controller.allowRightItem = YES;
+            controller.isModel = YES;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+            nav.navigationBar.barTintColor = [UIColor blackColor];
+            [self presentViewController:nav animated:YES completion:nil];
         }
         
     } else if (indexPath.section == 2) {
@@ -155,10 +165,12 @@
         if (indexPath.row == 0) {
             CWebController *controller = [[CWebController alloc] initWithName:@"掌阅书城" url:@"http://m2.ireader.com/"];
             controller.hidesBottomBarWhenPushed = YES;
+            controller.allowGesture = YES;
             [self.navigationController pushViewController:controller animated:YES];
         } else if (indexPath.row == 1) {
             CWebController *controller = [[CWebController alloc] initWithName:@"京东商城" url:@"https://wqs.jd.com/portal/wx/portal_indexV4.shtml?PTAG=17007.13.1&ptype=1"];
             controller.hidesBottomBarWhenPushed = YES;
+            controller.allowGesture = YES;
             [self.navigationController pushViewController:controller animated:YES];
         }
         
@@ -166,6 +178,7 @@
         if (indexPath.row == 0) {
             CWebController *controller = [[CWebController alloc] initWithName:@"消汇邦周年庆" url:@"http://mp.weixin.qq.com/s/cnwrifJwMBQ4uM1FP_dZ5g"];
             controller.hidesBottomBarWhenPushed = YES;
+            controller.allowGesture = YES;
             [self.navigationController pushViewController:controller animated:YES];
         }
     }

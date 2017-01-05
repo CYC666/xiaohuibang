@@ -33,6 +33,7 @@
 
     UITextView *_inputView;                                     // 输入框
     UILabel *_holdLabel;                                        // "发表评论"字样
+    float _oldHeight;                                           // 输入框原始高度
 
 }
 
@@ -469,6 +470,7 @@
     
     // 创建输入框
     _inputView = [[UITextView alloc] initWithFrame:CGRectMake(13, kScreenHeight - 29 - 10 - 64, kScreenWidth - 13*2, 29)];
+    _oldHeight = 29;
     _inputView.layer.cornerRadius = 3;
     _inputView.layer.borderWidth = 1;
     _inputView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
@@ -674,7 +676,7 @@
     float oldHeight = frame.size.height;
     frame.size.height = rect.size.height + 8*2;
     frame.origin.y -= (frame.size.height - oldHeight);
-    if (frame.size.height > _inputView.frame.size.height && frame.size.height < 300) {
+    if (frame.size.height > _oldHeight && frame.size.height < 300) {
         [UIView animateWithDuration:.35
                          animations:^{
                              _inputView.frame = frame;

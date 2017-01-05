@@ -17,6 +17,8 @@
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *urlStr;
 @property (strong, nonatomic) UIWebView *webView;
+@property (assign, nonatomic) float webViewHeight;
+
 @end
 
 @implementation CWebController
@@ -27,9 +29,21 @@
     if (self = [super init]) {
         _name = controllerName;
         _urlStr = controllerUrl;
+        _webViewHeight = kScreenHeight-64;
     }
     return self;
 
+}
+- (instancetype)initWithModelName:(NSString *)controllerName
+                              url:(NSString *)controllerUrl {
+    
+    if (self = [super init]) {
+        _name = controllerName;
+        _urlStr = controllerUrl;
+        _webViewHeight = kScreenHeight;
+    }
+    return self;
+    
 }
 
 - (void)viewDidLoad {
@@ -45,22 +59,76 @@
     self.navigationItem.titleView = title;
     
     // 打开网页
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64)];
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, _webViewHeight)];
     NSURL *url = [NSURL URLWithString:_urlStr];
     NSURLRequest *requst = [NSURLRequest requestWithURL:url];
     [_webView loadRequest:requst];
     _webView.delegate = self;
     [self.view addSubview:_webView];
     
-    // 添加手势
-    UISwipeGestureRecognizer *backSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(backSwipeAction:)];
-    backSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [_webView addGestureRecognizer:backSwipe];
-    UISwipeGestureRecognizer *forwardSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(forwardSwipeAction:)];
-    forwardSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [_webView addGestureRecognizer:forwardSwipe];
     
 }
+
+#pragma mark - 主页按钮
+- (void)setAllowRightItem:(BOOL)allowRightItem {
+
+    _allowRightItem = allowRightItem;
+    if (_allowRightItem) {
+        // 右边的按钮
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"主页"
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(rightItemAction:)];
+        [self.navigationItem setRightBarButtonItem:rightItem];
+    }
+
+}
+
+- (void)rightItemAction:(UIBarButtonItem *)item {
+    
+    if ([_webView canGoBack]) {
+        [_webView goBack];
+    }
+    
+}
+
+#pragma mark - 模态进入，返回按钮
+- (void)setIsModel:(BOOL)isModel {
+
+    _isModel = isModel;
+    if (_isModel) {
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"退出"
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(leftItemAction:)];
+        [self.navigationItem setLeftBarButtonItem:leftItem];
+    }
+
+}
+
+- (void)leftItemAction:(UIBarButtonItem *)item {
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+#pragma mark - 左滑右滑手势响应
+- (void)setAllowGesture:(BOOL)allowGesture {
+
+    _allowGesture = allowGesture;
+    if (_allowGesture) {
+        // 添加手势
+        UISwipeGestureRecognizer *backSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(backSwipeAction:)];
+        backSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+        [_webView addGestureRecognizer:backSwipe];
+        UISwipeGestureRecognizer *forwardSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(forwardSwipeAction:)];
+        forwardSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        [_webView addGestureRecognizer:forwardSwipe];
+
+    }
+
+}
+
 - (void)backSwipeAction:(UISwipeGestureRecognizer *)swipe {
     
     if (_webView.canGoBack) {
@@ -76,6 +144,7 @@
     
 }
 
+#pragma mark - 网页代理方法
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -87,8 +156,6 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
 }
-
-
 
 
 

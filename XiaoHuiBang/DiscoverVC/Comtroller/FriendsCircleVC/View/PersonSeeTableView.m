@@ -306,8 +306,7 @@
                                                                                         
                                                                                         
         // 跳转到个人信息界面
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        RCDPersonDetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"RCDPersonDetailViewController"];
+        RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc] init];
         detailViewController.userId = _user_id;
         dispatch_async(dispatch_get_main_queue(), ^{
             UINavigationController *nav = (UINavigationController *)[self viewController];

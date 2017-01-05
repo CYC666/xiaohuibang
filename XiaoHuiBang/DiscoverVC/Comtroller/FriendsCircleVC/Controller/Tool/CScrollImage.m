@@ -151,6 +151,10 @@
     _pageControl.numberOfPages = _imageArr.count;
     _pageControl.currentPage = _currentPage;
     [self addSubview:_pageControl];
+    // 如果只有一张图片，那么不显示小点点
+    if (_imageArr.count == 1) {
+        _pageControl.alpha = 0;
+    }
     
 //    _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreenWidth - 100)/2.0, kScreenHeight - 40, 100, 40)];
 //    _pageLabel.textColor = [UIColor lightGrayColor];
