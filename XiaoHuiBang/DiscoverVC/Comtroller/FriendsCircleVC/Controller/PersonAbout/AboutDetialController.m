@@ -269,7 +269,8 @@
         }
     } else if ([_detialLayout.seeModel.type isEqualToString:@"3"]) {
         CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:_detialLayout.movieFrame
-                                                                     withUrl:_detialLayout.seeModel.movie];
+                                                                     withUrl:_detialLayout.seeModel.movie
+                                                                  movieThumb:_detialLayout.seeModel.movieThumb];
         playerView.isCycle = YES;
         playerView.player.volume = 0;   // 静音
         [scrollView addSubview:playerView];

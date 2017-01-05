@@ -787,7 +787,8 @@
 - (void)touchMovieImageViewEnd {
     
     CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
-                                                                 withUrl:_seeLayout.seeModel.movie];
+                                                                 withUrl:_seeLayout.seeModel.movie
+                                                              movieThumb:_seeLayout.seeModel.movieThumb];
     // 循环播放
     playerView.isCycle = YES;
     // 添加单击手势，退出播放视频

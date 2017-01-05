@@ -189,7 +189,8 @@
     } else if ([_seeModel.type isEqualToString:@"3"]) {
     
         _playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
-                                                                     withUrl:_seeModel.movie];
+                                                                     withUrl:_seeModel.movie
+                       movieThumb:_seeModel.movieThumb];
         // 设置循环播放
         _playerView.isCycle = YES;
         [self.view addSubview:_playerView];

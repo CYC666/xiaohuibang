@@ -7,6 +7,7 @@
 //
 
 #import "CWebPlayerLayer.h"
+#import <UIImageView+WebCache.h>
 
 
 @interface CWebPlayerLayer ()
@@ -19,10 +20,11 @@
 
 
 
-- (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr {
+- (instancetype)initWithFrame:(CGRect)frame withUrl:(NSString *)urlStr movieThumb:(NSString *)thumb{
 
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor blackColor];
+        self.movieThumb = thumb;
         self.movieUrlStr = urlStr;
     }
     return self;
@@ -49,6 +51,17 @@
     }
     return _progressView;
     
+}
+
+- (UIImageView *)thumbView {
+
+    if (_thumbView == nil) {
+        _thumbView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [_thumbView sd_setImageWithURL:[NSURL URLWithString:_movieThumb]];
+        [self addSubview:_thumbView];
+    }
+    return _thumbView;
+
 }
 
 - (void)setIsCycle:(BOOL)isCycle {
@@ -78,6 +91,10 @@
         // 存在视频，直接播放
         [self playeMovie:[NSURL fileURLWithPath:path]];
     } else {
+        // 显示截图(!!!错误，不能在这里设置，因为只设置了movie的url，截图的url没获取到。故不能显示截图)
+        // 改正，在设置movie的url之前先设置好截图的url
+        self.thumbView.frame = self.bounds;
+        
         _movieUrlStr = movieUrlStr;
         __weak typeof(self) weakSelf = self;
         _manager = [AFHTTPSessionManager manager];
@@ -94,6 +111,8 @@
         } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
             // 这里应该保存视频
             if (!error) {
+                // 把预览图删除
+                [weakSelf.thumbView removeFromSuperview];
                 [weakSelf playeMovie:filePath];
             }
         }];
@@ -103,6 +122,11 @@
 
 #pragma mark - 播放
 - (void)playeMovie:(NSURL *)url {
+    
+    if (_thumbView != nil) {
+        _thumbView.alpha = 0;
+        _thumbView = nil;
+    }
 
     if (_progressView != nil) {
         _progressView.alpha = 0;
