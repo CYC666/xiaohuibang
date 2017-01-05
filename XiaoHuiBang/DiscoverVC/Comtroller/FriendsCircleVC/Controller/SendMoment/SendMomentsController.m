@@ -219,7 +219,7 @@
     
     // 先隐藏键盘，再dismiss
     [_textView endEditing:YES];
-    if (_textView.text.length == 0 && _movieUrl == nil && _imageArray.count == 0) {
+    if ((_textView.text.length != 0 && ![_textView.text isEqualToString:@"记录我的生活"]) || _movieUrl != nil || _imageArray.count != 0) {
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定退出此次编辑？"
                                                                        message:nil
@@ -241,6 +241,8 @@
         [alert addAction:cancelAction];
         [alert addAction:sureAction];
         [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     
     

@@ -23,6 +23,7 @@
 #import "NSString+CEmojChange.h"
 #import "LocationController.h"
 #import "CWebPlayerLayer.h"
+#import "CollectButton.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height  // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width    // 屏宽
@@ -40,6 +41,8 @@
 @property (assign, nonatomic) BOOL isLike;                      // 是否已经点赞
 @property (copy, nonatomic) NSString *user_id;
 @property (copy, nonatomic) NSString *about_id;
+
+@property (strong, nonatomic) CollectButton *collectButton;     // 收藏选项按钮
 
 
 @end
@@ -170,9 +173,11 @@
 
     [super viewWillDisappear:animated];
     
-    // 移除输入框
-    [_inputView removeFromSuperview];
-    _inputView = nil;
+    // 移除收藏按钮
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
     
 }
 
@@ -208,6 +213,7 @@
     // 文本
     CLabel *contentLabel = [[CLabel alloc] initWithFrame:_detialLayout.contentFrame];
     contentLabel.numberOfLines = 0;
+    contentLabel.labelType = CContent;
     contentLabel.text = _detialLayout.seeModel.content;
     contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
     contentLabel.font = [UIFont systemFontOfSize:15];
@@ -394,6 +400,7 @@
             NSValue *contentValue = dic[@"content"];
             CLabel *contentLabel = [[CLabel alloc] initWithFrame:[contentValue CGRectValue]];
             contentLabel.numberOfLines = 0;
+            contentLabel.labelType = CComment;
             NSString *commentText = [aveluteModel.about_content changeToEmoj];
             contentLabel.text = commentText;
             contentLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
@@ -493,6 +500,11 @@
 
 #pragma mark - 删除动态
 - (void)deleteAction:(UIButton *)button {
+    
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除此条目？"
                                                                    message:@"删除后不可恢复"
@@ -533,6 +545,11 @@
 #pragma mark - 点赞按钮
 - (void)proAction:(UIButton *)button {
 
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
+    
     _isLike = !_isLike;
     if (_isLike == YES) {
         
@@ -570,6 +587,8 @@
                                     [SVProgressHUD showErrorWithStatus:@"取消点赞失败"];
                                 }];
     }
+    
+    
 
 
 }
@@ -578,6 +597,10 @@
 - (void)commentAction:(UIButton *)button {
 
     
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
     
 }
 
@@ -725,12 +748,23 @@
     }
     // 当不是滑动输入框才隐藏
     [_inputView endEditing:YES];
+    
+    // 隐藏收藏
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
 
 }
 
 
 #pragma mark - 弹出键盘
 - (void)showKeyBoard:(NSNotification *)notification {
+    
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
     
     NSDictionary *userInfo = [notification userInfo];
     NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
@@ -745,6 +779,10 @@
 - (void)hideKeyBoard:(NSNotification *)notification {
     
     _inputView.transform = CGAffineTransformIdentity;
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
     
 }
 
@@ -762,55 +800,70 @@
 
 #pragma mark - 点击动态的内容响应代理方法
 - (void)cLabelTouch:(CLabel *)cLabel {
+    
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
 
     // 在这里可以做回复功能
     NSLog(@"%@", cLabel.text);
 
 }
 - (void)cLabelLongTouch:(CLabel *)cLabel {
-
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"拷贝"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * _Nonnull action) {
-                                                           UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                                                           [pasteboard setString:cLabel.text];
-                                                           [SVProgressHUD dismiss];
-                                                           [SVProgressHUD showSuccessWithStatus:@"已复制"];
-                                                       }];
-    UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * _Nonnull action) {
-                                                           // 收藏
-                                                           NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
-                                                                                    @"from_id":_detialLayout.seeModel.user_id,
-                                                                                    @"content":cLabel.text,
-                                                                                    @"type":@1,
-                                                                                    @"source":@3};
-                                                           [CNetTool collectWithParameters:params
-                                                                                   success:^(id response) {
-                                                                                       [SVProgressHUD dismiss];
-                                                                                       [SVProgressHUD showSuccessWithStatus:@"已收藏"];
-                                                                                   } failure:^(NSError *err) {
-                                                                                       
-                                                                                   }];
-                                                       }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
-    [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
     
-    [alert addAction:copyAction];
-    [alert addAction:collectAction];
-    [alert addAction:cancelAction];
-    [self presentViewController:alert animated:YES completion:nil];
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
+    
+    // 如果是动态文本详情,弹出复制或收藏
+    if (cLabel.labelType == CContent) {
+        CGPoint point = CGPointMake(cLabel.frame.origin.x + cLabel.frame.size.width/2.0, cLabel.frame.origin.y + 64);
+        _collectButton = [[CollectButton alloc] initWithPoint:point collectType:CollectAndCopy];
+        [[UIApplication sharedApplication].keyWindow addSubview:_collectButton];
+        __weak typeof(self) weakSelf = self;
+        _collectButton.copyBlock = ^() {
+            
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            [pasteboard setString:cLabel.text];
+            
+            [weakSelf.collectButton removeFromSuperview];
+            weakSelf.collectButton = nil;
+            
+        };
+        _collectButton.collectBlock = ^() {
+            
+            // 收藏
+            NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                     @"from_id": weakSelf.detialLayout.seeModel.user_id,
+                                     @"content":cLabel.text,
+                                     @"type":@1,
+                                     @"source":@3};
+            [CNetTool collectWithParameters:params
+                                    success:^(id response) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+                                    } failure:^(NSError *err) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showErrorWithStatus:@"收藏失败"];
+                                    }];
+            
+            
+            
+            [weakSelf.collectButton removeFromSuperview];
+            weakSelf.collectButton = nil;
+            
+        };
+    }
+    
 
 }
 
 #pragma mark - 跳转到地图界面
 - (void)locationTapAction:(UITapGestureRecognizer *)tap {
+    
+    
     
     LocationController *locationController = [[LocationController alloc] initWithLocationString:_detialLayout.seeModel.address
                                                                                             lat:_detialLayout.seeModel.lat
@@ -851,13 +904,45 @@
 }
 
 /*
-#pragma mark - Navigation
+ 
+ //    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
+ //                                                                       message:nil
+ //                                                                preferredStyle:UIAlertControllerStyleAlert];
+ //    UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"拷贝"
+ //                                                         style:UIAlertActionStyleDefault
+ //                                                       handler:^(UIAlertAction * _Nonnull action) {
+ //                                                           UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+ //                                                           [pasteboard setString:cLabel.text];
+ //                                                           [SVProgressHUD dismiss];
+ //                                                           [SVProgressHUD showSuccessWithStatus:@"已复制"];
+ //                                                       }];
+ //    UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
+ //                                                         style:UIAlertActionStyleDefault
+ //                                                       handler:^(UIAlertAction * _Nonnull action) {
+ //                                                           // 收藏
+ //                                                           NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+ //                                                                                    @"from_id":_detialLayout.seeModel.user_id,
+ //                                                                                    @"content":cLabel.text,
+ //                                                                                    @"type":@1,
+ //                                                                                    @"source":@3};
+ //                                                           [CNetTool collectWithParameters:params
+ //                                                                                   success:^(id response) {
+ //                                                                                       [SVProgressHUD dismiss];
+ //                                                                                       [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+ //                                                                                   } failure:^(NSError *err) {
+ //
+ //                                                                                   }];
+ //                                                       }];
+ //    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+ //                                                           style:UIAlertActionStyleDefault
+ //                                                         handler:nil];
+ //    [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
+ //
+ //    [alert addAction:copyAction];
+ //    [alert addAction:collectAction];
+ //    [alert addAction:cancelAction];
+ //    [self presentViewController:alert animated:YES completion:nil];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
 */
 
 @end

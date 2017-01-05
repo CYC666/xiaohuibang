@@ -93,7 +93,13 @@
                                                           options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
                                                        attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kContentSize]}
                                                           context:nil];
-    self.contentFrame = CGRectMake(kNicknameX, kContentY, kScreenWidth - kNicknameX - kContentRight, textRect.size.height);
+    // 当只有一行,就调整文本标签长度,适应文字长度
+    if (textRect.size.height < 20) {
+        self.contentFrame = CGRectMake(kNicknameX, kContentY, textRect.size.width, textRect.size.height);
+    } else {
+        self.contentFrame = CGRectMake(kNicknameX, kContentY, kScreenWidth - kNicknameX - kContentRight, textRect.size.height);
+    }
+    
     
     self.viewHeight = kContentY + textRect.size.height;
     

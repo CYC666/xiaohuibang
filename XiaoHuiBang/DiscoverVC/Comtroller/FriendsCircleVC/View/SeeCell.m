@@ -222,6 +222,7 @@
     // 设置动态内容label
     self.contentLabel.text = _seeLayout.seeModel.content;
     self.contentLabel.frame = _seeLayout.seeFrame;
+    self.contentLabel.labelType = CContent; // 动态文本详情类型
     __weak SeeCell *weakSelf = self;
     self.contentLabel.cLabelBlock = ^(NSArray *arr){
     
@@ -347,6 +348,7 @@
         AveluateModel *aveluate = _seeLayout.seeModel.aveluate[i];
         CGRect frame = [_seeLayout.commentListFrameArr[i] CGRectValue];
         CLabel *comment = [[CLabel alloc] initWithFrame:frame];
+        comment.labelType = CComment;   // 评论文本类型
         comment.numberOfLines = 0;
         comment.font = [UIFont systemFontOfSize:14];
         comment.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
@@ -397,13 +399,7 @@
                 [alert addAction:cancelAction];
                 [[weakSelf viewController] presentViewController:alert animated:YES completion:nil];
             
-            } else {
-            
-                // 如果没有，那就直接评论咯(没必要用协议了)
-                
-            
-            }
-            
+            }             
             
         
         };

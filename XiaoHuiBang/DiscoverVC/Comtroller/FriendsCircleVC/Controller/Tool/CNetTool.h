@@ -76,8 +76,21 @@
                       success:(void (^)(id response))success
                       failure:(void (^)(NSError *err))failure;
 
+// 邦友圈权限设置查看
++ (void)jurisdictionSeeWithParameters:(id)parameters
+                              success:(void (^)(id response))success
+                              failure:(void (^)(NSError *err))failure;
 
 
+// 邦友圈权限设置添加
++ (void)jurisdictionAddWithParameters:(id)parameters
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure;
+
+// 邦友圈权限设置删除
++ (void)jurisdictionDeleteWithParameters:(id)parameters
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure;
 
 
 

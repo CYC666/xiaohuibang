@@ -52,7 +52,13 @@
     // 获取动态内容文本的高度
     CGFloat contentHeight = textRect.size.height;
     // 计算动态内容文本的frame
-    self.seeFrame = CGRectMake(kContentX, kContentY, kScreenWidth - 97, contentHeight);
+    // 当只有一行，就根据文本宽度设置标签宽度
+    if (textRect.size.height < 20) {
+        self.seeFrame = CGRectMake(kContentX, kContentY, textRect.size.width, contentHeight);
+    } else {
+        self.seeFrame = CGRectMake(kContentX, kContentY, kScreenWidth - 97, contentHeight);
+    }
+    
     
     //  更新单元格的高度(不加空隙，挤一点好看)
     self.cellHeight += CGRectGetHeight(self.seeFrame);

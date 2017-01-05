@@ -253,8 +253,62 @@
 
 }
 
+// 邦友圈权限设置查看
++ (void)jurisdictionSeeWithParameters:(id)parameters
+                              success:(void (^)(id response))success
+                              failure:(void (^)(NSError *err))failure {
+    
+    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_perm";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:parameters
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              success(responseObject);
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              failure(error);
+          }];
+    
+}
 
+// 邦友圈权限设置添加
++ (void)jurisdictionAddWithParameters:(id)parameters
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure {
 
+    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_perm_add";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:parameters
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              success(responseObject);
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              failure(error);
+          }];
+
+}
+
+// 邦友圈权限设置删除
++ (void)jurisdictionDeleteWithParameters:(id)parameters
+                                 success:(void (^)(id response))success
+                                 failure:(void (^)(NSError *err))failure {
+
+    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_perm_rm";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:parameters
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              success(responseObject);
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              failure(error);
+          }];
+
+}
 
 
 
