@@ -12,6 +12,7 @@
 #import "AboutDetialLayout.h"
 #import "AveluateModel.h"
 #import "NSString+CEmojChange.h"
+#import <UIImageView+WebCache.h>
 
 #define kSpace 15           // 空隙
 #define kHeadImageY 20.5    // 头像起点Y
@@ -107,10 +108,33 @@
     if ([_seeModel.type isEqualToString:@"2"]) {
         // 当动态携带一张图片时
         if (self.seeModel.about_img.count == 1) {
-            CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 10, 104, 180);
-            NSValue *rectValue = [NSValue valueWithCGRect:rect];
-            [self.imageFrameArr addObject:rectValue];
-            self.viewHeight += (180 + kSpace);
+            
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            //判断是否有缓存(不要使用原图的路径判断，因为不点开查看大图就不会缓存原图)
+            BOOL isExist = [manager diskImageExistsForURL:[NSURL URLWithString:_seeModel.thumb_img.firstObject]];
+            if (isExist) {
+                UIImage *image = [[manager imageCache] imageFromDiskCacheForKey:_seeModel.thumb_img.firstObject];
+                CGSize size = image.size;
+                float scale = size.width / size.height;
+                // 当宽比高大
+                if (scale > 1) {
+                    CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 5, 104*scale, 104);
+                    NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                    [self.imageFrameArr addObject:rectValue];
+                    self.viewHeight += (104+10);
+                } else {
+                    CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 5, 104, 104 / scale);
+                    NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                    [self.imageFrameArr addObject:rectValue];
+                    self.viewHeight += ((104/scale) + 10);
+                }
+            } else {
+                CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 10, 104, 180);
+                NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                [self.imageFrameArr addObject:rectValue];
+                self.viewHeight += (180 + kSpace);
+            }
+            
             // 当动态携带多张图片时
         } else if (self.seeModel.about_img.count > 1 && self.seeModel.about_img.count <= 9){
             for (int i = 0; i < self.seeModel.about_img.count; i++) {
@@ -123,16 +147,47 @@
             // 最后确定单元格高度
             self.viewHeight += (kImageSize + 5)*((self.seeModel.about_img.count - 1) / 3 + 1) + 10;
         }
+        
+    // 携带电影
     } else if ([_seeModel.type isEqualToString:@"3"]) {
-        self.movieFrame = CGRectMake(kNicknameX, self.viewHeight + 10, 104, 180);
-        self.viewHeight += (180 + kSpace);
+        
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        //判断是否有缓存
+        BOOL isExist = [manager diskImageExistsForURL:[NSURL URLWithString:_seeModel.movieThumb]];
+        if (isExist) {
+            UIImage *image = [[manager imageCache] imageFromDiskCacheForKey:_seeModel.movieThumb];
+            CGSize size = image.size;
+            float scale = size.width / size.height;
+            // 当宽 > 高
+            if (scale > 1) {
+                // 当宽 >> 高
+                if (scale > 2) {
+                    self.movieFrame = CGRectMake(kNicknameX, self.viewHeight + 5, 220, 220 / scale);
+                    // 修改单元格高度
+                    self.viewHeight += (220 / scale + 10);
+                } else {
+                    self.movieFrame = CGRectMake(kNicknameX, self.viewHeight + 5, 104*scale, 104);
+                    // 修改单元格高度
+                    self.viewHeight += (104 + 10);
+                }
+            } else {
+                self.movieFrame = CGRectMake(kNicknameX, self.viewHeight + 5, 104, 180);
+                // 修改单元格高度
+                self.viewHeight += (180 + 10);
+            }
+        } else {
+            self.movieFrame = CGRectMake(kNicknameX, self.viewHeight + 5, 104, 180);
+            // 修改单元格高度
+            self.viewHeight += (180 + 10);
+        }
+        
     }
     
     
     
     // 定位标签
     if (_seeModel.address != nil) {
-        self.locationLabelFrame = CGRectMake(kNicknameX, self.viewHeight + 11, kLocationWidth, kDeleteHeight);
+        self.locationLabelFrame = CGRectMake(kNicknameX, self.viewHeight + 10, kLocationWidth, kDeleteHeight);
         self.viewHeight += (kDeleteHeight + 10);
     }
     

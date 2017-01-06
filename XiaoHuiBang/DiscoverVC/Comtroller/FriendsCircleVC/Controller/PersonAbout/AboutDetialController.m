@@ -179,6 +179,9 @@
         _collectButton = nil;
     }
     
+    // 收起键盘
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    
 }
 
 #pragma mark - 创建子视图
@@ -259,20 +262,27 @@
     // 图片
     if ([_detialLayout.seeModel.type isEqualToString:@"2"]) {
         for (int i = 0; i < _detialLayout.seeModel.about_img.count; i++) {
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:[_detialLayout.imageFrameArr[i] CGRectValue]];
+            CImageView *imageView = [[CImageView alloc] initWithFrame:[_detialLayout.imageFrameArr[i] CGRectValue]];
+            imageView.imageType = CContentImage;
+            imageView.delegate = self;
+            imageView.layer.cornerRadius = 5;
             NSString *urlStr = _detialLayout.seeModel.thumb_img[i];
             if ([urlStr characterAtIndex:0] == 'h') {
                 [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]];
+                imageView.imageUrl = urlStr;
             } else {
                 [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", urlStr]]];
+                imageView.imageUrl = [NSString stringWithFormat:@"https://%@", urlStr];
             }
             if (_detialLayout.seeModel.about_img.count == 1) {
                 imageView.contentMode = UIViewContentModeScaleAspectFit;
+                imageView.clipsToBounds = YES;
             } else {
                 imageView.contentMode = UIViewContentModeScaleAspectFill;
                 imageView.clipsToBounds = YES;
             }
             [scrollView addSubview:imageView];
+            
         }
     } else if ([_detialLayout.seeModel.type isEqualToString:@"3"]) {
         CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:_detialLayout.movieFrame
@@ -382,6 +392,7 @@
             // 头像
             NSValue *imageValue = dic[@"image"];
             CImageView *headImage = [[CImageView alloc] initWithFrame:[imageValue CGRectValue]];
+            headImage.imageType = CHeadImage;
             [headImage sd_setImageWithURL:[NSURL URLWithString:aveluteModel.thumb]];
             headImage.layer.cornerRadius = 14.4;
             headImage.clipsToBounds = YES;
@@ -412,6 +423,14 @@
             contentLabel.cLabelBlock = ^(NSArray *arr) {
             
                 __weak AboutDetialController *weakSelf = self;
+                
+                // 把收藏框隐藏
+                if (weakSelf.collectButton != nil) {
+                    [weakSelf.collectButton removeFromSuperview];
+                    weakSelf.collectButton = nil;
+                }
+                
+                
                 if (arr.count != 0) {
                     // 如果有电话号码就弹出提示，如果没有就直接弹出评论
                     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
@@ -786,14 +805,63 @@
     
 }
 
-#pragma mark - 点击小头像调用的代理方法
+#pragma mark - 点击、长按图片调用的代理方法
 - (void)cImageViewTouch:(CImageView *)cImageView {
     
-    // 跳转到该用户的个人动态界面
-    PersonAboutController *personController = [[PersonAboutController alloc] initWithUserID:cImageView.imageID];
-    [self.navigationController pushViewController:personController animated:YES];
-
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
     
+    // 如果点击的是头像
+    if (cImageView.imageType == CHeadImage) {
+        // 跳转到该用户的个人动态界面
+        PersonAboutController *personController = [[PersonAboutController alloc] initWithUserID:cImageView.imageID];
+        [self.navigationController pushViewController:personController animated:YES];
+    } else if (cImageView.imageType == CContentImage) {
+        
+    }
+
+}
+
+- (void)cImageViewLongTouch:(CImageView *)cImageView {
+
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
+    
+    // 如果长按的是动态的内容图片,那么显示收藏按钮
+    if (cImageView.imageType == CContentImage) {
+        CGPoint point = CGPointMake(cImageView.frame.origin.x + (cImageView.frame.size.width / 2.0), cImageView.frame.origin.y + 64);
+        _collectButton = [[CollectButton alloc] initWithPoint:point collectType:CollectOnly];
+        [[UIApplication sharedApplication].keyWindow addSubview:_collectButton];
+        __weak typeof(self) weakSelf = self;
+        _collectButton.collectBlock = ^() {
+        
+            // 收藏按钮响应
+            NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                     @"from_id": weakSelf.detialLayout.seeModel.user_id,
+                                     @"content":cImageView.imageUrl,
+                                     @"type":@2,
+                                     @"source":@3};
+            [CNetTool collectWithParameters:params
+                                    success:^(id response) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"已收藏"];
+                                    } failure:^(NSError *err) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showErrorWithStatus:@"收藏失败"];
+                                    }];
+            
+            
+            
+            [weakSelf.collectButton removeFromSuperview];
+            weakSelf.collectButton = nil;
+        };
+    }
 
 }
 
@@ -805,9 +873,11 @@
         [_collectButton removeFromSuperview];
         _collectButton = nil;
     }
+    // 收起键盘
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
     // 在这里可以做回复功能
-    NSLog(@"%@", cLabel.text);
+    
 
 }
 - (void)cLabelLongTouch:(CLabel *)cLabel {
@@ -816,6 +886,9 @@
         [_collectButton removeFromSuperview];
         _collectButton = nil;
     }
+    
+    // 收起键盘
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
     
     // 如果是动态文本详情,弹出复制或收藏
     if (cLabel.labelType == CContent) {
@@ -859,6 +932,8 @@
     
 
 }
+
+#pragma mark - 长按照片收藏
 
 #pragma mark - 跳转到地图界面
 - (void)locationTapAction:(UITapGestureRecognizer *)tap {

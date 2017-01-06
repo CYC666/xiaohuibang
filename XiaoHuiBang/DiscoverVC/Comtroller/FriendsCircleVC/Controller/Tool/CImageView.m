@@ -35,32 +35,29 @@
 
     _timer = [NSTimer scheduledTimerWithTimeInterval:.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
         _touchTime += 0.1;
-        
-        // 当触摸时长超过1秒，那就执行长按
-        if (_touchTime > 1) {
-            if ([_delegate respondsToSelector:@selector(cImageViewLongTouch:)]) {
-                [_delegate cImageViewLongTouch:self];
-            }
-            [_timer invalidate];
-        }
     }];
 
 }
 
 // 触摸离开后调用代理方法
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-
-    if (_timer.valid) {
+    
+    // 当触摸时长超过1秒，那就执行长按
+    if (_touchTime > 1) {
+        if ([_delegate respondsToSelector:@selector(cImageViewLongTouch:)]) {
+            [_delegate cImageViewLongTouch:self];
+        }
         [_timer invalidate];
-    }
-    _timer = nil;
-    // 不是长按
-    if (_touchTime < 1) {
+    } else if (_touchTime < 1) {
         if ([_delegate respondsToSelector:@selector(cImageViewTouch:)]) {
             [_delegate cImageViewTouch:self];
         }
     }
     
+    if (_timer.valid) {
+        [_timer invalidate];
+        _timer = nil;
+    }
     // 结束后要将触摸时间归零，不然下次触摸太短，会记住上一次的触摸时间，倒是点击不能用
     _touchTime = 0;
     

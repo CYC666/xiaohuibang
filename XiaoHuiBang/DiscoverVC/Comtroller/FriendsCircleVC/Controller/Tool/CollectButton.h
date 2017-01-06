@@ -16,7 +16,7 @@
 
 
 typedef enum : NSUInteger {
-    CollectOnly,        // 只有复制
+    CollectOnly,        // 只有收藏
     CollectAndCopy,     // 复制+收藏
 } CollectButtonEnum;
 

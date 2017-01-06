@@ -10,6 +10,13 @@
 
 
 #import <UIKit/UIKit.h>
+
+typedef enum : NSUInteger {
+    CHeadImage,
+    CContentImage,
+} CImageViewType;
+
+
 @class CImageView;
 
 
@@ -27,6 +34,8 @@
 
 
 @interface CImageView : UIImageView
+
+@property (assign, nonatomic) CImageViewType imageType; // 图片类型：动态的图片、头像
 
 // 点击头像跳转界面
 @property (weak, nonatomic) id<CImageViewDelegate> delegate;
