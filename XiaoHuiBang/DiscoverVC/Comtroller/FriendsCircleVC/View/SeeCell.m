@@ -228,36 +228,42 @@
     __weak SeeCell *weakSelf = self;
     self.contentLabel.cLabelBlock = ^(NSArray *arr){
     
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        for (int i = 0; i < arr.count; i++) {
-            
-            NSString *str = arr[i];
-            NSString *title;
-            NSURL *url;
-            if ([str characterAtIndex:0] == 'h') {
-                title = [NSString stringWithFormat:@"打开网址-->%@", str];
-                url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", str]];
-            } else {
-                title = [NSString stringWithFormat:@"拨打电话-->%@", str];
-                url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", str]];
+        // 发送通知，收起评论框（对任何单元格有效）
+        [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+        
+        if (arr.count != 0) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择你的操作"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            for (int i = 0; i < arr.count; i++) {
+                
+                NSString *str = arr[i];
+                NSString *title;
+                NSURL *url;
+                if ([str characterAtIndex:0] == 'h') {
+                    title = [NSString stringWithFormat:@"打开网址-->%@", str];
+                    url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", str]];
+                } else {
+                    title = [NSString stringWithFormat:@"拨打电话-->%@", str];
+                    url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", str]];
+                }
+                
+                UIAlertAction *sureAction = [UIAlertAction actionWithTitle:title
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * _Nonnull action) {
+                                                                       [[UIApplication sharedApplication] openURL:url];
+                                                                   }];
+                [alert addAction:sureAction];
             }
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:nil];
             
-            UIAlertAction *sureAction = [UIAlertAction actionWithTitle:title
-                                                                 style:UIAlertActionStyleDefault
-                                                               handler:^(UIAlertAction * _Nonnull action) {
-                                                                   [[UIApplication sharedApplication] openURL:url];
-                                                               }];
-            [alert addAction:sureAction];
+            
+            [alert addAction:cancelAction];
+            [[weakSelf viewController] presentViewController:alert animated:YES completion:nil];
         }
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
-                                                               style:UIAlertActionStyleDefault
-                                                             handler:nil];
         
-        
-        [alert addAction:cancelAction];
-        [[weakSelf viewController] presentViewController:alert animated:YES completion:nil];
     
     };
     
@@ -357,6 +363,9 @@
         comment.delegate = self;
         comment.labelID = aveluate.user_id;
         comment.cLabelBlock = ^(NSArray *arr) {
+            
+            // 发送通知，收起评论框（对任何单元格有效）
+            [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
         
             if (arr.count != 0) {
                 // 如果有电话号码就弹出提示，如果没有就直接弹出评论
@@ -441,8 +450,8 @@
 #pragma mark - 评论按钮响应,弹出键盘和输入框
 - (void)commentAction:(UIButton *)button {
     
-    // 我不管，我就是要把键盘隐藏先
-    [self hideViewFromWindow];
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
     if (_commentPro == nil) {
         
@@ -461,15 +470,7 @@
         // 发送通知，允许表视图滑动的时候发送通知让输入框隐藏
         [[NSNotificationCenter defaultCenter] postNotificationName:AllowTableViewPostHideInputViewNotification object:nil];
     }
-    
-    
-    
-    
-    
-    
-    
 
-    
 }
 
 #pragma mark - CCommentProDelegate代理方法，点赞评论
@@ -477,7 +478,7 @@
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
-    [self hideViewFromWindow];
+    
     
     // 创建输入框
     _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
@@ -502,7 +503,6 @@
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
-    [self hideViewFromWindow];
 
     NSDictionary *param = @{
                             @"user_id":[USER_D objectForKey:@"user_id"],
@@ -535,7 +535,6 @@
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
-    [self hideViewFromWindow];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除此条目？"
                                                                    message:@"删除后不可恢复"
@@ -667,6 +666,12 @@
     }
     
     // 输入框
+    if (_inputView != nil) {
+        [_inputView removeFromSuperview];
+        _inputView = nil;
+    }
+    
+    // 输入框
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
 }
@@ -678,7 +683,6 @@
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
-    [self hideViewFromWindow];
     
     // 添加动画
     [UIView animateWithDuration:.35
@@ -702,8 +706,6 @@
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
-    [self hideViewFromWindow];
-    
     UINavigationController *nav = (UINavigationController *)[self viewController];
     PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:button.user_id];
     controller.hidesBottomBarWhenPushed = YES;
@@ -713,11 +715,14 @@
 #pragma mark - 长按头像弹出设置权限
 - (void)setUserJurisdiction:(UILongPressGestureRecognizer *)longPress {
     
-    [self hideViewFromWindow];
     
     if (longPress.state == UIGestureRecognizerStateBegan) {
         // 如果不是本人
         if (![_seeLayout.seeModel.user_id isEqualToString:[USER_D objectForKey:@"user_id"]]) {
+            
+            // 发送通知，收起评论框（对任何单元格有效）
+            [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+            
             CBottomAlert *bottomAlert = [[CBottomAlert alloc] initWtihTitleArray:@[@"设置朋友圈权限", @"投诉"]];
             [bottomAlert show];
             bottomAlert.block = ^(NSString *title) {
@@ -764,11 +769,9 @@
 #pragma mark - 点击动态图片查看大图
 - (void)cImageViewTouch:(CImageView *)cImageView {
     
-    [self hideViewFromWindow];
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
     
 //    self.photoArray = [self prepareForPhotoBroswerWithURL:_seeLayout.seeModel.about_img];
 //    LGPhotoPickerBrowserViewController *BroswerVC = [[LGPhotoPickerBrowserViewController alloc] init];
@@ -796,7 +799,8 @@
 #pragma mark - 点击视频缩略图查看视频
 - (void)touchMovieImageViewEnd {
     
-    [self hideViewFromWindow];
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
     CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                                  withUrl:_seeLayout.seeModel.movie
@@ -830,7 +834,11 @@
 #pragma mark - 长按提示收藏
 - (void)cImageViewLongTouch:(CImageView *)cImageView {
     
-    [self hideViewFromWindow];
+    // 发送通知，允许表视图滑动的时候发送通知让输入框隐藏
+    [[NSNotificationCenter defaultCenter] postNotificationName:AllowTableViewPostHideInputViewNotification object:nil];
+    
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
     CGRect rect = [cImageView convertRect:cImageView.bounds toView:[UIApplication sharedApplication].keyWindow];
     CGPoint point = CGPointMake(rect.origin.x + (rect.size.width / 2.0), rect.origin.y);
@@ -861,7 +869,7 @@
     };
     
 }
-
+#pragma mark - 点击退出查看大图
 - (void)tapAction:(UITapGestureRecognizer *)tap {
     
     // 当标识为yes才执行单击隐藏大图的操作
@@ -889,15 +897,22 @@
 
 #pragma mark - 点击评论响应代理方法，在这里可以做回复评论
 - (void)cLabelTouch:(CLabel *)cLabel {
-
-    [self hideViewFromWindow];
+    
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
 
 }
 
 #pragma mark - 长按文本提示收藏或复制
 - (void)cLabelLongTouch:(CLabel *)cLabel {
     
-    [self hideViewFromWindow];
+    // 发送通知，允许表视图滑动的时候发送通知让输入框隐藏
+    [[NSNotificationCenter defaultCenter] postNotificationName:AllowTableViewPostHideInputViewNotification object:nil];
+
+    
+    // 发送通知，收起评论框（对任何单元格有效）
+    [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+    
     // 如果长按的是动态文本
     if (cLabel.labelType == CContent) {
         CGRect rect = [cLabel convertRect:cLabel.bounds toView:[UIApplication sharedApplication].keyWindow];
@@ -951,9 +966,6 @@
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
-    // 收起输入框
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
-    
 }
 
 #pragma mark - 点击地址跳转到地图
@@ -1004,25 +1016,6 @@
 }
 
 
-#pragma mark - 统一将window上的子视图隐藏
-- (void)hideViewFromWindow {
-
-    // 收藏按钮
-    if (_collectButton != nil) {
-        [_collectButton removeFromSuperview];
-        _collectButton = nil;
-    }
-    
-    // 点赞按钮
-    if (_commentPro != nil) {
-        [_commentPro removeFromSuperview];
-        _commentPro = nil;
-    }
-    
-    // 输入框
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
-
-}
 
 /*
  
@@ -1454,6 +1447,26 @@ return _commentsListView;
  [[self viewController] presentViewController:alert animated:YES completion:nil];
  
  
+ #pragma mark - 统一将window上的子视图隐藏
+ - (void)hideViewFromWindow {
+ 
+ // 收藏按钮
+ if (_collectButton != nil) {
+ [_collectButton removeFromSuperview];
+ _collectButton = nil;
+ }
+ 
+ // 点赞按钮
+ if (_commentPro != nil) {
+ [_commentPro removeFromSuperview];
+ _commentPro = nil;
+ }
+ 
+ // 输入框
+ [[UIApplication sharedApplication].keyWindow endEditing:YES];
+ 
+ }
+
  
  
  
