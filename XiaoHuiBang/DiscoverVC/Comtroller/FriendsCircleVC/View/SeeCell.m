@@ -28,6 +28,7 @@
 #import <AVKit/AVKit.h>
 #import "CPlayerLayer.h"
 #import "CWebPlayerLayer.h"
+#import "CollectButton.h"
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -49,6 +50,7 @@
 @property (strong, nonatomic) NSArray *photoArray;          // 记录当前动态的图片数组，用于查看大图
 @property (strong, nonatomic) CPlayerLayer *playerLayer;    // 播放小视频
 
+@property (strong, nonatomic) CollectButton *collectButton; // 收藏按钮
 
 
 @end
@@ -440,7 +442,7 @@
 - (void)commentAction:(UIButton *)button {
     
     // 我不管，我就是要把键盘隐藏先
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    [self hideViewFromWindow];
     
     if (_commentPro == nil) {
         
@@ -475,6 +477,7 @@
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+    [self hideViewFromWindow];
     
     // 创建输入框
     _inputView = [[[NSBundle mainBundle] loadNibNamed:@"InputView" owner:self options:nil] firstObject];
@@ -499,6 +502,7 @@
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+    [self hideViewFromWindow];
 
     NSDictionary *param = @{
                             @"user_id":[USER_D objectForKey:@"user_id"],
@@ -531,6 +535,7 @@
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+    [self hideViewFromWindow];
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"确定要删除此条目？"
                                                                    message:@"删除后不可恢复"
@@ -648,6 +653,8 @@
     
     
     
+    
+    
 }
 - (void)hideCommentView:(NSNotification *)notification {
 
@@ -666,8 +673,7 @@
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
-    // 收起键盘
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    [self hideViewFromWindow];
     
     // 添加动画
     [UIView animateWithDuration:.35
@@ -691,8 +697,7 @@
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
-    // 收起键盘
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    [self hideViewFromWindow];
     
     UINavigationController *nav = (UINavigationController *)[self viewController];
     PersonAboutController *controller = [[PersonAboutController alloc] initWithUserID:button.user_id];
@@ -702,6 +707,8 @@
 
 #pragma mark - 长按头像弹出设置权限
 - (void)setUserJurisdiction:(UILongPressGestureRecognizer *)longPress {
+    
+    [self hideViewFromWindow];
     
     if (longPress.state == UIGestureRecognizerStateBegan) {
         // 如果不是本人
@@ -752,6 +759,8 @@
 #pragma mark - 点击动态图片查看大图
 - (void)cImageViewTouch:(CImageView *)cImageView {
     
+    [self hideViewFromWindow];
+    
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
@@ -781,6 +790,8 @@
 
 #pragma mark - 点击视频缩略图查看视频
 - (void)touchMovieImageViewEnd {
+    
+    [self hideViewFromWindow];
     
     CWebPlayerLayer *playerView = [[CWebPlayerLayer alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                                  withUrl:_seeLayout.seeModel.movie
@@ -813,35 +824,37 @@
 
 #pragma mark - 长按提示收藏
 - (void)cImageViewLongTouch:(CImageView *)cImageView {
-
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否收藏此图片？"
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * _Nonnull action) {
-                                                           
-                                                           // 收藏图片
-                                                           NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
-                                                                                    @"from_id":_seeLayout.seeModel.user_id,
-                                                                                    @"content":cImageView.imageUrl,
-                                                                                    @"type":@2,
-                                                                                    @"source":@3};
-                                                           [CNetTool collectWithParameters:params
-                                                                                   success:^(id response) {
-                                                                                         [SVProgressHUD dismiss];
-                                                                                         [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
-                                                                                   } failure:^(NSError *err) {
-                                                                                        
-                                                                                    }];
-                                                       }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
     
-    [alert addAction:sureAction];
-    [alert addAction:cancelAction];
-    [[self viewController] presentViewController:alert animated:YES completion:nil];
+    [self hideViewFromWindow];
+    
+    CGRect rect = [cImageView convertRect:cImageView.bounds toView:[UIApplication sharedApplication].keyWindow];
+    CGPoint point = CGPointMake(rect.origin.x + (rect.size.width / 2.0), rect.origin.y);
+    _collectButton = [[CollectButton alloc] initWithPoint:point collectType:CollectOnly];
+    [[UIApplication sharedApplication].keyWindow addSubview:_collectButton];
+    __weak typeof(self) weakSelf = self;
+    _collectButton.collectBlock = ^() {
+    
+        // 收藏
+        // 收藏图片
+        NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                 @"from_id":weakSelf.seeLayout.seeModel.user_id,
+                                 @"content":cImageView.imageUrl,
+                                 @"type":@2,
+                                 @"source":@3};
+        [CNetTool collectWithParameters:params
+                                success:^(id response) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+                                } failure:^(NSError *err) {
+                                    [SVProgressHUD dismiss];
+                                    [SVProgressHUD showErrorWithStatus:@"收藏失败"];
+                                }];
+        
+        [weakSelf.collectButton removeFromSuperview];
+        weakSelf.collectButton = nil;
+    
+    };
+    
 }
 
 - (void)tapAction:(UITapGestureRecognizer *)tap {
@@ -872,52 +885,57 @@
 #pragma mark - 点击评论响应代理方法，在这里可以做回复评论
 - (void)cLabelTouch:(CLabel *)cLabel {
 
-    NSLog(@"%@", cLabel.text);
+    [self hideViewFromWindow];
 
 }
 
 #pragma mark - 长按文本提示收藏或复制
 - (void)cLabelLongTouch:(CLabel *)cLabel {
     
-    // 弹出可选选项
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
-                                                                   message:nil
-                                                            preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"复制"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * _Nonnull action) {
-                                                           UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                                                           [pasteboard setString:_contentLabel.text];
-                                                           [SVProgressHUD dismiss];
-                                                           [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
-                                                       }];
-    UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                              
-                                                              // 收藏
-                                                              NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
-                                                                                       @"from_id":_seeLayout.seeModel.user_id,
-                                                                                       @"content":_contentLabel.text,
-                                                                                       @"type":@1,
-                                                                                       @"source":@3};
-                                                              [CNetTool collectWithParameters:params
-                                                                                      success:^(id response) {
-                                                                                          [SVProgressHUD dismiss];
-                                                                                          [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
-                                                                                      } failure:^(NSError *err) {
-                                                                                          
-                                                                                      }];
-                                                          }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
-    [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
+    [self hideViewFromWindow];
+    // 如果长按的是动态文本
+    if (cLabel.labelType == CContent) {
+        CGRect rect = [cLabel convertRect:cLabel.bounds toView:[UIApplication sharedApplication].keyWindow];
+        CGPoint point = CGPointMake(rect.origin.x + (rect.size.width / 2.0), rect.origin.y);
+        _collectButton = [[CollectButton alloc] initWithPoint:point collectType:CollectAndCopy];
+        [[UIApplication sharedApplication].keyWindow addSubview:_collectButton];
+        __weak typeof(self) weakSelf = self;
+        _collectButton.copyBlock = ^() {
+            
+            // 拷贝
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            [pasteboard setString:cLabel.text];
+            [SVProgressHUD dismiss];
+            [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
+            
+            [weakSelf.collectButton removeFromSuperview];
+            weakSelf.collectButton = nil;
+        };
+        _collectButton.collectBlock = ^() {
+            
+            // 收藏
+            NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+                                     @"from_id":weakSelf.seeLayout.seeModel.user_id,
+                                     @"content":cLabel.text,
+                                     @"type":@1,
+                                     @"source":@3};
+            [CNetTool collectWithParameters:params
+                                    success:^(id response) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
+                                    } failure:^(NSError *err) {
+                                        [SVProgressHUD dismiss];
+                                        [SVProgressHUD showErrorWithStatus:@"收藏失败"];
+                                    }];
+
+            
+            [weakSelf.collectButton removeFromSuperview];
+            weakSelf.collectButton = nil;
+        };
+    }
     
-    [alert addAction:copyAction];
-    [alert addAction:collectAction];
-    [alert addAction:cancelAction];
-    [[self viewController] presentViewController:alert animated:YES completion:nil];
+    
+
 
 }
 
@@ -980,6 +998,26 @@
 
 }
 
+
+#pragma mark - 统一将window上的子视图隐藏
+- (void)hideViewFromWindow {
+
+    // 收藏按钮
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
+    
+    // 点赞按钮
+    if (_commentPro != nil) {
+        [_commentPro removeFromSuperview];
+        _commentPro = nil;
+    }
+    
+    // 输入框
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+
+}
 
 /*
  
@@ -1341,8 +1379,78 @@ return _commentsListView;
  //    }
  //}
  
- 
+ //    // 弹出可选选项
+ //    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择"
+ //                                                                   message:nil
+ //                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+ //    UIAlertAction *copyAction = [UIAlertAction actionWithTitle:@"复制"
+ //                                                         style:UIAlertActionStyleDefault
+ //                                                       handler:^(UIAlertAction * _Nonnull action) {
+ //                                                           UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+ //                                                           [pasteboard setString:_contentLabel.text];
+ //                                                           [SVProgressHUD dismiss];
+ //                                                           [SVProgressHUD showSuccessWithStatus:@"已经将文本复制到剪切板"];
+ //                                                       }];
+ //    UIAlertAction *collectAction = [UIAlertAction actionWithTitle:@"收藏"
+ //                                                            style:UIAlertActionStyleDefault
+ //                                                          handler:^(UIAlertAction * _Nonnull action) {
+ //
+ //                                                              // 收藏
+ //                                                              NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+ //                                                                                       @"from_id":_seeLayout.seeModel.user_id,
+ //                                                                                       @"content":_contentLabel.text,
+ //                                                                                       @"type":@1,
+ //                                                                                       @"source":@3};
+ //                                                              [CNetTool collectWithParameters:params
+ //                                                                                      success:^(id response) {
+ //                                                                                          [SVProgressHUD dismiss];
+ //                                                                                          [SVProgressHUD showSuccessWithStatus:@"已经收藏"];
+ //                                                                                      } failure:^(NSError *err) {
+ //
+ //                                                                                      }];
+ //                                                          }];
+ //    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+ //                                                           style:UIAlertActionStyleDefault
+ //                                                         handler:nil];
+ //    [cancelAction setValue:[UIColor redColor] forKey:@"titleTextColor"];
+ //
+ //    [alert addAction:copyAction];
+ //    [alert addAction:collectAction];
+ //    [alert addAction:cancelAction];
+ //    [[self viewController] presentViewController:alert animated:YES completion:nil];
 
+ UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否收藏此图片？"
+ message:nil
+ preferredStyle:UIAlertControllerStyleActionSheet];
+ UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
+ style:UIAlertActionStyleDefault
+ handler:^(UIAlertAction * _Nonnull action) {
+ 
+ // 收藏图片
+ NSDictionary *params = @{@"user_id":[USER_D objectForKey:@"user_id"],
+ @"from_id":_seeLayout.seeModel.user_id,
+ @"content":cImageView.imageUrl,
+ @"type":@2,
+ @"source":@3};
+ [CNetTool collectWithParameters:params
+ success:^(id response) {
+ [SVProgressHUD dismiss];
+ [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+ } failure:^(NSError *err) {
+ 
+ }];
+ }];
+ UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+ style:UIAlertActionStyleDefault
+ handler:nil];
+ 
+ [alert addAction:sureAction];
+ [alert addAction:cancelAction];
+ [[self viewController] presentViewController:alert animated:YES completion:nil];
+ 
+ 
+ 
+ 
  
  
  
