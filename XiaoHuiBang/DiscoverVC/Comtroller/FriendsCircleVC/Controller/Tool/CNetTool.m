@@ -258,7 +258,7 @@
                               success:(void (^)(id response))success
                               failure:(void (^)(NSError *err))failure {
     
-    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/about_perm";
+    NSString *urlStr = @"http://115.28.6.7/rongyun.php/Home/about/user_perm";
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     [session POST:urlStr

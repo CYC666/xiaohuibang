@@ -29,6 +29,7 @@
 #import "CPlayerLayer.h"
 #import "CWebPlayerLayer.h"
 #import "CollectButton.h"
+#import "CWebController.h"
 
 #define kHeight 53                                                          // 输入视图默认高度
 #define kProListHeight 25                                                   // 点赞列表的高度
@@ -252,6 +253,7 @@
                                                                      style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * _Nonnull action) {
                                                                        [[UIApplication sharedApplication] openURL:url];
+                                                                       
                                                                    }];
                 [alert addAction:sureAction];
             }
@@ -714,7 +716,6 @@
 
 #pragma mark - 长按头像弹出设置权限
 - (void)setUserJurisdiction:(UILongPressGestureRecognizer *)longPress {
-    
     
     if (longPress.state == UIGestureRecognizerStateBegan) {
         // 如果不是本人
