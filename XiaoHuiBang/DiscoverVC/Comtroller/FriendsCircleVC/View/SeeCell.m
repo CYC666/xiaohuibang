@@ -643,19 +643,15 @@
 
 #pragma mark - 隐藏输入框的通知响应
 - (void)hideCellInputView:(NSNotification *)notification {
-
-    if ([_inputView.input isEditable]) {
-        [_inputView.input endEditing:YES];
-    }
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
     
-    
-    
-    
-    
+
 }
+
+// 把所有放在window上的子视图都在这里做隐藏
+// 只要是想隐藏这些UI的，发送通知即可
 - (void)hideCommentView:(NSNotification *)notification {
 
     // 隐藏
@@ -663,6 +659,15 @@
         [_commentPro lose];
         _commentPro = nil;
     }
+    
+    // 收藏按钮
+    if (_collectButton != nil) {
+        [_collectButton removeFromSuperview];
+        _collectButton = nil;
+    }
+    
+    // 输入框
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
 }
 
