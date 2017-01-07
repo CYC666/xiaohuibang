@@ -100,7 +100,7 @@
             cell.title.text = @"告白小人";
             cell.leftImage.image = [UIImage imageNamed:@"ExpressHuman"];
         } else if (indexPath.row == 2) {
-            cell.title.text = @"ColorGame";
+            cell.title.text = @"游戏测试";
             cell.leftImage.image = [UIImage imageNamed:@"ColorGame"];
         }
     } else if (indexPath.section == 2) {
@@ -154,10 +154,11 @@
             controller.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:controller animated:YES];
         } else if (indexPath.row == 2) {
-            ColorGameController *controller = [[ColorGameController alloc] initWithNibName:@"ColorGameController"
-                                                                                    bundle:[NSBundle mainBundle]];
-            controller.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:controller animated:YES];
+            CWebController *controller = [[CWebController alloc] initWithModelName:@"测试游戏" url:@"http://www.meiriq.com/source/653/302da1ab/partner"];
+            controller.isModel = YES;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+            nav.navigationBar.barTintColor = [UIColor blackColor];
+            [self presentViewController:nav animated:YES completion:nil];
         } else if (indexPath.row == 3) {
         
         }

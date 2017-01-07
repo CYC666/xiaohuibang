@@ -49,19 +49,26 @@
                                                           options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin
                                                        attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kFontSzie]}
                                                           context:nil];
-    // 获取动态内容文本的高度
-    CGFloat contentHeight = textRect.size.height;
-    // 计算动态内容文本的frame
-    // 当只有一行，就根据文本宽度设置标签宽度
-    if (textRect.size.height < 20) {
-        self.seeFrame = CGRectMake(kContentX, kContentY, textRect.size.width, contentHeight);
+    // 当动态携带图片或视频，且文本为空时，将文本的位置去掉，其他UI上移
+    if (![self.seeModel.type isEqualToString:@"1"] && (textRect.size.width == 0)) {
+        self.seeFrame = CGRectZero;
     } else {
-        self.seeFrame = CGRectMake(kContentX, kContentY, kScreenWidth - 97, contentHeight);
+        // 获取动态内容文本的高度
+        CGFloat contentHeight = textRect.size.height;
+        // 计算动态内容文本的frame
+        // 当只有一行，就根据文本宽度设置标签宽度
+        if (textRect.size.height < 20) {
+            self.seeFrame = CGRectMake(kContentX, kContentY, textRect.size.width, contentHeight);
+        } else {
+            self.seeFrame = CGRectMake(kContentX, kContentY, kScreenWidth - 97, contentHeight);
+        }
+        //  更新单元格的高度(不加空隙，挤一点好看)
+        self.cellHeight += CGRectGetHeight(self.seeFrame);
     }
     
     
-    //  更新单元格的高度(不加空隙，挤一点好看)
-    self.cellHeight += CGRectGetHeight(self.seeFrame);
+    
+    
     
     // 当携带图片
     if ([self.seeModel.type isEqualToString:@"2"]) {
