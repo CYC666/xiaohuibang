@@ -263,6 +263,22 @@
 		041B56B01E1CF5C300D02508 /* icon_jingdong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041B56AA1E1CF5C300D02508 /* icon_jingdong@3x.png */; };
 		041B56B31E1DD9D300D02508 /* icon_discover_news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041B56B11E1DD9D300D02508 /* icon_discover_news@2x.png */; };
 		041B56B41E1DD9D300D02508 /* icon_discover_news@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041B56B21E1DD9D300D02508 /* icon_discover_news@3x.png */; };
+		0430457D1E236FEB0073A349 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430457C1E236FEB0073A349 /* GameController.m */; };
+		043045981E23700B0073A349 /* F3HNumberTileGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045811E23700B0073A349 /* F3HNumberTileGameViewController.m */; };
+		043045991E23700B0073A349 /* F3HTileAppearanceProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045831E23700B0073A349 /* F3HTileAppearanceProvider.m */; };
+		0430459A1E23700B0073A349 /* F3HGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045861E23700B0073A349 /* F3HGameModel.m */; };
+		0430459B1E23700B0073A349 /* F3HMergeTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045881E23700B0073A349 /* F3HMergeTile.m */; };
+		0430459C1E23700B0073A349 /* F3HMoveOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430458A1E23700B0073A349 /* F3HMoveOrder.m */; };
+		0430459D1E23700B0073A349 /* F3HQueueCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430458C1E23700B0073A349 /* F3HQueueCommand.m */; };
+		0430459E1E23700B0073A349 /* F3HTileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430458E1E23700B0073A349 /* F3HTileModel.m */; };
+		0430459F1E23700B0073A349 /* F3HControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045911E23700B0073A349 /* F3HControlView.m */; };
+		043045A01E23700B0073A349 /* F3HGameboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045931E23700B0073A349 /* F3HGameboardView.m */; };
+		043045A11E23700B0073A349 /* F3HScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045951E23700B0073A349 /* F3HScoreView.m */; };
+		043045A21E23700B0073A349 /* F3HTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045971E23700B0073A349 /* F3HTileView.m */; };
+		043045A51E238C2D0073A349 /* icon_game2048_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043045A31E238C2D0073A349 /* icon_game2048_back@2x.png */; };
+		043045A61E238C2D0073A349 /* icon_game2048_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043045A41E238C2D0073A349 /* icon_game2048_back@3x.png */; };
+		043045A91E238FCB0073A349 /* icon_game2048_reset@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043045A71E238FCB0073A349 /* icon_game2048_reset@2x.png */; };
+		043045AA1E238FCB0073A349 /* icon_game2048_reset@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043045A81E238FCB0073A349 /* icon_game2048_reset@3x.png */; };
 		04B535C81E1DDE4100BB97A1 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5359C1E1DDE4100BB97A1 /* MJRefreshAutoFooter.m */; };
 		04B535C91E1DDE4100BB97A1 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5359E1E1DDE4100BB97A1 /* MJRefreshBackFooter.m */; };
 		04B535CA1E1DDE4100BB97A1 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B535A01E1DDE4100BB97A1 /* MJRefreshComponent.m */; };
@@ -989,6 +1005,34 @@
 		041B56AA1E1CF5C300D02508 /* icon_jingdong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_jingdong@3x.png"; sourceTree = "<group>"; };
 		041B56B11E1DD9D300D02508 /* icon_discover_news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_discover_news@2x.png"; sourceTree = "<group>"; };
 		041B56B21E1DD9D300D02508 /* icon_discover_news@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_discover_news@3x.png"; sourceTree = "<group>"; };
+		0430457B1E236FEB0073A349 /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
+		0430457C1E236FEB0073A349 /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
+		043045801E23700B0073A349 /* F3HNumberTileGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HNumberTileGameViewController.h; sourceTree = "<group>"; };
+		043045811E23700B0073A349 /* F3HNumberTileGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HNumberTileGameViewController.m; sourceTree = "<group>"; };
+		043045821E23700B0073A349 /* F3HTileAppearanceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HTileAppearanceProvider.h; sourceTree = "<group>"; };
+		043045831E23700B0073A349 /* F3HTileAppearanceProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HTileAppearanceProvider.m; sourceTree = "<group>"; };
+		043045851E23700B0073A349 /* F3HGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HGameModel.h; sourceTree = "<group>"; };
+		043045861E23700B0073A349 /* F3HGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HGameModel.m; sourceTree = "<group>"; };
+		043045871E23700B0073A349 /* F3HMergeTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HMergeTile.h; sourceTree = "<group>"; };
+		043045881E23700B0073A349 /* F3HMergeTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HMergeTile.m; sourceTree = "<group>"; };
+		043045891E23700B0073A349 /* F3HMoveOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HMoveOrder.h; sourceTree = "<group>"; };
+		0430458A1E23700B0073A349 /* F3HMoveOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HMoveOrder.m; sourceTree = "<group>"; };
+		0430458B1E23700B0073A349 /* F3HQueueCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HQueueCommand.h; sourceTree = "<group>"; };
+		0430458C1E23700B0073A349 /* F3HQueueCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HQueueCommand.m; sourceTree = "<group>"; };
+		0430458D1E23700B0073A349 /* F3HTileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HTileModel.h; sourceTree = "<group>"; };
+		0430458E1E23700B0073A349 /* F3HTileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HTileModel.m; sourceTree = "<group>"; };
+		043045901E23700B0073A349 /* F3HControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HControlView.h; sourceTree = "<group>"; };
+		043045911E23700B0073A349 /* F3HControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HControlView.m; sourceTree = "<group>"; };
+		043045921E23700B0073A349 /* F3HGameboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HGameboardView.h; sourceTree = "<group>"; };
+		043045931E23700B0073A349 /* F3HGameboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HGameboardView.m; sourceTree = "<group>"; };
+		043045941E23700B0073A349 /* F3HScoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HScoreView.h; sourceTree = "<group>"; };
+		043045951E23700B0073A349 /* F3HScoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HScoreView.m; sourceTree = "<group>"; };
+		043045961E23700B0073A349 /* F3HTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HTileView.h; sourceTree = "<group>"; };
+		043045971E23700B0073A349 /* F3HTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F3HTileView.m; sourceTree = "<group>"; };
+		043045A31E238C2D0073A349 /* icon_game2048_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game2048_back@2x.png"; sourceTree = "<group>"; };
+		043045A41E238C2D0073A349 /* icon_game2048_back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game2048_back@3x.png"; sourceTree = "<group>"; };
+		043045A71E238FCB0073A349 /* icon_game2048_reset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game2048_reset@2x.png"; sourceTree = "<group>"; };
+		043045A81E238FCB0073A349 /* icon_game2048_reset@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game2048_reset@3x.png"; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
 		04B5359B1E1DDE4100BB97A1 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
@@ -1549,6 +1593,7 @@
 				0410D2811E1516D500253224 /* DiscoverController.m */,
 				041B56A21E1CE04B00D02508 /* CWebController.h */,
 				041B56A31E1CE04B00D02508 /* CWebController.m */,
+				0430457A1E236F940073A349 /* GameVC */,
 				0410D2821E1516D500253224 /* FriendsCircleVC */,
 				041B56921E1CCA5B00D02508 /* XiaoHuiBangVC */,
 				04140CFD1E1C07E5006EB93B /* CollorGameVC */,
@@ -2280,6 +2325,73 @@
 				041B56A01E1CD59E00D02508 /* ZhangYueController.m */,
 			);
 			path = ZhangYueVC;
+			sourceTree = "<group>";
+		};
+		0430457A1E236F940073A349 /* GameVC */ = {
+			isa = PBXGroup;
+			children = (
+				0430457B1E236FEB0073A349 /* GameController.h */,
+				0430457C1E236FEB0073A349 /* GameController.m */,
+				0430457E1E23700B0073A349 /* Game2048 */,
+			);
+			path = GameVC;
+			sourceTree = "<group>";
+		};
+		0430457E1E23700B0073A349 /* Game2048 */ = {
+			isa = PBXGroup;
+			children = (
+				0430457F1E23700B0073A349 /* Controller */,
+				043045841E23700B0073A349 /* Models */,
+				0430458F1E23700B0073A349 /* Views */,
+			);
+			path = Game2048;
+			sourceTree = "<group>";
+		};
+		0430457F1E23700B0073A349 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				043045801E23700B0073A349 /* F3HNumberTileGameViewController.h */,
+				043045811E23700B0073A349 /* F3HNumberTileGameViewController.m */,
+				043045821E23700B0073A349 /* F3HTileAppearanceProvider.h */,
+				043045831E23700B0073A349 /* F3HTileAppearanceProvider.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		043045841E23700B0073A349 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				043045A71E238FCB0073A349 /* icon_game2048_reset@2x.png */,
+				043045A81E238FCB0073A349 /* icon_game2048_reset@3x.png */,
+				043045A31E238C2D0073A349 /* icon_game2048_back@2x.png */,
+				043045A41E238C2D0073A349 /* icon_game2048_back@3x.png */,
+				043045851E23700B0073A349 /* F3HGameModel.h */,
+				043045861E23700B0073A349 /* F3HGameModel.m */,
+				043045871E23700B0073A349 /* F3HMergeTile.h */,
+				043045881E23700B0073A349 /* F3HMergeTile.m */,
+				043045891E23700B0073A349 /* F3HMoveOrder.h */,
+				0430458A1E23700B0073A349 /* F3HMoveOrder.m */,
+				0430458B1E23700B0073A349 /* F3HQueueCommand.h */,
+				0430458C1E23700B0073A349 /* F3HQueueCommand.m */,
+				0430458D1E23700B0073A349 /* F3HTileModel.h */,
+				0430458E1E23700B0073A349 /* F3HTileModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0430458F1E23700B0073A349 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				043045901E23700B0073A349 /* F3HControlView.h */,
+				043045911E23700B0073A349 /* F3HControlView.m */,
+				043045921E23700B0073A349 /* F3HGameboardView.h */,
+				043045931E23700B0073A349 /* F3HGameboardView.m */,
+				043045941E23700B0073A349 /* F3HScoreView.h */,
+				043045951E23700B0073A349 /* F3HScoreView.m */,
+				043045961E23700B0073A349 /* F3HTileView.h */,
+				043045971E23700B0073A349 /* F3HTileView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		04B535981E1DDDF300BB97A1 /* DiscoverTool */ = {
@@ -3262,6 +3374,7 @@
 				0410D4D31E1516D600253224 /* pic_loading.png in Resources */,
 				F309477C1DD33ED800638827 /* point@2x.png in Resources */,
 				F30947531DD33EC200638827 /* icon_flash_close@3x.png in Resources */,
+				043045A91E238FCB0073A349 /* icon_game2048_reset@2x.png in Resources */,
 				F33F89841D9E4B9000FB0F70 /* PersonageTableViewCell.xib in Resources */,
 				0410D4401E1516D600253224 /* xiang@3x.png in Resources */,
 				0410D40E1E1516D600253224 /* icon_comment_nor.png in Resources */,
@@ -3350,6 +3463,7 @@
 				F3EBC48E1D9A471D00E93C02 /* icon_closed@3x.png in Resources */,
 				F309474C1DD33EB800638827 /* icon_emoj@2x.png in Resources */,
 				0410D47B1E1516D600253224 /* SuPhoto_selected@2x.png in Resources */,
+				043045AA1E238FCB0073A349 /* icon_game2048_reset@3x.png in Resources */,
 				F34823B51DD2BF5500D2834E /* icon_moments_unselected@3x.png in Resources */,
 				F317F4071DA7828F00DB5F70 /* icon_加人@3x.png in Resources */,
 				F39FD6EA1DDDB43300D3724C /* icon_back_weizhi@3x.png in Resources */,
@@ -3442,6 +3556,7 @@
 				0410D4D41E1516D600253224 /* pic_loading@2x.png in Resources */,
 				F30947751DD33ED800638827 /* icon_press@3x.png in Resources */,
 				F39FD6F81DDDB43300D3724C /* icon_send_sharer@2x.png in Resources */,
+				043045A61E238C2D0073A349 /* icon_game2048_back@3x.png in Resources */,
 				0410D4C41E1516D600253224 /* icon_pro_selected.png in Resources */,
 				F317F40B1DA7828F00DB5F70 /* icon_group-chat@3x.png in Resources */,
 				0410D4CE1E1516D600253224 /* icon_search_image@2x.png in Resources */,
@@ -3492,6 +3607,7 @@
 				0410D4B81E1516D600253224 /* icon_play.png in Resources */,
 				F317F3FA1DA7500800DB5F70 /* icon_mute@2x.png in Resources */,
 				0410D4961E1516D600253224 /* icon_comment_blue@3x.png in Resources */,
+				043045A51E238C2D0073A349 /* icon_game2048_back@2x.png in Resources */,
 				0410D4B61E1516D600253224 /* icon_location_selected@2x.png in Resources */,
 				F39FD70B1DDDB64500D3724C /* location_share_button.png in Resources */,
 				F33F89921D9E4EA600FB0F70 /* icon_man@3x.png in Resources */,
@@ -3664,8 +3780,10 @@
 				F35C03551DC3593B003D9613 /* RCDGroupAnnouncementViewController.m in Sources */,
 				F35DD6FE1DC35E16001A8F99 /* RCDContactSelectedTableViewController.m in Sources */,
 				F30E92791DAE1CDA00EDF97B /* MessageListTableViewCell.m in Sources */,
+				043045A21E23700B0073A349 /* F3HTileView.m in Sources */,
 				041B56A11E1CD59E00D02508 /* ZhangYueController.m in Sources */,
 				0410D4551E1516D600253224 /* UIView+Layout.m in Sources */,
+				0430459A1E23700B0073A349 /* F3HGameModel.m in Sources */,
 				F33F89BE1D9E726B00FB0F70 /* UserNameViewController.m in Sources */,
 				F35DD7011DC35E98001A8F99 /* RCDContactSelectedTableViewCell.m in Sources */,
 				F313E6C71DB62544005111E0 /* MultiSelectSearchResultTableViewCell.m in Sources */,
@@ -3676,6 +3794,7 @@
 				F3A0E0261DB75A2200E9F12C /* MLLetterIndexNavigationItem.m in Sources */,
 				0410D4731E1516D600253224 /* SuPhotoBrowser.m in Sources */,
 				0410D3FD1E1516D600253224 /* LocationController.m in Sources */,
+				0430457D1E236FEB0073A349 /* GameController.m in Sources */,
 				0410D45C1E1516D600253224 /* CNetTool.m in Sources */,
 				F3E3E9721D9BCE2600E69300 /* PersonageViewController.m in Sources */,
 				04140D001E1C081B006EB93B /* ColorGameView.m in Sources */,
@@ -3690,6 +3809,7 @@
 				0410D47D1E1516D600253224 /* SuPhotoPicker.m in Sources */,
 				F35C035E1DC35B3B003D9613 /* RCDAddFriendViewController.m in Sources */,
 				0410D4D91E1516D600253224 /* PraiseModel.m in Sources */,
+				0430459E1E23700B0073A349 /* F3HTileModel.m in Sources */,
 				041B56A41E1CE04B00D02508 /* CWebController.m in Sources */,
 				0410D4041E1516D600253224 /* LocationSearchBar.m in Sources */,
 				F3130F791DD9A37900B12726 /* RealTimeLocationStatusView.m in Sources */,
@@ -3719,6 +3839,7 @@
 				F394949E1DB0C99100BE3E51 /* UIView+SDAutoLayout.m in Sources */,
 				0410D47F1E1516D600253224 /* SuPhotoCenter.m in Sources */,
 				F35DD6FB1DC35CF8001A8F99 /* RCDGroupSettingsTableViewController.m in Sources */,
+				043045A11E23700B0073A349 /* F3HScoreView.m in Sources */,
 				0410D4451E1516D600253224 /* LGPhotoPickerBrowserPhotoImageView.m in Sources */,
 				0410D4251E1516D600253224 /* CLabel.m in Sources */,
 				0410D4621E1516D600253224 /* TopLayer.m in Sources */,
@@ -3759,6 +3880,8 @@
 				04B535D81E1DDE4200BB97A1 /* NSBundle+MJRefresh.m in Sources */,
 				0410D4D81E1516D600253224 /* PersonSeeModel.m in Sources */,
 				04B535D91E1DDE4200BB97A1 /* UIScrollView+MJExtension.m in Sources */,
+				043045981E23700B0073A349 /* F3HNumberTileGameViewController.m in Sources */,
+				0430459F1E23700B0073A349 /* F3HControlView.m in Sources */,
 				0410D44A1E1516D600253224 /* LGPhotoPickerDatas.m in Sources */,
 				0410D44B1E1516D600253224 /* LGPhotoPickerGroup.m in Sources */,
 				0410D4891E1516D600253224 /* AveluateModel.m in Sources */,
@@ -3775,8 +3898,10 @@
 				F39494A71DB0E0B500BE3E51 /* AddressBookViewController.m in Sources */,
 				04B535CE1E1DDE4100BB97A1 /* MJRefreshAutoNormalFooter.m in Sources */,
 				F317F4111DA7A96400DB5F70 /* AddFriendViewController.m in Sources */,
+				043045991E23700B0073A349 /* F3HTileAppearanceProvider.m in Sources */,
 				F39AFE901DAF94020045C323 /* FriendsNoteViewController.m in Sources */,
 				F3E3E9661D9B71D900E69300 /* ToResetPswViewController.m in Sources */,
+				0430459C1E23700B0073A349 /* F3HMoveOrder.m in Sources */,
 				0410D45B1E1516D600253224 /* CMovieImageView.m in Sources */,
 				04B535D51E1DDE4200BB97A1 /* MJRefreshStateHeader.m in Sources */,
 				0410D4461E1516D600253224 /* LGPhotoPickerBrowserPhotoScrollView.m in Sources */,
@@ -3821,6 +3946,8 @@
 				0410D3FE1E1516D600253224 /* AboutDetialController.m in Sources */,
 				0410D4861E1516D600253224 /* UIScrollView+PullUpRefresh.m in Sources */,
 				0410D45D1E1516D600253224 /* CObject.m in Sources */,
+				0430459D1E23700B0073A349 /* F3HQueueCommand.m in Sources */,
+				043045A01E23700B0073A349 /* F3HGameboardView.m in Sources */,
 				F3130F741DD9A37900B12726 /* RCAnnotationView.m in Sources */,
 				F348D6161DBF4A150034D0C2 /* RCDPrivateSettingsUserInfoCell.m in Sources */,
 				F31B2A9A1DA4E73B00330636 /* ChangePhoneViewController.m in Sources */,
@@ -3835,6 +3962,7 @@
 				0410D44F1E1516D600253224 /* LGPhotoPickerCollectionView.m in Sources */,
 				0410D4801E1516D600253224 /* SuPhotoManager.m in Sources */,
 				0410D4581E1516D600253224 /* ZLCameraImageView.m in Sources */,
+				0430459B1E23700B0073A349 /* F3HMergeTile.m in Sources */,
 				F39AFE871DAF6BA20045C323 /* AddFridensDataViewController.m in Sources */,
 				0410D46E1E1516D600253224 /* UIView+SU.m in Sources */,
 				F36DEC491DBB125400AEFE62 /* AFHttpTool.m in Sources */,

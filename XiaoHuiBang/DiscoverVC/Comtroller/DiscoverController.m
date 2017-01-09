@@ -16,6 +16,7 @@
 #import "XHBController.h"
 #import "ZhangYueController.h"
 #import "CWebController.h"
+#import "GameController.h"
 
 
 
@@ -143,22 +144,29 @@
     } else if (indexPath.section == 1) {
         
         if (indexPath.row == 0) {
-            CWebController *controller = [[CWebController alloc] initWithModelName:@"玩游戏" url:@"http://www.meiriq.com/list/302da1ab"];
-            controller.allowRightItem = YES;
-            controller.isModel = YES;
+            // http://www.meiriq.com/list/302da1ab
+            GameController *controller = [[GameController alloc] init];
+            controller.hidesBottomBarWhenPushed = YES;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
             nav.navigationBar.barTintColor = [UIColor blackColor];
-            [self presentViewController:nav animated:YES completion:nil];
+            [self.navigationController pushViewController:controller animated:YES];
         } else if (indexPath.row == 1) {
             ExpressHumanController *controller = [[ExpressHumanController alloc] init];
             controller.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:controller animated:YES];
         } else if (indexPath.row == 2) {
-            CWebController *controller = [[CWebController alloc] initWithModelName:@"测试游戏" url:@"http://www.meiriq.com/source/653/302da1ab/partner"];
-            controller.isModel = YES;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-            nav.navigationBar.barTintColor = [UIColor blackColor];
-            [self presentViewController:nav animated:YES completion:nil];
+            // http://m.qunhei.com/
+            // http://www.meiriq.com/source/653/302da1ab/partner
+            // http://laojingxing.applinzi.com
+//            CWebController *controller = [[CWebController alloc] initWithModelName:@"测试游戏" url:@"http://laojingxing.applinzi.com"];
+//            controller.allowRightItem = YES;
+//            controller.isModel = YES;
+//            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+//            nav.navigationBar.barTintColor = [UIColor blackColor];
+//            [self presentViewController:nav animated:YES completion:nil];
+            ColorGameController *controller = [[ColorGameController alloc] init];
+            controller.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:controller animated:YES];
         } else if (indexPath.row == 3) {
         
         }

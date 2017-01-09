@@ -49,10 +49,7 @@
         // 创建子视图
         [self _creatSubviews];
         
-        // 下滑隐藏
-        UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeAction:)];
-        swipe.direction = UISwipeGestureRecognizerDirectionDown;
-        [self addGestureRecognizer:swipe];
+        
         
     }
     return self;
@@ -79,6 +76,7 @@
         scrollView.delegate = self;
         scrollView.minimumZoomScale = 1;
         scrollView.maximumZoomScale = 3;
+        scrollView.clipsToBounds = YES;
         scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight);
         [_background addSubview:scrollView];
         // 双击将图返回原样
@@ -112,9 +110,10 @@
                                      
                                  }];
             // 当宽 < 高时，控制滑动视图的大小,防止缩放后偏移太多
-//            CGSize imageSize = image.size;
-//            float scale = imageSize.width / imageSize.height;
-//            scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenWidth / scale);
+            CGSize imageSize = image.size;
+            float scale = imageSize.width / imageSize.height;
+            // imageView.frame = CGRectMake(10, 0, kScreenWidth, kScreenWidth / scale);
+            // scrollView.contentSize = CGSizeMake(kScreenWidth + 20, kScreenWidth / scale);
             
         } else {
             
@@ -131,6 +130,7 @@
             // 当宽 < 高时，控制滑动视图的大小,防止缩放后偏移太多
 //            CGSize imageSize = image.size;
 //            float scale = imageSize.width / imageSize.height;
+//            scrollView.frame = CGRectMake(rect.size.width * i, (kScreenHeight - (kScreenWidth / scale)) / 2.0, kScreenWidth, kScreenWidth / scale);
 //            scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenWidth / scale);
             
         }
@@ -170,6 +170,7 @@
     
     // 暂存被缩放的图
     _scaleView = scrollView;
+    
     
     // 指向imageView
     return scrollView.subviews.firstObject;
@@ -248,15 +249,6 @@
     imageView.image = image;
 
 }
-
-
-#pragma mark - 下滑隐藏
-- (void)swipeAction:(UISwipeGestureRecognizer *)swipe {
-
-    
-
-}
-
 
 
 
