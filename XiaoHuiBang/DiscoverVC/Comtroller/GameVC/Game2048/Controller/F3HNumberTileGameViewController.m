@@ -75,25 +75,25 @@
                                                                                   action:@selector(upButtonTapped)];
     upSwipe.numberOfTouchesRequired = 1;
     upSwipe.direction = UISwipeGestureRecognizerDirectionUp;
-    [self.view addGestureRecognizer:upSwipe];
+    [_gameboard addGestureRecognizer:upSwipe];
     
     UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(downButtonTapped)];
     downSwipe.numberOfTouchesRequired = 1;
     downSwipe.direction = UISwipeGestureRecognizerDirectionDown;
-    [self.view addGestureRecognizer:downSwipe];
+    [_gameboard addGestureRecognizer:downSwipe];
     
     UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(leftButtonTapped)];
     leftSwipe.numberOfTouchesRequired = 1;
     leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:leftSwipe];
+    [_gameboard addGestureRecognizer:leftSwipe];
     
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(rightButtonTapped)];
     rightSwipe.numberOfTouchesRequired = 1;
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:rightSwipe];
+    [_gameboard addGestureRecognizer:rightSwipe];
 }
 #pragma mark - 设置游戏界面
 - (void)setupGame {
@@ -104,17 +104,6 @@
                                                                 target:self
                                                                 action:@selector(backButtonAction:)];
     [self.navigationItem setLeftBarButtonItem:backItem];
-
-    // 排行榜按钮
-    
-    
-    // 重置按钮
-
-//    UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    resetButton.frame = CGRectMake(kScreenWidth - 24 - 20, 10, 24, 24);
-//    [resetButton setImage:[UIImage imageNamed:@"icon_game2048_reset"] forState:UIControlStateNormal];
-//    [resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-//    [navView addSubview:resetButton];
     
     // 左右间隔
     float space = (kScreenWidth - 20*2 - 110 - 95 - 95)/2;
@@ -137,6 +126,13 @@
         [self.view addSubview:_scoreView];
     }
     
+    // 排行榜按钮
+    UIButton *rankButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rankButton.frame = CGRectMake(20 + 110 + space, 15 + 64 + 15, 95, 36);
+    [rankButton setImage:[UIImage imageNamed:@"icon_ranking_score"] forState:UIControlStateNormal];
+    [rankButton addTarget:self action:@selector(rankButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:rankButton];
+    
     // 最高成绩
     _bestScoreView = [CYCBestScoreView bestScoreViewWithCornerRadius:5
                                                      backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
@@ -145,6 +141,14 @@
                                                            bestScore:0
                                                                frame:CGRectMake(20 + 110 + 95 + space*2, 15, 95, 64)];
     [self.view addSubview:_bestScoreView];
+    
+    // 重置按钮
+    
+    UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    resetButton.frame = CGRectMake(20 + 110 + 95 + space*2, 15 + 64 + 15, 95, 36);
+    [resetButton setImage:[UIImage imageNamed:@"icon_game2048_reset"] forState:UIControlStateNormal];
+    [resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:resetButton];
     
     
     // 提示
@@ -193,8 +197,7 @@
     // This is the earliest point the user can win
     if ([self.model userHasWon]) {
         [self.delegate gameFinishedWithVictory:YES score:self.model.score];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Victory!" message:@"You won!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+        // 提示，注意：不能使用模态弹出
     }
     else {
         NSInteger rand = arc4random_uniform(10);
@@ -207,8 +210,7 @@
         // At this point, the user may lose
         if ([self.model userHasLost]) {
             [self.delegate gameFinishedWithVictory:NO score:self.model.score];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束" message:@"You lost..." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
+            // 提示，注意：不能使用模态弹出
         }
     }
 }
@@ -265,6 +267,12 @@
 
 }
 
+- (void)rankButtonAction:(UIButton *)button {
+
+    
+
+}
+
 - (void)resetButtonAction:(UIButton *)button {
 
     [self.gameboard reset];
@@ -285,11 +293,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)dealloc {
 
-
-
-}
 
 
 @end
