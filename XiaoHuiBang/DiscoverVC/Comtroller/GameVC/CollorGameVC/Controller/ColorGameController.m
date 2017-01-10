@@ -17,6 +17,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *score;
 @property (weak, nonatomic) IBOutlet UILabel *time;
 @property (weak, nonatomic) IBOutlet UILabel *bestScore;
+@property (weak, nonatomic) IBOutlet UILabel *ranking;
+@property (weak, nonatomic) IBOutlet UILabel *bangBi;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressLine;
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
+
 
 @property (strong, nonatomic) ColorGameView *colorView;
 
@@ -35,8 +40,7 @@
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
 
-    
-    _colorView = [[ColorGameView alloc] initWithFrame:CGRectZero];
+    _colorView = [[ColorGameView alloc] initWithFrame:CGRectMake(20, _progressLine.frame.origin.y + 10, 0, 0)];
     //游戏还未开始，不能点击
     _colorView.userInteractionEnabled = NO;
     [self.view addSubview:_colorView];
@@ -45,9 +49,9 @@
                                              selector:@selector(receiveNotification:)
                                                  name:@"count"
                                                object:nil];
-    
+
     // 最佳记录
-    NSString *best = [USER_D objectForKey:@"bestScore"];
+    NSString *best = [USER_D objectForKey:@"colorGame_bestScore"];
     if (best == nil) {
         _bestScore.text = @"0";
     } else {
@@ -56,6 +60,8 @@
     
     
 }
+
+
 
 
 - (IBAction)start:(UIButton *)sender {
@@ -71,6 +77,7 @@
     _time.text = @"30";
     //得分重置0分
     _score.text = @"0";
+    _bangBi.text = @"0";
     [NSTimer scheduledTimerWithTimeInterval:1
                                      target:self
                                    selector:@selector(timerAction:)
@@ -83,6 +90,8 @@
 - (void)timerAction:(NSTimer *)timer {
     
     _time.text = [NSString stringWithFormat:@"%ld", [_time.text integerValue] - 1];
+    _progressLine.progress = ([_time.text integerValue]) / 30.0;
+    
     if ([_time.text integerValue] < 0) {
         //关闭定时器，防止与下一个定时器重复
         [timer invalidate];
@@ -94,15 +103,15 @@
         _colorView.userInteractionEnabled = NO;
         
         // 跟本地记录作比较
-        NSString *best = [USER_D objectForKey:@"bestScore"];
+        NSString *best = [USER_D objectForKey:@"colorGame_bestScore"];
         if ([best integerValue] < [_score.text integerValue]) {
-            [USER_D setObject:_score.text forKey:@"bestScore"];
+            [USER_D setObject:_score.text forKey:@"colorGame_bestScore"];
             _bestScore.text = _score.text;
         }
         
         //游戏结束,弹出提示
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"游戏结束"
-                                                                       message:_score.text
+                                                                       message:[NSString stringWithFormat:@"您获得了%@个邦币", _bangBi.text]
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"继续游戏"
                                                   style:UIAlertActionStyleDefault
@@ -119,13 +128,18 @@
 
 - (void)receiveNotification:(NSNotification *)notification {
     _score.text = notification.object;
+    
+    // 当分值大于15才赠送邦币
+    if ([_score.text integerValue] >= 10 && [_score.text integerValue] < 20) {
+        _bangBi.text = _score.text;
+        
+    // 当大于20，三倍
+    } else if ([_score.text integerValue] >= 20) {
+        _bangBi.text = [NSString stringWithFormat:@"%ld", [_score.text integerValue] + ([_score.text integerValue] - 20)*3];
+    }
 }
 
-- (void)dealloc {
 
-
-
-}
 
 
 

@@ -33,7 +33,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
 
-    CGRect rect = CGRectMake(20, (kScreenHeight-kScreenWidth)/2, kScreenWidth - 40, kScreenWidth - 40);
+    CGRect rect = CGRectMake(20, frame.origin.y, kScreenWidth - 40, kScreenWidth - 40);
     self = [super initWithFrame:rect];
     if (self != nil) {
         _alpha = 0.6;

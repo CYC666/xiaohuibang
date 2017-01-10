@@ -134,13 +134,17 @@
     [self.view addSubview:rankButton];
     
     // 最高成绩
+    NSInteger bestScore = [USER_D integerForKey:@"game2048_best_score"];
     _bestScoreView = [CYCBestScoreView bestScoreViewWithCornerRadius:5
                                                      backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
                                                            textColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1]
                                                             textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
-                                                           bestScore:0
+                                                           bestScore:bestScore
                                                                frame:CGRectMake(20 + 110 + 95 + space*2, 15, 95, 64)];
     [self.view addSubview:_bestScoreView];
+    
+    // 监听最佳成绩是否变化
+    [_bestScoreView addObserver:self forKeyPath:@"score" options:NSKeyValueObservingOptionNew context:nil];
     
     // 重置按钮
     
@@ -197,7 +201,7 @@
     // This is the earliest point the user can win
     if ([self.model userHasWon]) {
         [self.delegate gameFinishedWithVictory:YES score:self.model.score];
-        // 提示，注意：不能使用模态弹出
+        // 提示
     }
     else {
         NSInteger rand = arc4random_uniform(10);
@@ -210,7 +214,9 @@
         // At this point, the user may lose
         if ([self.model userHasLost]) {
             [self.delegate gameFinishedWithVictory:NO score:self.model.score];
-            // 提示，注意：不能使用模态弹出
+            // 提示,
+            // 判断并保存最佳成绩
+            
         }
     }
 }
@@ -229,9 +235,13 @@
 - (void)insertTileAtIndexPath:(NSIndexPath *)path value:(NSUInteger)value {
     [self.gameboard insertTileAtIndexPath:path withValue:value];
 }
-
+// 分数改变
 - (void)scoreChanged:(NSInteger)newScore {
     self.scoreView.score = newScore;
+    self.bangBiView.score = newScore/0.01;
+    if (newScore >= _bestScoreView.score) {
+        _bestScoreView.score = newScore;
+    }
 }
 
 
@@ -293,6 +303,29 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - 保存最佳成绩
+- (void)saveBestScore {
+
+    [USER_D setInteger:_bestScoreView.score forKey:@"game2048_best_score"];
+
+}
+
+#pragma mark - 最佳成绩变化的监听
+- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context {
+
+    // 当最佳成绩变化了，那就更改本地最佳成绩
+    if ([keyPath isEqualToString:@"score"]) {
+        [self saveBestScore];
+    }
+
+}
+
+#pragma mark - 对象销毁
+- (void)dealloc {
+
+    [_bestScoreView removeObserver:self forKeyPath:@"score"];
+
+}
 
 
 
