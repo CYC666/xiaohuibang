@@ -29,7 +29,7 @@
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-    title.text = @"ColorGame";
+    title.text = @"找邦币";
     title.font = [UIFont boldSystemFontOfSize:19];
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor whiteColor];
@@ -121,7 +121,11 @@
     _score.text = notification.object;
 }
 
+- (void)dealloc {
 
+
+
+}
 
 
 

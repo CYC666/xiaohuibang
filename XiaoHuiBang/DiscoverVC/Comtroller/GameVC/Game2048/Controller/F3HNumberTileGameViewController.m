@@ -12,6 +12,8 @@
 #import "F3HControlView.h"
 #import "F3HScoreView.h"
 #import "F3HGameModel.h"
+#import "CYCBangBiScoreView.h"
+#import "CYCBestScoreView.h"
 
 #define ELEMENT_SPACING 10      // 视图之间的差距
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
@@ -23,6 +25,9 @@
 @property (nonatomic, strong) F3HGameboardView *gameboard;  // 游戏界面
 @property (nonatomic, strong) F3HGameModel *model;          // 游戏数据
 @property (nonatomic, strong) F3HScoreView *scoreView;      // 得分视图
+@property (strong, nonatomic) CYCBangBiScoreView *bangBiView;   // 获得的邦币视图
+@property (strong, nonatomic) CYCBestScoreView *bestScoreView;  // 最佳成绩
+@property (strong, nonatomic) UILabel *tipLabel;            // 提示
 @property (nonatomic, strong) F3HControlView *controlView;  // 控制面板
 
 @property (nonatomic) BOOL useScoreView;        // 是否显示得分
@@ -34,25 +39,28 @@
 
 @implementation F3HNumberTileGameViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupGame];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    // [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 - (void)viewWillDisappear:(BOOL)animated {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    // [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 
 + (instancetype)numberTileGameWithDimension:(NSUInteger)dimension
                                winThreshold:(NSUInteger)threshold
                             backgroundColor:(UIColor *)backgroundColor
-                                scoreModule:(BOOL)scoreModuleEnabled
-                             buttonControls:(BOOL)buttonControlsEnabled
                               swipeControls:(BOOL)swipeControlsEnabled {
     F3HNumberTileGameViewController *c = [[self class] new];
     c.dimension = dimension > 2 ? dimension : 2;
     c.threshold = threshold > 8 ? threshold : 8;
-    c.useScoreView = scoreModuleEnabled;
-    c.useControlView = buttonControlsEnabled;
+    c.useScoreView = YES;
+    c.useControlView = NO;
     c.view.backgroundColor = backgroundColor ?: [UIColor whiteColor];
     if (swipeControlsEnabled) {
         [c setupSwipeControls];
@@ -89,54 +97,65 @@
 }
 #pragma mark - 设置游戏界面
 - (void)setupGame {
-    F3HScoreView *scoreView;        // 得分视图
-    F3HControlView *controlView;    // 按钮控制视图
-    
-    CGFloat totalHeight = 0;        // 视图高度
-    
-    
-    //-----------------------------------------------------创建视图-----------------------------------------------------
-    
-    // 虚拟导航栏
-    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
-    navView.backgroundColor = [UIColor orangeColor];
-    [self.view addSubview:navView];
     
     // 返回按钮
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(20, 10, 24, 24);
-    [backButton setImage:[UIImage imageNamed:@"icon_game2048_back"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [navView addSubview:backButton];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_game2048_back"]
+                                                                 style:UIBarButtonItemStylePlain
+                                                                target:self
+                                                                action:@selector(backButtonAction:)];
+    [self.navigationItem setLeftBarButtonItem:backItem];
+
+    // 排行榜按钮
+    
     
     // 重置按钮
-    // 返回按钮
-    UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    resetButton.frame = CGRectMake(kScreenWidth - 24 - 20, 10, 24, 24);
-    [resetButton setImage:[UIImage imageNamed:@"icon_game2048_reset"] forState:UIControlStateNormal];
-    [resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [navView addSubview:resetButton];
+
+//    UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    resetButton.frame = CGRectMake(kScreenWidth - 24 - 20, 10, 24, 24);
+//    [resetButton setImage:[UIImage imageNamed:@"icon_game2048_reset"] forState:UIControlStateNormal];
+//    [resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [navView addSubview:resetButton];
+    
+    // 左右间隔
+    float space = (kScreenWidth - 20*2 - 110 - 95 - 95)/2;
+    
+    // 获得的邦币视图
+    _bangBiView = [CYCBangBiScoreView bangBiScoreViewWithCornerRadius:5
+                                                      backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
+                                                            textColor:[UIColor whiteColor]
+                                                             textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
+                                                                frame:CGRectMake(20, 15, 110, 115)];
+    [self.view addSubview:_bangBiView];
     
     // 是否打开成绩面板
     if (self.useScoreView) {
-        scoreView = [F3HScoreView scoreViewWithCornerRadius:6
-                                            backgroundColor:[UIColor darkGrayColor]
-                                                  textColor:[UIColor whiteColor]
-                                                   textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16]];
-        totalHeight += (ELEMENT_SPACING + scoreView.bounds.size.height);
-        self.scoreView = scoreView;
+        _scoreView = [F3HScoreView scoreViewWithCornerRadius:5
+                                             backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
+                                                   textColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1]
+                                                    textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
+                                                       frame:CGRectMake(20 + 110 + space, 15, 95, 64)];
+        [self.view addSubview:_scoreView];
     }
     
-    // 是否打开了允许按钮控制
-    if (self.useControlView) {
-        controlView = [F3HControlView controlViewWithCornerRadius:6
-                                                  backgroundColor:[UIColor blackColor]
-                                                  movementButtons:YES
-                                                       exitButton:NO
-                                                         delegate:self];
-        totalHeight += (ELEMENT_SPACING + controlView.bounds.size.height);
-        self.controlView = controlView;
-    }
+    // 最高成绩
+    _bestScoreView = [CYCBestScoreView bestScoreViewWithCornerRadius:5
+                                                     backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
+                                                           textColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1]
+                                                            textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
+                                                           bestScore:0
+                                                               frame:CGRectMake(20 + 110 + 95 + space*2, 15, 95, 64)];
+    [self.view addSubview:_bestScoreView];
+    
+    
+    // 提示
+    _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 15 + 115 + 20, kScreenWidth - 20*2, 20)];
+    _tipLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
+    _tipLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+    _tipLabel.adjustsFontSizeToFitWidth = YES;
+    _tipLabel.text = @"移动相同数字合成更大数字，并获取邦币";
+    [self.view addSubview:_tipLabel];
+    
+    
     
     // 游戏主视图
     CGFloat padding = (self.dimension > 5) ? 3.0 : 6.0; // 小格子间隙
@@ -150,41 +169,10 @@
                                                               cornerRadius:6
                                                            backgroundColor:[UIColor colorWithRed:185/255.0 green:172/255.0 blue:160/255.0 alpha:1]
                                                            foregroundColor:[UIColor colorWithRed:202/255.0 green:190/255.0 blue:180/255.0 alpha:1]];
-    totalHeight += gameboard.bounds.size.height;
-    
-    
-    
-    //-----------------------------------------------------计算并设置frame-----------------------------------------------------
-    // 计算UI的Y起点，如果小于0那么从0开始
-    CGFloat currentTop = 0.5*(self.view.bounds.size.height - totalHeight);
-    if (currentTop < 0) {
-        currentTop = 0;
-    }
-    
-    if (self.useScoreView) {
-        CGRect scoreFrame = scoreView.frame;
-        scoreFrame.origin.x = 0.5*(self.view.bounds.size.width - scoreFrame.size.width);
-        scoreFrame.origin.y = currentTop;
-        scoreView.frame = scoreFrame;
-        [self.view addSubview:scoreView];
-        currentTop += (scoreFrame.size.height + ELEMENT_SPACING);
-    }
-    
     CGRect gameboardFrame = gameboard.frame;
-    gameboardFrame.origin.x = 0.5*(self.view.bounds.size.width - gameboardFrame.size.width);
-    gameboardFrame.origin.y = currentTop;
+    gameboardFrame.origin.y = 15 + 115 + 20 + 20 + 20;
     gameboard.frame = gameboardFrame;
     [self.view addSubview:gameboard];
-    currentTop += (gameboardFrame.size.height + ELEMENT_SPACING);
-    
-    if (self.useControlView) {
-        CGRect controlFrame = controlView.frame;
-        controlFrame.origin.x = 0.5*(self.view.bounds.size.width - controlFrame.size.width);
-        controlFrame.origin.y = currentTop;
-        controlView.frame = controlFrame;
-        [self.view addSubview:controlView];
-    }
-    
     self.gameboard = gameboard;
     
     // 创建游戏数据模型
@@ -196,10 +184,7 @@
     self.model = model;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setupGame];
-}
+
 
 
 #pragma mark - Private API
@@ -274,7 +259,7 @@
 }
 
 #pragma mark - 按钮响应
-- (void)backButtonAction:(UIButton *)button {
+- (void)backButtonAction:(UIBarButtonItem *)button {
 
     [self dismissViewControllerAnimated:YES completion:nil];
 
@@ -300,4 +285,125 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)dealloc {
+
+
+
+}
+
+
 @end
+
+
+
+/*
+ 
+ // 是否打开了允许按钮控制
+ if (self.useControlView) {
+ controlView = [F3HControlView controlViewWithCornerRadius:5
+ backgroundColor:[UIColor blackColor]
+ movementButtons:YES
+ exitButton:NO
+ delegate:self];
+ totalHeight += (ELEMENT_SPACING + controlView.bounds.size.height);
+ self.controlView = controlView;
+ }
+
+ 
+ if (self.useScoreView) {
+ CGRect scoreFrame = scoreView.frame;
+ scoreFrame.origin.x = 0.5*(self.view.bounds.size.width - scoreFrame.size.width);
+ scoreFrame.origin.y = currentTop;
+ scoreView.frame = scoreFrame;
+ [self.view addSubview:scoreView];
+ currentTop += (scoreFrame.size.height + ELEMENT_SPACING);
+ }
+
+ if (self.useControlView) {
+ CGRect controlFrame = controlView.frame;
+ controlFrame.origin.x = 0.5*(self.view.bounds.size.width - controlFrame.size.width);
+ controlFrame.origin.y = currentTop;
+ controlView.frame = controlFrame;
+ [self.view addSubview:controlView];
+ }
+ 
+ //-----------------------------------------------------计算并设置frame-----------------------------------------------------
+ // 计算UI的Y起点，如果小于0那么从0开始
+ CGFloat currentTop = 0.5*(self.view.bounds.size.height - totalHeight);
+ if (currentTop < 0) {
+ currentTop = 0;
+ }
+
+
+ CGRect gameboardFrame = gameboard.frame;
+ gameboardFrame.origin.x = 0.5*(self.view.bounds.size.width - gameboardFrame.size.width);
+ gameboardFrame.origin.y = currentTop;
+ gameboard.frame = gameboardFrame;
+ 
+ currentTop += (gameboardFrame.size.height + ELEMENT_SPACING);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

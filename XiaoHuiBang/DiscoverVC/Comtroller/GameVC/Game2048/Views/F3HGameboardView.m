@@ -56,7 +56,7 @@
                        foregroundColor:(UIColor *)foregroundColor {
     
     CGFloat sideLength = padding + dimension*(width + padding);
-    F3HGameboardView *view = [[[self class] alloc] initWithFrame:CGRectMake(0,
+    F3HGameboardView *view = [[[self class] alloc] initWithFrame:CGRectMake(20,
                                                                             0,
                                                                             sideLength,
                                                                             sideLength)];

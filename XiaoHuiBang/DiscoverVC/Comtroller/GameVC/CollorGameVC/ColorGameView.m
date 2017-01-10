@@ -7,6 +7,7 @@
 //
 
 #import "ColorGameView.h"
+#import "ColorGameCell.h"
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -32,7 +33,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
 
-    CGRect rect = CGRectMake(0, (kScreenHeight-kScreenWidth)/2, kScreenWidth, kScreenWidth);
+    CGRect rect = CGRectMake(20, (kScreenHeight-kScreenWidth)/2, kScreenWidth - 40, kScreenWidth - 40);
     self = [super initWithFrame:rect];
     if (self != nil) {
         _alpha = 0.6;
@@ -40,13 +41,15 @@
         
         _num = 4;
         _layout = [[UICollectionViewFlowLayout alloc] init];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth - 40, kScreenWidth - 40)
                                              collectionViewLayout:_layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.layer.cornerRadius = 10;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellID"];
+        [_collectionView registerClass:[ColorGameCell class] forCellWithReuseIdentifier:@"ColorGameCellID"];
+        [_collectionView registerNib:[UINib nibWithNibName:@"ColorGameCell" bundle:[NSBundle mainBundle]]
+          forCellWithReuseIdentifier:@"ColorGameCellID"];
         [self addSubview:_collectionView];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveNotification:)
@@ -110,12 +113,13 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
-    cell.layer.cornerRadius = 10;
+    ColorGameCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ColorGameCellID" forIndexPath:indexPath];
+    cell.layer.cornerRadius = 5;
     cell.backgroundColor = [UIColor colorWithRed:_colorFactorR green:_colorFactorG blue:_colorFactorB alpha:1];
     if (indexPath.item == _happenNum) {
         cell.backgroundColor = [UIColor colorWithRed:_colorFactorR green:_colorFactorG blue:_colorFactorB alpha:_alpha];
     }
+    
     return cell;
 
 }

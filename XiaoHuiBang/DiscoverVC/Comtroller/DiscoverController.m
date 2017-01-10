@@ -11,10 +11,8 @@
 #import "DiscoverController.h"
 #import "DiscoverCell.h"
 #import "FriendsCircleViewController.h"
-#import "ColorGameController.h"
 #import "ExpressHumanController.h"
 #import "XHBController.h"
-#import "ZhangYueController.h"
 #import "CWebController.h"
 #import "GameController.h"
 
@@ -76,7 +74,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1) {
-        return 3;
+        return 2;
     } else if (section == 2){
         return 2;
     } else if (section == 3) {
@@ -100,10 +98,7 @@
         } else if (indexPath.row == 1) {
             cell.title.text = @"告白小人";
             cell.leftImage.image = [UIImage imageNamed:@"ExpressHuman"];
-        } else if (indexPath.row == 2) {
-            cell.title.text = @"游戏测试";
-            cell.leftImage.image = [UIImage imageNamed:@"ColorGame"];
-        }
+        } 
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             cell.title.text = @"掌阅书城";
@@ -147,8 +142,6 @@
             // http://www.meiriq.com/list/302da1ab
             GameController *controller = [[GameController alloc] init];
             controller.hidesBottomBarWhenPushed = YES;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-            nav.navigationBar.barTintColor = [UIColor blackColor];
             [self.navigationController pushViewController:controller animated:YES];
         } else if (indexPath.row == 1) {
             ExpressHumanController *controller = [[ExpressHumanController alloc] init];
@@ -164,9 +157,6 @@
 //            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
 //            nav.navigationBar.barTintColor = [UIColor blackColor];
 //            [self presentViewController:nav animated:YES completion:nil];
-            ColorGameController *controller = [[ColorGameController alloc] init];
-            controller.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:controller animated:YES];
         } else if (indexPath.row == 3) {
         
         }

@@ -17,6 +17,7 @@
 + (instancetype)scoreViewWithCornerRadius:(CGFloat)radius
                           backgroundColor:(UIColor *)color
                                 textColor:(UIColor *)textColor
-                                 textFont:(UIFont *)textFont;
+                                 textFont:(UIFont *)textFont
+                                    frame:(CGRect)frame;
 
 @end

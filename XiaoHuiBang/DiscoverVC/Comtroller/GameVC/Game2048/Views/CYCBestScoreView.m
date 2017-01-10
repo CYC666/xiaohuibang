@@ -1,27 +1,30 @@
 //
-//  F3HScoreView.m
-//  NumberTileGame
+//  CYCBestScoreView.m
+//  XiaoHuiBang
 //
-//  Created by Austin Zheng on 3/25/14.
-//
+//  Created by mac on 2017/1/10.
+//  Copyright © 2017年 消汇邦. All rights reserved.
 //
 
-#import "F3HScoreView.h"
+#import "CYCBestScoreView.h"
 
-@interface F3HScoreView ()
+
+@interface CYCBestScoreView ()
 @property (nonatomic, strong) UILabel *scoreLabel;
 @end
 
-@implementation F3HScoreView
+@implementation CYCBestScoreView
 
-+ (instancetype)scoreViewWithCornerRadius:(CGFloat)radius
-                          backgroundColor:(UIColor *)color
-                                textColor:(UIColor *)textColor
-                                 textFont:(UIFont *)textFont
-                                    frame:(CGRect)frame{
-    F3HScoreView *view = [[[self class] alloc] initWithFrame:frame];
-    view.score = 0;
-    view.layer.cornerRadius = radius;   // 5
+
++ (instancetype)bestScoreViewWithCornerRadius:(CGFloat)radius
+                              backgroundColor:(UIColor *)color
+                                    textColor:(UIColor *)textColor
+                                     textFont:(UIFont *)textFont
+                                    bestScore:(NSInteger)score
+                                        frame:(CGRect)frame{
+    CYCBestScoreView *view = [[[self class] alloc] initWithFrame:frame];
+    view.score = score;
+    view.layer.cornerRadius = radius;
     view.backgroundColor = color ?: [UIColor whiteColor];
     view.userInteractionEnabled = YES;
     if (textColor) {
@@ -37,11 +40,12 @@
     self = [super initWithFrame:frame];
     if (!self) return nil;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 95, 64)];
-    imageView.image = [UIImage imageNamed:@"icon_number_score"];
+    imageView.image = [UIImage imageNamed:@"icon_best_score"];
     [self addSubview:imageView];
     UILabel *scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 28, 95, 32)];
     scoreLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabel.adjustsFontSizeToFitWidth = YES;
+    scoreLabel.textColor = [UIColor whiteColor];
     [self addSubview:scoreLabel];
     self.scoreLabel = scoreLabel;
     return self;
@@ -51,5 +55,6 @@
     _score = score;
     self.scoreLabel.text = [NSString stringWithFormat:@"%ld", (long)score];
 }
+
 
 @end

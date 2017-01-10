@@ -298,7 +298,7 @@
                                               [UIView animateWithDuration:.35
                                                                animations:^{
                                                                    tap.view.transform = CGAffineTransformMakeTranslation(0, -20);
-                                                               } completion:^(BOOL finished) {
+                                                                } completion:^(BOOL finished) {
                                                                    [UIView animateWithDuration:.35
                                                                                     animations:^{
                                                                                         tap.view.transform = CGAffineTransformMakeTranslation(0, 0);

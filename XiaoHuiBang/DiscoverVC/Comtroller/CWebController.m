@@ -51,6 +51,7 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.view.backgroundColor = [UIColor whiteColor];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
     title.text = _name;
@@ -158,7 +159,11 @@
     
 }
 
+- (void)dealloc {
 
+
+
+}
 
 
 
