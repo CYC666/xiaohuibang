@@ -51,8 +51,8 @@
     DiscoverController *discoverVC = [[DiscoverController alloc] init];
     UINavigationController *friendCircleNAV = [[UINavigationController alloc] initWithRootViewController:discoverVC];
     friendCircleNAV.title = @"探索";
-    friendCircleNAV.tabBarItem.image = [UIImage imageNamed:@"icon_moments_unselected"];
-    friendCircleNAV.tabBarItem.selectedImage = [UIImage imageNamed:@"icon_moments_selected_selected"];
+    friendCircleNAV.tabBarItem.image = [UIImage imageNamed:@"icon_discover_unselected"];
+    friendCircleNAV.tabBarItem.selectedImage = [UIImage imageNamed:@"icon_discover_selected"];
     friendCircleNAV.navigationBar.barTintColor = [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:48.0/255.0 alpha:1.0];
     
     PersonageViewController *personageVC = [[PersonageViewController alloc] init];

@@ -14,6 +14,7 @@
 #import "F3HGameModel.h"
 #import "CYCBangBiScoreView.h"
 #import "CYCBestScoreView.h"
+#import "CBeginEndButton.h"
 
 #define ELEMENT_SPACING 10      // 视图之间的差距
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
@@ -22,13 +23,18 @@
 
 @interface F3HNumberTileGameViewController () <F3HGameModelProtocol, F3HControlViewProtocol>
 
-@property (nonatomic, strong) F3HGameboardView *gameboard;  // 游戏界面
-@property (nonatomic, strong) F3HGameModel *model;          // 游戏数据
-@property (nonatomic, strong) F3HScoreView *scoreView;      // 得分视图
+@property (nonatomic, strong) F3HGameboardView *gameboard;      // 游戏界面
+@property (nonatomic, strong) F3HGameModel *model;              // 游戏数据
+@property (nonatomic, strong) F3HScoreView *scoreView;          // 得分视图
 @property (strong, nonatomic) CYCBangBiScoreView *bangBiView;   // 获得的邦币视图
 @property (strong, nonatomic) CYCBestScoreView *bestScoreView;  // 最佳成绩
-@property (strong, nonatomic) UILabel *tipLabel;            // 提示
-@property (nonatomic, strong) F3HControlView *controlView;  // 控制面板
+@property (strong, nonatomic) UILabel *tipLabel;                // 提示
+@property (nonatomic, strong) F3HControlView *controlView;      // 控制面板
+@property (strong, nonatomic) CBeginEndButton *detialButton;    // 触击显示游戏规则的按钮
+@property (strong, nonatomic) UIView *detialView;               // 规则详情页
+
+@property (strong, nonatomic) UILabel *countLabel;  // 步数
+@property (strong, nonatomic) UILabel *countPay;    // 消耗邦币
 
 @property (nonatomic) BOOL useScoreView;        // 是否显示得分
 @property (nonatomic) BOOL useControlView;      // 是否使用（显示）按钮控制
@@ -69,6 +75,19 @@
 }
 
 
+- (UIView *)detialView {
+
+    if (_detialView == nil) {
+        _detialView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _detialView.backgroundColor = [UIColor whiteColor];
+        _detialView.transform = CGAffineTransformMakeTranslation(0, kScreenHeight);
+        [self.view addSubview:_detialView];
+    }
+    return _detialView;
+
+}
+
+
 #pragma mark - 设置手势
 - (void)setupSwipeControls {
     UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self
@@ -104,6 +123,14 @@
                                                                 target:self
                                                                 action:@selector(backButtonAction:)];
     [self.navigationItem setLeftBarButtonItem:backItem];
+    
+    // 标题
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
+    title.text = @"2048";
+    title.font = [UIFont boldSystemFontOfSize:19];
+    title.textAlignment = NSTextAlignmentCenter;
+    title.textColor = [UIColor whiteColor];
+    self.navigationItem.titleView = title;
     
     // 左右间隔
     float space = (kScreenWidth - 20*2 - 110 - 95 - 95)/2;
@@ -190,6 +217,56 @@
     [model insertAtRandomLocationTileWithValue:2];
     [model insertAtRandomLocationTileWithValue:2];
     self.model = model;
+    
+    // 步数
+    UILabel *bushu = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 94 - 30, 40, 20)];
+    bushu.text = @"步数:";
+    bushu.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+    [self.view addSubview:bushu];
+    
+    _countLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + 40, kScreenHeight - 94 - 30, 40, 20)];
+    _countLabel.text = @"0";
+    _countLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+    [self.view addSubview:_countLabel];
+    
+    // 消耗邦币
+    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 94, 80, 20)];
+    bangbi.text = @"消耗邦币:";
+    bangbi.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+    [self.view addSubview:bangbi];
+    
+    _countPay = [[UILabel alloc] initWithFrame:CGRectMake(20 + 80, kScreenHeight - 94, 100, 20)];
+    _countPay.text = @"0";
+    _countPay.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+    [self.view addSubview:_countPay];
+    
+    // 触击显示规则的按钮
+    _detialButton = [[CBeginEndButton alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 24, kScreenHeight - 20 - 24 - 64, 24, 24)
+                                              unTouchImage:@"icon_game_detial_unselect"
+                                                touchImage:@"icon_game_detial_select"];
+    [self.view addSubview:_detialButton];
+    
+    
+    
+    
+    __weak typeof(self) weakSelf = self;
+    _detialButton.startBlock = ^() {
+    
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             weakSelf.detialView.transform = CGAffineTransformIdentity;
+                         }];
+    
+    };
+    _detialButton.endBlock = ^() {
+    
+        [UIView animateWithDuration:.35
+                         animations:^{
+                             weakSelf.detialView.transform = CGAffineTransformMakeTranslation(0, kScreenHeight);
+                         }];
+    
+    };
+    
 }
 
 
@@ -198,10 +275,17 @@
 #pragma mark - Private API
 // 判断成绩 如果
 - (void)followUp {
+    
+    // 从新设置步数
+    _countLabel.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue] + 1];
+    // 从新设置消耗邦币
+    _countPay.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue]*2];
+    
     // This is the earliest point the user can win
     if ([self.model userHasWon]) {
         [self.delegate gameFinishedWithVictory:YES score:self.model.score];
-        // 提示
+        // 提示,
+        
     }
     else {
         NSInteger rand = arc4random_uniform(10);
@@ -215,11 +299,18 @@
         if ([self.model userHasLost]) {
             [self.delegate gameFinishedWithVictory:NO score:self.model.score];
             // 提示,
-            // 判断并保存最佳成绩
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
+                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", _bangBiView.score]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:@"再来一局", nil];
+            [alert show];
+            
             
         }
     }
 }
+
 
 
 #pragma mark - Model Protocol
@@ -238,9 +329,27 @@
 // 分数改变
 - (void)scoreChanged:(NSInteger)newScore {
     self.scoreView.score = newScore;
-    self.bangBiView.score = newScore/0.01;
+    // 获取的邦币
+    if (newScore < 1000) {
+        self.bangBiView.score = newScore/100;
+    } else if (newScore < 5000) {
+        self.bangBiView.score = newScore/50;
+    } else if (newScore < 10000) {
+        self.bangBiView.score = newScore/25;
+    } else if (newScore < 20000) {
+        self.bangBiView.score = newScore/10;
+    } else {
+        self.bangBiView.score = newScore/5;
+    }
+    // 最佳成绩
     if (newScore >= _bestScoreView.score) {
         _bestScoreView.score = newScore;
+    }
+    
+    // 重新开始
+    if (newScore == 0) {
+        _countLabel.text = @"0";
+        _countPay.text = @"0";
     }
 }
 
@@ -273,7 +382,19 @@
 #pragma mark - 按钮响应
 - (void)backButtonAction:(UIBarButtonItem *)button {
 
-    [self dismissViewControllerAnimated:YES completion:nil];
+    // 当邦币不为0时，提示是否重新开始，否则直接重新开始
+    if (_bangBiView.score != 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要退出游戏？"
+                                                        message:@"这将结束游戏，但你仍然获得邦币"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定", nil];
+        [alert show];
+    } else {
+    
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
 
 }
 
@@ -284,11 +405,18 @@
 }
 
 - (void)resetButtonAction:(UIButton *)button {
-
-    [self.gameboard reset];
-    [self.model reset];
-    [self.model insertAtRandomLocationTileWithValue:2];
-    [self.model insertAtRandomLocationTileWithValue:2];
+    
+    // 当邦币不为0时，提示是否重新开始，否则直接重新开始
+    if (_bangBiView.score != 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要重新开始？"
+                                                        message:@"这将结束进度，但你仍然获得邦币"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定", nil];
+        [alert show];
+    } else {
+        [self resetButtonTapped];
+    }
 
 }
 
@@ -319,6 +447,39 @@
     }
 
 }
+
+#pragma mark - 点击了alert
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if ([alertView.title isEqualToString:@"游戏结束"]) {
+        if (buttonIndex == 1) {
+            // 再来一局
+            [self resetButtonTapped];
+        }
+    } else if ([alertView.title isEqualToString:@"确定要重新开始？"]) {
+        if (buttonIndex == 1) {
+            [self resetButtonTapped];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
+                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", _bangBiView.score]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil];
+            [alert show];
+
+        }
+    } else if ([alertView.title isEqualToString:@"确定要退出游戏？"]) {
+        if (buttonIndex == 1) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
+                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", _bangBiView.score]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
+}
+
 
 #pragma mark - 对象销毁
 - (void)dealloc {

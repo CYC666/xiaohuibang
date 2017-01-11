@@ -312,6 +312,17 @@
 		04678E6C1E24FF2C0059A170 /* icon_colorGame_start_nor@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04678E5C1E24FF2C0059A170 /* icon_colorGame_start_nor@3x.png */; };
 		04678E6D1E24FF2C0059A170 /* icon_colorGame_start@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04678E5D1E24FF2C0059A170 /* icon_colorGame_start@2x.png */; };
 		04678E6E1E24FF2C0059A170 /* icon_colorGame_start@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04678E5E1E24FF2C0059A170 /* icon_colorGame_start@3x.png */; };
+		047512261E25D6AC000194BC /* icon_discover_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 047512201E25D6AC000194BC /* icon_discover_selected.png */; };
+		047512271E25D6AC000194BC /* icon_discover_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 047512211E25D6AC000194BC /* icon_discover_selected@2x.png */; };
+		047512281E25D6AC000194BC /* icon_discover_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 047512221E25D6AC000194BC /* icon_discover_selected@3x.png */; };
+		047512291E25D6AC000194BC /* icon_discover_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 047512231E25D6AC000194BC /* icon_discover_unselected.png */; };
+		0475122A1E25D6AC000194BC /* icon_discover_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 047512241E25D6AC000194BC /* icon_discover_unselected@2x.png */; };
+		0475122B1E25D6AC000194BC /* icon_discover_unselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 047512251E25D6AC000194BC /* icon_discover_unselected@3x.png */; };
+		047512301E260D68000194BC /* icon_game_detial_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0475122C1E260D68000194BC /* icon_game_detial_select@2x.png */; };
+		047512311E260D68000194BC /* icon_game_detial_select@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0475122D1E260D68000194BC /* icon_game_detial_select@3x.png */; };
+		047512321E260D68000194BC /* icon_game_detial_unselect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0475122E1E260D68000194BC /* icon_game_detial_unselect@2x.png */; };
+		047512331E260D68000194BC /* icon_game_detial_unselect@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0475122F1E260D68000194BC /* icon_game_detial_unselect@3x.png */; };
+		047512361E260DDB000194BC /* CBeginEndButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 047512351E260DDB000194BC /* CBeginEndButton.m */; };
 		04B535C81E1DDE4100BB97A1 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5359C1E1DDE4100BB97A1 /* MJRefreshAutoFooter.m */; };
 		04B535C91E1DDE4100BB97A1 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5359E1E1DDE4100BB97A1 /* MJRefreshBackFooter.m */; };
 		04B535CA1E1DDE4100BB97A1 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B535A01E1DDE4100BB97A1 /* MJRefreshComponent.m */; };
@@ -1101,6 +1112,18 @@
 		04678E5C1E24FF2C0059A170 /* icon_colorGame_start_nor@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_colorGame_start_nor@3x.png"; sourceTree = "<group>"; };
 		04678E5D1E24FF2C0059A170 /* icon_colorGame_start@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_colorGame_start@2x.png"; sourceTree = "<group>"; };
 		04678E5E1E24FF2C0059A170 /* icon_colorGame_start@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_colorGame_start@3x.png"; sourceTree = "<group>"; };
+		047512201E25D6AC000194BC /* icon_discover_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_discover_selected.png; sourceTree = "<group>"; };
+		047512211E25D6AC000194BC /* icon_discover_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_discover_selected@2x.png"; sourceTree = "<group>"; };
+		047512221E25D6AC000194BC /* icon_discover_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_discover_selected@3x.png"; sourceTree = "<group>"; };
+		047512231E25D6AC000194BC /* icon_discover_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_discover_unselected.png; sourceTree = "<group>"; };
+		047512241E25D6AC000194BC /* icon_discover_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_discover_unselected@2x.png"; sourceTree = "<group>"; };
+		047512251E25D6AC000194BC /* icon_discover_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_discover_unselected@3x.png"; sourceTree = "<group>"; };
+		0475122C1E260D68000194BC /* icon_game_detial_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_detial_select@2x.png"; sourceTree = "<group>"; };
+		0475122D1E260D68000194BC /* icon_game_detial_select@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_detial_select@3x.png"; sourceTree = "<group>"; };
+		0475122E1E260D68000194BC /* icon_game_detial_unselect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_detial_unselect@2x.png"; sourceTree = "<group>"; };
+		0475122F1E260D68000194BC /* icon_game_detial_unselect@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_detial_unselect@3x.png"; sourceTree = "<group>"; };
+		047512341E260DDB000194BC /* CBeginEndButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBeginEndButton.h; sourceTree = "<group>"; };
+		047512351E260DDB000194BC /* CBeginEndButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBeginEndButton.m; sourceTree = "<group>"; };
 		049BD7FD1DD02ACF00957AF4 /* icon_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@2x.png"; sourceTree = "<group>"; };
 		049BD7FE1DD02ACF00957AF4 /* icon_camera@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_camera@3x.png"; sourceTree = "<group>"; };
 		04B5359B1E1DDE4100BB97A1 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
@@ -2335,6 +2358,12 @@
 		041B56891E1C99F100D02508 /* DiscoverIcon */ = {
 			isa = PBXGroup;
 			children = (
+				047512201E25D6AC000194BC /* icon_discover_selected.png */,
+				047512211E25D6AC000194BC /* icon_discover_selected@2x.png */,
+				047512221E25D6AC000194BC /* icon_discover_selected@3x.png */,
+				047512231E25D6AC000194BC /* icon_discover_unselected.png */,
+				047512241E25D6AC000194BC /* icon_discover_unselected@2x.png */,
+				047512251E25D6AC000194BC /* icon_discover_unselected@3x.png */,
 				04B535DC1E1E313500BB97A1 /* icon_discover_game@2x.png */,
 				04B535DD1E1E313500BB97A1 /* icon_discover_game@3x.png */,
 				041B56B11E1DD9D300D02508 /* icon_discover_news@2x.png */,
@@ -2406,6 +2435,10 @@
 		043045841E23700B0073A349 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0475122C1E260D68000194BC /* icon_game_detial_select@2x.png */,
+				0475122D1E260D68000194BC /* icon_game_detial_select@3x.png */,
+				0475122E1E260D68000194BC /* icon_game_detial_unselect@2x.png */,
+				0475122F1E260D68000194BC /* icon_game_detial_unselect@3x.png */,
 				04678DFA1E24C3330059A170 /* icon_bangbi_score@2x.png */,
 				04678DFB1E24C3330059A170 /* icon_bangbi_score@3x.png */,
 				04678DFC1E24C3330059A170 /* icon_best_score@2x.png */,
@@ -2447,6 +2480,8 @@
 				04678E0B1E24CB550059A170 /* CYCBangBiScoreView.m */,
 				043045961E23700B0073A349 /* F3HTileView.h */,
 				043045971E23700B0073A349 /* F3HTileView.m */,
+				047512341E260DDB000194BC /* CBeginEndButton.h */,
+				047512351E260DDB000194BC /* CBeginEndButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3459,11 +3494,13 @@
 				0410D48A1E1516D600253224 /* backgroundPicture.jpg in Resources */,
 				F334F4991DCC5CF5002CFBBC /* 图层-2@3x.png in Resources */,
 				F34823D11DD2C0B000D2834E /* icon_xiaoxin_unselected_@3x.png in Resources */,
+				047512261E25D6AC000194BC /* icon_discover_selected.png in Resources */,
 				F30947661DD33ECF00638827 /* icon_press@2x.png in Resources */,
 				0410D4A71E1516D600253224 /* icon_download@2x.png in Resources */,
 				F34823CA1DD2C0B000D2834E /* icon_profile_selected@2x.png in Resources */,
 				F3E3E9671D9B71D900E69300 /* ToResetPswViewController.xib in Resources */,
 				04678E4D1E24FDEC0059A170 /* ColorGameCell.xib in Resources */,
+				047512311E260D68000194BC /* icon_game_detial_select@3x.png in Resources */,
 				0410D42F1E1516D600253224 /* icon_pic_break.png in Resources */,
 				F34823B91DD2BF5500D2834E /* icon_profile_unselected@1x.png in Resources */,
 				F334F4BA1DCC775A002CFBBC /* icon_bangyouquan_unselected@3x.png in Resources */,
@@ -3492,6 +3529,7 @@
 				F309477D1DD33ED800638827 /* point@3x.png in Resources */,
 				0410D4141E1516D600253224 /* icon_like_nor_highlight.png in Resources */,
 				04B535DF1E1E313500BB97A1 /* icon_discover_game@3x.png in Resources */,
+				0475122A1E25D6AC000194BC /* icon_discover_unselected@2x.png in Resources */,
 				04678E091E24C3330059A170 /* icon_ranking_score@3x.png in Resources */,
 				0410D4D31E1516D600253224 /* pic_loading.png in Resources */,
 				F309477C1DD33ED800638827 /* point@2x.png in Resources */,
@@ -3529,6 +3567,7 @@
 				F30947741DD33ED800638827 /* icon_camera@3x.png in Resources */,
 				04B536081E1E4C0300BB97A1 /* icon_favoriate_nor@2x.png in Resources */,
 				F30947541DD33EC200638827 /* icon_flash_open@2x.png in Resources */,
+				047512301E260D68000194BC /* icon_game_detial_select@2x.png in Resources */,
 				041B56B31E1DD9D300D02508 /* icon_discover_news@2x.png in Resources */,
 				F30947551DD33EC200638827 /* icon_flash_open@3x.png in Resources */,
 				F3E3E95D1D9B6A1500E69300 /* ForgetViewController.xib in Resources */,
@@ -3555,6 +3594,7 @@
 				0410D49E1E1516D600253224 /* icon_comment_right_nor@2x.png in Resources */,
 				0410D4201E1516D600253224 /* icon_liked_magnify.png in Resources */,
 				F309475F1DD33ECF00638827 /* icon_focus@2x.png in Resources */,
+				0475122B1E25D6AC000194BC /* icon_discover_unselected@3x.png in Resources */,
 				0410D3FA1E1516D600253224 /* FromCameraController.xib in Resources */,
 				0410D4E41E1516D600253224 /* DiscoverCell.xib in Resources */,
 				F3A0E01F1DB757A000E9F12C /* CellBlueSelected@2x.png in Resources */,
@@ -3614,6 +3654,7 @@
 				0410D4821E1516D600253224 /* SuPhotoAblumCell.xib in Resources */,
 				F3EBC48D1D9A471D00E93C02 /* icon_closed@2x.png in Resources */,
 				F39FD6EF1DDDB43300D3724C /* icon_position_beginer@2x.png in Resources */,
+				047512271E25D6AC000194BC /* icon_discover_selected@2x.png in Resources */,
 				F33F89971D9E4EA600FB0F70 /* icon_setting@2x.png in Resources */,
 				F39FD7641DDDBA9F00D3724C /* icon_pro_gray@2x.png in Resources */,
 				F39FD6F61DDDB43300D3724C /* icon_send_beginer@3x.png in Resources */,
@@ -3651,6 +3692,7 @@
 				0410D4BB1E1516D600253224 /* icon_position_blue.png in Resources */,
 				F3EBC4901D9A471D00E93C02 /* icon_password_hide@3x.png in Resources */,
 				F317F40A1DA7828F00DB5F70 /* icon_group-chat@2x.png in Resources */,
+				047512281E25D6AC000194BC /* icon_discover_selected@3x.png in Resources */,
 				0410D4181E1516D600253224 /* icon_liked@2x.png in Resources */,
 				F313E6C61DB62544005111E0 /* MultiSelectTableViewCell.xib in Resources */,
 				F334F4981DCC5CF5002CFBBC /* 图层-2@2x.png in Resources */,
@@ -3718,6 +3760,7 @@
 				04678E621E24FF2C0059A170 /* icon_colorGame_best@3x.png in Resources */,
 				0410D4351E1516D600253224 /* paizhao.png in Resources */,
 				04678E641E24FF2C0059A170 /* icon_colorGame_rank@3x.png in Resources */,
+				047512291E25D6AC000194BC /* icon_discover_unselected.png in Resources */,
 				0410D40B1E1516D600253224 /* icon_comment_highlight.png in Resources */,
 				04B536231E1E4F2E00BB97A1 /* icon_copy_selecte@2x.png in Resources */,
 				0410D4BD1E1516D600253224 /* icon_position_blue@3x.png in Resources */,
@@ -3770,6 +3813,7 @@
 				F30947901DD3464100638827 /* momentBanner@3x.png in Resources */,
 				0410D43E1E1516D600253224 /* xiang.png in Resources */,
 				F39494AA1DB0E27900BE3E51 /* icon_group-chat-qun@2x.png in Resources */,
+				047512331E260D68000194BC /* icon_game_detial_unselect@3x.png in Resources */,
 				0410D4CC1E1516D600253224 /* icon_search@3x.png in Resources */,
 				F30947781DD33ED800638827 /* icon_switchcamera@3x.png in Resources */,
 				04678E471E24FDEC0059A170 /* icon_bangbi@2x.png in Resources */,
@@ -3777,6 +3821,7 @@
 				0410D48E1E1516D600253224 /* icon_add-pic.png in Resources */,
 				F3E3E9581D9B68BB00E69300 /* SetHeadNameViewController.xib in Resources */,
 				0410D4031E1516D600253224 /* LocationCell.xib in Resources */,
+				047512321E260D68000194BC /* icon_game_detial_unselect@2x.png in Resources */,
 				0410D4A91E1516D600253224 /* icon_emojNew.png in Resources */,
 				F34823D01DD2C0B000D2834E /* icon_xiaoxin_unselected_@2x.png in Resources */,
 				0410D4841E1516D600253224 /* SuPhotoBrowserCell.xib in Resources */,
@@ -4017,6 +4062,7 @@
 				0410D4641E1516D600253224 /* CYCOWN.m in Sources */,
 				0410D4DE1E1516D600253224 /* PersonSeeTableView.m in Sources */,
 				04B535DA1E1DDE4200BB97A1 /* UIScrollView+MJRefresh.m in Sources */,
+				047512361E260DDB000194BC /* CBeginEndButton.m in Sources */,
 				0410D4241E1516D600253224 /* CImageView.m in Sources */,
 				0410D4071E1516D600253224 /* CBottomAlert.m in Sources */,
 				F35C035B1DC35A8C003D9613 /* UITextViewAndPlaceholder.m in Sources */,

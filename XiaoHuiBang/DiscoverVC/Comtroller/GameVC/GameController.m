@@ -19,7 +19,6 @@
 @interface GameController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) UITableView *enumTable;
-@property (strong, nonatomic) F3HNumberTileGameViewController *game2048controller;      // 2048游戏
 
 @end
 
@@ -88,24 +87,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (indexPath.row == 0) {
-        if (_game2048controller == nil) {
-            _game2048controller = [F3HNumberTileGameViewController numberTileGameWithDimension:4     // 行列数目
-                                                                                  winThreshold:8192  // 目标得分
-                                                                               backgroundColor:[UIColor whiteColor]
-                                                                                 swipeControls:YES];
-            
-        }
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_game2048controller];
+        F3HNumberTileGameViewController *game2048controller = [F3HNumberTileGameViewController numberTileGameWithDimension:4     // 行列数目
+                                                                              winThreshold:8192  // 目标得分
+                                                                           backgroundColor:[UIColor whiteColor]
+                                                                             swipeControls:YES];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:game2048controller];
         nav.navigationBar.barTintColor = [UIColor colorWithRed:254/255.0 green:127/255.0 blue:47/255.0 alpha:1];
         nav.navigationBar.tintColor = [UIColor whiteColor];
         nav.navigationBar.translucent = NO;
         [self presentViewController:nav animated:YES completion:nil];
-//        [self presentViewController:_game2048controller animated:YES completion:nil];
         
     } else if (indexPath.row == 1) {
         ColorGameController *controller = [[ColorGameController alloc] init];
-        controller.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:controller animated:YES];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+        nav.navigationBar.barTintColor = [UIColor colorWithRed:254/255.0 green:127/255.0 blue:47/255.0 alpha:1];
+        nav.navigationBar.tintColor = [UIColor whiteColor];
+        nav.navigationBar.translucent = NO;
+        [self presentViewController:nav animated:YES completion:nil];
     } else {
         CWebController *controller = [[CWebController alloc] initWithModelName:@"小游戏" url:@"http://www.meiriq.com/list/302da1ab"];
         controller.allowGesture = YES;

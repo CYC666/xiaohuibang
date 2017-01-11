@@ -32,13 +32,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
     title.text = @"找邦币";
     title.font = [UIFont boldSystemFontOfSize:19];
     title.textAlignment = NSTextAlignmentCenter;
     title.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = title;
+    
+    // 返回按钮
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_game2048_back"]
+                                                                 style:UIBarButtonItemStylePlain
+                                                                target:self
+                                                                action:@selector(backButtonAction:)];
+    [self.navigationItem setLeftBarButtonItem:backItem];
 
     _colorView = [[ColorGameView alloc] initWithFrame:CGRectMake(20, _progressLine.frame.origin.y + 10, 0, 0)];
     //游戏还未开始，不能点击
@@ -139,6 +145,12 @@
     }
 }
 
+
+- (void)backButtonAction:(UIBarButtonItem *)item {
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+}
 
 
 
