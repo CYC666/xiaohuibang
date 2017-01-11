@@ -80,7 +80,7 @@
     if (_detialView == nil) {
         _detialView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _detialView.backgroundColor = [UIColor whiteColor];
-        _detialView.transform = CGAffineTransformMakeTranslation(0, kScreenHeight);
+        _detialView.alpha = 0;
         [self.view addSubview:_detialView];
     }
     return _detialView;
@@ -254,7 +254,7 @@
     
         [UIView animateWithDuration:.35
                          animations:^{
-                             weakSelf.detialView.transform = CGAffineTransformIdentity;
+                             weakSelf.detialView.alpha = 1;
                          }];
     
     };
@@ -262,7 +262,7 @@
     
         [UIView animateWithDuration:.35
                          animations:^{
-                             weakSelf.detialView.transform = CGAffineTransformMakeTranslation(0, kScreenHeight);
+                             weakSelf.detialView.alpha = 0;
                          }];
     
     };
@@ -279,7 +279,7 @@
     // 从新设置步数
     _countLabel.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue] + 1];
     // 从新设置消耗邦币
-    _countPay.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue]*2];
+    _countPay.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue]];
     
     // This is the earliest point the user can win
     if ([self.model userHasWon]) {
@@ -330,17 +330,7 @@
 - (void)scoreChanged:(NSInteger)newScore {
     self.scoreView.score = newScore;
     // 获取的邦币
-    if (newScore < 1000) {
-        self.bangBiView.score = newScore/100;
-    } else if (newScore < 5000) {
-        self.bangBiView.score = newScore/50;
-    } else if (newScore < 10000) {
-        self.bangBiView.score = newScore/25;
-    } else if (newScore < 20000) {
-        self.bangBiView.score = newScore/10;
-    } else {
-        self.bangBiView.score = newScore/5;
-    }
+    self.bangBiView.score = newScore*0.12;
     // 最佳成绩
     if (newScore >= _bestScoreView.score) {
         _bestScoreView.score = newScore;
