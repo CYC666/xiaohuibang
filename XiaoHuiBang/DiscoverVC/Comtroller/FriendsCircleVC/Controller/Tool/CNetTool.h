@@ -6,6 +6,9 @@
 //  Copyright © 2016年 消汇邦. All rights reserved.
 //
 
+
+// 网络请求类
+
 #import <Foundation/Foundation.h>
 
 #import <AFNetworking.h>
@@ -92,7 +95,15 @@
                            success:(void (^)(id response))success
                            failure:(void (^)(NSError *err))failure;
 
+// 上传最佳成绩
++ (void)postBestScoreWithParameters:(id)parameters
+                            success:(void (^)(id response))success
+                            failure:(void (^)(NSError *err))failure;
 
+// 查看排行榜
++ (void)loadBestRankWithParameters:(id)parameters
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure;
 
 
 

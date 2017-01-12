@@ -164,7 +164,7 @@
     // 头像
     UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth - kScreenWidth*.192 - 13, kScreenHeight*.4 - kScreenWidth*.192, kScreenWidth*.192, kScreenWidth*.192)];
     NSString *headImage = [USER_D objectForKey:@"head_img"];
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:headImage]];
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:headImage] placeholderImage:[UIImage imageNamed:@"pic_loading"]];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = kScreenWidth*.192/2.0;
     headImageView.layer.borderWidth = 2.0;

@@ -15,6 +15,8 @@
 #import "CYCBangBiScoreView.h"
 #import "CYCBestScoreView.h"
 #import "CBeginEndButton.h"
+#import "CNetTool.h"
+#import "CGameRankController.h"
 
 #define ELEMENT_SPACING 10      // 视图之间的差距
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
@@ -31,9 +33,9 @@
 @property (strong, nonatomic) UILabel *tipLabel;                // 提示
 @property (nonatomic, strong) F3HControlView *controlView;      // 控制面板
 @property (strong, nonatomic) CBeginEndButton *detialButton;    // 触击显示游戏规则的按钮
-@property (strong, nonatomic) UIView *detialView;               // 规则详情页
+@property (strong, nonatomic) UIImageView *detialView;               // 规则详情页
 
-@property (strong, nonatomic) UILabel *countLabel;  // 步数
+// @property (strong, nonatomic) UILabel *countLabel;  // 步数
 @property (strong, nonatomic) UILabel *countPay;    // 消耗邦币
 
 @property (nonatomic) BOOL useScoreView;        // 是否显示得分
@@ -78,8 +80,9 @@
 - (UIView *)detialView {
 
     if (_detialView == nil) {
-        _detialView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _detialView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _detialView.backgroundColor = [UIColor whiteColor];
+        _detialView.image = [UIImage imageNamed:@"icon_game2048_detial"];
         _detialView.alpha = 0;
         [self.view addSubview:_detialView];
     }
@@ -170,8 +173,7 @@
                                                                frame:CGRectMake(20 + 110 + 95 + space*2, 15, 95, 64)];
     [self.view addSubview:_bestScoreView];
     
-    // 监听最佳成绩是否变化
-    [_bestScoreView addObserver:self forKeyPath:@"score" options:NSKeyValueObservingOptionNew context:nil];
+    
     
     // 重置按钮
     
@@ -218,24 +220,24 @@
     [model insertAtRandomLocationTileWithValue:2];
     self.model = model;
     
-    // 步数
-    UILabel *bushu = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 94 - 30, 40, 20)];
-    bushu.text = @"步数:";
-    bushu.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
-    [self.view addSubview:bushu];
-    
-    _countLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + 40, kScreenHeight - 94 - 30, 40, 20)];
-    _countLabel.text = @"0";
-    _countLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
-    [self.view addSubview:_countLabel];
+//    // 步数
+//    UILabel *bushu = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 94 - 30, 40, 20)];
+//    bushu.text = @"步数:";
+//    bushu.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+//    [self.view addSubview:bushu];
+//    
+//    _countLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + 40, kScreenHeight - 94 - 30, 40, 20)];
+//    _countLabel.text = @"0";
+//    _countLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+//    [self.view addSubview:_countLabel];
     
     // 消耗邦币
-    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 94, 80, 20)];
+    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 104, 80, 20)];
     bangbi.text = @"消耗邦币:";
     bangbi.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
     [self.view addSubview:bangbi];
     
-    _countPay = [[UILabel alloc] initWithFrame:CGRectMake(20 + 80, kScreenHeight - 94, 100, 20)];
+    _countPay = [[UILabel alloc] initWithFrame:CGRectMake(20 + 80, kScreenHeight - 104, 100, 20)];
     _countPay.text = @"0";
     _countPay.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
     [self.view addSubview:_countPay];
@@ -277,9 +279,9 @@
 - (void)followUp {
     
     // 从新设置步数
-    _countLabel.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue] + 1];
+    // _countLabel.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue] + 1];
     // 从新设置消耗邦币
-    _countPay.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue]];
+    _countPay.text = [NSString stringWithFormat:@"%ld", [_countPay.text integerValue] + 1];
     
     // This is the earliest point the user can win
     if ([self.model userHasWon]) {
@@ -338,7 +340,7 @@
     
     // 重新开始
     if (newScore == 0) {
-        _countLabel.text = @"0";
+        // _countLabel.text = @"0";
         _countPay.text = @"0";
     }
 }
@@ -390,7 +392,9 @@
 
 - (void)rankButtonAction:(UIButton *)button {
 
-    
+    // 跳转到排行榜
+    CGameRankController *controller = [[CGameRankController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
 
 }
 
@@ -421,19 +425,24 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - 保存最佳成绩
+#pragma mark - 保存最佳成绩（应该在退出、重新开始、游戏结束的时候执行,同时上传最佳成绩）
 - (void)saveBestScore {
-
-    [USER_D setInteger:_bestScoreView.score forKey:@"game2048_best_score"];
-
-}
-
-#pragma mark - 最佳成绩变化的监听
-- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context {
-
-    // 当最佳成绩变化了，那就更改本地最佳成绩
-    if ([keyPath isEqualToString:@"score"]) {
-        [self saveBestScore];
+    
+    // 判断游戏记录是否更新
+    if (_bestScoreView.score > [USER_D integerForKey:@"game2048_best_score"]) {
+        [USER_D setInteger:_bestScoreView.score forKey:@"game2048_best_score"];
+        
+        // 上传最佳成绩
+        NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                                 @"type" : @1,
+                                 @"score" : [NSString stringWithFormat:@"%ld", _bestScoreView.score]};
+        [CNetTool postBestScoreWithParameters:params
+                                      success:^(id response) {
+                                          
+                                      } failure:^(NSError *err) {
+                                          [SVProgressHUD dismiss];
+                                          [SVProgressHUD showErrorWithStatus:@"上传最佳成绩失败"];
+                                      }];
     }
 
 }
@@ -444,19 +453,26 @@
     if ([alertView.title isEqualToString:@"游戏结束"]) {
         if (buttonIndex == 1) {
             // 再来一局
+            [self saveBestScore];
             [self resetButtonTapped];
+        } else {
+            [self saveBestScore];
         }
+        
+        
     } else if ([alertView.title isEqualToString:@"确定要重新开始？"]) {
         if (buttonIndex == 1) {
-            [self resetButtonTapped];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
                                                             message:[NSString stringWithFormat:@"你获得了%ld个邦币", _bangBiView.score]
                                                            delegate:self
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
             [alert show];
-
+            // 重开一局就上传最佳成绩
+            [self saveBestScore];
+            [self resetButtonTapped];
         }
+        
     } else if ([alertView.title isEqualToString:@"确定要退出游戏？"]) {
         if (buttonIndex == 1) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
@@ -465,18 +481,15 @@
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
             [alert show];
+            // 退出游戏就上传最佳成绩
+            [self saveBestScore];
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
 }
 
 
-#pragma mark - 对象销毁
-- (void)dealloc {
 
-    [_bestScoreView removeObserver:self forKeyPath:@"score"];
-
-}
 
 
 
@@ -532,9 +545,25 @@
 
 
 
+ // 监听最佳成绩是否变化
+ [_bestScoreView addObserver:self forKeyPath:@"score" options:NSKeyValueObservingOptionNew context:nil];
+ 
+ #pragma mark - 最佳成绩变化的监听
+ - (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context {
+ 
+ // 当最佳成绩变化了，那就更改本地最佳成绩
+ if ([keyPath isEqualToString:@"score"]) {
+ [self saveBestScore];
+ }
+ 
+ }
 
-
-
+ #pragma mark - 对象销毁
+ - (void)dealloc {
+ 
+ [_bestScoreView removeObserver:self forKeyPath:@"score"];
+ 
+ }
 
 
 

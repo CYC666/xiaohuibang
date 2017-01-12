@@ -310,7 +310,43 @@
 
 }
 
+// 上传最佳成绩
++ (void)postBestScoreWithParameters:(id)parameters
+                            success:(void (^)(id response))success
+                            failure:(void (^)(NSError *err))failure {
 
+    NSString *urlStr = @"http://192.168.1.135/index.php/Home/game/game_data_edit";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:parameters
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              success(responseObject);
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              failure(error);
+          }];
+
+}
+
+// 查看排行榜
++ (void)loadBestRankWithParameters:(id)parameters
+                           success:(void (^)(id response))success
+                           failure:(void (^)(NSError *err))failure {
+
+    NSString *urlStr = @"http://192.168.1.135/index.php/Home/game/game_rank";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [session POST:urlStr
+       parameters:parameters
+         progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+              success(responseObject);
+          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              failure(error);
+          }];
+
+}
 
 
 
