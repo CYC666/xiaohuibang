@@ -263,6 +263,8 @@
 		042F68521E272EB200A1B65B /* icon_game2048_detial@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 042F68501E272EB200A1B65B /* icon_game2048_detial@3x.png */; };
 		042F68551E27313C00A1B65B /* CGameRankController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042F68541E27313C00A1B65B /* CGameRankController.m */; };
 		042F68581E27340300A1B65B /* CGameRankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 042F68571E27340300A1B65B /* CGameRankModel.m */; };
+		042F685C1E27533A00A1B65B /* CGameRankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 042F685A1E27533A00A1B65B /* CGameRankCell.m */; };
+		042F685D1E27533A00A1B65B /* CGameRankCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042F685B1E27533A00A1B65B /* CGameRankCell.xib */; };
 		0430457D1E236FEB0073A349 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430457C1E236FEB0073A349 /* GameController.m */; };
 		043045981E23700B0073A349 /* F3HNumberTileGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045811E23700B0073A349 /* F3HNumberTileGameViewController.m */; };
 		043045991E23700B0073A349 /* F3HTileAppearanceProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 043045831E23700B0073A349 /* F3HTileAppearanceProvider.m */; };
@@ -1052,6 +1054,9 @@
 		042F68541E27313C00A1B65B /* CGameRankController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGameRankController.m; sourceTree = "<group>"; };
 		042F68561E27340300A1B65B /* CGameRankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGameRankModel.h; sourceTree = "<group>"; };
 		042F68571E27340300A1B65B /* CGameRankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGameRankModel.m; sourceTree = "<group>"; };
+		042F68591E27533A00A1B65B /* CGameRankCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGameRankCell.h; sourceTree = "<group>"; };
+		042F685A1E27533A00A1B65B /* CGameRankCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGameRankCell.m; sourceTree = "<group>"; };
+		042F685B1E27533A00A1B65B /* CGameRankCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CGameRankCell.xib; sourceTree = "<group>"; };
 		0430457B1E236FEB0073A349 /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
 		0430457C1E236FEB0073A349 /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
 		043045801E23700B0073A349 /* F3HNumberTileGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F3HNumberTileGameViewController.h; sourceTree = "<group>"; };
@@ -2498,6 +2503,9 @@
 				043045971E23700B0073A349 /* F3HTileView.m */,
 				047512341E260DDB000194BC /* CBeginEndButton.h */,
 				047512351E260DDB000194BC /* CBeginEndButton.m */,
+				042F68591E27533A00A1B65B /* CGameRankCell.h */,
+				042F685A1E27533A00A1B65B /* CGameRankCell.m */,
+				042F685B1E27533A00A1B65B /* CGameRankCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3629,6 +3637,7 @@
 				0410D4981E1516D600253224 /* icon_comment_gray@2x.png in Resources */,
 				F39FD7071DDDB5D300D3724C /* location_arrow.png in Resources */,
 				0410D4BF1E1516D600253224 /* icon_pro@2x.png in Resources */,
+				042F685D1E27533A00A1B65B /* CGameRankCell.xib in Resources */,
 				F334F4A91DCC5FB5002CFBBC /* pic_delete@3x.png in Resources */,
 				F3EBC4A71D9A6B7700E93C02 /* ceshi.png in Resources */,
 				0410D4B31E1516D600253224 /* icon_location@2x.png in Resources */,
@@ -4008,6 +4017,7 @@
 				0430457D1E236FEB0073A349 /* GameController.m in Sources */,
 				0410D45C1E1516D600253224 /* CNetTool.m in Sources */,
 				F3E3E9721D9BCE2600E69300 /* PersonageViewController.m in Sources */,
+				042F685C1E27533A00A1B65B /* CGameRankCell.m in Sources */,
 				04B536271E1E553000BB97A1 /* CContentLabel.m in Sources */,
 				0410D4851E1516D600253224 /* UIScrollView+PullDownRefresh.m in Sources */,
 				F35B23F51DAE31E6009EFE77 /* SearchListViewController.m in Sources */,
