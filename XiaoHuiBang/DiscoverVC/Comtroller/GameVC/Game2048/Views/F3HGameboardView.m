@@ -12,7 +12,7 @@
 #import "F3HTileView.h"
 #import "F3HTileAppearanceProvider.h"
 
-#define PER_SQUARE_SLIDE_DURATION 0.08
+#define PER_SQUARE_SLIDE_DURATION 0.08  // 合并时间
 
 #if DEBUG
 #define F3HLOG(...) NSLog(__VA_ARGS__)
@@ -21,11 +21,11 @@
 #endif
 
 // Animation parameters
-#define TILE_POP_START_SCALE    0.1
-#define TILE_POP_MAX_SCALE      1.1
-#define TILE_POP_DELAY          0.05
-#define TILE_EXPAND_TIME        0.18
-#define TILE_RETRACT_TIME       0.08
+#define TILE_POP_START_SCALE    0.1     // 刚开始出现小方块时缩放的大小
+#define TILE_POP_MAX_SCALE      1.1     // 瓦片出现时放大的倍数
+#define TILE_POP_DELAY          0.05    // 瓦片延时这么多时间之后开始出现
+#define TILE_EXPAND_TIME        0.18    // 瓦片出现持续的时间
+#define TILE_RETRACT_TIME       0.08    // 瓦片出现之后恢复持续的时间
 
 #define TILE_MERGE_START_SCALE  1.0
 #define TILE_MERGE_EXPAND_TIME  0.08
@@ -34,26 +34,26 @@
 
 @interface F3HGameboardView ()
 
-@property (nonatomic, strong) NSMutableDictionary *boardTiles;
+@property (nonatomic, strong) NSMutableDictionary *boardTiles;  // 储存瓦片的字典
 
-@property (nonatomic) NSUInteger dimension;
-@property (nonatomic) CGFloat tileSideLength;
+@property (nonatomic) NSUInteger dimension;                     // 尺寸4*4
+@property (nonatomic) CGFloat tileSideLength;                   // 瓦片的大小
 
-@property (nonatomic) CGFloat padding;
-@property (nonatomic) CGFloat cornerRadius;
+@property (nonatomic) CGFloat padding;                          // 瓦片间距
+@property (nonatomic) CGFloat cornerRadius;                     // 瓦片的圆角
 
-@property (nonatomic, strong) F3HTileAppearanceProvider *provider;
+@property (nonatomic, strong) F3HTileAppearanceProvider *provider;  // 当小方块出现的时候，根据数值设置小方块的标题颜色跟背景颜色
 
 @end
 
 @implementation F3HGameboardView
 
-+ (instancetype)gameboardWithDimension:(NSUInteger)dimension
-                             cellWidth:(CGFloat)width
-                           cellPadding:(CGFloat)padding
-                          cornerRadius:(CGFloat)cornerRadius
-                       backgroundColor:(UIColor *)backgroundColor
-                       foregroundColor:(UIColor *)foregroundColor {
++ (instancetype)gameboardWithDimension:(NSUInteger)dimension        // 尺寸4*4
+                             cellWidth:(CGFloat)width               // 瓦片的大小
+                           cellPadding:(CGFloat)padding             // 瓦片间距
+                          cornerRadius:(CGFloat)cornerRadius        // 瓦片的圆角
+                       backgroundColor:(UIColor *)backgroundColor   // 游戏主板的颜色
+                       foregroundColor:(UIColor *)foregroundColor { // 瓦片的颜色
     
     CGFloat sideLength = padding + dimension*(width + padding);
     F3HGameboardView *view = [[[self class] alloc] initWithFrame:CGRectMake(20,
@@ -87,6 +87,7 @@
     if (cornerRadius < 0) {
         cornerRadius = 0;
     }
+    // 创建瓦片后面的背景颜色
     for (NSInteger i=0; i<self.dimension; i++) {
         yCursor = self.padding;
         for (NSInteger j=0; j<self.dimension; j++) {
@@ -122,6 +123,7 @@
     if (cornerRadius < 0) {
         cornerRadius = 0;
     }
+    // 创建小方块
     F3HTileView *tile = [F3HTileView tileForPosition:position
                                           sideLength:self.tileSideLength
                                                value:value
@@ -262,6 +264,7 @@
                      }];
 }
 
+// 瓦片的颜色
 - (F3HTileAppearanceProvider *)provider {
     if (!_provider) {
         _provider = [F3HTileAppearanceProvider new];

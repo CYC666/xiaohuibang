@@ -115,7 +115,7 @@
     CGameRankCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"CGameRankCell" owner:self options:nil] firstObject];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CGameRankModel *model = _rankArray[indexPath.row];
-    cell.rankNum.text = [NSString stringWithFormat:@"%ld", indexPath.row];
+    cell.rankNum.text = [NSString stringWithFormat:@"%ld", indexPath.row+1];
     cell.nickName.text = model.nickname;
     [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.thumb]];
     cell.score.text = model.score;

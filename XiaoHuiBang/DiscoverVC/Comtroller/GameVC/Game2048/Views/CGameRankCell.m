@@ -17,6 +17,10 @@
     _rankNum.adjustsFontSizeToFitWidth = YES;
     _headImageView.layer.cornerRadius = 30;
     
+    if ([_rankNum.text integerValue] >= 4) {
+        _rankNum.textColor = [UIColor grayColor];
+    }
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

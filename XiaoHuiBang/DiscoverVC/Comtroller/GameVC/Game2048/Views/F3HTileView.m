@@ -84,6 +84,7 @@
 //        self.numberLabel.text = @"股东";
 //    }
     // self.numberLabel.text = @"消汇邦";
+    
 }
 
 - (UIColor *)defaultBackgroundColor {

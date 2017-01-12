@@ -34,6 +34,7 @@ typedef enum {
 @interface F3HGameModel : NSObject
 
 @property (nonatomic, readonly) NSInteger score;
+@property (nonatomic) NSUInteger winValue;
 
 + (instancetype)gameModelWithDimension:(NSUInteger)dimension
                               winValue:(NSUInteger)value

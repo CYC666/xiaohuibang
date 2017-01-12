@@ -6,6 +6,8 @@
 //
 //
 
+// 储存小格子数值的模型
+
 #import <Foundation/Foundation.h>
 
 @interface F3HTileModel : NSObject

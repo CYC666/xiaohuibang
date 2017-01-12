@@ -24,7 +24,6 @@
 @property (nonatomic, strong) NSMutableArray *gameState;
 
 @property (nonatomic) NSUInteger dimension;
-@property (nonatomic) NSUInteger winValue;
 
 @property (nonatomic, strong) NSMutableArray *commandQueue;
 @property (nonatomic, strong) NSTimer *queueTimer;
@@ -377,8 +376,10 @@
     return YES;
 }
 
+#pragma mark - cyc赢了
 - (NSIndexPath *)userHasWon {
     for (NSInteger i=0; i<[self.gameState count]; i++) {
+        // 查看是否存在数值跟规定赢的数值一样，就判定为赢
         if (((F3HTileModel *) self.gameState[i]).value == self.winValue) {
             return [NSIndexPath indexPathForRow:(i / self.dimension)
                                       inSection:(i % self.dimension)];

@@ -232,15 +232,15 @@
 //    [self.view addSubview:_countLabel];
     
     // 消耗邦币
-    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 104, 80, 20)];
-    bangbi.text = @"消耗邦币:";
+    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 104, 200, 20)];
+    bangbi.text = @"每局消耗邦币:1000";
     bangbi.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
     [self.view addSubview:bangbi];
     
-    _countPay = [[UILabel alloc] initWithFrame:CGRectMake(20 + 80, kScreenHeight - 104, 100, 20)];
-    _countPay.text = @"0";
-    _countPay.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
-    [self.view addSubview:_countPay];
+//    _countPay = [[UILabel alloc] initWithFrame:CGRectMake(20 + 80, kScreenHeight - 104, 100, 20)];
+//    _countPay.text = @"0";
+//    _countPay.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+//    [self.view addSubview:_countPay];
     
     // 触击显示规则的按钮
     _detialButton = [[CBeginEndButton alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 24, kScreenHeight - 20 - 24 - 64, 24, 24)
@@ -274,19 +274,41 @@
 
 
 
-#pragma mark - Private API
+#pragma mark - 每走一步都会判断，设置邦币
 // 判断成绩 如果
 - (void)followUp {
     
     // 从新设置步数
     // _countLabel.text = [NSString stringWithFormat:@"%ld", [_countLabel.text integerValue] + 1];
     // 从新设置消耗邦币
-    _countPay.text = [NSString stringWithFormat:@"%ld", [_countPay.text integerValue] + 1];
+    // _countPay.text = [NSString stringWithFormat:@"%ld", [_countPay.text integerValue] + 1];
     
     // This is the earliest point the user can win
     if ([self.model userHasWon]) {
-        [self.delegate gameFinishedWithVictory:YES score:self.model.score];
-        // 提示,
+        // [self.delegate gameFinishedWithVictory:YES score:self.model.score];
+        // 提示,并修改下一个任务
+        if (_threshold == 512) {
+            self.bangBiView.score = 500;
+            self.model.winValue = 1024;
+        } else if (_threshold == 1024) {
+            self.bangBiView.score = 1000;
+            self.model.winValue = 2048;
+        } else if (_threshold == 2048) {
+            self.bangBiView.score = 2000;
+            self.model.winValue = 4096;
+        } else if (_threshold == 4096) {
+            self.bangBiView.score = 4000;
+            self.model.winValue = 8192;
+        } else if (_threshold == 8192) {
+            self.bangBiView.score = 8000;
+            self.model.winValue = 16384;
+        } else if (_threshold == 16384) {
+            self.bangBiView.score = 16000;
+            self.model.winValue = 32768;
+        } else {
+            self.bangBiView.score = 32000;
+            self.model.winValue = 100000000;
+        }
         
     }
     else {
@@ -302,7 +324,7 @@
             [self.delegate gameFinishedWithVictory:NO score:self.model.score];
             // 提示,
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", _bangBiView.score]
+                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:@"再来一局", nil];
@@ -331,18 +353,18 @@
 // 分数改变
 - (void)scoreChanged:(NSInteger)newScore {
     self.scoreView.score = newScore;
-    // 获取的邦币
-    self.bangBiView.score = newScore*0.12;
+    // 获取的邦币(存在2048就赠送1000)
+    // self.bangBiView.score = newScore*0.012;
     // 最佳成绩
     if (newScore >= _bestScoreView.score) {
         _bestScoreView.score = newScore;
     }
     
     // 重新开始
-    if (newScore == 0) {
+    // if (newScore == 0) {
         // _countLabel.text = @"0";
-        _countPay.text = @"0";
-    }
+        // _countPay.text = @"0";
+    // }
 }
 
 
@@ -435,7 +457,7 @@
         // 上传最佳成绩
         NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                                  @"type" : @1,
-                                 @"score" : [NSString stringWithFormat:@"%ld", _bestScoreView.score]};
+                                 @"score" : [NSString stringWithFormat:@"%ld", (long)_bestScoreView.score]};
         [CNetTool postBestScoreWithParameters:params
                                       success:^(id response) {
                                           
@@ -463,7 +485,7 @@
     } else if ([alertView.title isEqualToString:@"确定要重新开始？"]) {
         if (buttonIndex == 1) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", _bangBiView.score]
+                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
                                                            delegate:self
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
@@ -476,7 +498,7 @@
     } else if ([alertView.title isEqualToString:@"确定要退出游戏？"]) {
         if (buttonIndex == 1) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", _bangBiView.score]
+                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
                                                            delegate:self
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];

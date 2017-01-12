@@ -6,6 +6,8 @@
 //
 //
 
+// 游戏主板
+
 #import <UIKit/UIKit.h>
 
 @interface F3HGameboardView : UIView
