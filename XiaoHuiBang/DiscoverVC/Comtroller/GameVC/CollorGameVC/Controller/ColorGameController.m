@@ -55,6 +55,9 @@
                                              selector:@selector(receiveNotification:)
                                                  name:@"count"
                                                object:nil];
+    if ([UIScreen mainScreen].bounds.size.width == 320) {
+        _startButton.transform = CGAffineTransformMakeTranslation(0, 20);
+    }
 
     // 最佳记录
     NSString *best = [USER_D objectForKey:@"colorGame_bestScore"];

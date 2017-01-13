@@ -40,6 +40,7 @@
 
 @property (nonatomic) BOOL useScoreView;        // 是否显示得分
 @property (nonatomic) BOOL useControlView;      // 是否使用（显示）按钮控制
+@property (assign, nonatomic) BOOL isFinal;     // 游戏是否已经结束
 
 @property (nonatomic) NSUInteger dimension;     // 尺寸       ? * ?
 @property (nonatomic) NSUInteger threshold;     // 获胜的分数  ？？？？
@@ -136,11 +137,11 @@
     self.navigationItem.titleView = title;
     
     // 左右间隔
-    float space = (kScreenWidth - 20*2 - 110 - 95 - 95)/2;
+    float space = 15;
     
     // 获得的邦币视图
     _bangBiView = [CYCBangBiScoreView bangBiScoreViewWithCornerRadius:5
-                                                      backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
+                                                      backgroundColor:[UIColor colorWithRed:255/255.0 green:127/255.0 blue:47/255.0 alpha:1]
                                                             textColor:[UIColor whiteColor]
                                                              textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
                                                                 frame:CGRectMake(20, 15, 110, 115)];
@@ -152,14 +153,19 @@
                                              backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
                                                    textColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1]
                                                     textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
-                                                       frame:CGRectMake(20 + 110 + space, 15, 95, 64)];
+                                                       frame:CGRectMake(20 + 110 + space, 15, (kScreenWidth - space*2 - 20*2 - 110)/2.0, 64)];
         [self.view addSubview:_scoreView];
     }
     
     // 排行榜按钮
     UIButton *rankButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rankButton.frame = CGRectMake(20 + 110 + space, 15 + 64 + 15, 95, 36);
-    [rankButton setImage:[UIImage imageNamed:@"icon_ranking_score"] forState:UIControlStateNormal];
+    rankButton.frame = CGRectMake(20 + 110 + space, 15 + 64 + 15, (kScreenWidth - space*2 - 20*2 - 110)/2.0, 36);
+    rankButton.layer.cornerRadius = 5;
+    [rankButton setTitle:@"排行榜" forState:UIControlStateNormal];
+    rankButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:19];
+    rankButton.backgroundColor = [UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1];
+    [rankButton setTitleColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1] forState:UIControlStateNormal];
+    [rankButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.5] forState:UIControlStateHighlighted];
     [rankButton addTarget:self action:@selector(rankButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:rankButton];
     
@@ -170,7 +176,7 @@
                                                            textColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1]
                                                             textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
                                                            bestScore:bestScore
-                                                               frame:CGRectMake(20 + 110 + 95 + space*2, 15, 95, 64)];
+                                                               frame:CGRectMake(kScreenWidth - 20 - (kScreenWidth - space*2 - 20*2 - 110)/2.0, 15, (kScreenWidth - space*2 - 20*2 - 110)/2.0, 64)];
     [self.view addSubview:_bestScoreView];
     
     
@@ -178,14 +184,28 @@
     // 重置按钮
     
     UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    resetButton.frame = CGRectMake(20 + 110 + 95 + space*2, 15 + 64 + 15, 95, 36);
-    [resetButton setImage:[UIImage imageNamed:@"icon_game2048_reset"] forState:UIControlStateNormal];
+    resetButton.frame = CGRectMake(kScreenWidth - 20 - (kScreenWidth - space*2 - 20*2 - 110)/2.0, 15 + 64 + 15, (kScreenWidth - space*2 - 20*2 - 110)/2.0, 36);
+    resetButton.layer.cornerRadius = 5;
+    [resetButton setTitle:@"重新开始" forState:UIControlStateNormal];
+    resetButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    resetButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:19];
+    resetButton.backgroundColor = [UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1];
+    [resetButton setTitleColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1] forState:UIControlStateNormal];
+    [resetButton setTitleColor:[UIColor colorWithWhite:1 alpha:0.5] forState:UIControlStateHighlighted];
     [resetButton addTarget:self action:@selector(resetButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:resetButton];
     
+    float Hspace = 0;
+    if (kScreenWidth < 375) {
+        Hspace = 15;
+    } else if (kScreenWidth == 375) {
+        Hspace = 20;
+    } else if (kScreenWidth > 375) {
+        Hspace = 30;
+    }
     
     // 提示
-    _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 15 + 115 + 20, kScreenWidth - 20*2, 20)];
+    _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 15 + 115 + Hspace, kScreenWidth - 20*2, 20)];
     _tipLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
     _tipLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
     _tipLabel.adjustsFontSizeToFitWidth = YES;
@@ -207,7 +227,7 @@
                                                            backgroundColor:[UIColor colorWithRed:185/255.0 green:172/255.0 blue:160/255.0 alpha:1]
                                                            foregroundColor:[UIColor colorWithRed:202/255.0 green:190/255.0 blue:180/255.0 alpha:1]];
     CGRect gameboardFrame = gameboard.frame;
-    gameboardFrame.origin.y = 15 + 115 + 20 + 20 + 20;
+    gameboardFrame.origin.y = 15 + 115 + Hspace + 20 + Hspace;
     gameboard.frame = gameboardFrame;
     [self.view addSubview:gameboard];
     self.gameboard = gameboard;
@@ -232,8 +252,9 @@
 //    [self.view addSubview:_countLabel];
     
     // 消耗邦币
-    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 104, 200, 20)];
-    bangbi.text = @"每局消耗邦币:1000";
+    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 20 - 24 - 64, kScreenWidth - 20*2 - 24, 24)];
+    bangbi.text = @"每局消耗邦币:100,详情规则请长按 -->";
+    bangbi.adjustsFontSizeToFitWidth = YES;
     bangbi.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
     [self.view addSubview:bangbi];
     
@@ -287,26 +308,29 @@
     if ([self.model userHasWon]) {
         // [self.delegate gameFinishedWithVictory:YES score:self.model.score];
         // 提示,并修改下一个任务
-        if (_threshold == 512) {
-            self.bangBiView.score = 500;
+        if (_threshold == 256) {
+            self.bangBiView.score = 50;
+            self.model.winValue = 512;
+        } else if (_threshold == 512) {
+            self.bangBiView.score = 100;
             self.model.winValue = 1024;
         } else if (_threshold == 1024) {
-            self.bangBiView.score = 1000;
+            self.bangBiView.score = 200;
             self.model.winValue = 2048;
         } else if (_threshold == 2048) {
-            self.bangBiView.score = 2000;
+            self.bangBiView.score = 400;
             self.model.winValue = 4096;
         } else if (_threshold == 4096) {
-            self.bangBiView.score = 4000;
+            self.bangBiView.score = 800;
             self.model.winValue = 8192;
         } else if (_threshold == 8192) {
-            self.bangBiView.score = 8000;
+            self.bangBiView.score = 1600;
             self.model.winValue = 16384;
         } else if (_threshold == 16384) {
-            self.bangBiView.score = 16000;
+            self.bangBiView.score = 3200;
             self.model.winValue = 32768;
         } else {
-            self.bangBiView.score = 32000;
+            self.bangBiView.score = 6400;
             self.model.winValue = 100000000;
         }
         
@@ -361,10 +385,11 @@
     }
     
     // 重新开始
-    // if (newScore == 0) {
+    if (newScore == 0) {
+        _bangBiView.score = 0;
         // _countLabel.text = @"0";
         // _countPay.text = @"0";
-    // }
+    }
 }
 
 
@@ -478,6 +503,8 @@
             [self saveBestScore];
             [self resetButtonTapped];
         } else {
+            // 当游戏结束了，点击了取消按钮，那么就把当前游戏进度定位isFinal
+            _isFinal = YES;
             [self saveBestScore];
         }
         
@@ -491,8 +518,16 @@
                                                   otherButtonTitles:nil];
             [alert show];
             // 重开一局就上传最佳成绩
-            [self saveBestScore];
-            [self resetButtonTapped];
+            // 如果已经是游戏结束了，那就不必再显示赠送邦币
+            if (_isFinal == YES) {
+                [self resetButtonTapped];
+                _isFinal = NO;
+            } else {
+                [self saveBestScore];
+                [self resetButtonTapped];
+            }
+            
+            
         }
         
     } else if ([alertView.title isEqualToString:@"确定要退出游戏？"]) {
@@ -504,7 +539,10 @@
                                                   otherButtonTitles:nil];
             [alert show];
             // 退出游戏就上传最佳成绩
-            [self saveBestScore];
+            // 如果已经是游戏结束了，那就不必要再保存
+            if (_isFinal == NO) {
+                [self saveBestScore];
+            }
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }

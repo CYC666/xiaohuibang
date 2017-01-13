@@ -42,10 +42,15 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (!self) return nil;
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 110, 115)];
-    imageView.image = [UIImage imageNamed:@"icon_bangbi_score"];
-    [self addSubview:imageView];
-    UILabel *scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 55, 110, 60)];
+    
+    UILabel *bangbiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height/2.0)];
+    bangbiLabel.text = @"邦币";
+    bangbiLabel.textColor = [UIColor whiteColor];
+    bangbiLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:40];
+    bangbiLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:bangbiLabel];
+    
+    UILabel *scoreLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.bounds.size.height/2.0, self.bounds.size.width, self.bounds.size.height/2.0)];
     scoreLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabel.adjustsFontSizeToFitWidth = YES;
     scoreLabel.textColor = [UIColor whiteColor];
