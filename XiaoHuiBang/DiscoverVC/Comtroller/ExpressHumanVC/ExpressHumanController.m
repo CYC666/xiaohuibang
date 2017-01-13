@@ -47,6 +47,9 @@
     longPressed.numberOfTouchesRequired = 2;
     [_webView addGestureRecognizer:longPressed];
     
+    // 添加观察者
+    [_webView.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
+    
 }
 
 
@@ -149,9 +152,8 @@
                          animations:^{
                              _layer.alpha = 1;
                          }];
-            
-        // 添加观察者
-        [_webView.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
+//        // 添加观察者
+//        [_webView.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
     
     }
     

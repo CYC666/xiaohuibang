@@ -67,8 +67,8 @@
     _colorFactorB = arc4random()%10*0.1;
     _happenNum = arc4random()%_num;
     _alpha += 0.01;
-    if (_alpha >= 0.95) {
-        _alpha = 0.95;
+    if (_alpha >= 0.9) {
+        _alpha = 0.9;
     }
     if (_count == 0) {
         _layout.itemSize = CGSizeMake(self.frame.size.height/2-10, self.frame.size.height/2-10);

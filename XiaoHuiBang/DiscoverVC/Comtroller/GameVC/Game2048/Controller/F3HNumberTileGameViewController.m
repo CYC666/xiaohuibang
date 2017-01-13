@@ -421,8 +421,8 @@
 #pragma mark - 按钮响应
 - (void)backButtonAction:(UIBarButtonItem *)button {
 
-    // 当邦币不为0时，提示是否重新开始，否则直接重新开始
-    if (_bangBiView.score != 0) {
+    // 当分数不为0时，提示是否重新开始，否则直接重新开始
+    if (_scoreView.score != 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要退出游戏？"
                                                         message:@"这将结束游戏，但你仍然获得邦币"
                                                        delegate:self
@@ -447,8 +447,8 @@
 
 - (void)resetButtonAction:(UIButton *)button {
     
-    // 当邦币不为0时，提示是否重新开始，否则直接重新开始
-    if (_bangBiView.score != 0) {
+    // 当得分不为0时，提示是否重新开始，否则直接重新开始
+    if (_scoreView.score != 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要重新开始？"
                                                         message:@"这将结束进度，但你仍然获得邦币"
                                                        delegate:self
@@ -468,8 +468,10 @@
     [self.model insertAtRandomLocationTileWithValue:2];
 }
 
-- (void)exitButtonTapped {
+-(void)exitButtonTapped {
+
     [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 #pragma mark - 保存最佳成绩（应该在退出、重新开始、游戏结束的时候执行,同时上传最佳成绩）
@@ -479,18 +481,18 @@
     if (_bestScoreView.score > [USER_D integerForKey:@"game2048_best_score"]) {
         [USER_D setInteger:_bestScoreView.score forKey:@"game2048_best_score"];
         
-        // 上传最佳成绩
-        NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
-                                 @"type" : @1,
-                                 @"score" : [NSString stringWithFormat:@"%ld", (long)_bestScoreView.score]};
-        [CNetTool postBestScoreWithParameters:params
-                                      success:^(id response) {
-                                          
-                                      } failure:^(NSError *err) {
-                                          [SVProgressHUD dismiss];
-                                          [SVProgressHUD showErrorWithStatus:@"上传最佳成绩失败"];
-                                      }];
     }
+    // 上传成绩，服务器会判断是否最佳
+    NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                             @"type" : @1,
+                             @"score" : [NSString stringWithFormat:@"%ld", (long)_bestScoreView.score]};
+    [CNetTool postBestScoreWithParameters:params
+                                  success:^(id response) {
+                                      
+                                  } failure:^(NSError *err) {
+                                      [SVProgressHUD dismiss];
+                                      [SVProgressHUD showErrorWithStatus:@"上传最佳成绩失败"];
+                                  }];
 
 }
 
@@ -511,18 +513,19 @@
         
     } else if ([alertView.title isEqualToString:@"确定要重新开始？"]) {
         if (buttonIndex == 1) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
-                                                           delegate:self
-                                                  cancelButtonTitle:@"好的"
-                                                  otherButtonTitles:nil];
-            [alert show];
             // 重开一局就上传最佳成绩
             // 如果已经是游戏结束了，那就不必再显示赠送邦币
             if (_isFinal == YES) {
                 [self resetButtonTapped];
                 _isFinal = NO;
             } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
+                                                                message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
+                                                               delegate:self
+                                                      cancelButtonTitle:@"好的"
+                                                      otherButtonTitles:nil];
+                [alert show];
+
                 [self saveBestScore];
                 [self resetButtonTapped];
             }
@@ -532,15 +535,15 @@
         
     } else if ([alertView.title isEqualToString:@"确定要退出游戏？"]) {
         if (buttonIndex == 1) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
-                                                           delegate:self
-                                                  cancelButtonTitle:@"好的"
-                                                  otherButtonTitles:nil];
-            [alert show];
             // 退出游戏就上传最佳成绩
             // 如果已经是游戏结束了，那就不必要再保存
             if (_isFinal == NO) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
+                                                                message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
+                                                               delegate:self
+                                                      cancelButtonTitle:@"好的"
+                                                      otherButtonTitles:nil];
+                [alert show];
                 [self saveBestScore];
             }
             [self dismissViewControllerAnimated:YES completion:nil];

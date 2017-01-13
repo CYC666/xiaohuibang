@@ -12,6 +12,7 @@
 
 @interface CGameRankModel : NSObject
 
+@property (assign, nonatomic) NSInteger rankNum;
 @property (copy, nonatomic) NSString *user_id;
 @property (copy, nonatomic) NSString *nickname;
 @property (copy, nonatomic) NSString *thumb;

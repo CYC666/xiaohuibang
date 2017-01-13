@@ -10,6 +10,8 @@
 
 @implementation CGameRankCell
 
+
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     
@@ -21,7 +23,11 @@
         _rankNum.textColor = [UIColor grayColor];
     }
     
+    
 }
+
+
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

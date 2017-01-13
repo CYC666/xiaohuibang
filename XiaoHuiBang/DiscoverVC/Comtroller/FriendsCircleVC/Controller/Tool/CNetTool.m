@@ -315,7 +315,7 @@
                             success:(void (^)(id response))success
                             failure:(void (^)(NSError *err))failure {
 
-    NSString *urlStr = @"http://192.168.1.135/index.php/Home/game/game_data_edit";
+    NSString *urlStr = @"http://www.xfzone.cn/rongyun.php/Home/game/game_data_edit";
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     [session POST:urlStr
@@ -334,7 +334,7 @@
                            success:(void (^)(id response))success
                            failure:(void (^)(NSError *err))failure {
 
-    NSString *urlStr = @"http://192.168.1.135/index.php/Home/game/game_rank";
+    NSString *urlStr = @"http://www.xfzone.cn/rongyun.php/Home/game/game_rank";
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     [session POST:urlStr

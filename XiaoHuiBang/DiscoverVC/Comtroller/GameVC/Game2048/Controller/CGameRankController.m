@@ -11,6 +11,7 @@
 #import "CGameRankModel.h"
 #import "CGameRankCell.h"
 #import <UIImageView+WebCache.h>
+#import "CRankCell.h"
 
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
@@ -20,6 +21,7 @@
 
 @property (strong, nonatomic) NSMutableArray *rankArray;
 @property (strong, nonatomic) UITableView *rankTableView;
+@property (strong, nonatomic) UIActivityIndicatorView *activityView;
 
 @end
 
@@ -33,6 +35,7 @@
         NSDictionary *params = @{@"type" : @1};
         [CNetTool loadBestRankWithParameters:params
                                      success:^(id response) {
+                                         [self.activityView stopAnimating];
                                          if ([response[@"msg"] isEqual:@1]) {
                                              NSArray *data = response[@"data"];
                                              for (NSDictionary *dic in data) {
@@ -44,7 +47,7 @@
                                                  model.max_score = dic[@"max_score"];
                                                  [self.rankArray addObject:model];
                                              }
-                                             self.rankTableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - 64);
+                                             self.rankTableView.frame = CGRectMake(30, 60, kScreenWidth - 60, kScreenHeight - 150);
                                          } else {
                                              [SVProgressHUD dismiss];
                                              [SVProgressHUD showErrorWithStatus:@"暂时没有数据"];
@@ -62,8 +65,17 @@
 - (void)viewDidLoad {
 
     self.view.backgroundColor = [UIColor colorWithRed:254/255.0 green:127/255.0 blue:47/255.0 alpha:1];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    backgroundImageView.image = [UIImage imageNamed:@"icon_gameRank_background"];
+    [self.view addSubview:backgroundImageView];
     
+    UIImageView *fontImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth - 40, kScreenHeight - 40)];
+    fontImageView.image = [UIImage imageNamed:@"icon_gameRank_font"];
+    [self.view addSubview:fontImageView];
+    
+    [self.activityView startAnimating];
 }
+
 
 
 #pragma mark - 懒加载
@@ -80,13 +92,29 @@
 
     if (_rankTableView == nil) {
         _rankTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        [_rankTableView registerNib:[UINib nibWithNibName:@"CGameRankCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CGameRankCellID"];
-        _rankTableView.backgroundColor = [UIColor colorWithRed:254/255.0 green:127/255.0 blue:47/255.0 alpha:1];
+        [_rankTableView registerClass:[CRankCell class] forCellReuseIdentifier:@"CRankCellID"];
+        _rankTableView.backgroundColor = [UIColor clearColor];
         _rankTableView.delegate = self;
         _rankTableView.dataSource = self;
         [self.view addSubview:_rankTableView];
+        
+        UIImageView *bannerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth - 40, kScreenHeight - 40)];
+        bannerImageView.image = [UIImage imageNamed:@"icon_gameRank_banner"];
+        [self.view addSubview:bannerImageView];
     }
     return _rankTableView;
+
+}
+
+- (UIActivityIndicatorView *)activityView {
+
+    if (_activityView == nil) {
+        _activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((kScreenWidth - 50)/2.0, (kScreenHeight - 50 - 64)/2.0, 50, 50)];
+        _activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        _activityView.hidesWhenStopped = YES;
+        [self.view addSubview:_activityView];
+    }
+    return _activityView;
 
 }
 
@@ -110,19 +138,19 @@
 
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    CGameRankCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"CGameRankCell" owner:self options:nil] firstObject];
+    CRankCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CRankCellID"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CGameRankModel *model = _rankArray[indexPath.row];
-    cell.rankNum.text = [NSString stringWithFormat:@"%ld", indexPath.row+1];
-    cell.nickName.text = model.nickname;
-    [cell.headImageView sd_setImageWithURL:[NSURL URLWithString:model.thumb]];
-    cell.score.text = model.score;
+    model.rankNum = indexPath.row+1;
+    cell.rankModel = model;
     return cell;
     
 
 }
+
 
 
 
