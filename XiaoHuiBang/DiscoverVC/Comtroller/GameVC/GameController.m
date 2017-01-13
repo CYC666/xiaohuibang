@@ -88,7 +88,7 @@
 
     if (indexPath.row == 0) {
         F3HNumberTileGameViewController *game2048controller = [F3HNumberTileGameViewController numberTileGameWithDimension:4     // 行列数目
-                                                                              winThreshold:512  // 目标得分
+                                                                              winThreshold:256      // 初始目标得分
                                                                            backgroundColor:[UIColor whiteColor]
                                                                              swipeControls:YES];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:game2048controller];

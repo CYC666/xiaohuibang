@@ -11,13 +11,14 @@
 
 #import "ColorGameController.h"
 #import "ColorGameView.h"
+#import "CNetTool.h"
+#import "CGameRankController.h"
 
 @interface ColorGameController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *score;
 @property (weak, nonatomic) IBOutlet UILabel *time;
 @property (weak, nonatomic) IBOutlet UILabel *bestScore;
-@property (weak, nonatomic) IBOutlet UILabel *ranking;
 @property (weak, nonatomic) IBOutlet UILabel *bangBi;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressLine;
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
@@ -71,6 +72,12 @@
 }
 
 
+- (IBAction)rankButton:(id)sender {
+    
+    CGameRankController *controller = [[CGameRankController alloc] initWithGameType:COLORGAME];
+    [self.navigationController pushViewController:controller animated:YES];
+    
+}
 
 
 - (IBAction)start:(UIButton *)sender {
@@ -117,6 +124,18 @@
             [USER_D setObject:_score.text forKey:@"colorGame_bestScore"];
             _bestScore.text = _score.text;
         }
+        
+        // 上传游戏成绩
+        NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                                 @"type" : @2,
+                                 @"score" : _score.text};
+        [CNetTool postBestScoreWithParameters:params
+                                      success:^(id response) {
+                                          
+                                      } failure:^(NSError *err) {
+                                          [SVProgressHUD dismiss];
+                                          [SVProgressHUD showErrorWithStatus:@"游戏数据上传失败"];
+                                      }];
         
         //游戏结束,弹出提示
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"游戏结束"

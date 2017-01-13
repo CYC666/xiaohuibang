@@ -440,7 +440,7 @@
 - (void)rankButtonAction:(UIButton *)button {
 
     // 跳转到排行榜
-    CGameRankController *controller = [[CGameRankController alloc] init];
+    CGameRankController *controller = [[CGameRankController alloc] initWithGameType:GAME2048];
     [self.navigationController pushViewController:controller animated:YES];
 
 }

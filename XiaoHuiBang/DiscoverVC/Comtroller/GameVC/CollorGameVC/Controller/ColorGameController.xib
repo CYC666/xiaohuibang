@@ -14,7 +14,6 @@
                 <outlet property="bangBi" destination="RtT-0f-Hes" id="Ng7-zc-dV9"/>
                 <outlet property="bestScore" destination="mjr-4E-tH5" id="M4s-OM-58c"/>
                 <outlet property="progressLine" destination="faG-dN-Qqp" id="ehl-Cu-tcW"/>
-                <outlet property="ranking" destination="cjy-X8-boP" id="mas-Iw-dro"/>
                 <outlet property="score" destination="0Wo-YH-d6w" id="NaA-RL-jji"/>
                 <outlet property="startButton" destination="OyD-4B-nuv" id="EMP-GU-SNi"/>
                 <outlet property="time" destination="f5h-o6-u3f" id="3xx-gm-rDp"/>
@@ -66,33 +65,33 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TuQ-lF-xaG">
                     <rect key="frame" x="199" y="15" width="156" height="40"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 排行榜：" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXh-Nw-062">
-                            <rect key="frame" x="0.0" y="0.0" width="76" height="40"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="排行榜" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXh-Nw-062">
+                            <rect key="frame" x="0.0" y="0.0" width="156" height="40"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="21"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="adjustsFontSizeToFitWidth" value="YES"/>
                             </userDefinedRuntimeAttributes>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未上榜" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjy-X8-boP">
-                            <rect key="frame" x="76" y="0.0" width="80" height="40"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                            <color key="textColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EpF-q8-gV8">
+                            <rect key="frame" x="0.0" y="0.0" width="156" height="40"/>
+                            <connections>
+                                <action selector="rankButton:" destination="-1" eventType="touchUpInside" id="Pgg-DV-HH2"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.96078431372549022" green="0.49803921568627452" blue="0.18431372549019609" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="85P-SP-N2F"/>
-                        <constraint firstItem="cjy-X8-boP" firstAttribute="top" secondItem="TuQ-lF-xaG" secondAttribute="top" id="KUU-4E-kvO"/>
-                        <constraint firstAttribute="trailing" secondItem="oXh-Nw-062" secondAttribute="trailing" constant="80" id="N9R-N1-S7k"/>
-                        <constraint firstItem="oXh-Nw-062" firstAttribute="height" secondItem="TuQ-lF-xaG" secondAttribute="height" id="P2t-yG-393"/>
-                        <constraint firstItem="cjy-X8-boP" firstAttribute="height" secondItem="TuQ-lF-xaG" secondAttribute="height" id="VCN-Ia-3n9"/>
-                        <constraint firstAttribute="trailing" secondItem="cjy-X8-boP" secondAttribute="trailing" id="ZDy-lj-W35"/>
-                        <constraint firstItem="cjy-X8-boP" firstAttribute="leading" secondItem="oXh-Nw-062" secondAttribute="trailing" id="aWX-YY-xxX"/>
-                        <constraint firstItem="oXh-Nw-062" firstAttribute="leading" secondItem="TuQ-lF-xaG" secondAttribute="leading" id="iaB-lb-bAx"/>
-                        <constraint firstItem="oXh-Nw-062" firstAttribute="top" secondItem="TuQ-lF-xaG" secondAttribute="top" id="sLM-K8-n7G"/>
+                        <constraint firstItem="EpF-q8-gV8" firstAttribute="top" secondItem="TuQ-lF-xaG" secondAttribute="top" id="DYX-cV-LmJ"/>
+                        <constraint firstAttribute="bottom" secondItem="EpF-q8-gV8" secondAttribute="bottom" id="EuU-SN-hKR"/>
+                        <constraint firstItem="EpF-q8-gV8" firstAttribute="leading" secondItem="TuQ-lF-xaG" secondAttribute="leading" id="Qnl-6P-SwD"/>
+                        <constraint firstAttribute="bottom" secondItem="oXh-Nw-062" secondAttribute="bottom" id="TGJ-KB-tA8"/>
+                        <constraint firstAttribute="trailing" secondItem="oXh-Nw-062" secondAttribute="trailing" id="bbR-2G-QGA"/>
+                        <constraint firstAttribute="trailing" secondItem="EpF-q8-gV8" secondAttribute="trailing" id="dYD-f7-1SX"/>
+                        <constraint firstItem="oXh-Nw-062" firstAttribute="leading" secondItem="TuQ-lF-xaG" secondAttribute="leading" id="hfq-wW-Hcg"/>
+                        <constraint firstItem="oXh-Nw-062" firstAttribute="top" secondItem="TuQ-lF-xaG" secondAttribute="top" id="kz0-qn-qfV"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
