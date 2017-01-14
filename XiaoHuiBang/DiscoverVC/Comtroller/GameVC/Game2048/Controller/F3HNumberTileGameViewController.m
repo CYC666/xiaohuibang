@@ -18,6 +18,8 @@
 #import "CNetTool.h"
 #import "CGameRankController.h"
 
+#define GAME2048_DATE @"GAME2048_DATE"              // 记录上一个日期
+#define GAME2048_LIFECOUNT @"GAME2048_LIFECOUNT"    // 2048游戏今天剩余次数
 #define ELEMENT_SPACING 10      // 视图之间的差距
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
@@ -41,6 +43,7 @@
 @property (nonatomic) BOOL useScoreView;        // 是否显示得分
 @property (nonatomic) BOOL useControlView;      // 是否使用（显示）按钮控制
 @property (assign, nonatomic) BOOL isFinal;     // 游戏是否已经结束
+@property (assign, nonatomic) NSInteger lifeCount;  // 今日游戏剩余次数
 
 @property (nonatomic) NSUInteger dimension;     // 尺寸       ? * ?
 @property (nonatomic) NSUInteger threshold;     // 获胜的分数  ？？？？
@@ -181,12 +184,12 @@
     
     
     
-    // 重置按钮
+    // 开始游戏、重置按钮
     
     UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     resetButton.frame = CGRectMake(kScreenWidth - 20 - (kScreenWidth - space*2 - 20*2 - 110)/2.0, 15 + 64 + 15, (kScreenWidth - space*2 - 20*2 - 110)/2.0, 36);
     resetButton.layer.cornerRadius = 5;
-    [resetButton setTitle:@"重新开始" forState:UIControlStateNormal];
+    [resetButton setTitle:@"开始游戏" forState:UIControlStateNormal];
     resetButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     resetButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:19];
     resetButton.backgroundColor = [UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1];
@@ -204,13 +207,15 @@
         Hspace = 30;
     }
     
+    _lifeCount = [self loadLifeCount];
     // 提示
     _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 15 + 115 + Hspace, kScreenWidth - 20*2, 20)];
     _tipLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
     _tipLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
     _tipLabel.adjustsFontSizeToFitWidth = YES;
-    _tipLabel.text = @"移动相同数字合成更大数字，并获取邦币";
+    _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", _lifeCount];
     [self.view addSubview:_tipLabel];
+    
     
     
     
@@ -229,8 +234,11 @@
     CGRect gameboardFrame = gameboard.frame;
     gameboardFrame.origin.y = 15 + 115 + Hspace + 20 + Hspace;
     gameboard.frame = gameboardFrame;
+    gameboard.userInteractionEnabled = NO;  // 刚开始不允许游戏，需要点击开始游戏
+    gameboard.alpha = 0.5;
     [self.view addSubview:gameboard];
     self.gameboard = gameboard;
+    
     
     // 创建游戏数据模型
     F3HGameModel *model = [F3HGameModel gameModelWithDimension:self.dimension
@@ -251,12 +259,16 @@
 //    _countLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
 //    [self.view addSubview:_countLabel];
     
-    // 消耗邦币
-    UILabel *bangbi = [[UILabel alloc] initWithFrame:CGRectMake(20, kScreenHeight - 20 - 24 - 64, kScreenWidth - 20*2 - 24, 24)];
-    bangbi.text = @"每局消耗邦币:100,详情规则请长按 -->";
-    bangbi.adjustsFontSizeToFitWidth = YES;
-    bangbi.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
-    [self.view addSubview:bangbi];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // 游戏规则提示标签
+        UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth - 20 - 24 - 200, kScreenHeight - 20 - 24 - 64, 200, 24)];
+        tipLabel.text = @"详情规则请长按 --> ";
+        tipLabel.textAlignment = NSTextAlignmentRight;
+        tipLabel.adjustsFontSizeToFitWidth = YES;
+        tipLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
+        [self.view addSubview:tipLabel];
+    });
     
 //    _countPay = [[UILabel alloc] initWithFrame:CGRectMake(20 + 80, kScreenHeight - 104, 100, 20)];
 //    _countPay.text = @"0";
@@ -310,27 +322,31 @@
         // 提示,并修改下一个任务
         if (_threshold == 256) {
             self.bangBiView.score = 50;
+            _threshold = 512;
             self.model.winValue = 512;
         } else if (_threshold == 512) {
             self.bangBiView.score = 100;
+            _threshold = 1024;
             self.model.winValue = 1024;
         } else if (_threshold == 1024) {
             self.bangBiView.score = 200;
+            _threshold = 2048;
             self.model.winValue = 2048;
         } else if (_threshold == 2048) {
             self.bangBiView.score = 400;
+            _threshold = 4096;
             self.model.winValue = 4096;
         } else if (_threshold == 4096) {
             self.bangBiView.score = 800;
+            _threshold = 8192;
             self.model.winValue = 8192;
         } else if (_threshold == 8192) {
             self.bangBiView.score = 1600;
+            _threshold = 16384;
             self.model.winValue = 16384;
-        } else if (_threshold == 16384) {
-            self.bangBiView.score = 3200;
-            self.model.winValue = 32768;
         } else {
             self.bangBiView.score = 6400;
+            _threshold = 100000000;
             self.model.winValue = 100000000;
         }
         
@@ -447,17 +463,32 @@
 
 - (void)resetButtonAction:(UIButton *)button {
     
-    // 当得分不为0时，提示是否重新开始，否则直接重新开始
-    if (_scoreView.score != 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要重新开始？"
-                                                        message:@"这将结束进度，但你仍然获得邦币"
-                                                       delegate:self
-                                              cancelButtonTitle:@"取消"
-                                              otherButtonTitles:@"确定", nil];
-        [alert show];
-    } else {
-        [self resetButtonTapped];
+    // 游戏次数用尽，直接返回
+    if (_lifeCount == 0) {
+        return;
     }
+    
+    if ([button.titleLabel.text isEqualToString:@"开始游戏"]) {
+        [button setTitle:@"重新开始" forState:UIControlStateNormal];
+        _gameboard.alpha = 1;
+        _gameboard.userInteractionEnabled = YES;
+        _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", --_lifeCount];
+        [USER_D setObject:[NSString stringWithFormat:@"%ld", _lifeCount] forKey:GAME2048_LIFECOUNT];
+    } else {
+        // 当得分不为0时，提示是否重新开始，否则直接重新开始
+        if (_scoreView.score != 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要重新开始？"
+                                                            message:@"这将结束进度，但你仍然获得邦币"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定", nil];
+            [alert show];
+        } else {
+            [self resetButtonTapped];
+        }
+    }
+    
+    
 
 }
 
@@ -513,6 +544,9 @@
         
     } else if ([alertView.title isEqualToString:@"确定要重新开始？"]) {
         if (buttonIndex == 1) {
+            // 修改今日剩余游戏次数
+            _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", --_lifeCount];
+            [USER_D setObject:[NSString stringWithFormat:@"%ld", _lifeCount] forKey:GAME2048_LIFECOUNT];
             // 重开一局就上传最佳成绩
             // 如果已经是游戏结束了，那就不必再显示赠送邦币
             if (_isFinal == YES) {
@@ -551,7 +585,35 @@
     }
 }
 
+#pragma mark - 获取游戏剩余次数
+- (NSInteger)loadLifeCount {
 
+    // 判断上个日期是否存在，不存在则创建
+    if ([USER_D objectForKey:GAME2048_DATE] == nil) {
+        [USER_D setObject:@"2017-01-14" forKey:GAME2048_DATE];
+    }
+    // 判断游戏剩余次数是否存在，不存在则创建
+    if ([USER_D objectForKey:GAME2048_LIFECOUNT] == nil) {
+        [USER_D setObject:@10 forKey:GAME2048_LIFECOUNT];
+    }
+    
+    // 判断当前日期是否跟上一个日期一致，一致则不重置剩余次数，直从沙盒中提取
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY-MM-dd"];
+    NSString *currentTime = [formatter stringFromDate:[NSDate date]];
+    if ([currentTime isEqualToString:[USER_D objectForKey:GAME2048_DATE]]) {    // 一致，直接从沙盒取出
+        return [[USER_D objectForKey:GAME2048_LIFECOUNT] integerValue];
+    
+    } else {    // 不一致，重置次数
+        // 修改日期,修改游戏次数
+        [USER_D setObject:currentTime forKey:GAME2048_DATE];
+        [USER_D setObject:@10 forKey:GAME2048_LIFECOUNT];
+        return 10;
+    }
+
+}
 
 
 

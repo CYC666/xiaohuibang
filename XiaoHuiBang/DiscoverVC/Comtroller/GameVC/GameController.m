@@ -63,12 +63,13 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (indexPath.row == 0) {
         cell.title.text = @"2048";
-        cell.leftImage.image = [UIImage imageNamed:@"icon_discover_game"];
+        cell.leftImage.image = [UIImage imageNamed:@"icon_game_2048"];
     } else if (indexPath.row == 1) {
         cell.title.text = @"找邦币";
         cell.leftImage.image = [UIImage imageNamed:@"ColorGame"];
     } else {
         cell.title.text = @"更多游戏";
+        cell.leftImage.image = [UIImage imageNamed:@"icon_game_more"];
     }
     return cell;
     

@@ -40,11 +40,11 @@
         self.navigationItem.titleView = title;
         switch (type) {
             case GAME2048:
-                title.text = @"《2048》排行榜";
+                title.text = @"《2048》";
                 break;
                 
             case COLORGAME:
-                title.text = @"《找邦币排》行榜";
+                title.text = @"《找邦币排》";
                 break;
                 
             default:

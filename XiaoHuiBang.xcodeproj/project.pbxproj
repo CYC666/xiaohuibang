@@ -371,6 +371,10 @@
 		04B536241E1E4F2E00BB97A1 /* icon_copy_selecte@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04B536181E1E4F2E00BB97A1 /* icon_copy_selecte@3x.png */; };
 		04B536271E1E553000BB97A1 /* CContentLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B536261E1E553000BB97A1 /* CContentLabel.m */; };
 		04FB5FB71E03D99800228FD9 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FB5FB61E03D99800228FD9 /* libicucore.tbd */; };
+		9E2170301E29B73900C3CB4D /* icon_game_2048@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E21702E1E29B73900C3CB4D /* icon_game_2048@2x.png */; };
+		9E2170311E29B73900C3CB4D /* icon_game_2048@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E21702F1E29B73900C3CB4D /* icon_game_2048@3x.png */; };
+		9E2170341E29B86800C3CB4D /* icon_game_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2170321E29B86800C3CB4D /* icon_game_more@2x.png */; };
+		9E2170351E29B86800C3CB4D /* icon_game_more@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2170331E29B86800C3CB4D /* icon_game_more@3x.png */; };
 		9E791BCD1E28D2F7006A296E /* CRankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E791BCC1E28D2F7006A296E /* CRankCell.m */; };
 		9E791BDA1E28D8A1006A296E /* icon_gameRank_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E791BCE1E28D8A1006A296E /* icon_gameRank_background@2x.png */; };
 		9E791BDB1E28D8A1006A296E /* icon_gameRank_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E791BCF1E28D8A1006A296E /* icon_gameRank_background@3x.png */; };
@@ -1220,6 +1224,10 @@
 		04B536261E1E553000BB97A1 /* CContentLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CContentLabel.m; sourceTree = "<group>"; };
 		04FB5FB61E03D99800228FD9 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		8F5B587656139CFD557E4D67 /* Pods-XiaoHuiBang.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoHuiBang.release.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoHuiBang/Pods-XiaoHuiBang.release.xcconfig"; sourceTree = "<group>"; };
+		9E21702E1E29B73900C3CB4D /* icon_game_2048@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_2048@2x.png"; sourceTree = "<group>"; };
+		9E21702F1E29B73900C3CB4D /* icon_game_2048@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_2048@3x.png"; sourceTree = "<group>"; };
+		9E2170321E29B86800C3CB4D /* icon_game_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_more@2x.png"; sourceTree = "<group>"; };
+		9E2170331E29B86800C3CB4D /* icon_game_more@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_game_more@3x.png"; sourceTree = "<group>"; };
 		9E791BCB1E28D2F7006A296E /* CRankCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRankCell.h; sourceTree = "<group>"; };
 		9E791BCC1E28D2F7006A296E /* CRankCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRankCell.m; sourceTree = "<group>"; };
 		9E791BCE1E28D8A1006A296E /* icon_gameRank_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_gameRank_background@2x.png"; sourceTree = "<group>"; };
@@ -2404,6 +2412,10 @@
 		041B56891E1C99F100D02508 /* DiscoverIcon */ = {
 			isa = PBXGroup;
 			children = (
+				9E2170321E29B86800C3CB4D /* icon_game_more@2x.png */,
+				9E2170331E29B86800C3CB4D /* icon_game_more@3x.png */,
+				9E21702E1E29B73900C3CB4D /* icon_game_2048@2x.png */,
+				9E21702F1E29B73900C3CB4D /* icon_game_2048@3x.png */,
 				047512201E25D6AC000194BC /* icon_discover_selected.png */,
 				047512211E25D6AC000194BC /* icon_discover_selected@2x.png */,
 				047512221E25D6AC000194BC /* icon_discover_selected@3x.png */,
@@ -3692,6 +3704,7 @@
 				0410D4B31E1516D600253224 /* icon_location@2x.png in Resources */,
 				0410D41B1E1516D600253224 /* icon_liked_down@2x.png in Resources */,
 				F39FD6F31DDDB43300D3724C /* icon_position_sharer@3x.png in Resources */,
+				9E2170341E29B86800C3CB4D /* icon_game_more@2x.png in Resources */,
 				F3E3E9521D9B68BB00E69300 /* RegistAgreementViewController.xib in Resources */,
 				F33F899F1D9E534800FB0F70 /* photo_profile@2x.png in Resources */,
 				0410D4931E1516D600253224 /* icon_back_new@3x.png in Resources */,
@@ -3755,6 +3768,7 @@
 				F39FD6FA1DDDB43300D3724C /* icon_speak.png in Resources */,
 				9E791BE21E28D8A1006A296E /* icon_gameRank_other@2x.png in Resources */,
 				04678E4B1E24FDEC0059A170 /* icon_green-pocket@3x.png in Resources */,
+				9E2170311E29B73900C3CB4D /* icon_game_2048@3x.png in Resources */,
 				0410D4761E1516D600253224 /* SuPhotoPreviewer.xib in Resources */,
 				F317F3FB1DA7500800DB5F70 /* icon_mute@3x.png in Resources */,
 				0410D4C71E1516D600253224 /* icon_redo.png in Resources */,
@@ -3786,6 +3800,7 @@
 				0410D4911E1516D600253224 /* icon_back_new.png in Resources */,
 				9E791BE81E28E5AB006A296E /* icon_gameRank_banner@2x.png in Resources */,
 				F38626A21DDC08ED001F8B0B /* up.png in Resources */,
+				9E2170301E29B73900C3CB4D /* icon_game_2048@2x.png in Resources */,
 				0410D4AE1E1516D600253224 /* icon_go@3x.png in Resources */,
 				F3A0E0211DB757A000E9F12C /* CellNotSelected@2x.png in Resources */,
 				F35DB80D1DA6310400AF5A31 /* app icon@2x.png in Resources */,
@@ -3911,6 +3926,7 @@
 				F34823D01DD2C0B000D2834E /* icon_xiaoxin_unselected_@2x.png in Resources */,
 				0410D4841E1516D600253224 /* SuPhotoBrowserCell.xib in Resources */,
 				0410D49F1E1516D600253224 /* icon_comment_right_nor@3x.png in Resources */,
+				9E2170351E29B86800C3CB4D /* icon_game_more@3x.png in Resources */,
 				04B5360C1E1E4C0300BB97A1 /* icon_favoriate_selected@3x.png in Resources */,
 				04678E6C1E24FF2C0059A170 /* icon_colorGame_start_nor@3x.png in Resources */,
 				0410D4B21E1516D600253224 /* icon_location.png in Resources */,
