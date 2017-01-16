@@ -118,10 +118,18 @@
                 float scale = size.width / size.height;
                 // 当宽比高大
                 if (scale > 1) {
-                    CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 5, 104*scale, 104);
-                    NSValue *rectValue = [NSValue valueWithCGRect:rect];
-                    [self.imageFrameArr addObject:rectValue];
-                    self.viewHeight += (104+10);
+                    if (104*scale < (kScreenWidth - kNicknameX - kProRight)) {
+                        CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 5, 104*scale, 104);
+                        NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                        [self.imageFrameArr addObject:rectValue];
+                        self.viewHeight += (104+10);
+                    } else {
+                        CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 5, kScreenWidth - kNicknameX - kProRight, 104);
+                        NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                        [self.imageFrameArr addObject:rectValue];
+                        self.viewHeight += (104+10);
+                    }
+                    
                 } else {
                     CGRect rect = CGRectMake(kNicknameX, self.viewHeight + 5, 104, 104 / scale);
                     NSValue *rectValue = [NSValue valueWithCGRect:rect];

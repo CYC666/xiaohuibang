@@ -83,10 +83,18 @@
                 float scale = size.width / size.height;
                 // 当宽比高大
                 if (scale > 1) {
-                    CGRect rect = CGRectMake(kContentX, self.cellHeight, 104*scale, 104);
-                    NSValue *rectValue = [NSValue valueWithCGRect:rect];
-                    [self.imgFrameArr addObject:rectValue];
-                    self.cellHeight += (104 + kSpace);
+                    if (104*scale < (kScreenWidth - kContentX - 13)) {
+                        CGRect rect = CGRectMake(kContentX, self.cellHeight, 104*scale, 104);
+                        NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                        [self.imgFrameArr addObject:rectValue];
+                        self.cellHeight += (104 + kSpace);
+                    } else {
+                        CGRect rect = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 13, 104);
+                        NSValue *rectValue = [NSValue valueWithCGRect:rect];
+                        [self.imgFrameArr addObject:rectValue];
+                        self.cellHeight += (104 + kSpace);
+                    }
+                    
                 } else {
                     CGRect rect = CGRectMake(kContentX, self.cellHeight, 104, 104 / scale);
                     NSValue *rectValue = [NSValue valueWithCGRect:rect];
