@@ -94,6 +94,7 @@
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             cell.title.text = @"玩游戏";
+            cell.detialTitle.text = @"最高1000绿包等你抢";
             cell.leftImage.image = [UIImage imageNamed:@"icon_discover_game"];
         } else if (indexPath.row == 1) {
             cell.title.text = @"告白小人";

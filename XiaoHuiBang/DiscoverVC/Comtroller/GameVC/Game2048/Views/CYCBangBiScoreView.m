@@ -61,7 +61,8 @@
 
 - (void)setScore:(NSInteger)score {
     _score = score;
-    self.scoreLabel.text = [NSString stringWithFormat:@"%ld", (long)score];
+    self.scoreLabel.text = @"绿包";
+    // self.scoreLabel.text = [NSString stringWithFormat:@"%ld", (long)score];
 }
 
 

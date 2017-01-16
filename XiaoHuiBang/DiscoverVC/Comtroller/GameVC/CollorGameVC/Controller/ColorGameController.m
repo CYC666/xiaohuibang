@@ -128,7 +128,7 @@
         // 上传游戏成绩
         NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                                  @"type" : @2,
-                                 @"score" : _score.text};
+                                 @"score" : _bestScore.text};
         [CNetTool postBestScoreWithParameters:params
                                       success:^(id response) {
                                           

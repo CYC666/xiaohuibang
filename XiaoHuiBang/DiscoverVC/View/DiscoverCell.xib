@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -19,9 +19,9 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邦友圈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hef-yw-Jpj">
-                        <rect key="frame" x="59" y="17" width="200" height="15"/>
+                        <rect key="frame" x="59" y="17" width="100" height="15"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="200" id="8To-8y-c59"/>
+                            <constraint firstAttribute="width" constant="100" id="8To-8y-c59"/>
                             <constraint firstAttribute="height" constant="15" id="VzK-7p-uHW"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -35,15 +35,28 @@
                             <constraint firstAttribute="width" constant="25" id="vsB-BP-xnX"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8uW-oC-iKV">
+                        <rect key="frame" x="256" y="17" width="150" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="Hzj-Ph-BPS"/>
+                            <constraint firstAttribute="height" constant="15" id="mJf-x5-fwO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="hef-yw-Jpj" firstAttribute="leading" secondItem="6D7-Ng-RWK" secondAttribute="trailing" constant="17" id="19Q-ZK-c7m"/>
                     <constraint firstItem="6D7-Ng-RWK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="81D-yF-c0X"/>
+                    <constraint firstItem="8uW-oC-iKV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="EhO-wd-dNV"/>
+                    <constraint firstAttribute="trailing" secondItem="8uW-oC-iKV" secondAttribute="trailing" constant="30" id="L8n-Tl-klu"/>
                     <constraint firstItem="6D7-Ng-RWK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="17" id="kRi-TQ-KrS"/>
                     <constraint firstItem="hef-yw-Jpj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="rhX-ND-Orv"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="detialTitle" destination="8uW-oC-iKV" id="2Db-xu-QeI"/>
                 <outlet property="leftImage" destination="6D7-Ng-RWK" id="tWh-SC-WoK"/>
                 <outlet property="title" destination="hef-yw-Jpj" id="t7Z-4G-1On"/>
             </connections>

@@ -52,7 +52,8 @@
         }
         // 请求排行榜数据
         NSString *gameType = [NSString stringWithFormat:@"%ld", type];
-        NSDictionary *params = @{@"type" : gameType};
+        NSDictionary *params = @{@"type" : gameType,
+                                 @"count" : @50};
         [CNetTool loadBestRankWithParameters:params
                                      success:^(id response) {
                                          [self.activityView stopAnimating];
@@ -130,8 +131,8 @@
 - (UIActivityIndicatorView *)activityView {
 
     if (_activityView == nil) {
-        _activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((kScreenWidth - 50)/2.0, (kScreenHeight - 50 - 64)/2.0, 50, 50)];
-        _activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        _activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((kScreenWidth - 50)/2.0, (kScreenHeight - 64 - 50)/2.0, 50, 50)];
+        _activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         _activityView.hidesWhenStopped = YES;
         [self.view addSubview:_activityView];
     }

@@ -54,7 +54,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,14 +63,19 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (indexPath.row == 0) {
         cell.title.text = @"2048";
+        cell.detialTitle.text = @"玩游戏，抢绿包";
         cell.leftImage.image = [UIImage imageNamed:@"icon_game_2048"];
-    } else if (indexPath.row == 1) {
-        cell.title.text = @"找邦币";
-        cell.leftImage.image = [UIImage imageNamed:@"ColorGame"];
     } else {
         cell.title.text = @"更多游戏";
         cell.leftImage.image = [UIImage imageNamed:@"icon_game_more"];
     }
+    /*
+     else if (indexPath.row == 1) {
+     cell.title.text = @"找邦币";
+     cell.leftImage.image = [UIImage imageNamed:@"ColorGame"];
+     }
+     */
+    
     return cell;
     
 }
@@ -98,13 +103,6 @@
         nav.navigationBar.translucent = NO;
         [self presentViewController:nav animated:YES completion:nil];
         
-    } else if (indexPath.row == 1) {
-        ColorGameController *controller = [[ColorGameController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-        nav.navigationBar.barTintColor = [UIColor colorWithRed:254/255.0 green:127/255.0 blue:47/255.0 alpha:1];
-        nav.navigationBar.tintColor = [UIColor whiteColor];
-        nav.navigationBar.translucent = NO;
-        [self presentViewController:nav animated:YES completion:nil];
     } else {
         CWebController *controller = [[CWebController alloc] initWithModelName:@"小游戏" url:@"http://www.meiriq.com/list/302da1ab"];
         controller.allowGesture = YES;
@@ -115,7 +113,16 @@
         
     }
     
-    
+    /*
+     else if (indexPath.row == 1) {
+     ColorGameController *controller = [[ColorGameController alloc] init];
+     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+     nav.navigationBar.barTintColor = [UIColor colorWithRed:254/255.0 green:127/255.0 blue:47/255.0 alpha:1];
+     nav.navigationBar.tintColor = [UIColor whiteColor];
+     nav.navigationBar.translucent = NO;
+     [self presentViewController:nav animated:YES completion:nil];
+     }
+     */
     
     // 选中之后，让单元格处于取消选中的状态，比较好看
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];

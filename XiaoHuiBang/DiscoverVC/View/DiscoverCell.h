@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIImageView *leftImage;
+@property (weak, nonatomic) IBOutlet UILabel *detialTitle;
 
 
 @end

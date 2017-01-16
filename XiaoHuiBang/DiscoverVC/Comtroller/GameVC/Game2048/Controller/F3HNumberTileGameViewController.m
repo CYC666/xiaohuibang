@@ -146,7 +146,7 @@
     _bangBiView = [CYCBangBiScoreView bangBiScoreViewWithCornerRadius:5
                                                       backgroundColor:[UIColor colorWithRed:255/255.0 green:127/255.0 blue:47/255.0 alpha:1]
                                                             textColor:[UIColor whiteColor]
-                                                             textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:32]
+                                                             textFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:40] // 32
                                                                 frame:CGRectMake(20, 15, 110, 115)];
     [self.view addSubview:_bangBiView];
     
@@ -182,10 +182,7 @@
                                                                frame:CGRectMake(kScreenWidth - 20 - (kScreenWidth - space*2 - 20*2 - 110)/2.0, 15, (kScreenWidth - space*2 - 20*2 - 110)/2.0, 64)];
     [self.view addSubview:_bestScoreView];
     
-    
-    
     // 开始游戏、重置按钮
-    
     UIButton *resetButton = [UIButton buttonWithType:UIButtonTypeCustom];
     resetButton.frame = CGRectMake(kScreenWidth - 20 - (kScreenWidth - space*2 - 20*2 - 110)/2.0, 15 + 64 + 15, (kScreenWidth - space*2 - 20*2 - 110)/2.0, 36);
     resetButton.layer.cornerRadius = 5;
