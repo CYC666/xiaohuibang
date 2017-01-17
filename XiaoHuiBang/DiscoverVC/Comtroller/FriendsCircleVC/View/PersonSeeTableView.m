@@ -287,19 +287,19 @@
 #pragma mark - 点击头像跳转
 - (void)jumpToPersonDetail:(UITapGestureRecognizer *)tap {
 
-    [UIView animateWithDuration:.35
+    [UIView animateWithDuration:.1
                      animations:^{
-                         tap.view.transform = CGAffineTransformMakeTranslation(0, -20);
+                         tap.view.transform = CGAffineTransformMakeScale(0.8, 0.8);
                      } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:.35
+                         [UIView animateWithDuration:.1
                                           animations:^{
-                                              tap.view.transform = CGAffineTransformMakeTranslation(0, 0);
+                                              tap.view.transform = CGAffineTransformMakeScale(1.2, 1.2);
                                           } completion:^(BOOL finished) {
-                                              [UIView animateWithDuration:.35
+                                              [UIView animateWithDuration:.1
                                                                animations:^{
-                                                                   tap.view.transform = CGAffineTransformMakeTranslation(0, -20);
+                                                                   tap.view.transform = CGAffineTransformMakeScale(1, 1);
                                                                 } completion:^(BOOL finished) {
-                                                                   [UIView animateWithDuration:.35
+                                                                   [UIView animateWithDuration:.05
                                                                                     animations:^{
                                                                                         tap.view.transform = CGAffineTransformMakeTranslation(0, 0);
                                                                                     } completion:^(BOOL finished) {

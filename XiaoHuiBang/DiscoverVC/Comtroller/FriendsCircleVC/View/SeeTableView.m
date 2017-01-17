@@ -254,19 +254,24 @@
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 
     // 实现动画效果
-    [UIView animateWithDuration:.35
+    [UIView animateWithDuration:.1
                      animations:^{
-                         tap.view.transform = CGAffineTransformMakeScale(1.2, 1.2);
+                         tap.view.transform = CGAffineTransformMakeScale(0.8, 0.8);
                      } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:.35
+                         [UIView animateWithDuration:.1
                                           animations:^{
-                                              tap.view.transform = CGAffineTransformMakeScale(1, 1);
+                                              tap.view.transform = CGAffineTransformMakeScale(1.2, 1.2);
                                           } completion:^(BOOL finished) {
-                                              // 跳转到个人动态界面
-                                              UINavigationController *controller = (UINavigationController *)[self viewController];
-                                              PersonAboutController *myAboutController = [[PersonAboutController alloc] initWithUserID:[USER_D objectForKey:@"user_id"]];
-                                              myAboutController.hidesBottomBarWhenPushed = YES;
-                                              [controller pushViewController:myAboutController animated:YES];
+                                              [UIView animateWithDuration:.1
+                                                               animations:^{
+                                                                   tap.view.transform = CGAffineTransformMakeScale(1, 1);
+                                                               } completion:^(BOOL finished) {
+                                                                   // 跳转到个人动态界面
+                                                                   UINavigationController *controller = (UINavigationController *)[self viewController];
+                                                                   PersonAboutController *myAboutController = [[PersonAboutController alloc] initWithUserID:[USER_D objectForKey:@"user_id"]];
+                                                                   myAboutController.hidesBottomBarWhenPushed = YES;
+                                                                   [controller pushViewController:myAboutController animated:YES];
+                                                               }];
                                           }];
                      }];
     

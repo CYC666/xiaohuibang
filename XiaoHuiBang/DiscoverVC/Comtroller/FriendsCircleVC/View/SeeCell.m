@@ -687,11 +687,11 @@
     
     
     // 添加动画
-    [UIView animateWithDuration:.35
+    [UIView animateWithDuration:.15
                      animations:^{
                          tap.view.transform = CGAffineTransformMakeRotation(M_PI_4);
                      } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:.35
+                         [UIView animateWithDuration:.2
                                           animations:^{
                                               tap.view.transform = CGAffineTransformIdentity;
                                           } completion:^(BOOL finished) {
