@@ -199,13 +199,13 @@
     
     
     // 评论按钮
-    self.commentFrame = CGRectMake(kScreenWidth - kCommentWidth - 13, self.cellHeight - 5, kCommentWidth, kCommentHeight);
+    self.commentFrame = CGRectMake(kScreenWidth - kCommentWidth - 13, self.cellHeight - 15, kCommentWidth, kCommentHeight);
     
     // 点赞按钮
     self.proFrame = CGRectMake(kScreenWidth - kCommentWidth - 13 - kProWidth, self.cellHeight - 5, kProWidth, kProHeight);
 
     // 这行的内容尺寸求好了，更新单元格高度
-    self.cellHeight += (12 + kSpace);
+    self.cellHeight += kSpace;
 
     // 点赞列表
     if (_seeModel.praise.count != 0) {
