@@ -233,10 +233,10 @@
     }
     
     // 点赞按钮
-    self.proButtonFrame = CGRectMake(kScreenWidth - kProRight - kProWidth, self.viewHeight + 11, kProWidth, kProHeight);
+    self.proButtonFrame = CGRectMake(kScreenWidth - kProRight - kProWidth + 6, self.viewHeight + 11, kProWidth, kProHeight);
     
     // 评论按钮
-    self.commentButtonFrame = CGRectMake(kScreenWidth - kCommentRight - kCommengWidth, self.viewHeight + 11, kCommengWidth, kCommentHeight);
+    self.commentButtonFrame = CGRectMake(kScreenWidth - kCommentRight - kCommengWidth + 6, self.viewHeight + 11, kCommengWidth, kCommentHeight);
     self.viewHeight += 39;
     // 设一个值来记录当前的高度
     float tempHeight = self.viewHeight;

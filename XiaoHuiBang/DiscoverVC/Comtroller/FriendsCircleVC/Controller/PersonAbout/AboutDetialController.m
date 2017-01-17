@@ -351,6 +351,7 @@
     // 点赞跟评论区背景颜色
     UIView *backgroundView = [[UIView alloc] initWithFrame:_detialLayout.proAndCommentBackgroundFrame];
     backgroundView.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
+    backgroundView.layer.cornerRadius = 5;
     [scrollView addSubview:backgroundView];
     
     //  点赞列表
