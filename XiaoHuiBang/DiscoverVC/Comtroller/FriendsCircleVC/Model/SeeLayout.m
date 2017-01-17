@@ -211,8 +211,8 @@
     if (_seeModel.praise.count != 0) {
         self.proListIconFrame = CGRectMake(kContentX + 5, self.cellHeight + 5, 14.5, 13);
         self.proListLabelFrame = CGRectMake(kContentX + 5 + 20, self.cellHeight + 5, kScreenWidth - kContentX - 12.5 - 20, 13);
-        self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 12.5, kProListHeight);
-        self.lineFrame = CGRectMake(kContentX, self.cellHeight + kProListHeight - 3, kScreenWidth - kContentX - 12.5, .5);
+        self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 20, kProListHeight);
+        self.lineFrame = CGRectMake(kContentX, self.cellHeight + kProListHeight - 3, kScreenWidth - kContentX - 20, .5);
         if (_seeModel.aveluate.count != 0) {
             self.cellHeight += (kProListHeight + 5);
         } else {
@@ -220,7 +220,7 @@
         }
         
     } else {
-        self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 12.5, 0);
+        self.proAndCommentFrame = CGRectMake(kContentX, self.cellHeight, kScreenWidth - kContentX - 20, 0);
         self.cellHeight += 5;
     }
     
