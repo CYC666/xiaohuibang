@@ -164,7 +164,7 @@
     
     
     // 删除按钮
-    self.deleteFrame = CGRectMake(kContentX, self.cellHeight-5, kDeleteButtonWidth, kTimeLabelHeight);
+    self.deleteFrame = CGRectMake(kContentX - 4, self.cellHeight-5, kDeleteButtonWidth, kTimeLabelHeight);
     
     // 时间标签
     if (_seeModel.user_id == [USER_D objectForKey:@"user_id"]) {
