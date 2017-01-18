@@ -10,4 +10,14 @@
 
 @implementation AveluateModel
 
+//消除关键字的错误提示
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+    
+    if ([key isEqualToString:@"id"]) {
+        _aveluate_id = value;
+    }
+    
+}
+
+
 @end

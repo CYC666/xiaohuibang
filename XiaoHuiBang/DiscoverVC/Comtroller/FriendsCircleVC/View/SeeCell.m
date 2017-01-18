@@ -41,6 +41,7 @@
 #define ScrollTableView @"ScrollTableView"                                  // 发送调节表视图偏移的通知
 #define HideCellInputView @"HideCellInputView"                              // 接收隐藏单元格输入框的通知
 #define CommentReloadTableView @"CommentReloadTableView"                    // 评论后刷新表视图通知
+#define DeleteCommentReloadTableView @"DeleteCommentReloadTableView"        // 删除评论后刷新表视图通知
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"  // 刷新表视图通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 #define HideCommentView @"HideCommentView"                                  // 接收隐藏评论点赞框的通知
@@ -364,6 +365,7 @@
         comment.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
         comment.delegate = self;
         comment.labelID = aveluate.user_id;
+        comment.commentID = aveluate.aveluate_id;
         comment.cLabelBlock = ^(NSArray *arr) {
             
             // 发送通知，收起评论框（对任何单元格有效）
@@ -403,6 +405,43 @@
                 
                 
                 [alert addAction:comAction];
+                
+                // 如果评论是自己的或者说说是自己的，添加删除选项，且评论id不能为空，因为刚评论的评论是本地的，没有id
+                if ([[USER_D objectForKey:@"user_id"] isEqualToString:aveluate.user_id] || [[USER_D objectForKey:@"user_id"] isEqualToString:aveluate.aveluate_id]) {
+                    if (aveluate.aveluate_id != nil) {
+                        
+                        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除"
+                                                                               style:UIAlertActionStyleDefault
+                                                                             handler:^(UIAlertAction * _Nonnull action) {
+                                                                                 NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                                                                                                          @"eva_id" : aveluate.aveluate_id};
+                                                                                 [CNetTool deleteCommentWithParameters:params
+                                                                                                               success:^(id response) {
+                                                                                                                   // 刷新,需要传删除的评论的ID
+                                                                                                                   [[NSNotificationCenter defaultCenter] postNotificationName:DeleteCommentReloadTableView object:@{@"aveluateID" : aveluate.aveluate_id,
+                                                                                                                                                                                                                    @"indexpathRow" : [NSString stringWithFormat:@"%ld", (long)_indexpathRow]}];
+                                                                                                               } failure:^(NSError *err) {
+                                                                                                                   [SVProgressHUD dismiss];
+                                                                                                                   [SVProgressHUD showErrorWithStatus:@"删除失败"];
+                                                                                                               }];
+                                                                             }];
+                        
+                        
+                        [alert addAction:deleteAction];
+                    } else {
+                        
+                        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"需要刷新之后才能删除"
+                                                                               style:UIAlertActionStyleDefault
+                                                                             handler:^(UIAlertAction * _Nonnull action) {
+                                                                                 
+                                                                             }];
+                        
+                        
+                        [alert addAction:deleteAction];
+                    }
+                    
+                    
+                }
 
                 UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
                                                                        style:UIAlertActionStyleDefault
@@ -546,13 +585,13 @@
     UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定"
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * _Nonnull action) {
-    // 网络请求删除动态，并且删除单元格  -- -- -- SeetableView
-    [[NSNotificationCenter defaultCenter] postNotificationName:DeleteRow
-                                                        object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
+    
     NSDictionary *param = @{@"id":_seeLayout.seeModel.about_id};
     [CNetTool deleteAboutWithParameters:param
                                 success:^(id response) {
-                                    
+                                    // 网络请求删除动态，并且删除单元格  -- -- -- SeetableView
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:DeleteRow
+                                                                                        object:[NSString stringWithFormat:@"%ld", (long)_indexpathRow]];
                                 } failure:^(NSError *err) {
                                     [SVProgressHUD dismiss];
                                     [SVProgressHUD showSuccessWithStatus:@"删除动态失败"];
@@ -896,11 +935,65 @@
 
 
 
-#pragma mark - 点击评论响应代理方法，在这里可以做回复评论
+#pragma mark - 点击评论响应代理方法，在这里可以做回复评论、删除评论
 - (void)cLabelTouch:(CLabel *)cLabel {
     
     // 发送通知，收起评论框（对任何单元格有效）
     [[NSNotificationCenter defaultCenter] postNotificationName:HideCommentView object:nil];
+    
+    // 如果文本是评论文本，那么提示删除评论或回复评论
+    if (cLabel.labelType == CComment) {
+        // 如果评论是自己的或者说说是自己的，添加删除选项
+        if ([[USER_D objectForKey:@"user_id"] isEqualToString:cLabel.commentID] || [[USER_D objectForKey:@"user_id"] isEqualToString:cLabel.labelID]) {
+        
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"执行操作"
+                                                                               message:nil
+                                                                        preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertAction *commentAction = [UIAlertAction actionWithTitle:@"评论"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                                     
+                                                                 }];;
+            
+            [alert addAction:commentAction];
+
+            if (cLabel.commentID != nil) {
+                UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除"
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                                         NSDictionary *params = @{@"user_id" : cLabel.labelID,
+                                                                                                  @"eva_id" : cLabel.commentID};
+                                                                         [CNetTool deleteCommentWithParameters:params
+                                                                                                       success:^(id response) {
+                                                                                                           // 刷新,需要传删除的评论的ID
+                                                                                                           [[NSNotificationCenter defaultCenter] postNotificationName:DeleteCommentReloadTableView object:@{@"aveluateID" : cLabel.commentID,
+                                                                                                                                                                                                            @"indexpathRow" : [NSString stringWithFormat:@"%ld", (long)_indexpathRow]}];
+                                                                                                       } failure:^(NSError *err) {
+                                                                                                           [SVProgressHUD dismiss];
+                                                                                                           [SVProgressHUD showErrorWithStatus:@"删除失败"];
+                                                                                                       }];
+                                                                     }];
+                [alert addAction:deleteAction];
+            } else {
+                UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"需要刷新之后才能删除"
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                                         
+                                                                     }];
+                [alert addAction:deleteAction];
+            }
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:nil];
+            
+            [alert addAction:cancelAction];
+            [[self viewController] presentViewController:alert animated:YES completion:nil];
+        
+        }
+    }
+    
+    
 
 }
 

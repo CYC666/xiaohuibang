@@ -105,6 +105,10 @@
                            success:(void (^)(id response))success
                            failure:(void (^)(NSError *err))failure;
 
+// 删除评论
++ (void)deleteCommentWithParameters:(id)parameters
+                            success:(void (^)(id response))success
+                            failure:(void (^)(NSError *err))failure;
 
 
 

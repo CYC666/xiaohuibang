@@ -27,6 +27,7 @@
 #define ScrollTableView @"ScrollTableView"                      // 接收调节表视图偏移的通知
 #define HideCellInputView @"HideCellInputView"                  // 隐藏单元格输入框的通知
 #define CommentReloadTableView @"CommentReloadTableView"        // 评论后刷新表视图通知
+#define DeleteCommentReloadTableView @"DeleteCommentReloadTableView"        // 删除评论后刷新表视图通知
 #define reloadTableViewDataNotification @"reloadTableViewDataNotification"                          // 点赞刷新表视图通知
 #define AllowTableViewPostHideInputViewNotification @"AllowTableViewPostHideInputViewNotification"  // 允许表视图滑动的时候发送通知让输入框隐藏
 
@@ -74,6 +75,11 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(commentReloadTableView:)
                                                      name:CommentReloadTableView
+                                                   object:nil];
+        // 删除评论后刷新表视图通知
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(deleteCommentReloadTableView:)
+                                                     name:DeleteCommentReloadTableView
                                                    object:nil];
         // 接收允许滑动表视图隐藏输入框的通知
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -426,7 +432,7 @@
 
 }
 
-// 收到评论通知，重装model，刷新表视图
+#pragma mark - 收到评论通知，重装model，刷新表视图
 - (void)commentReloadTableView:(NSNotification *)notification {
     
     // 获取通知中的内容
@@ -459,6 +465,39 @@
     [self reloadData];
 
 }
+
+#pragma mark - 收到删除评论通知，重装model，刷新表视图
+- (void)deleteCommentReloadTableView:(NSNotification *)notification {
+
+    // 获取通知中的内容
+    NSInteger row = [notification.object[@"indexpathRow"] integerValue];
+    NSString *aveluateID = notification.object[@"aveluateID"];
+    
+    // 获取删除的评论，并执行删除
+    SeeLayout *seeLayout = self.seeLayoutList[row];
+    for (AveluateModel *model in seeLayout.seeModel.aveluate) {
+        if ([model.aveluate_id isEqualToString:aveluateID]) {
+            [seeLayout.seeModel.aveluate removeObject:model];
+        }
+    }
+    
+    // for循环重新设置model，就会重新计算frame，最后再刷新表视图(重要)
+    NSMutableArray *newArray = [NSMutableArray array];
+    for (SeeLayout *tempLayout in self.seeLayoutList) {
+        SeeLayout *newLayout = [[SeeLayout alloc] init];
+        newLayout.seeModel = tempLayout.seeModel;
+        [newArray addObject:newLayout];
+    }
+    
+    self.seeLayoutList = newArray;
+    
+    // 刷新表视图
+    [self reloadData];
+
+    
+
+}
+
 - (void)testcyc:(UILongPressGestureRecognizer *)longPre {
     
     if (longPre.state == UIGestureRecognizerStateBegan) {
@@ -498,8 +537,12 @@
                                                object:nil];
     // 评论后刷新表视图通知
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                 name:CommentReloadTableView
-                                               object:nil];
+                                                    name:CommentReloadTableView
+                                                  object:nil];
+    // 评论后刷新表视图通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:DeleteCommentReloadTableView
+                                                  object:nil];
     // 接收允许滑动表视图隐藏输入框的通知
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                  name:AllowTableViewPostHideInputViewNotification

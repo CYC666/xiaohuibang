@@ -600,6 +600,7 @@
             aveluateModel.user_id = aveluateDic[@"user_id"];
             aveluateModel.about_content = aveluateDic[@"about_content"];
             aveluateModel.eva_id = aveluateDic[@"eva_id"];
+            aveluateModel.aveluate_id = aveluateDic[@"id"];
             [aveluateTempArr addObject:aveluateModel];
         }
         seeModel.aveluate = aveluateTempArr;

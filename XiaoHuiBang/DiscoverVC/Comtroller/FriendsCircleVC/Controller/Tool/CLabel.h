@@ -31,8 +31,9 @@ typedef enum : NSUInteger {
 
 
 @property (weak, nonatomic) id<CLabelDeletage> delegate;
-@property (copy, nonatomic) NSString *labelID;
-@property (assign, nonatomic) BOOL isNickname;  // 点击的是否是昵称
+@property (copy, nonatomic) NSString *labelID;      // 储存发表动态用户的ID
+@property (copy, nonatomic) NSString *commentID;    // 这条评论的ID
+@property (assign, nonatomic) BOOL isNickname;      // 点击的是否是昵称
 @property (assign, nonatomic) CGPoint touchPoint;
 @property (assign, nonatomic) CLabelType labelType; 
 

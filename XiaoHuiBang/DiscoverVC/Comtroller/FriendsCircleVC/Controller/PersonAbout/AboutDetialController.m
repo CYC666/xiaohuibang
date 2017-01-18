@@ -98,6 +98,7 @@
                                                  aveluateModel.about_content = aveluateDic[@"about_content"];
                                                  aveluateModel.thumb = aveluateDic[@"thumb"];
                                                  aveluateModel.eva_id = aveluateDic[@"eva_id"];
+                                                 aveluateModel.aveluate_id = aveluateDic[@"id"];
                                                  [aveluateTempArr addObject:aveluateModel];
                                              }
                                              seeModel.aveluate = aveluateTempArr;
@@ -420,7 +421,11 @@
             contentLabel.textAlignment = NSTextAlignmentLeft;
             contentLabel.delegate = self;
             contentLabel.labelID = aveluteModel.user_id;
+            contentLabel.commentID = aveluteModel.aveluate_id;
             [scrollView addSubview:contentLabel];
+            
+            __block NSString *commentUserID = aveluteModel.user_id;
+            __block NSString *commentID = aveluteModel.aveluate_id;
             contentLabel.cLabelBlock = ^(NSArray *arr) {
             
                 __weak AboutDetialController *weakSelf = self;
@@ -466,6 +471,29 @@
                     
                     
                     [alert addAction:comAction];
+                    
+                    // 如果是自己发的评论或说说，添加删除按钮
+                    if ([[USER_D objectForKey:@"user_id"] isEqualToString:commentUserID] || [[USER_D objectForKey:@"user_id"] isEqualToString:commentID]) {
+                    
+                        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除"
+                                                                               style:UIAlertActionStyleDefault
+                                                                             handler:^(UIAlertAction * _Nonnull action) {
+                                                                                 NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                                                                                                          @"eva_id" : commentID};
+                                                                                 [CNetTool deleteCommentWithParameters:params
+                                                                                                               success:^(id response) {
+                                                                                                                   // 刷新视图
+                                                                                                                   [weakSelf reloadSubview];
+                                                                                                               } failure:^(NSError *err) {
+                                                                                                                   [SVProgressHUD dismiss];
+                                                                                                                   [SVProgressHUD showErrorWithStatus:@"删除失败"];
+                                                                                                               }];
+                                                                             }];
+                        
+                        
+                        [alert addAction:deleteAction];
+                    
+                    }
                     
                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
                                                                            style:UIAlertActionStyleDefault
@@ -671,6 +699,7 @@
                                              aveluateModel.about_content = aveluateDic[@"about_content"];
                                              aveluateModel.thumb = aveluateDic[@"thumb"];
                                              aveluateModel.eva_id = aveluateDic[@"eva_id"];
+                                             aveluateModel.aveluate_id = aveluateDic[@"id"];
                                              [aveluateTempArr addObject:aveluateModel];
                                          }
                                          seeModel.aveluate = aveluateTempArr;
@@ -877,7 +906,51 @@
     // 收起键盘
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
 
-    // 在这里可以做回复功能
+    // 在这里可以做回复、删除功能
+    if (cLabel.labelType == CComment) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择操作"
+                                                                           message:nil
+                                                                    preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"评论"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+                                                               
+                                                           }];
+        [alert addAction:sureAction];
+        
+        // 如果是自己发的评论或说说，添加删除按钮
+        __weak typeof(self) weakSelf = self;
+        if ([[USER_D objectForKey:@"user_id"] isEqualToString:cLabel.commentID] || [[USER_D objectForKey:@"user_id"] isEqualToString:cLabel.labelID]) {
+            
+            UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:@"删除"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                                     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
+                                                                                              @"eva_id" : cLabel.commentID};
+                                                                     [CNetTool deleteCommentWithParameters:params
+                                                                                                   success:^(id response) {
+                                                                                                       // 刷新视图
+                                                                                                       [weakSelf reloadSubview];
+                                                                                                   } failure:^(NSError *err) {
+                                                                                                       [SVProgressHUD dismiss];
+                                                                                                       [SVProgressHUD showErrorWithStatus:@"删除失败"];
+                                                                                                   }];
+                                                                 }];
+            
+            
+            [alert addAction:deleteAction];
+            
+        }
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:nil];
+        
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }
     
 
 }
