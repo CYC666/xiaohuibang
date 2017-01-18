@@ -508,12 +508,11 @@
     // 判断游戏记录是否更新
     if (_bestScoreView.score > [USER_D integerForKey:@"game2048_best_score"]) {
         [USER_D setInteger:_bestScoreView.score forKey:@"game2048_best_score"];
-        
     }
-    // 上传成绩，服务器会判断是否最佳
+    // 上传成绩
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"type" : @1,
-                             @"score" : [NSString stringWithFormat:@"%ld", (long)_bestScoreView.score]};
+                             @"score" : [NSString stringWithFormat:@"%ld", _bestScoreView.score]};
     [CNetTool postBestScoreWithParameters:params
                                   success:^(id response) {
                                       

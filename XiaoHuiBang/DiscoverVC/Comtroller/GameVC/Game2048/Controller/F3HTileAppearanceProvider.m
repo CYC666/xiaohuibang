@@ -30,6 +30,8 @@
         case 512:
         case 1024:
         case 2048:
+        case 4096:
+        case 8192:
             return [UIColor colorWithRed:237./255. green:207./255. blue:114./255. alpha:1];
         default:
             return [UIColor whiteColor];
