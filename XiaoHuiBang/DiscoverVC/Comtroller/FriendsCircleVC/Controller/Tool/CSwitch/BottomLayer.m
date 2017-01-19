@@ -46,6 +46,7 @@
                                                       endAngle:endAngle
                                                      clockwise:YES];
     CGContextSetLineWidth(contextRef, 4);
+    CGContextSetLineCap(contextRef, kCGLineCapRound);
     [[UIColor colorWithRed:29/255.0 green:161/255.0 blue:243/255.0 alpha:1] setStroke];
     CGContextAddPath(contextRef, path.CGPath);
     CGContextStrokePath(contextRef);

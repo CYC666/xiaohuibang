@@ -143,8 +143,8 @@
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.4)];
     headView.backgroundColor = [UIColor whiteColor];
     
-    // 背景图片
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight*.37)];
+    // 背景图片(正方形，上面的被导航栏遮住)
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -(kScreenWidth - kScreenHeight*0.37), kScreenWidth, kScreenWidth)];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *filePath = [[paths firstObject] stringByAppendingString:@"/headerImage.jpg"];
     NSData *imageData = [NSData dataWithContentsOfFile:filePath];

@@ -361,7 +361,7 @@
             [self.delegate gameFinishedWithVictory:NO score:self.model.score];
             // 提示,
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                            message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
+                                                            message:nil // [NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:@"再来一局", nil];
@@ -437,7 +437,7 @@
     // 当分数不为0时，提示是否重新开始，否则直接重新开始
     if (_scoreView.score != 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要退出游戏？"
-                                                        message:@"这将结束游戏，但你仍然获得邦币"
+                                                        message:nil // @"这将结束游戏，但你仍然获得邦币"
                                                        delegate:self
                                               cancelButtonTitle:@"取消"
                                               otherButtonTitles:@"确定", nil];
@@ -475,7 +475,7 @@
         // 当得分不为0时，提示是否重新开始，否则直接重新开始
         if (_scoreView.score != 0) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"确定要重新开始？"
-                                                            message:@"这将结束进度，但你仍然获得邦币"
+                                                            message:nil // @"这将结束进度，但你仍然获得邦币"
                                                            delegate:self
                                                   cancelButtonTitle:@"取消"
                                                   otherButtonTitles:@"确定", nil];
@@ -550,7 +550,7 @@
                 _isFinal = NO;
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                                message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
+                                                                message:nil // [NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
                                                                delegate:self
                                                       cancelButtonTitle:@"好的"
                                                       otherButtonTitles:nil];
@@ -569,7 +569,7 @@
             // 如果已经是游戏结束了，那就不必要再保存
             if (_isFinal == NO) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"游戏结束"
-                                                                message:[NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
+                                                                message: nil // [NSString stringWithFormat:@"你获得了%ld个邦币", (long)_bangBiView.score]
                                                                delegate:self
                                                       cancelButtonTitle:@"好的"
                                                       otherButtonTitles:nil];
