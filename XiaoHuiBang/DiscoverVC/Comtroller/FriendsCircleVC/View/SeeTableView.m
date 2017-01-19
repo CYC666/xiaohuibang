@@ -35,6 +35,8 @@
 @interface SeeTableView () <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 
     UIImageView *_imageView;    // 头视图的背景图
+    UIImageView *_loadingImageView; // 加载状态的指示图
+    NSTimer *_timer;            // 定时器
 
 }
 
@@ -92,6 +94,8 @@
     }
     return self;
 }
+
+
 
 
 #pragma mark - 组的个数
@@ -205,6 +209,12 @@
     nickName.font = [UIFont systemFontOfSize:17];
     [headView addSubview:nickName];
     
+    if (_loadingImageView == nil) {
+        _loadingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, -50, 40, 40)];
+        _loadingImageView.image = [UIImage imageNamed:@"icon_loadingMap.png"];
+        [self addSubview:_loadingImageView];
+    }
+    
     return headView;
 
 }
@@ -315,6 +325,37 @@
     // 允许发送通知收起键盘
     _allowPostHideInoutView = YES;
     
+    
+
+}
+
+#pragma mark - 滑动表视图，监听偏移，根据偏移显示刷新的image
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+    [self bringSubviewToFront:_loadingImageView];
+    
+    float offset = scrollView.contentOffset.y;
+    
+    if (offset == 0) {
+        if (_timer != nil) {
+            [_timer invalidate];
+            _timer = nil;
+        }
+    } else {
+        _loadingImageView.transform = CGAffineTransformMakeRotation(offset*0.1);
+    }
+
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+
+    if (_timer == nil) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:0.01
+                                                 repeats:YES
+                                                   block:^(NSTimer * _Nonnull timer) {
+                                                       _loadingImageView.transform = CGAffineTransformRotate(_loadingImageView.transform, 0.1);
+                                                   }];
+    }
     
 
 }
@@ -660,6 +701,20 @@
  // 不能在这里发送通知，会持续发送很多
  // [[NSNotificationCenter defaultCenter] postNotificationName:HideCellInputView object:nil];
  
+ 
+ }
+ 
+ - (UIWebView *)loadingImage {
+ 
+ if (_loadingImage == nil) {
+ _loadingImage = [[UIWebView alloc] initWithFrame:CGRectMake(20, -60, 60, 60)];
+ _loadingImage.backgroundColor = [UIColor clearColor];
+ _loadingImage.userInteractionEnabled = NO;
+ NSData *gifData = [NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"icon_loading_show" ofType:@"gif"]];
+ [_loadingImage loadData:gifData MIMEType:@"image/gif" textEncodingName:nil baseURL:nil];
+ [self addSubview:_loadingImage];
+ }
+ return _loadingImage;
  
  }
  

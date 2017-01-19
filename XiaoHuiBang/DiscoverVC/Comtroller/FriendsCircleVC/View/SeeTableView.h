@@ -15,8 +15,8 @@
 
 
 @property (strong, nonatomic) NSMutableArray *seeLayoutList;   // 储存动态内容和动态布局的数组
-
 @property (assign, nonatomic) BOOL allowPostHideInoutView;     // 是否允许发送隐藏输入框的通知
+
 
 @end
 
