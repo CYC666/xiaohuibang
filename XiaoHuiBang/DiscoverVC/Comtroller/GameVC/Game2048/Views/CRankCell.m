@@ -70,7 +70,7 @@
 - (UILabel *)nickNameLabel {
 
     if (_nickNameLabel == nil) {
-        _nickNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + 40 + 10 + 50 + 5, 20 + 15, 200, 20)];
+        _nickNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20 + 40 + 10 + 50 + 5, 20, 200, 20)];
         _nickNameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
         _nickNameLabel.textColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:1];
         _nickNameLabel.textAlignment = NSTextAlignmentLeft;
@@ -86,9 +86,9 @@
     if (_scoreLabel == nil) {
         _scoreLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         if ([UIScreen mainScreen].bounds.size.width == 320) {
-            _scoreLabel.frame = CGRectMake(320 -20*2 - 20 - 100, 20 + 15, 100, 20);
+            _scoreLabel.frame = CGRectMake(320 -20*2 - 20 - 100, 80 - 20 - 10, 100, 20);
         } else {
-            _scoreLabel.frame = CGRectMake(self.bounds.size.width - 20 - 100, 20 + 15, 100, 20);
+            _scoreLabel.frame = CGRectMake(self.bounds.size.width - 20 - 100, 80 - 20 - 10, 100, 20);
         }
         _scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
         _scoreLabel.textColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:1];

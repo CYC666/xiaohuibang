@@ -347,7 +347,7 @@
 
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
 
     if (_timer == nil) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:0.01

@@ -20,7 +20,7 @@
 
 #define GAME2048_DATE @"GAME2048_DATE"              // 记录上一个日期
 #define GAME2048_LIFECOUNT @"GAME2048_LIFECOUNT"    // 2048游戏今天剩余次数
-#define ELEMENT_SPACING 10      // 视图之间的差距
+#define ELEMENT_SPACING 10                          // 视图之间的差距
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height                          // 屏高
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width                            // 屏宽
 
@@ -173,7 +173,8 @@
     [self.view addSubview:rankButton];
     
     // 最高成绩
-    NSInteger bestScore = [USER_D integerForKey:@"game2048_best_score"];
+    NSString *key = [NSString stringWithFormat:@"game2048_best_score_%@", [USER_D objectForKey:@"user_id"]];
+    NSInteger bestScore = [USER_D integerForKey:key];
     _bestScoreView = [CYCBestScoreView bestScoreViewWithCornerRadius:5
                                                      backgroundColor:[UIColor colorWithRed:238/255.0 green:223/255.0 blue:203/255.0 alpha:1]
                                                            textColor:[UIColor colorWithRed:120/255.0 green:110/255.0 blue:100/255.0 alpha:1]
@@ -210,7 +211,7 @@
     _tipLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
     _tipLabel.textColor = [UIColor colorWithRed:158/255.0 green:158/255.0 blue:158/255.0 alpha:1];
     _tipLabel.adjustsFontSizeToFitWidth = YES;
-    _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", _lifeCount];
+    _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", (long)_lifeCount];
     [self.view addSubview:_tipLabel];
     
     
@@ -469,8 +470,9 @@
         [button setTitle:@"重新开始" forState:UIControlStateNormal];
         _gameboard.alpha = 1;
         _gameboard.userInteractionEnabled = YES;
-        _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", --_lifeCount];
-        [USER_D setObject:[NSString stringWithFormat:@"%ld", _lifeCount] forKey:GAME2048_LIFECOUNT];
+        _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", (long)--_lifeCount];
+        NSString *lifeKey = [NSString stringWithFormat:@"GAME2048_LIFECOUNT_%@", [USER_D objectForKey:@"user_id"]];
+        [USER_D setObject:[NSString stringWithFormat:@"%ld", (long)_lifeCount] forKey:lifeKey];
     } else {
         // 当得分不为0时，提示是否重新开始，否则直接重新开始
         if (_scoreView.score != 0) {
@@ -506,13 +508,14 @@
 - (void)saveBestScore {
     
     // 判断游戏记录是否更新
-    if (_bestScoreView.score > [USER_D integerForKey:@"game2048_best_score"]) {
-        [USER_D setInteger:_bestScoreView.score forKey:@"game2048_best_score"];
+    NSString *key = [NSString stringWithFormat:@"game2048_best_score_%@", [USER_D objectForKey:@"user_id"]];
+    if (_bestScoreView.score > [USER_D integerForKey:key]) {
+        [USER_D setInteger:_bestScoreView.score forKey:key];
     }
     // 上传成绩
     NSDictionary *params = @{@"user_id" : [USER_D objectForKey:@"user_id"],
                              @"type" : @1,
-                             @"score" : [NSString stringWithFormat:@"%ld", _bestScoreView.score]};
+                             @"score" : [NSString stringWithFormat:@"%ld", (long)_bestScoreView.score]};
     [CNetTool postBestScoreWithParameters:params
                                   success:^(id response) {
                                       
@@ -541,8 +544,9 @@
     } else if ([alertView.title isEqualToString:@"确定要重新开始？"]) {
         if (buttonIndex == 1) {
             // 修改今日剩余游戏次数
-            _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", --_lifeCount];
-            [USER_D setObject:[NSString stringWithFormat:@"%ld", _lifeCount] forKey:GAME2048_LIFECOUNT];
+            _tipLabel.text = [NSString stringWithFormat:@"今日剩余游戏次数: %ld", (long)--_lifeCount];
+            NSString *lifeKey = [NSString stringWithFormat:@"GAME2048_LIFECOUNT_%@", [USER_D objectForKey:@"user_id"]];
+            [USER_D setObject:[NSString stringWithFormat:@"%ld", (long)_lifeCount] forKey:lifeKey];
             // 重开一局就上传最佳成绩
             // 如果已经是游戏结束了，那就不必再显示赠送邦币
             if (_isFinal == YES) {
@@ -589,8 +593,9 @@
         [USER_D setObject:@"2017-01-14" forKey:GAME2048_DATE];
     }
     // 判断游戏剩余次数是否存在，不存在则创建
-    if ([USER_D objectForKey:GAME2048_LIFECOUNT] == nil) {
-        [USER_D setObject:@10 forKey:GAME2048_LIFECOUNT];
+    NSString *lifeKey = [NSString stringWithFormat:@"GAME2048_LIFECOUNT_%@", [USER_D objectForKey:@"user_id"]];
+    if ([USER_D objectForKey:lifeKey] == nil) {
+        [USER_D setObject:@10 forKey:lifeKey];
     }
     
     // 判断当前日期是否跟上一个日期一致，一致则不重置剩余次数，直从沙盒中提取
@@ -600,12 +605,12 @@
     [formatter setDateFormat:@"YYYY-MM-dd"];
     NSString *currentTime = [formatter stringFromDate:[NSDate date]];
     if ([currentTime isEqualToString:[USER_D objectForKey:GAME2048_DATE]]) {    // 一致，直接从沙盒取出
-        return [[USER_D objectForKey:GAME2048_LIFECOUNT] integerValue];
+        return [[USER_D objectForKey:lifeKey] integerValue];
     
     } else {    // 不一致，重置次数
         // 修改日期,修改游戏次数
         [USER_D setObject:currentTime forKey:GAME2048_DATE];
-        [USER_D setObject:@10 forKey:GAME2048_LIFECOUNT];
+        [USER_D setObject:@10 forKey:lifeKey];
         return 10;
     }
 
